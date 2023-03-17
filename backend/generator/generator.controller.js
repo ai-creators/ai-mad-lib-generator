@@ -4,8 +4,11 @@ const openai = require('openai');
 const express = require('express');
 const router = express.Router();
 
+// Get OpenAI API key from .env file
+const key = process.env.OPENAI_API_KEY
+
 // Set up OpenAI API credentials
-openai.apiKey = 'YOUR_API_KEY';
+openai.apiKey = key;
 
 // Define the Mad Lib template
 const template = 'One [adjective] day, I [verb] to the [noun] to buy some [plural noun].';
