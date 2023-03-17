@@ -1,7 +1,7 @@
 //router file for generator.controller.js
 // Path: backend\generator\generator.router.js
 // Compare this snippet from backend\generator\generator.controller.js:
-// //openai api key =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
+// openai api key =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
 
 const openai = require('openai');
 const express = require('express');
