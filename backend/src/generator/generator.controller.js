@@ -1,67 +1,107 @@
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const { Configuration, OpenAIApi } = require("openai");
+
+// const response = await openai.createCompletion({
+//   model: "text-davinci-003",
+//   prompt: "Say this is a test",
+//   max_tokens: 7,
+//   temperature: 0,
+// });
 //openai api key =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
 
-const openai = require("openai");
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-
-// Get OpenAI API key from .env file
-const key = process.env.OPENAI_API_KEY;
-
-// Set up OpenAI API credentials
-openai.apiKey = key;
-
 // Define the Mad Lib template
-const template =
-  "One [adjective] day, I [verb] to the [noun] to buy some [plural noun].";
+// const template =
+//   "One [adjective] day, I [verb] to the [noun] to buy some [plural noun].";
 
-// Use OpenAI API to generate suggestions for words
-async function generateSuggestions(prompt) {
-  const completions = await openai.complete({
-    engine: "davinci",
-    prompt: prompt,
-    maxTokens: 50,
-    n: 1,
-    stop: null,
-    temperature: 0.5,
-  });
-  const message = completions.choices[0].text.trim();
-  return message;
+// // Use OpenAI API to generate suggestions for words
+// async function generateSuggestions(prompt) {
+//   const completions = await openai.createCompletion({
+//     engine: "davinci",
+//     prompt: prompt,
+//     maxTokens: 50,
+//     n: 1,
+//     stop: null,
+//     temperature: 0.5,
+//   });
+//   const message = completions.choices[0].text.trim();
+//   return message;
+// }
+
+// // Define the endpoint for the Mad Lib generator
+// async function madLibGenerator(req, res) {
+//   try {
+//     // Generate suggestions for words
+//     const adjective = await generateSuggestions("Suggest an adjective");
+//     const verb = await generateSuggestions("Suggest a verb");
+//     const noun = await generateSuggestions("Suggest a noun");
+//     const pluralNoun = await generateSuggestions("Suggest a plural noun");
+
+//     // Get user input for words
+//     const userInput = {
+//       adjective: req.body.adjective,
+//       verb: req.body.verb,
+//       noun: req.body.noun,
+//       pluralNoun: req.body.pluralNoun,
+//     };
+
+//     // Generate the completed Mad Lib
+//     let madLib = template;
+//     madLib = madLib.replace("[adjective]", userInput.adjective || adjective);
+//     madLib = madLib.replace("[verb]", userInput.verb || verb);
+//     madLib = madLib.replace("[noun]", userInput.noun || noun);
+//     madLib = madLib.replace(
+//       "[plural noun]",
+//       userInput.pluralNoun || pluralNoun
+//     );
+
+//     res.json({ madLib: madLib });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "An error occurred" });
+//   }
+// }
+
+async function configureOpenAi(req,res,next) {
+  try {
+    console.log("CONFIGURING");
+    
+    res.locals.openai = openai
+    return next();
+  } catch(error) {
+    return next({ status: 500, message: error.message});
+  }
 }
 
-// Define the endpoint for the Mad Lib generator
-async function madLibGenerator(req, res) {
+async function getMadLib(req,res,next) {
   try {
-    // Generate suggestions for words
-    const adjective = await generateSuggestions("Suggest an adjective");
-    const verb = await generateSuggestions("Suggest a verb");
-    const noun = await generateSuggestions("Suggest a noun");
-    const pluralNoun = await generateSuggestions("Suggest a plural noun");
-
-    // Get user input for words
-    const userInput = {
-      adjective: req.body.adjective,
-      verb: req.body.verb,
-      noun: req.body.noun,
-      pluralNoun: req.body.pluralNoun,
-    };
-
-    // Generate the completed Mad Lib
-    let madLib = template;
-    madLib = madLib.replace("[adjective]", userInput.adjective || adjective);
-    madLib = madLib.replace("[verb]", userInput.verb || verb);
-    madLib = madLib.replace("[noun]", userInput.noun || noun);
-    madLib = madLib.replace(
-      "[plural noun]",
-      userInput.pluralNoun || pluralNoun
-    );
-
-    res.json({ madLib: madLib });
-  } catch (error) {
+    const { OPENAI_API_KEY }= process.env;
+    if (!OPENAI_API_KEY) {
+      throw new Error("No open ai key has been provided");
+    }
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(configuration);
+    console.log("GET MAD LIB");
+    const { prompt } = req.body.data;
+    console.log("prompt: ", prompt);
+    const response = await openai.createCompletion({
+      model: 'text-davinci-003',
+      prompt,
+      max_tokens: 7,
+      temperature: 0
+    })
+    console.log("REPSONSE: ", response);
+    res.status(200).json({ data: response});
+  } catch(error) {
     console.error(error);
-    res.status(500).json({ error: "An error occurred" });
+    return next({
+      status: 500, message: error
+    })
   }
 }
 
 // Export the controller
 module.exports = {
-  madLibGenerator: [asyncErrorBoundary(madLibGenerator)],
+  madLibGenerator: [ asyncErrorBoundary(getMadLib)],
 };
