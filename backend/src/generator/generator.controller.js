@@ -3,6 +3,7 @@
 const openai = require('openai');
 const express = require('express');
 const router = express.Router();
+const asyncErrorBoundary = require('../errors/asyncErrorBoundary');
 
 // Get OpenAI API key from .env file
 const key = process.env.OPENAI_API_KEY

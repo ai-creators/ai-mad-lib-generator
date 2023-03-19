@@ -5,7 +5,7 @@ const errorHandler = require("./errors/errorHandler");
 const notFound = require("./errors/notFound");
 const generatorRoute = require('./generator/generator.router');
 const app = express();
-
+console.log("IN HERE");
 app.use(express.json);
 
 // routes
