@@ -10,7 +10,7 @@ const PromptInput = ({ prompt, setPrompt }) => {
         <input
           id="prompt"
           type="text"
-          className="border rounded py-2 px-3 w-full drop-shadow-sm focus:drop-shadow-xl ease-out duration-300 outline-offset-4"
+          className="border rounded py-2 pl-3 pr-24 w-full drop-shadow-sm focus:drop-shadow-xl ease-out duration-300 outline-offset-4"
           placeholder="A chicken fighting with my mother..."
           value={prompt}
           onChange={({ target: { value } }) => setPrompt(value)}
