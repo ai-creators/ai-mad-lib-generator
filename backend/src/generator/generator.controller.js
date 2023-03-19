@@ -28,7 +28,7 @@ async function generateSuggestions(prompt) {
 }
 
 // Define the endpoint for the Mad Lib generator
-router.post('/madlib', async (req, res) => {
+async function madLibGenerator(req, res) {
   try {
     // Generate suggestions for words
     const adjective = await generateSuggestions('Suggest an adjective');
@@ -56,6 +56,11 @@ router.post('/madlib', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'An error occurred' });
   }
-});
+};
 
-module.exports = router;
+// Export the controller
+module.exports = {
+  madLibGenerator : [asyncErrorBoundary(madLibGenerator)],
+}
+
+
