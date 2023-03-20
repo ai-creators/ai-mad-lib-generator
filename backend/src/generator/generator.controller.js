@@ -1,20 +1,9 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const { Configuration, OpenAIApi } = require("openai");
 
-async function configureOpenAi(req,res,next) {
+async function getMadLib(req, res, next) {
   try {
-    console.log("CONFIGURING");
-    
-    res.locals.openai = openai
-    return next();
-  } catch(error) {
-    return next({ status: 500, message: error.message});
-  }
-}
-
-async function getMadLib(req,res,next) {
-  try {
-    const { OPENAI_API_KEY }= process.env;
+    const { OPENAI_API_KEY } = process.env;
     if (!OPENAI_API_KEY) {
       throw new Error("No open ai key has been provided");
     }
@@ -24,28 +13,28 @@ async function getMadLib(req,res,next) {
     const openai = new OpenAIApi(configuration);
     console.log("GET MAD LIB");
     const { prompt } = req.body.data;
-    console.log("prompt: ", prompt)
+    console.log("prompt: ", prompt);
     const { data } = await openai.createCompletion({
-      model: 'text-davinci-003',
-      prompt: `Generate mad lib with using [adjective: ] and no spaces inside the bracket. The mad lib will be: ${prompt}`,
+      model: "text-davinci-003",
+      prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. The mad lib will be: ${prompt}`,
       max_tokens: 100,
-      temperature: 0
-    })
+      temperature: 0,
+    });
     console.log("RESPONSE: ", data.choices[0].text);
     res.status(200).json({ data });
-  } catch(error) {
+  } catch (error) {
     console.error(error);
     return next({
-      status: 500, message: error
-    })
+      status: 500,
+      message: error,
+    });
   }
 }
 
 // Export the controller
 module.exports = {
-  madLibGenerator: [ asyncErrorBoundary(getMadLib)],
+  madLibGenerator: [asyncErrorBoundary(getMadLib)],
 };
-
 
 // const response = await openai.createCompletion({
 //   model: "text-davinci-003",

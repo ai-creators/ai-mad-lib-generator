@@ -1,6 +1,15 @@
 import React from "react";
+import { MadLibApi } from "../../api/madLibApi";
 
 const PromptInput = ({ prompt, setPrompt }) => {
+  const submitPrompt = async () => {
+    if (prompt) {
+      const api = new MadLibApi();
+      const response = await api.generate(prompt);
+      console.log(response);
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <label htmlFor="prompt" className="py-2 text-slate-600">
@@ -22,6 +31,7 @@ const PromptInput = ({ prompt, setPrompt }) => {
               : "text-slate-600 bg-white"
           }`}
           disabled={prompt.length === 0}
+          onClick={submitPrompt}
         >
           Generate
         </button>
