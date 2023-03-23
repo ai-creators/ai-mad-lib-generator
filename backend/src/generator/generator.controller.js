@@ -109,3 +109,74 @@ async function madLibGenerator(req, res) {
     res.status(500).json({ error: "An error occurred" });
   }
 }
+
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const { Configuration, OpenAIApi } = require("openai");
+const axios = require("axios");
+
+async function getMadLib(req, res, next) {
+  try {
+    const { OPENAI_API_KEY, DALLE_API_KEY } = process.env;
+    if (!OPENAI_API_KEY) {
+      throw new Error("No OpenAI API key has been provided");
+    }
+    if (!DALLE_API_KEY) {
+      throw new Error("No DALL-E API key has been provided");
+    }
+    const openaiConfig = new Configuration({
+      apiKey: OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(openaiConfig);
+    console.log("GET MAD LIB");
+
+    // Get user input for words
+    const adjective = req.body.adjective;
+    const verb = req.body.verb;
+    const noun = req.body.noun;
+    const pluralNoun = req.body.pluralNoun;
+
+    // Use the prompt from the request body
+    const { prompt } = req.body.data;
+
+    // Use OpenAI to generate mad lib text
+    console.log("prompt: ", prompt);
+    const { data: openaiResponse } = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. The mad lib adjectives are ${adjective},
+               verbs are ${verb}, 
+               nouns are ${noun}, 
+               and plural nouns are ${pluralNoun}.`,
+      max_tokens: 100,
+      temperature: 0.5,
+      n: 1,
+    });
+    const madLibText = openaiResponse.choices[0].text.trim();
+
+    // Use DALL-E to draw an image for the mad lib prompt
+    const { data: dalleResponse } = await axios.post(
+      "https://api.openai.com/v1/images/generations",
+      {
+        model: "image-alpha-001",
+        api_key: DALLE_API_KEY,
+        prompt: `${madLibText}\n\nDraw an image that represents the above prompt.`,
+        size: "256x256",
+        response_format: "url",
+      }
+    );
+    const imageUrl = dalleResponse.data[0].url;
+
+    // Return the generated mad lib text and image URL in the API response
+    res.status(200).json({ madLibText, imageUrl });
+  } catch (error) {
+    console.error(error);
+    return next({
+      status: 500,
+      message: error,
+    });
+  }
+}
+
+// Export the controller
+module.exports = {
+  madLibGenerator: [asyncErrorBoundary(getMadLib)],
+};
