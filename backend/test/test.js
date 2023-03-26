@@ -1,224 +1,223 @@
-  const chai = require('chai');
-  const chaiHttp = require('chai-http');
-  const dotenv = require('dotenv');
-  const app = require('../server');
-
-  dotenv.config();
-  chai.use(chaiHttp);
-  chai.should();
-
-  describe('GPT API', () => {
-    it('should return response from OpenAI API', (done) => {
-      const prompt = 'Hello, OpenAI';
-      chai.request(app)
-        .get(`/gpt?prompt=${prompt}`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.text.should.be.a('string');
-          done();
-        });
-    });
-  });
+const chai = require('chai');
+const expect = chai.expect;
+const app = require('../app');
+const request = require('supertest');
+const assert = require('assert');
 
 
+describe('MadLib Generator API', function() {
+  describe('POST /api/madlib', function() {
 
-  const chai = require('chai');
-  const chaiHttp = require('chai-http');
-  const app = require('../app');
-
-  chai.use(chaiHttp);
-  const expect = chai.expect;
-
-  describe('Mad Lib generator backend', function () {
-    // Test case 1: Test that the API returns a 200 status code and a completed Mad Lib when given a template and a set of words.
-    it('should return a completed Mad Lib when given a template and a set of words', function (done) {
+    // Test case to check if the MadLib generator can return a completed MadLib for valid input
+    it('should return 200 and a completed MadLib', function(done) {
       const data = {
-        template: "The {adjective} {noun} {verb} over the {adjective} {noun}.",
-        words: {
-          adjective: "quick",
-          noun: "fox",
-          verb: "jumped"
+        template: 'My favorite color is {color}.',
+        prompts: {
+          color: 'blue'
         }
       };
 
-      chai.request(app)
-        .post('/madlibs')
+      request(app)
+        .post('/api/madlib')
         .send(data)
-        .end(function (err, res) {
-          expect(res).to.have.status(200);
-          expect(res.body).to.have.property('madlib');
-          expect(res.body.madlib).to.equal("The quick fox jumped over the quick fox.");
+        .expect(200)
+        .end(function(err, res) {
+          if (err) return done(err);
+
+          assert.equal(res.body.completedMadLib, 'My favorite color is blue.');
           done();
         });
     });
 
-    // Test case 2: Test that the API returns a 400 status code and an error message when given a template without all required words.
-    it('should return a 400 status code and an error message when given a template without all required words', function (done) {
+    // Test case to check if the API returns an error if required fields are missing
+    it('should return 400 if template is not provided', function(done) {
       const data = {
-        template: "The {adjective} {noun} {verb} over the {adjective} {noun}.",
-        words: {
-          adjective: "quick",
-          verb: "jumped"
+        prompts: {
+          color: 'green'
         }
       };
 
-      chai.request(app)
-        .post('/madlibs')
+      request(app)
+        .post('/api/madlib')
         .send(data)
-        .end(function (err, res) {
-          expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal("Missing required word 'noun'");
+        .expect(400)
+        .end(function(err, res) {
+          if (err) return done(err);
+
+          assert.equal(res.body.error, 'Missing required fields: template');
           done();
         });
     });
 
-    // Test case 3: Test that the API returns a 400 status code and an error message when given a template with extra words that are not required.
-    it('should return a 400 status code and an error message when given a template with extra words that are not required', function (done) {
+    // Test case to check if the API returns an error if prompts are not provided
+    it('should return 400 if prompts are not provided', function(done) {
       const data = {
-        template: "The {adjective} {noun} {verb} over the {adjective} {noun}.",
-        words: {
-          adjective: "quick",
-          noun: "fox",
-          verb: "jumped",
-          adverb: "quickly"
+        template: 'My favorite color is {color}.'
+      };
+
+      request(app)
+        .post('/api/madlib')
+        .send(data)
+        .expect(400)
+        .end(function(err, res) {
+          if (err) return done(err);
+
+          assert.equal(res.body.error, 'Missing required fields: prompts');
+          done();
+        });
+    });
+
+    // Test case to check if the API returns an error if an invalid prompt is provided
+    it('should return 400 if an invalid prompt is provided', function(done) {
+      const data = {
+        template: 'My favorite color is {color}.',
+        prompts: {
+          fruit: 'banana'
         }
       };
 
-      chai.request(app)
-        .post('/madlibs')
+      request(app)
+        .post('/api/madlib')
         .send(data)
-        .end(function (err, res) {
-          expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal("Unexpected word 'adverb'");
+        .expect(400)
+        .end(function(err, res) {
+          if (err) return done(err);
+
+          assert.equal(res.body.error, 'Invalid prompt: color');
           done();
-          });
-          });
-          
-          // Test case 4: Test that the API returns a 400 status code and an error message when given a non-string value for a word.
-          it('should return a 400 status code and an error message when given a non-string value for a word', function (done) {
-          const data = {
-          template: "The {adjective} {noun} {verb} over the {adjective} {noun}.",
-          words: {
-          adjective: "quick",
-          noun: "fox",
-          verb: 123
-          }
-          };
-
-          chai.request(app)
-          .post('/madlibs')
-          .send(data)
-          .end(function (err, res) {
-            expect(res).to.have.status(400);
-            expect(res.body).to.have.property('error');
-            expect(res.body.error).to.equal("Invalid value for word 'verb'");
-            done();
-          });
-        
         });
+    });
 
-        // Test case 5: Test that the API can handle multiple requests at once and return the correct results.
-        it('should be able to handle multiple requests at once and return the correct results', function (done) {
-        const data1 = {
-        template: "The {adjective} {noun} {verb} over the {adjective} {noun}.",
-        words: {
-        adjective: "quick",
-        noun: "fox",
-        verb: "jumped"
+    // Test case to check if the API returns a 500 error if there is an error with the OpenAI API
+    it('should return 500 if there is an error with the OpenAI API', function(done) {
+      const data = {
+        template: 'My favorite color is {color}.',
+        prompts: {
+          color: 'purple'
         }
-        };
+      };
 
-        const data2 = {
-          template: "The {adjective} {noun} {verb} over the {adjective} {noun}.",
-          words: {
-            adjective: "lazy",
-            noun: "dog",
-            verb: "ran"
-          }
-        };
-        
-        chai.request(app)
-          .post('/madlibs')
-          .send(data1)
-          .end(function (err, res1) {
-            expect(res1).to.have.status(200);
-            expect(res1.body).to.have.property('madlib');
-            expect(res1.body.madlib).to.equal("The quick fox jumped over the quick fox.");
-        
-            chai.request(app)
-              .post('/madlibs')
-              .send(data2)
-              .end(function (err, res2) {
-                expect(res2).to.have.status(200);
-                expect(res2.body).to.have.property('madlib');
-                expect(res2.body.madlib).to.equal("The lazy dog ran over the lazy dog.");
-        
-                done();
-              });
-          });
-
-          
-        });
-
-        // Test case 6: Test that the API returns a 400 status code and an error message when given a template with a missing opening brace.
-        it('should return a 400 status code and an error message when given a template with a missing opening brace', function (done) {
-        const data = {
-        template: "The adjective} {noun} {verb} over the {adjective} {noun}.",
-        words: {
-        adjective: "quick",
-        noun: "fox",
-        verb: "jumped"
+      // Mock the OpenAI API to return an error
+      app.locals.openai.api = {
+        complete: function(parameters, callback) {
+          callback(new Error('OpenAI API Error'), null);
         }
-        };
+      };
 
-        chai.request(app)
-        .post('/madlibs')
+      request(app)
+        .post('/api/madlib')
         .send(data)
-        .end(function (err, res) {
-          expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal("Malformed template");
+        .expect(500)
+        .end(function(err, res) {
+          if (err) return done(err);
+
+          assert.equal(res.body.error, 'Error generating MadLib');
           done();
         });
-        // Test case 7: Test that the API returns a 400 status code and an error message when given an empty set of words.
-        it('should return a 400 status code and an error message when given an empty set of words', function (done) {
-        const data = {
-        template: "The {adjective} {noun} {verb} over the {adjective} {noun}.",
-        words: {}
-        };
-    
-        chai.request(app)
-        .post('/madlibs')
-        .send(data)
-        .end(function (err, res) {
-          expect(res).to.have.status(400);
-          expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal("Missing required word 'adjective'");
-          done();
-        });
-      
-        // Test case 8: Test that the API returns a 500 status code and an error message when Mad Lib generation fails due to an unexpected error.
-        it('should return a 500 status code and an error message when Mad Lib generation fails due to an unexpected error, function (done) {
-          const data = {
-          template: "The {adjective} {noun} {verb} over the {adjective} {noun}.",
-          words: {
-          adjective: "quick",
-          noun: "fox",
-          verb: "jumped"
+
+
+// Test case to check if the MadLib generator can handle multiple prompts in the template
+it('should return 200 and a completed MadLib with multiple prompts', function(done) {
+  const data = {
+    template: 'My favorite color is {color} and my favorite food is {food}.',
+    prompts: {
+      color: 'purple',
+      food: 'pizza'
+    }
+  };
+
+  request(app)
+    .post('/api/madlib')
+    .send(data)
+    .expect(200)
+    .end(function(err, res) {
+      if (err) return done(err);
+
+      assert.equal(res.body.completedMadLib, 'My favorite color is purple and my favorite food is pizza.');
+      done();
+    });
+});
+
+// Test case to check if the API returns an error if the template contains unused prompts
+it('should return 400 if the template contains unused prompts', function(done) {
+  const data = {
+    template: 'My favorite color is {color}.',
+    prompts: {
+      color: 'red',
+      size: 'large'
+    }
+  };
+
+  request(app)
+    .post('/api/madlib')
+    .send(data)
+    .expect(400)
+    .end(function(err, res) {
+      if (err) return done(err);
+
+      assert.equal(res.body.error, 'Unused prompts: size');
+      done();
+    });
+});
+
+// Test case to check if the API returns an error if the template contains a malformed prompt
+it('should return 400 if the template contains a malformed prompt', function(done) {
+  const data = {
+    template: 'My favorite color is {color}.',
+    prompts: {
+      color: 123
+    }
+  };
+
+  request(app)
+    .post('/api/madlib')
+    .send(data)
+    .expect(400)
+    .end(function(err, res) {
+      if (err) return done(err);
+
+      assert.equal(res.body.error, 'Invalid prompt: color');
+      done();
+    });
+});
+
+// Test case to check if the API returns an error if the OpenAI API key is invalid
+it('should return 500 if the OpenAI API key is invalid', function(done) {
+  const data = {
+    template: 'My favorite color is {color}.',
+    prompts: {
+      color: 'blue'
+    }
+  };
+
+  // Mock the OpenAI API to return an authentication error
+  app.locals.openai.api = {
+    complete: function(parameters, callback) {
+      callback({
+        response: {
+          body: {
+            error: {
+              message: 'Authentication failed'
+            }
           }
-          };
+        }
+      }, null);
+    }
+  };
 
-          sinon.stub(madLibs, 'generateMadLib').throws();
+  request(app)
+    .post('/api/madlib')
+    .send(data)
+    .expect(500)
+    .end(function(err, res) {
+      if (err) return done(err);
 
-          chai.request(app)
-          .post('/madlibs')
-          .send(data)
-          .end(function (err, res) {
-          expect(res).to.have.status(500);
-          expect(res.body).to.have.property('error');
-          expect(res.body.error).to.equal("Failed to generate Mad Lib");
-          madLibs.generateMadLib.restore();
-          done();
-        });
+      assert.equal(res.body.error, 'Error generating MadLib');
+      done();
+    });
+});
+
+
+});
+});
+});
