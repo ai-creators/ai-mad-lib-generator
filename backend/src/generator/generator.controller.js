@@ -12,12 +12,6 @@ async function getMadLib(req, res, next) {
     });
     const openai = new OpenAIApi(configuration);
     console.log("GET MAD LIB");
-    
-    // Get user input for words
-    const adjective = req.body.adjective;
-    const verb = req.body.verb;
-    const noun = req.body.noun;
-    const pluralNoun = req.body.pluralNoun;
 
     // Use the prompt from the request body
     const { prompt } = req.body.data;
@@ -25,11 +19,7 @@ async function getMadLib(req, res, next) {
     console.log("prompt: ", prompt);
     const { data } = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. 
-               The mad lib adjectives are ${adjective},
-               verbs are ${verb}, 
-               nouns are ${noun}, 
-               and plural nouns are ${pluralNoun}.`,
+      prompt: prompt,
       max_tokens: 100,
       temperature: 0.5,
       n: 1,
