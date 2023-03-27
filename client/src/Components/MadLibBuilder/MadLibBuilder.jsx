@@ -57,7 +57,7 @@ const MadLibBuilder = ({ madLib }) => {
   };
   return isBuilderDone ? (
     <>
-      <form className="flex flex-col gap-3">
+      <form className="flex flex-col gap-3" data-testid="madlib-builder-form">
         <h3>Answers for Mad Lib</h3>
         {!isMadLibShowing &&
           questions.map((question, index) => {
