@@ -1,12 +1,20 @@
 import React from "react";
 import { MadLibApi } from "../../api/madLibApi";
 
-const PromptInput = ({ prompt, setPrompt }) => {
+const PromptInput = ({ prompt, setPrompt, setMadLib }) => {
   const submitPrompt = async () => {
-    if (prompt) {
-      const api = new MadLibApi();
-      const response = await api.generate(prompt);
-      console.log(response);
+    try {
+      if (prompt) {
+        const api = new MadLibApi();
+        const response = await api.generate(prompt);
+        console.log(response.choices);
+        if (response.choices) {
+          console.log("IN HERE");
+          setMadLib(response.choices[0].text);
+        }
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
