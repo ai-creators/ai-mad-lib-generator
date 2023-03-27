@@ -17,10 +17,15 @@ async function getMadLib(req, res, next) {
     const { prompt } = req.body.data;
 
     console.log("prompt: ", prompt);
+    const min_tokens = 50;
+    const max_tokens = 100;
     const { data } = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: prompt,
-      max_tokens: 100,
+      prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. 
+      Any word inside the bracket should not use spaces, and adjective/noun/verb/pluralnoun should be in the bold format, 
+      but instead use underscores. The mad lib cannot exceed ${max_tokens} tokens and be less then ${min_tokens}. 
+      Use what type of word it is. The prompt is ${prompt}`,
+      max_tokens,
       temperature: 0.5,
       n: 1,
     });
@@ -39,7 +44,6 @@ async function getMadLib(req, res, next) {
 module.exports = {
   madLibGenerator: [asyncErrorBoundary(getMadLib)],
 };
-
 
 // const response = await openai.createCompletion({
 //   model: "text-davinci-003",
@@ -130,8 +134,8 @@ module.exports = {
 //     const { data: openaiResponse } = await openai.createCompletion({
 //       model: "text-davinci-003",
 //       prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. The mad lib adjectives are ${adjective},
-//                verbs are ${verb}, 
-//                nouns are ${noun}, 
+//                verbs are ${verb},
+//                nouns are ${noun},
 //                and plural nouns are ${pluralNoun}.`,
 //       max_tokens: 100,
 //       temperature: 0.5,
