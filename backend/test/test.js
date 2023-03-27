@@ -1,12 +1,12 @@
 const chai = require('chai');
 const expect = chai.expect;
-const app = require('../app');
+const app = require('../src/app');
 const request = require('supertest');
 const assert = require('assert');
 
 
 describe('MadLib Generator API', function() {
-  describe('POST /api/madlib', function() {
+  describe('POST /generate/madlib', function() {
 
     // Test case to check if the MadLib generator can return a completed MadLib for valid input
     it('should return 200 and a completed MadLib', function(done) {
@@ -18,7 +18,7 @@ describe('MadLib Generator API', function() {
       };
 
       request(app)
-        .post('/api/madlib')
+        .post('/generate/madlib')
         .send(data)
         .expect(200)
         .end(function(err, res) {
@@ -36,7 +36,7 @@ describe('MadLib Generator API', function() {
       };
 
       request(app)
-        .post('/api/madlib')
+        .post('/generate/madlib')
         .send(data)
         .expect(400)
         .end(function(err, res) {
@@ -55,7 +55,7 @@ describe('MadLib Generator API', function() {
       };
 
       request(app)
-        .post('/api/madlib')
+        .post('/generate/madlib')
         .send(data)
         .expect(400)
         .end(function(err, res) {
@@ -76,7 +76,7 @@ describe('MadLib Generator API', function() {
       };
 
       request(app)
-        .post('/api/madlib')
+        .post('/generate/madlib')
         .send(data)
         .expect(400)
         .end(function(err, res) {
@@ -96,7 +96,7 @@ describe('MadLib Generator API', function() {
       };
 
       request(app)
-        .post('/api/madlib')
+        .post('/generate/madlib')
         .send(data)
         .expect(400)
         .end(function(err, res) {
@@ -118,7 +118,7 @@ describe('MadLib Generator API', function() {
       };
 
       request(app)
-        .post('/api/madlib')
+        .post('/generate/madlib')
         .send(data)
         .expect(400)
         .end(function(err, res) {
@@ -147,7 +147,7 @@ describe('MadLib Generator API', function() {
       };
 
       request(app)
-        .post('/api/madlib')
+        .post('/generate/madlib')
         .send(data)
         .expect(500)
         .end(function(err, res) {
@@ -169,7 +169,7 @@ it('should return 200 and a completed MadLib with multiple prompts', function(do
   };
 
   request(app)
-    .post('/api/madlib')
+    .post('/generate/madlib')
     .send(data)
     .expect(200)
     .end(function(err, res) {
@@ -191,7 +191,7 @@ it('should return 400 if the template contains unused prompts', function(done) {
   };
 
   request(app)
-    .post('/api/madlib')
+    .post('/generate/madlib')
     .send(data)
     .expect(400)
     .end(function(err, res) {
@@ -212,7 +212,7 @@ it('should return 400 if the template contains a malformed prompt', function(don
   };
 
   request(app)
-    .post('/api/madlib')
+    .post('/generate/madlib')
     .send(data)
     .expect(400)
     .end(function(err, res) {
@@ -248,7 +248,7 @@ it('should return 500 if the OpenAI API key is invalid', function(done) {
   };
 
   request(app)
-    .post('/api/madlib')
+    .post('/generate/madlib')
     .send(data)
     .expect(500)
     .end(function(err, res) {
@@ -273,7 +273,7 @@ it('should return 200 and a completed MadLib with a long template and prompts', 
   };
 
   request(app)
-    .post('/api/madlib')
+    .post('/generate/madlib')
     .send(data)
     .expect(200)
     .end(function(err, res) {
@@ -294,7 +294,7 @@ it('should return 400 if the template is missing', function(done) {
   };
 
   request(app)
-    .post('/api/madlib')
+    .post('/generate/madlib')
     .send(data)
     .expect(400)
     .end(function(err, res) {
@@ -312,7 +312,7 @@ it('should return 400 if the prompts are missing', function(done) {
   };
 
   request(app)
-    .post('/api/madlib')
+    .post('/generate/madlib')
     .send(data)
     .expect(400)
     .end(function(err, res) {
@@ -340,7 +340,7 @@ it('should return 500 if the OpenAI API call fails', function(done) {
   };
 
   request(app)
-    .post('/api/madlib')
+    .post('/generate/madlib')
     .send(data)
     .expect(500)
     .end(function(err, res) {
