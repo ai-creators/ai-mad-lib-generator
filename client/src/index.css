@@ -25,3 +25,17 @@ video {
   display: block;
   max-width: 100%;
 }
+.rainbow {
+  background: linear-gradient(
+    to right,
+    red,
+    orange,
+    rgb(151, 151, 0),
+    green,
+    blue,
+    indigo,
+    violet
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
