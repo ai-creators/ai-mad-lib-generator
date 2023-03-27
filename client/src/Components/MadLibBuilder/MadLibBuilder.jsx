@@ -90,7 +90,7 @@ const MadLibBuilder = ({ madLib }) => {
       {isMadLibShowing && <MadLibViewer text={madLib} questions={questions} />}
     </>
   ) : (
-    <p>NOT DONE BUILDER</p>
+    <p data-testid="no-madlib-text">No MadLib provided</p>
   );
 };
 
