@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MadLibViewer from "../MadLibViewer/MadLibViewer";
 
 const MadLibBuilder = ({ madLib }) => {
@@ -14,7 +14,7 @@ const MadLibBuilder = ({ madLib }) => {
     }
   }, [madLib]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (madLib && questions.length === 0) {
       let questionType = "";
       let isInBracket = false;
