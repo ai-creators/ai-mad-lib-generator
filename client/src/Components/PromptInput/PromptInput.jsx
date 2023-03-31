@@ -1,21 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { MadLibApi } from "../../api/madLibApi";
 
 const PromptInput = ({ prompt, setPrompt, setMadLib }) => {
+  const navigate = useNavigate();
   const submitPrompt = async () => {
-    try {
-      if (prompt) {
-        const api = new MadLibApi();
-        const response = await api.generate(prompt);
-        console.log(response.choices);
-        if (response.choices) {
-          console.log("IN HERE");
-          setMadLib(response.choices[0].text);
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    navigate(`/lib/${prompt}`);
   };
 
   return (
