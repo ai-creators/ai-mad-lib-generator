@@ -11,7 +11,7 @@ const Home = () => {
 
   return (
     <Layout className="min-h-screen">
-      <div className="max-w-4xl mx-auto pt-16">
+      <div className="max-w-4xl mx-auto pt-16 px-2">
         <PromptInput
           prompt={prompt}
           setPrompt={setPrompt}
