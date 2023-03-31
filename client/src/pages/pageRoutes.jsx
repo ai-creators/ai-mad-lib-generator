@@ -8,7 +8,7 @@ const PageRoutes = () => {
   return (
     <Routes>
       <Route index element={<Home />} />
-      <Route path="/lib/:prompt" element={<Lib />} />
+      <Route path="/lib" element={<Lib />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

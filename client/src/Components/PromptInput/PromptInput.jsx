@@ -1,11 +1,16 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { MadLibApi } from "../../api/madLibApi";
 
 const PromptInput = ({ prompt, setPrompt, setMadLib }) => {
   const navigate = useNavigate();
   const submitPrompt = async () => {
-    navigate(`/lib/${prompt}`);
+    navigate({
+      pathname: "lib",
+      search: createSearchParams({
+        prompt,
+      }).toString(),
+    });
   };
 
   return (
