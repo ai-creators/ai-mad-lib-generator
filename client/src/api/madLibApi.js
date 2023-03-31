@@ -2,7 +2,7 @@ import { Api } from "./Api";
 
 export class MadLibApi extends Api {
   constructor() {
-    const baseUrl = "http://localhost:5000";
+    const baseUrl = import.meta.env.VITE_BASE_URL || "http://localhost:5000";
     if (!baseUrl) {
       throw new Error("No base url has been provided");
     }
