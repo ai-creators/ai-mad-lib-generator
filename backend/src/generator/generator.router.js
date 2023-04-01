@@ -4,7 +4,7 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router
-  .route("/madlib")
+  .route("/generate")
   .post(asyncErrorBoundary(controller.madLibGenerator))
   .all(methodNotAllowed);
 

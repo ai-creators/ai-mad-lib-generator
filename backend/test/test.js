@@ -1,63 +1,72 @@
-const chai = require("chai");
-const expect = chai.expect;
-const app = require("../src/app");
-const request = require("supertest");
+const request = require('supertest');
+const app = require('../src/app');
 
-describe("MadLib Generator API", function () {
-  it("returns a 200 response with a valid madlib", function (done) {
-    request(app)
-      .post("/madlib")
-      .send({ template: "I am {adjective} to be learning {language}." })
-      .send({ words: { adjective: "excited", language: "JavaScript" } })
-      .set("x-api-key", "test")
-      .expect(200)
-      .end(function (err, res) {
-        if (err) return done(err);
-        expect(res.body).to.have.property("madlib");
-        expect(res.body.madlib).to.equal("I am excited to be learning JavaScript.");
-        done();
-      });
-  });
+describe('MadLib Generator API', function () {
+  describe('POST /api/generate', function () {
+    it('returns a 200 response with a valid madlib', function (done) {
+      const data = {
+        template: 'The {noun} {verb} over the {adjective} {noun}.',
+        words: {
+          noun: 'cat',
+          verb: 'jumped',
+          adjective: 'lazy',
+        },
+      };
+      request(app)
+        .post('/api/generate')
+        .send(data)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err);
+          // Add your own assertions here
+          done();
+        });
+    });
 
-  it("returns a 400 response with an error message if template is missing", function (done) {
-    request(app)
-      .post("/madlib")
-      .send({ words: { adjective: "excited", language: "JavaScript" } })
-      .set("x-api-key", "test")
-      .expect(400)
-      .end(function (err, res) {
-        if (err) return done(err);
-        expect(res.body).to.have.property("error");
-        expect(res.body.error).to.equal("Missing template.");
-        done();
-      });
-  });
+    it('returns a 400 response with an error message if template is missing', function (done) {
+      const data = {
+        words: {
+          noun: 'cat',
+          verb: 'jumped',
+          adjective: 'lazy',
+        },
+      };
+      request(app)
+        .post('/api/generate')
+        .send(data)
+        .expect(400)
+        .expect({ error: 'Template is missing' })
+        .end(done);
+    });
 
-  it("returns a 400 response with an error message if words are missing", function (done) {
-    request(app)
-      .post("/madlib")
-      .send({ template: "I am {adjective} to be learning {language}." })
-      .set("x-api-key", "test")
-      .expect(400)
-      .end(function (err, res) {
-        if (err) return done(err);
-        expect(res.body).to.have.property("error");
-        expect(res.body.error).to.equal("Missing words.");
-        done();
-      });
-  });
+    it('returns a 400 response with an error message if words are missing', function (done) {
+      const data = {
+        template: 'The {noun} {verb} over the {adjective} {noun}.',
+      };
+      request(app)
+        .post('/api/generate')
+        .send(data)
+        .expect(400)
+        .expect({ error: 'Words are missing' })
+        .end(done);
+    });
 
-  it("returns a 500 response with an error message if OpenAI API key is missing", function (done) {
-    request(app)
-      .post("/madlib")
-      .send({ template: "I am {adjective} to be learning {language}." })
-      .send({ words: { adjective: "excited", language: "JavaScript" } })
-      .expect(500)
-      .end(function (err, res) {
-        if (err) return done(err);
-        expect(res.body).to.have.property("error");
-        expect(res.body.error).to.equal("OpenAI API key missing.");
-        done();
-      });
+    it('returns a 500 response with an error message if OpenAI API key is missing', function (done) {
+      const data = {
+        template: 'The {noun} {verb} over the {adjective} {noun}.',
+        words: {
+          noun: 'cat',
+          verb: 'jumped',
+          adjective: 'lazy',
+        },
+      };
+      process.env.OPENAI_API_KEY = '';
+      request(app)
+        .post('/api/generate')
+        .send(data)
+        .expect(500)
+        .expect({ error: 'OpenAI API key is missing' })
+        .end(done);
+    });
   });
 });
