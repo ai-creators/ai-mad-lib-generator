@@ -23,10 +23,7 @@ const MadLibViewer = ({ text, questions }) => {
 
       <div className="flex gap-2">
         <ButtonOutline>
-          Save Lib <i class="fa-regular fa-heart ml-1"></i>
-        </ButtonOutline>
-        <ButtonOutline>
-          Save Response <i class="fa-regular fa-heart ml-1"></i>
+          Like Lib <i class="fa-regular fa-heart ml-1"></i>
         </ButtonOutline>
       </div>
     </div>
