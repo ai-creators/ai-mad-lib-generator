@@ -12,8 +12,8 @@ async function getMadLib(req, res, next) {
     });
     const openai = new OpenAIApi(configuration);
 
-    // Use the prompt from the request body
-    const { prompt } = req.body.data;
+    // Use the template and words from the request body
+    const { template, words } = req.body;
 
     const min_tokens = 50;
     const max_tokens = 100;
@@ -22,25 +22,28 @@ async function getMadLib(req, res, next) {
       prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. 
       Any word inside the bracket should not use spaces, and adjective/noun/verb/pluralnoun should be in the bold format, 
       but instead use underscores. The mad lib cannot exceed ${max_tokens} tokens and be less then ${min_tokens}. 
-      Use what type of word it is. The prompt is ${prompt}`,
+      Use what type of word it is. The prompt is ${template}`,
       max_tokens,
       temperature: 0.5,
       n: 1,
     });
-    res.status(200).json({ data });
+
+    // Replace the placeholders in the generated text with the words provided in the request
+    const madlib = data[0].text.replace(/\[([^\]]+)\]/g, (match, p1) => {
+      const wordType = p1.split("_")[0];
+      const wordIndex = parseInt(p1.split("_")[1]) - 1;
+      return words[wordType][wordIndex];
+    });
+
+    res.status(200).json({ madlib });
   } catch (error) {
     console.error(error);
     return next({
       status: 500,
-      message: error,
+      message: error.message,
     });
   }
 }
-
-// Export the controller
-module.exports = {
-  madLibGenerator: [asyncErrorBoundary(getMadLib)],
-};
 
 // const response = await openai.createCompletion({
 //   model: "text-davinci-003",
