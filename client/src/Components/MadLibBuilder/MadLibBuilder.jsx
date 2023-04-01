@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MadLibViewer from "../MadLibViewer/MadLibViewer";
+import { snakeToTitleCase } from "../../utils/snakeToTitleCase";
 
 const MadLibBuilder = ({ madLib }) => {
-  const [formattedMadLib, setFormattedMadLib] = useState("");
   const [questions, setQuestions] = useState([]);
   const [isBuilderDone, setIsBuilderDone] = useState(false);
   const [isMadLibShowing, setIsMadLibShowing] = useState(false);
@@ -14,7 +14,7 @@ const MadLibBuilder = ({ madLib }) => {
     }
   }, [madLib]);
 
-  useEffect(() => {
+  useMemo(() => {
     if (madLib && questions.length === 0) {
       let questionType = "";
       let isInBracket = false;
@@ -55,17 +55,19 @@ const MadLibBuilder = ({ madLib }) => {
     event.preventDefault();
     setIsMadLibShowing(true);
   };
+  if (isMadLibShowing) {
+    return <MadLibViewer text={madLib} questions={questions} />;
+  }
   return isBuilderDone ? (
     <>
-      <form className="flex flex-col gap-3">
-        <h3>Answers for Mad Lib</h3>
+      <form className="flex flex-col gap-3" data-testid="madlib-builder-form">
         {!isMadLibShowing &&
           questions.map((question, index) => {
             console.log();
             return (
               <div key={index} className="flex flex-col gap-2">
                 <label htmlFor={question.question + index}>
-                  {question.question}
+                  {snakeToTitleCase(question.question)}
                 </label>
                 <input
                   id={question.question + index}
@@ -80,17 +82,16 @@ const MadLibBuilder = ({ madLib }) => {
           })}
         <div>
           <button
-            className="py-2 px-3 border rounded font-semibold text-white bg-gray-900"
+            className="py-2 px-3 rounded font-semibold text-white bg-gray-900"
             onClick={createMadLib}
           >
             Create Mad Lib
           </button>
         </div>
       </form>
-      {isMadLibShowing && <MadLibViewer text={madLib} questions={questions} />}
     </>
   ) : (
-    <p>NOT DONE BUILDER</p>
+    <p data-testid="no-madlib-text">No MadLib provided</p>
   );
 };
 

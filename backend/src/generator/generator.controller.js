@@ -11,12 +11,10 @@ async function getMadLib(req, res, next) {
       apiKey: process.env.OPENAI_API_KEY,
     });
     const openai = new OpenAIApi(configuration);
-    console.log("GET MAD LIB");
 
     // Use the prompt from the request body
     const { prompt } = req.body.data;
 
-    console.log("prompt: ", prompt);
     const min_tokens = 50;
     const max_tokens = 100;
     const { data } = await openai.createCompletion({
@@ -29,7 +27,6 @@ async function getMadLib(req, res, next) {
       temperature: 0.5,
       n: 1,
     });
-    console.log("RESPONSE: ", data.choices[0].text);
     res.status(200).json({ data });
   } catch (error) {
     console.error(error);
