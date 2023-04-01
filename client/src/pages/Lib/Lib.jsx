@@ -27,7 +27,7 @@ const Lib = () => {
   console.log("LIB: ", lib);
   return (
     <Layout className="min-h-screen">
-      <div className="max-w-4xl mx-auto pt-16">
+      <div className="max-w-4xl mx-auto pt-10 px-2">
         <h3 className="text-lg font-semibold">{prompt}...</h3>
         {lib && <MadLibBuilder madLib={lib} />}
       </div>
