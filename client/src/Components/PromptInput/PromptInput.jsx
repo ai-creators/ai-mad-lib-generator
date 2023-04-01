@@ -4,7 +4,8 @@ import { MadLibApi } from "../../api/madLibApi";
 
 const PromptInput = ({ prompt, setPrompt, setMadLib }) => {
   const navigate = useNavigate();
-  const submitPrompt = async () => {
+  const submitPrompt = async (event) => {
+    event.preventDefault();
     navigate({
       pathname: "lib",
       search: createSearchParams({
@@ -14,7 +15,7 @@ const PromptInput = ({ prompt, setPrompt, setMadLib }) => {
   };
 
   return (
-    <div className="flex flex-col">
+    <form className="flex flex-col" onSubmit={submitPrompt}>
       <label htmlFor="prompt" className="py-2 text-slate-600">
         Enter a prompt to generate Mad Lib
       </label>
@@ -34,12 +35,12 @@ const PromptInput = ({ prompt, setPrompt, setMadLib }) => {
               : "text-slate-600 bg-white"
           }`}
           disabled={prompt.length === 0}
-          onClick={submitPrompt}
+          type="submit"
         >
           Generate
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
