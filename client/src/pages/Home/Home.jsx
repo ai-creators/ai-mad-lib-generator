@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { MadLibApi } from "../../api/madLibApi";
-import MadLibBuilder from "../../Components/MadLibBuilder/MadLibBuilder";
-import MadLibViewer from "../../Components/MadLibViewer/MadLibViewer";
 import PromptInput from "../../Components/PromptInput/PromptInput";
 import Layout from "../../Layout/Layout";
 
@@ -17,12 +14,6 @@ const Home = () => {
           setPrompt={setPrompt}
           setMadLib={setMadLib}
         />
-        <div className="mt-4">
-          <MadLibBuilder madLib={madLib} />
-        </div>
-        <div className="mt-4">
-          <MadLibViewer />
-        </div>
       </div>
     </Layout>
   );
