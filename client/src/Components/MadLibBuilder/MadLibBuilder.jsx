@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import MadLibViewer from "../MadLibViewer/MadLibViewer";
+import { snakeToTitleCase } from "../../utils/snakeToTitleCase";
 
 const MadLibBuilder = ({ madLib }) => {
   const [formattedMadLib, setFormattedMadLib] = useState("");
@@ -65,7 +66,7 @@ const MadLibBuilder = ({ madLib }) => {
             return (
               <div key={index} className="flex flex-col gap-2">
                 <label htmlFor={question.question + index}>
-                  {question.question}
+                  {snakeToTitleCase(question.question)}
                 </label>
                 <input
                   id={question.question + index}
