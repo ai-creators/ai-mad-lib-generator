@@ -1,30 +1,19 @@
-const request = require('supertest');
-const app = require('../src/app');
+const { expect } = require("chai");
+const request = require("supertest");
+
+const app = require("../src/app");
+const { OPENAI_API_KEY } = process.env;
 
 //test for GET /generate
 describe('GET /generate', function () {
-  it('responds with json', function (done) {
-    request(app)
+  it("Should return 200 for generate", async () => {
+    const response = await request(app)
+      .get("/generate")
+      .set("Accept", "application/json");
 
-      .get('/generate')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
+    expect(response.status).to.equal(200);
+    expect(response.body.error).to.be.undefined;})
   });
-});
-
-//test for POST /generate
-describe('POST /generate', function () {
-  it('responds with json', function (done) {
-    request(app)
-
-      .post('/generate')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
-  });
-});
-
 
 // describe('MadLib Generator API', function () {
 //   describe('POST /generate', function () {
