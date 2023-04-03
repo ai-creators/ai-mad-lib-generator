@@ -10,9 +10,10 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test_1": "mocha test/test.js --exit",
+    "test_1": "mocha test/test_1.js --exit",
     "test_2": "mocha test/test_2.js --exit",
-    "test_3": "mocha test/test_3.js --exit"
+    "test_3": "mocha test/test_3.js --exit",
+    "test_4": "mocha test/test_4.js --exit"
   },
   "author": "",
   "license": "ISC",
