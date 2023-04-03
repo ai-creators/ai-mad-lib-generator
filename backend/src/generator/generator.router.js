@@ -4,7 +4,7 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router
-  .route("/generate")
+  .route("/generate/madlib")
   .post((req, res, next) => {
     console.log(`Received ${req.method} request to ${req.originalUrl}`);
     next();

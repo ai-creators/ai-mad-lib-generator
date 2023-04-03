@@ -9,10 +9,10 @@ async function getMadLib(req, res, next) {
 
     const { OPENAI_API_KEY } = process.env;
     if (!OPENAI_API_KEY) {
-      throw new Error("No open ai key has been provided");
+      throw new Error("No OpenAI API key has been provided");
     }
     const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: OPENAI_API_KEY,
     });
     const openai = new OpenAIApi(configuration);
 
@@ -21,19 +21,21 @@ async function getMadLib(req, res, next) {
 
     const min_tokens = 50;
     const max_tokens = 100;
-    const { data } = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. 
-      Any word inside the bracket should not use spaces, and adjective/noun/verb/pluralnoun should be in the bold format, 
-      but instead use underscores. The mad lib cannot exceed ${max_tokens} tokens and be less then ${min_tokens}. 
-      Use what type of word it is. The prompt is ${template}`,
+    const prompt = `Generate a mad lib to fill out using [] and no spaces inside the bracket. 
+    Any word inside the bracket should not use spaces, and adjective/noun/verb/plural noun should be in the bold format, 
+    but instead use underscores. The mad lib cannot exceed ${max_tokens} tokens and be less than ${min_tokens}. 
+    Use what type of word it is. The prompt is ${template}`;
+
+    const { data } = await openai.completions.create({
+      engine: "text-davinci-002",
+      prompt,
       max_tokens,
       temperature: 0.5,
       n: 1,
     });
 
     // Replace the placeholders in the generated text with the words provided in the request
-    const madlib = data[0].text.replace(/\[([^\]]+)\]/g, (match, p1) => {
+    const madlib = data.choices[0].text.replace(/\[([^\]]+)\]/g, (match, p1) => {
       const wordType = p1.split("_")[0];
       const wordIndex = parseInt(p1.split("_")[1]) - 1;
       return words[wordType][wordIndex];
@@ -51,7 +53,7 @@ async function getMadLib(req, res, next) {
 }
 
 module.exports = {
-  getMadLib: [asyncErrorBoundary(getMadLib)],
+  getMadLib: asyncErrorBoundary(getMadLib),
 };
 
 
