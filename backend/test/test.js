@@ -128,6 +128,85 @@ describe("MadLib Generator API", function () {
             .expect(200, done);
         });
 
+        it("should return 400 when the prompt format is incorrect", function (done) {
+          const data = {
+            data: {
+              prompt: "My favorite color is color.",
+            },
+          };
+    
+          request(app)
+            .post("/generate/madlib")
+            .send(data)
+            .expect(400)
+            .end(function (err, res) {
+              if (err) return done(err);
+    
+              assert.ok(res.body.error);
+              assert.strictEqual(res.body.error, "Invalid prompt format. Use brackets around placeholders");
+              done();
+            });
+        });
 
+        it("should return 400 when the prompt is missing in the data object", function (done) {
+          const data = {
+            data: {}
+          };
+      
+          request(app)
+            .post("/generate/madlib")
+            .send(data)
+            .expect(400)
+            .end(function (err, res) {
+              if (err) return done(err);
+      
+              assert.ok(res.body.error);
+              assert.strictEqual(res.body.error, "Prompt is required.");
+              done();
+            });
+        });
+      
+        it("should return 400 when the prompt format is incorrect (no brackets)", function (done) {
+          const data = {
+            data: {
+              prompt: "I love my pet because they are so cute.",
+            },
+          };
+      
+          request(app)
+            .post("/generate/madlib")
+            .send(data)
+            .expect(400)
+            .end(function (err, res) {
+              if (err) return done(err);
+      
+              assert.ok(res.body.error);
+              assert.strictEqual(res.body.error, "Invalid prompt format. Use brackets around placeholders");
+              done();
+            });
+        });
+      
+        it("should return 400 when the prompt contains spaces inside brackets", function (done) {
+          const data = {
+            data: {
+              prompt: "I love [type of animal] because they are [an adjective].",
+            },
+          };
+      
+          request(app)
+            .post("/generate/madlib")
+            .send(data)
+            .expect(400)
+            .end(function (err, res) {
+              if (err) return done(err);
+      
+              assert.ok(res.body.error);
+              assert.strictEqual(res.body.error, "Invalid prompt format. Use brackets around placeholders");
+              done();
+            });
+        });
+
+
+        
     });
   });

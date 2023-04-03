@@ -3,10 +3,15 @@ const { Configuration, OpenAIApi } = require("openai");
 
 async function getMadLib(req, res, next) {
   try {
+    // Check if the API key is provided
     const { OPENAI_API_KEY } = process.env;
     if (!OPENAI_API_KEY) {
-      throw new Error("No open ai key has been provided");
+      return next({
+        status: 400,
+        message: "No open ai key has been provided",
+      });
     }
+
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
     });
@@ -25,8 +30,8 @@ async function getMadLib(req, res, next) {
     }
 
     // Check if the prompt format is correct (contains brackets)
-    if (!/\[.*\]/.test(prompt)) {
-      return res.status(400).json({ error: "Invalid prompt format. Use brackets around placeholders" });
+    if (!/\[([^\s\]]+)\]/.test(prompt)) {
+      return res.status(400).json({ error: "Invalid prompt format. Use brackets around placeholders and avoid spaces inside the brackets" });
     }
 
     const min_tokens = 50;
@@ -44,6 +49,14 @@ async function getMadLib(req, res, next) {
     res.status(200).json(response.data);
   } catch (error) {
     console.error(error);
+
+    if (error.response && error.response.status === 401) {
+      return next({
+        status: 400,
+        message: "Invalid API key provided",
+      });
+    }
+
     return next({
       status: 500,
       message: error,
