@@ -13,7 +13,8 @@
     "test_1": "mocha test/test_1.js --exit",
     "test_2": "mocha test/test_2.js --exit",
     "test_3": "mocha test/test_3.js --exit",
-    "test_4": "mocha test/test_4.js --exit"
+    "test_4": "mocha test/test_4.js --exit",
+    "test_5": "mocha test/test_5.js --exit"
   },
   "author": "",
   "license": "ISC",
@@ -31,6 +32,7 @@
     "chai": "^4.3.7",
     "jest": "^29.5.0",
     "mocha": "^10.2.0",
+    "nock": "^13.3.0",
     "nodemon": "^2.0.21",
     "supertest": "^6.3.3"
   }
