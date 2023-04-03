@@ -27,7 +27,9 @@ describe("OpenAI API Tests", () => {
     assert.ok(response.data.choices[0].text.trim(), "Generated response is empty");
   });
 
-  it("should return multiple generated responses when specified", async () => {
+  it("should return multiple generated responses when specified", async function () {
+    this.timeout(10000); // Increase timeout to 10 seconds
+
     const prompt = "Write a short story about a cat.";
     const response = await openai.createCompletion({
       model: "text-davinci-003",
@@ -54,7 +56,9 @@ describe("OpenAI API Tests", () => {
     assert.ok(response.data.choices[0].text.split(" ").length <= max_tokens, "Generated response exceeds max_tokens limit");
   });
 
-  it("should generate a response influenced by the temperature parameter", async () => {
+  it("should generate a response influenced by the temperature parameter", async function () {
+    this.timeout(10000); // Increase timeout to 10 seconds
+
     const prompt = "Write a paragraph about the benefits of exercise.";
     const lowTempResponse = await openai.createCompletion({
       model: "text-davinci-003",
