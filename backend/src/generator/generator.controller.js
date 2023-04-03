@@ -3,6 +3,10 @@ const { Configuration, OpenAIApi } = require("openai");
 
 async function getMadLib(req, res, next) {
   try {
+    console.log("Received request to generate mad lib");
+    console.log("Template: ", req.body.template);
+    console.log("Words: ", req.body.words);
+
     const { OPENAI_API_KEY } = process.env;
     if (!OPENAI_API_KEY) {
       throw new Error("No open ai key has been provided");
@@ -35,9 +39,10 @@ async function getMadLib(req, res, next) {
       return words[wordType][wordIndex];
     });
 
+    console.log("Generated mad lib: ", madlib);
     res.status(200).json({ madlib });
   } catch (error) {
-    console.error(error);
+    console.error("Error generating mad lib: ", error);
     return next({
       status: 500,
       message: error.message,
@@ -48,6 +53,8 @@ async function getMadLib(req, res, next) {
 module.exports = {
   getMadLib: [asyncErrorBoundary(getMadLib)],
 };
+
+
 
 // async function getMadLib(req, res, next) {
 //   try {

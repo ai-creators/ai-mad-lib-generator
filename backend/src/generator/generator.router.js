@@ -5,10 +5,14 @@ const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router
   .route("/generate")
-  .post(asyncErrorBoundary(controller.madLibGenerator))
+  .post((req, res, next) => {
+    console.log(`Received ${req.method} request to ${req.originalUrl}`);
+    next();
+  }, asyncErrorBoundary(controller.getMadLib))
   .all(methodNotAllowed);
 
 router.all("*", (req, res, next) => {
+  console.log(`Received ${req.method} request to ${req.originalUrl}`);
   res.status(404).json({ error: "Route not found" });
 });
 

@@ -1,86 +1,24 @@
-const { expect } = require("chai");
-const request = require("supertest");
+const chai = require("chai");
+const chaiHttp = require("chai-http");
+const server = require("../src/app");
+const { expect } = chai;
+chai.use(chaiHttp);
 
-const app = require("../src/app");
-const { OPENAI_API_KEY } = process.env;
-
-//test for GET /generate
-describe('GET /generate', function () {
-  it("Should return 200 for generate", async () => {
-    const response = await request(app)
-      .get("/generate")
-      .set("Accept", "application/json");
-
-    expect(response.status).to.equal(200);
-    expect(response.body.error).to.be.undefined;})
+describe("POST /generate", () => {
+  it("Should return a mad lib with the correct number of tokens and replaced placeholders", async () => {
+    const template = "The [ADJ_1] [NOUN_1] [VERB_1] over the [ADJ_2] [NOUN_2].";
+    const words = {
+      ADJ: ["quick", "brown"],
+      NOUN: ["fox", "dog"],
+      VERB: ["jumped", "ran"],
+    };
+    const res = await chai
+      .request(server)
+      .post("/generate")
+      .send({ template, words });
+    expect(res.status).to.equal(200);
+    expect(res.body.madlib).to.match(/The quick fox jumped over the brown dog\./);
+    expect(res.body.madlib.split(" ")).to.have.lengthOf.at.least(50);
+    expect(res.body.madlib.split(" ")).to.have.lengthOf.at.most(100);
   });
-
-// describe('MadLib Generator API', function () {
-//   describe('POST /generate', function () {
-//     it('returns a 200 response with a valid madlib', function (done) {
-//       const data = {
-//         template: 'The {noun} {verb} over the {adjective} {noun}.',
-//         words: {
-//           noun: 'cat',
-//           verb: 'jumped',
-//           adjective: 'lazy',
-//         },
-//       };
-//       request(app)
-//         .post('/generate')
-//         .send(data)
-//         .expect(200)
-//         .end(function (err, res) {
-//           if (err) return done(err);
-//           // Add your own assertions here
-//           done();
-//         });
-//     });
-
-//     it('returns a 400 response with an error message if template is missing', function (done) {
-//       const data = {
-//         words: {
-//           noun: 'cat',
-//           verb: 'jumped',
-//           adjective: 'lazy',
-//         },
-//       };
-//       request(app)
-//         .post('/generate')
-//         .send(data)
-//         .expect(400)
-//         .expect({ error: 'Template is missing' })
-//         .end(done);
-//     });
-
-//     it('returns a 400 response with an error message if words are missing', function (done) {
-//       const data = {
-//         template: 'The {noun} {verb} over the {adjective} {noun}.',
-//       };
-//       request(app)
-//         .post('/generate')
-//         .send(data)
-//         .expect(400)
-//         .expect({ error: 'Words are missing' })
-//         .end(done);
-//     });
-
-//     it('returns a 500 response with an error message if OpenAI API key is missing', function (done) {
-//       const data = {
-//         template: 'The {noun} {verb} over the {adjective} {noun}.',
-//         words: {
-//           noun: 'cat',
-//           verb: 'jumped',
-//           adjective: 'lazy',
-//         },
-//       };
-//       process.env.OPENAI_API_KEY = '';
-//       request(app)
-//         .post('/generate')
-//         .send(data)
-//         .expect(500)
-//         .expect({ error: 'OpenAI API key is missing' })
-//         .end(done);
-//     });
-//   });
-// });
+});
