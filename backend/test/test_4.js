@@ -9,10 +9,12 @@ describe("OpenAI API Tests", () => {
   });
   const openai = new OpenAIApi(configuration);
 
+  // Test 1: Verify the OpenAI API response when using the default model
   it("should return a valid API key", () => {
     assert.ok(process.env.OPENAI_API_KEY, "API key is not valid");
   });
 
+  // Test 2: Verify the OpenAI API response when using the default model
   it("should return a generated response from the OpenAI API", async () => {
     const prompt = "Translate the following English text to French: 'Hello, how are you?'";
     const response = await openai.createCompletion({
@@ -27,6 +29,7 @@ describe("OpenAI API Tests", () => {
     assert.ok(response.data.choices[0].text.trim(), "Generated response is empty");
   });
 
+  // Test 3: Verify the OpenAI API handles error response correctly
   it("should return multiple generated responses when specified", async function () {
     this.timeout(10000); // Increase timeout to 10 seconds
 
@@ -42,6 +45,7 @@ describe("OpenAI API Tests", () => {
     assert.strictEqual(response.data.choices.length, 3, "Number of generated responses is not as specified");
   });
 
+  // Test 4: Verify the OpenAI API handles error response correctly
   it("should limit the response length by the max_tokens parameter", async () => {
     const prompt = "Write a detailed summary of the history of computers.";
     const max_tokens = 25;
@@ -55,7 +59,8 @@ describe("OpenAI API Tests", () => {
 
     assert.ok(response.data.choices[0].text.split(" ").length <= max_tokens, "Generated response exceeds max_tokens limit");
   });
-
+  
+  // Test 5: Verify the OpenAI API handles error response correctly
   it("should generate a response influenced by the temperature parameter", async function () {
     this.timeout(10000); // Increase timeout to 10 seconds
 

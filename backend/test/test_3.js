@@ -11,6 +11,7 @@ chai.use(chaiHttp);
 describe('Third MadLib Generator API Test Set', () => {
   describe('POST /generate/madlib', () => {
 
+        // Test 1: Verify the OpenAI API response when using the default model
         it("should return 200 and a generated madlib when valid input is provided", function (done) {
         const data = {
             data: {
@@ -32,6 +33,7 @@ describe('Third MadLib Generator API Test Set', () => {
             });
         });
 
+        // Test 2: Verify the OpenAI API handles error response correctly
         it("should return 400 when the data object is missing in the request body", function (done) {
         const data = {};
 
@@ -48,6 +50,7 @@ describe('Third MadLib Generator API Test Set', () => {
             });
         });
 
+        // Test 3: Verify the OpenAI API handles error response correctly
         it("should return 400 when the prompt is missing in the data object", function (done) {
             const data = {
             data: {}
@@ -66,6 +69,7 @@ describe('Third MadLib Generator API Test Set', () => {
             });
         });
         
+        // Test 4: Verify the OpenAI API handles error response correctly
         it("should return 400 when the prompt format is incorrect (no brackets)", (done) => {
             request(app)
             .post("/generate/madlib")
@@ -80,6 +84,7 @@ describe('Third MadLib Generator API Test Set', () => {
             .end(done);
         });
         
+        // Test 5: Verify the OpenAI API handles error response correctly
         it("should return 400 when the prompt contains spaces inside brackets", (done) => {
             request(app)
             .post("/generate/madlib")

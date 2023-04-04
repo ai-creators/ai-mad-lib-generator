@@ -9,6 +9,7 @@ const openai = new OpenAIApi(process.env.OPENAI_API_KEY);
         nock.cleanAll();
     });
 
+    // Test 1: Verify the OpenAI API response when using the default model
     it("should successfully mock the OpenAI API response", async function () {
         const prompt = "Write a paragraph about the benefits of exercise.";
         const mockResponse = {

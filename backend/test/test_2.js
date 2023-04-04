@@ -11,6 +11,7 @@ chai.use(chaiHttp);
 describe('Additional MadLib Generator API Tests', () => {
   describe('POST /generate/madlib', () => {
 
+    // Test 1: Verify the OpenAI API response when using the default model
     it("should return 400 when an invalid API key is provided", function (done) {
       const originalApiKey = process.env.OPENAI_API_KEY;
       process.env.OPENAI_API_KEY = 'invalid_key';
