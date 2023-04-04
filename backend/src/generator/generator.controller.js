@@ -16,7 +16,8 @@ async function getMadLib(req, res, next) {
     const { prompt } = req.body.data;
 
     const min_tokens = 50;
-    const max_tokens = 100;
+    const max_tokens = 50;
+    console.log("prompt: ", prompt);
     const { data } = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. 
@@ -27,6 +28,7 @@ async function getMadLib(req, res, next) {
       temperature: 0.5,
       n: 1,
     });
+    console.log(data);
     res.status(200).json({ data });
   } catch (error) {
     console.error(error);
