@@ -1,17 +1,15 @@
-const Food = require("../models/foodModel");
-const User = require("../models/userModel");
-const Order = require("../models/orderModel");
+const Lib = require("../models/LibModel");
 const Seeder = require("./Seeder");
 
 async function seed(type = "") {
   if (type === "--libs" || !type) {
-    await Seeder.inject(`${__dirname}/libs.json`, User);
+    await Seeder.inject(`${__dirname}/libs.json`, Lib);
   }
 }
 
 async function destroy(type = "") {
   if (type === "--libs" || !type) {
-    await Seeder.delete(User);
+    await Seeder.delete(Lib);
   }
 }
 
