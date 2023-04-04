@@ -1,0 +1,30 @@
+[
+  {
+    "prompt": "Animal buys some food",
+    "text": "One [color] [animal] went to the [adjective] [place] to buy some [food]. The [place] said, 'Sorry, we're all out of [food] today.' The [color] [animal] replied, 'No problem, I'll just buy some [adjective] [beverage] instead!' The [place] nodded and said, 'Great choice! That's our most popular item.' So the [color] [animal] happily walked home with a cup of [adjective] [beverage], feeling [emotion] and [emotion] with their purchase.",
+    "numberOfLikes": 10,
+    "numberOfDislikes": 0,
+    "numberOfSaves": 3
+  },
+  {
+    "prompt": "Disney themed",
+    "text": "Once upon a time in the magical kingdom of [Disney_Place], there lived a [adjective] [noun] named [Disney_Character]. One day, [Disney_Character] received an invitation to the royal [adjective] [noun] hosted by [Disney_Princess].\nExcitedly, [Disney_Character] put on their best [adjective] [noun] and headed to the grand ballroom. Upon arrival, they were greeted by the royal [noun], who was wearing a stunning [adjective] gown. The ballroom was adorned with twinkling [plural_noun] and enchanting [adjective] decorations.\nAs the [music_genre] music started playing, [Disney_Character] took to the dance floor with [Disney_Princess]. They twirled and spun, feeling like they were in a fairy tale. The room was filled with laughter and [emotion] as they danced the night away.\nSuddenly, a mischievous [Disney_Villain] appeared and tried to ruin the festivities. But with quick thinking and the help of their trusty [Disney_Sidekick], [Disney_Character] foiled the villain's plans and saved the day! The kingdom rejoiced and applauded [Disney_Character] for their bravery and [adjective] actions.\nIn the end, [Disney_Character] was awarded a special [noun] by [Disney_Princess] as a token of appreciation. With a heart full of joy, [Disney_Character] returned to their humble [noun], knowing that they had experienced a truly magical and unforgettable adventure in the world of Disney.",
+    "numberOfLikes": 12,
+    "numberOfDislikes": 0,
+    "numberOfSaves": 4
+  },
+  {
+    "prompt": "Programming",
+    "text": "As a [adjective][noun], I love to [verb] in [programming_language]. I spend [number] hours a day coding and debugging my [adjective][noun]. My favorite part of programming is solving [adjective][plural_noun] and creating [adjective][noun] that [verb] seamlessly. I always make sure to use [adjective][noun] and [adjective][noun] in my code to ensure it's [adjective] and [adjective].\nOne day, I encountered a [adjective][noun] that caused my code to [verb]. I quickly put on my [adjective][noun] and started [verb] the issue. After hours of [verb] and [verb], I finally fixed the bug and my code was [adjective] again. I felt a great sense of [emotion] and accomplishment.\nIn my free time, I enjoy [verb] on [adjective][noun] projects and learning new [programming_language] techniques. I'm always striving to become a [adjective][noun] and contribute to the world of [noun] in a meaningful way.",
+    "numberOfLikes": 4,
+    "numberOfDislikes": 2,
+    "numberOfSaves": 0
+  },
+  {
+    "prompt": "Going to the store",
+    "text": "One [adjective] [noun] went to the [adjective] [noun] to buy some [plural noun]. The [noun] said, 'Sorry, we're all out of [plural noun] today.' The [adjective] [noun] replied, 'No problem, I'll just buy some [adjective] [noun] instead!' The [noun] nodded and said, 'Great choice! That's our most popular item.' So the [adjective] [noun] happily walked home with a bag of [adjective] [noun], feeling [adjective] and [adjective] with their purchase.",
+    "numberOfLikes": 20,
+    "numberOfDislikes": 2,
+    "numberOfSaves": 4
+  }
+]
