@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const faker = require("faker");
-const { OPENAI_API_KEY } = process.env;
+const { OPENAI_API_KEY } = process.env.OPENAI_API_KEY;
 
 const router = express.Router();
 
