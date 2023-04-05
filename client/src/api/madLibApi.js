@@ -19,4 +19,13 @@ export class MadLibApi extends Api {
     };
     return this.fetchJson(path, options, {});
   }
+
+  async listMostPopular({ signal } = new AbortController()) {
+    const path = "/libs/list";
+    const options = {
+      method: "GET",
+      signal,
+    };
+    return this.fetchJson(path, options, []);
+  }
 }

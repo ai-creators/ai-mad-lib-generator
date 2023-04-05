@@ -6,7 +6,6 @@ const MadLibBuilder = ({ madLib }) => {
   const [questions, setQuestions] = useState([]);
   const [isBuilderDone, setIsBuilderDone] = useState(false);
   const [isMadLibShowing, setIsMadLibShowing] = useState(false);
-  console.log("MadLIBBY: ", madLib);
   useEffect(() => {
     if (madLib) {
       setQuestions([]);

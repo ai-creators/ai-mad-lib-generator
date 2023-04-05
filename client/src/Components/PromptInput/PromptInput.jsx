@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { MadLibApi } from "../../api/madLibApi";
 
-const PromptInput = ({ prompt, setPrompt, setMadLib }) => {
+const PromptInput = () => {
+  const [prompt, setPrompt] = useState("");
   const navigate = useNavigate();
   const submitPrompt = async (event) => {
     event.preventDefault();

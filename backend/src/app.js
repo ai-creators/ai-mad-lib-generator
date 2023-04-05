@@ -5,11 +5,13 @@ const cors = require("cors");
 const errorHandler = require("./errors/errorHandler");
 const notFound = require("./errors/notFound");
 const generatorRoute = require("./generator/generator.router");
+const libsRoute = require("./lib/lib.router");
 const app = express();
 app.use(express.json());
 app.use(cors("*"));
 // routes
 app.use("/generate", generatorRoute);
+app.use("/libs", libsRoute);
 
 app.use(notFound);
 app.use(errorHandler);

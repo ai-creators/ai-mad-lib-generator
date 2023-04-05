@@ -6,6 +6,6 @@ async function listLibs(req, res, next) {
 }
 
 module.exports = {
-  list: [],
+  list: [asyncErrorBoundary(listLibs)],
   save: [],
 };
