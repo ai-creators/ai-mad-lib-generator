@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import "./ButtonGenerateRandomLib.css"; // Import stylesheet
 
 const ButtonGenerateRandomLib = () => {
   const [generatedMadLib, setGeneratedMadLib] = useState("");
@@ -17,7 +18,12 @@ const ButtonGenerateRandomLib = () => {
 
   return (
     <div>
-      <button onClick={generateRandomMadLib}>Generate Random Mad Lib</button>
+      <button
+        className="ButtonGenerateRandomLib" // Add the class
+        onClick={generateRandomMadLib}
+      >
+        Generate Random Mad Lib
+      </button>
       {generatedMadLib && <p>{generatedMadLib}</p>}
     </div>
   );
