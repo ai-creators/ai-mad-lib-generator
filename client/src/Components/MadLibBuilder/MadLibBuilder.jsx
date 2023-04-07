@@ -2,10 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import MadLibViewer from "../MadLibViewer/MadLibViewer";
 import { snakeToTitleCase } from "../../utils/snakeToTitleCase";
 
-const MadLibBuilder = ({ madLib, prompt }) => {
+const MadLibBuilder = ({ madLib }) => {
   const [questions, setQuestions] = useState([]);
   const [isBuilderDone, setIsBuilderDone] = useState(false);
   const [isMadLibShowing, setIsMadLibShowing] = useState(false);
+  console.log(madLib);
   useEffect(() => {
     if (madLib) {
       setQuestions([]);
@@ -14,11 +15,12 @@ const MadLibBuilder = ({ madLib, prompt }) => {
   }, [madLib]);
 
   useMemo(() => {
-    if (madLib && questions.length === 0) {
+    const madLibText = madLib.text;
+    if (madLibText && questions.length === 0) {
       let questionType = "";
       let isInBracket = false;
-      for (let i = 0; i < madLib.length; i++) {
-        const letter = madLib[i];
+      for (let i = 0; i < madLibText.length; i++) {
+        const letter = madLibText[i];
         if (letter === "]") {
           isInBracket = false;
           const question = {
@@ -55,7 +57,7 @@ const MadLibBuilder = ({ madLib, prompt }) => {
     setIsMadLibShowing(true);
   };
   if (isMadLibShowing) {
-    return <MadLibViewer text={madLib} questions={questions} prompt={prompt} />;
+    return <MadLibViewer madLib={madLib} questions={questions} />;
   }
   return isBuilderDone ? (
     <>

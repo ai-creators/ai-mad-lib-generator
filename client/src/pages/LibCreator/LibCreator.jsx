@@ -18,9 +18,7 @@ const LibCreator = () => {
 
         const api = new MadLibApi();
         const response = await api.generate(prompt);
-        if (response.choices) {
-          setLib(response.choices[0].text);
-        }
+        setLib(response);
       } catch (err) {
         setError(err);
       }
@@ -35,7 +33,7 @@ const LibCreator = () => {
           <h3 className="text-lg font-semibold">{prompt}...</h3>
         </header>
 
-        {lib && <MadLibBuilder madLib={lib} prompt={prompt} />}
+        {lib && <MadLibBuilder madLib={lib} />}
       </div>
     </Layout>
   );

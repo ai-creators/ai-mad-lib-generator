@@ -1,7 +1,11 @@
 const Lib = require("../db/models/LibModel");
 
 function list() {
-  return Lib.find();
+  return Lib.find().limit(20);
+}
+
+function listMostRecent() {
+  return Lib.find().limit(20);
 }
 
 function like(_id) {

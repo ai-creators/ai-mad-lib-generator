@@ -28,7 +28,6 @@ const Home = () => {
     const index = target.getAttribute("data-index");
     const prompt = mostLikedLibs[index].prompt;
     const lib = mostLikedLibs[index].text;
-    console.log("LIB: ", lib);
     navigate("/lib", { state: { prompt, lib } });
   };
   console.log(mostLikedLibs);
@@ -40,9 +39,7 @@ const Home = () => {
         <section className="mt-4">
           {mostLikedLibs.length > 0 && (
             <>
-              <h3 className="text-2xl font-semibold mb-2">
-                Most Liked ad-libs
-              </h3>
+              <h3 className="text-2xl font-semibold mb-2">Feature Ad-libs</h3>
               <div className="flex flex-col gap-3">
                 {mostLikedLibs.map((lib, index) => {
                   return (

@@ -1,7 +1,8 @@
 import React from "react";
 
 import MadLibReactions from "../MadLibReactions/MadLibReactions";
-const MadLibViewer = ({ text, questions, prompt }) => {
+const MadLibViewer = ({ madLib, questions }) => {
+  const { text } = madLib;
   const regex = /\[(.*?)\]/g;
   let index = 0;
   console.log(questions);
