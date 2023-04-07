@@ -6,6 +6,7 @@ import ErrorAlert from "../../errors/ErrorAlert";
 import Card from "../../Components/Card/Card";
 import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
+import Hero from "../../Components/Hero/Hero";
 
 const Home = () => {
   const [mostLikedLibs, setMostLikedLibs] = useState([]);
@@ -37,15 +38,18 @@ const Home = () => {
   };
   console.log(mostLikedLibs);
   return (
-    <Layout className="min-h-screen">
+    <Layout
+      className="min-h-screen"
+      hero={<Hero title="Ai Ad-Lib Generator" />}
+    >
       <ErrorAlert error={error} setError={setError} />
-      <div className="max-w-4xl mx-auto pt-16 px-2">
+      <div className="max-w-4xl mx-auto pt-2 lg:pt-14 px-4 flex flex-col gap-4">
         <PromptInput />
-        <section className="mt-4">
+        <section>
           {mostLikedLibs.length > 0 && (
             <>
               <h3 className="text-2xl font-semibold mb-2">Feature Ad-libs</h3>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-4">
                 {isLoading ? (
                   <div className="flex justify-center items-center">
                     <Loader />

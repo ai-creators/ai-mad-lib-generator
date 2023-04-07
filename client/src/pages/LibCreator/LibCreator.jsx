@@ -5,6 +5,7 @@ import { MadLibApi } from "../../api/madLibApi";
 import MadLibBuilder from "../../Components/MadLibBuilder/MadLibBuilder";
 import ErrorAlert from "../../errors/ErrorAlert";
 import Loader from "../../Components/Loader/Loader";
+import Hero from "../../Components/Hero/Hero";
 const LibCreator = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const prompt = searchParams.get("prompt");
@@ -32,12 +33,9 @@ const LibCreator = () => {
     getLib();
   }, [prompt]);
   return (
-    <Layout className="min-h-screen">
+    <Layout className="min-h-screen" hero={<Hero title={`${prompt}...`} />}>
       <div className="max-w-4xl mx-auto pt-10 pb-2 px-2">
         <ErrorAlert error={error} setError={setError} />
-        <header className="mb-3">
-          <h3 className="text-lg font-semibold">{prompt}...</h3>
-        </header>
         {isLoading ? (
           <div className="flex justify-center items-center">
             <Loader />
