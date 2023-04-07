@@ -18,6 +18,11 @@ const Navbar = () => {
               Browse
             </Link>
           </li>
+          <li>
+            <Link to="/saves" className="p-2">
+              Saves
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

@@ -32,9 +32,8 @@ const Home = () => {
 
   const selectLib = ({ target }) => {
     const index = target.getAttribute("data-index");
-    const prompt = mostLikedLibs[index].prompt;
-    const lib = mostLikedLibs[index].text;
-    navigate("/lib", { state: { prompt, lib } });
+    const lib = mostLikedLibs[index];
+    navigate("/lib", { state: lib });
   };
   console.log(mostLikedLibs);
   return (
@@ -48,12 +47,15 @@ const Home = () => {
       }
     >
       <ErrorAlert error={error} setError={setError} />
-      <div className="max-w-4xl mx-auto pt-2 lg:pt-14 px-4 flex flex-col gap-4">
-        <PromptInput />
+      <div className="max-w-4xl mx-auto pt-2 lg:pt-14 px-4 flex flex-col gap-5">
+        <section>
+          <h3 className="text-2xl font-semibold mb-2">Create an Ad-Lib</h3>
+          <PromptInput />
+        </section>
         <section>
           {mostLikedLibs.length > 0 && (
             <>
-              <h3 className="text-2xl font-semibold mb-2">Feature Ad-libs</h3>
+              <h3 className="text-2xl font-semibold mb-2">Feature Ad-Libs</h3>
               <div className="flex flex-col gap-4">
                 {isLoading ? (
                   <div className="flex justify-center items-center">
@@ -67,7 +69,7 @@ const Home = () => {
                           {lib.prompt}...
                         </h4>
                         <button
-                          className="p-2 underline underline-offset-2 rounded"
+                          className="p-2 underline underline-offset-2 rounded text-indigo-800 active:text-indigo-900"
                           onClick={selectLib}
                           data-index={index}
                         >

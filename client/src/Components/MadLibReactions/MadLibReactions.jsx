@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import ButtonOutline from "../Button/ButtonOutline/ButtonOutline";
 import { MadLibApi } from "../../api/madLibApi";
 import { storage } from "../../utils/Storage";
-const MadLibReactions = ({ prompt, lib }) => {
+const MadLibReactions = ({ lib }) => {
+  const { text, prompt } = lib;
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -17,13 +18,13 @@ const MadLibReactions = ({ prompt, lib }) => {
       const saves = JSON.parse(storage.local.get("saves")) || [];
       if (Array.isArray(saves)) {
         const deletedSaves = saves.filter(
-          (save) => save.prompt !== prompt && save.lib !== lib
+          (save) => save.prompt !== prompt && save.text !== text
         );
         storage.local.set("saves", JSON.stringify(deletedSaves));
       }
     } else {
       const saves = JSON.parse(storage.local.get("saves")) || [];
-      saves.push({ prompt, lib });
+      saves.push(lib);
       storage.local.set("saves", JSON.stringify(saves));
     }
   };
@@ -36,7 +37,7 @@ const MadLibReactions = ({ prompt, lib }) => {
     const savedLibs = JSON.parse(storage.local.get("saves")) || [];
     if (Array.isArray(savedLibs)) {
       const foundLib = savedLibs.find(
-        (el) => el.prompt === prompt && el.lib === lib
+        (el) => el.prompt === prompt && el.text === text
       );
       if (foundLib) {
         setIsSaved(true);

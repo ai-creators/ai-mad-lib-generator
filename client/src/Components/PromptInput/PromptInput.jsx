@@ -17,7 +17,7 @@ const PromptInput = () => {
 
   return (
     <form className="flex flex-col" onSubmit={submitPrompt}>
-      <label htmlFor="prompt" className="py-2 text-slate-600">
+      <label htmlFor="prompt" className="pb-2 text-slate-600">
         Enter a prompt to generate Mad Lib
       </label>
       <div className="relative">

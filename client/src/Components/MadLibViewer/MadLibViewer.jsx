@@ -24,7 +24,7 @@ const MadLibViewer = ({ madLib, questions }) => {
         }
       </div>
 
-      <MadLibReactions prompt={prompt} lib={text} />
+      <MadLibReactions lib={madLib} />
     </div>
   ) : null;
 };

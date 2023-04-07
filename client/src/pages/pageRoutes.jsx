@@ -5,6 +5,7 @@ import Home from "./Home/Home";
 import LibCreator from "./LibCreator/LibCreator";
 import LibViewer from "./LibViewer/LibViewer";
 import Browse from "./Browse/Browse";
+import Saves from "./Saves/Saves";
 
 const PageRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const PageRoutes = () => {
       <Route path="/lib-create" element={<LibCreator />} />
       <Route path="/lib" element={<LibViewer />} />
       <Route path="/browse" element={<Browse />} />
+      <Route path="/saves" element={<Saves />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

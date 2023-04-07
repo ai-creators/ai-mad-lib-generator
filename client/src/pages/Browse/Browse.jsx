@@ -62,7 +62,9 @@ const Browse = () => {
             <div className="flex flex-col gap-4 pt-4">
               <h3 className="text-2xl font-semibold mb-2">Featured</h3>
               {isLoading ? (
-                <Loader />
+                <div className="flex justify-center items-center">
+                  <Loader />
+                </div>
               ) : (
                 featuredLibs.map((lib, index) => {
                   return index <= 5 ? (

@@ -11,16 +11,17 @@ const LibViewer = ({ selectedLib }) => {
   const [error, setError] = useState(null);
   console.log(state);
   useEffect(() => {
-    if (state.lib) {
-      setLib(state.lib);
+    if (state) {
+      setLib(state);
     }
-  }, [state.lib]);
+  }, [state]);
+  console.log("STATE: ", lib);
   return (
     <Layout
       className="min-h-screen"
       hero={<Hero title={`${state.prompt}...`} />}
     >
-      <div className="max-w-4xl mx-auto pt-10 pb-2 px-2">
+      <div className="max-w-4xl mx-auto pt-10 pb-2 px-4">
         <ErrorAlert error={error} setError={setError} />
 
         {lib && <MadLibBuilder madLib={lib} prompt={state.prompt} />}
