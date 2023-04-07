@@ -10,7 +10,9 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test_1": "mocha --exit"
+    "test_1": "mocha --exit",
+    "seed:all": "node src/db/seeds/dataProvider.js --import --all",
+    "seed:libs": "node src/db/seeds/dataProvider.js --import --libs"
   },
   "author": "",
   "license": "ISC",

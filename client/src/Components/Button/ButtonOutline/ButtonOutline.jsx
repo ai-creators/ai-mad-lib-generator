@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ButtonOutline = ({ children }) => {
+const ButtonOutline = ({ children, className, onClick = () => {} }) => {
+  const [isActive, setIsActive] = useState(false);
   return (
-    <button className="py-2 px-3 border rounded drop-shadow-sm foxus:drop-shadow-xl hover:drop-shadow-xl hover:brightness-90 ease-out duration-300 outline-offset-4">
+    <button
+      onClick={onClick}
+      className={`py-2 px-3 border rounded hover:brightness-80 ease-out duration-300 outline-offset-4 ${className}`}
+    >
       {children}
     </button>
   );
+};
+
+ButtonOutline.defaultProps = {
+  className: "",
 };
 
 export default ButtonOutline;

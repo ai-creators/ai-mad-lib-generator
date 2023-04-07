@@ -6,7 +6,7 @@ const MadLibBuilder = ({ madLib }) => {
   const [questions, setQuestions] = useState([]);
   const [isBuilderDone, setIsBuilderDone] = useState(false);
   const [isMadLibShowing, setIsMadLibShowing] = useState(false);
-  console.log("MadLIBBY: ", madLib);
+  console.log(madLib);
   useEffect(() => {
     if (madLib) {
       setQuestions([]);
@@ -15,11 +15,12 @@ const MadLibBuilder = ({ madLib }) => {
   }, [madLib]);
 
   useMemo(() => {
-    if (madLib && questions.length === 0) {
+    const madLibText = madLib.text;
+    if (madLibText && questions.length === 0) {
       let questionType = "";
       let isInBracket = false;
-      for (let i = 0; i < madLib.length; i++) {
-        const letter = madLib[i];
+      for (let i = 0; i < madLibText.length; i++) {
+        const letter = madLibText[i];
         if (letter === "]") {
           isInBracket = false;
           const question = {
@@ -56,7 +57,7 @@ const MadLibBuilder = ({ madLib }) => {
     setIsMadLibShowing(true);
   };
   if (isMadLibShowing) {
-    return <MadLibViewer text={madLib} questions={questions} />;
+    return <MadLibViewer madLib={madLib} questions={questions} />;
   }
   return isBuilderDone ? (
     <>

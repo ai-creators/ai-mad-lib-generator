@@ -15,10 +15,17 @@ export class MadLibApi extends Api {
     const path = "/generate/madlib";
     const options = {
       method: "POST",
-      body: JSON.stringify({ data: prompt }),
+      body: JSON.stringify({ data: { prompt } }),
     };
     return this.fetchJson(path, options, {});
   }
+  async listMostPopular({ signal } = new AbortController()) {
+    const path = "/libs/list";
+    const options = {
+      method: "GET",
+      signal,
+    };
+    return this.fetchJson(path, options, []);
   async generateRandomLib() {
     const path = "/generate/random-lib";
     const options = {
