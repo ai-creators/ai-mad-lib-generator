@@ -70,7 +70,6 @@ const MadLibBuilder = ({ madLib }) => {
       <form className="flex flex-col gap-3" data-testid="madlib-builder-form">
         {!isMadLibShowing &&
           questions.map((question, index) => {
-            console.log();
             return (
               <div key={index} className="flex flex-col gap-2">
                 <label htmlFor={question.question + index}>
