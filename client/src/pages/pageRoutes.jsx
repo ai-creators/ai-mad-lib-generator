@@ -4,6 +4,7 @@ import NotFound from "./NotFound/NotFound";
 import Home from "./Home/Home";
 import LibCreator from "./LibCreator/LibCreator";
 import LibViewer from "./LibViewer/LibViewer";
+import Browse from "./Browse/Browse";
 
 const PageRoutes = () => {
   return (
@@ -11,6 +12,7 @@ const PageRoutes = () => {
       <Route index element={<Home />} />
       <Route path="/lib-create" element={<LibCreator />} />
       <Route path="/lib" element={<LibViewer />} />
+      <Route path="/browse" element={<Browse />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

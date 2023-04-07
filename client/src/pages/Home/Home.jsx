@@ -42,18 +42,18 @@ const Home = () => {
               <h3 className="text-2xl font-semibold mb-2">Feature Ad-libs</h3>
               <div className="flex flex-col gap-3">
                 {mostLikedLibs.map((lib, index) => {
-                  return (
+                  return index <= 5 ? (
                     <Card key={lib.prompt + index}>
                       <h4 className="text-lg font-semibold">{lib.prompt}...</h4>
                       <button
-                        className="p-2 border rounded"
+                        className="p-2 underline underline-offset-2 rounded"
                         onClick={selectLib}
                         data-index={index}
                       >
-                        Go To Lib {">"}
+                        Go To ad-Lib
                       </button>
                     </Card>
-                  );
+                  ) : null;
                 })}
               </div>
             </>
