@@ -1,7 +1,8 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const { Configuration, OpenAIApi } = require("openai");
 const service = require("./generator.service");
-async function getMadLib(req, res, next) {
+
+async function MadLib(req, res, next) {
   try {
     const { OPENAI_API_KEY } = process.env;
     if (!OPENAI_API_KEY) {
@@ -63,11 +64,46 @@ function sendPayload(req, res, next) {
   res.status(200).json({ data });
 }
 
+async function RandomMadLib(req, res, next) {
+  try {
+    const { OPENAI_API_KEY } = process.env;
+    if (!OPENAI_API_KEY) {
+      throw new Error("No open ai key has been provided");
+    }
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(configuration);
+
+    const min_tokens = 50;
+    const max_tokens = 100;
+    const { data } = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `Generate a random mad lib to fill out with using [] and no spaces inside the bracket. 
+      Any word inside the bracket should not use spaces, and adjective/noun/verb/pluralnoun should be in the bold format, 
+      but instead use underscores. The mad lib cannot exceed ${max_tokens} tokens and be less then ${min_tokens}.`,
+      max_tokens,
+      temperature: 0.5,
+      n: 1,
+    });
+    res.status(200).json({ data });
+  } catch (error) {
+    console.error(error);
+    return next({
+      status: 500,
+      message: error,
+    });
+  }
+}
+
+
+
 // Export the controller
 module.exports = {
-  madLibGenerator: [
+  generateMadLib: [
     asyncErrorBoundary(getMadLib),
     asyncErrorBoundary(saveMadLib),
     sendPayload,
   ],
+  generateRandomMadLib: [asyncErrorBoundary(RandomMadLib)],
 };
