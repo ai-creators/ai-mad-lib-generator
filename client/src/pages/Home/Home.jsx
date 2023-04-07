@@ -40,7 +40,12 @@ const Home = () => {
   return (
     <Layout
       className="min-h-screen"
-      hero={<Hero title="Ai Ad-Lib Generator" />}
+      hero={
+        <Hero
+          title="Ad-Lib Generator"
+          description="Generate an AI ad-lib based on your prompt"
+        />
+      }
     >
       <ErrorAlert error={error} setError={setError} />
       <div className="max-w-4xl mx-auto pt-2 lg:pt-14 px-4 flex flex-col gap-4">

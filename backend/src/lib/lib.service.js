@@ -14,8 +14,18 @@ function like(_id) {
 
 function dislike(_id) {}
 
+function search(text) {
+  return Lib.find({
+    $or: [
+      { prompt: { $regex: text, $options: "i" } },
+      { text: { $regex: text, $options: "i" } },
+    ],
+  });
+}
+
 module.exports = {
   list,
   like,
   dislike,
+  search,
 };

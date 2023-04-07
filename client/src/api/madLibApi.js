@@ -19,6 +19,7 @@ export class MadLibApi extends Api {
     };
     return this.fetchJson(path, options, {});
   }
+
   async listMostPopular({ signal } = new AbortController()) {
     const path = "/libs/list";
     const options = {
@@ -27,6 +28,16 @@ export class MadLibApi extends Api {
     };
     return this.fetchJson(path, options, []);
   }
+
+  async search(search, { signal } = new AbortController()) {
+    const path = `/libs/list?search=${search}`;
+    const options = {
+      method: "GET",
+      signal,
+    };
+    return this.fetchJson(path, options, []);
+  }
+
   async generateRandomLib() {
     const path = "/generate/random-lib";
     const options = {

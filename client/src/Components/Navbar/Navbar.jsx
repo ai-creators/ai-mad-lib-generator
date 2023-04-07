@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
-    <nav className="py-4 border-b px-2">
-      <div className="container mx-auto flex justify-between">
+    <nav className="py-4 border-b">
+      <div className="max-w-4xl mx-auto flex justify-between px-4">
         <Link to="/">
           <h1 className="font-semibold text-xl">Mad Lib Generator</h1>
         </Link>

@@ -1,10 +1,24 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./lib.service");
 
+function checkQueryParams(req, res, next) {
+  const { search = "" } = req.query;
+  if (search) {
+    res.locals.search = search;
+  }
+  return next();
+}
+
 async function listLibs(req, res, next) {
   try {
-    const data = await service.list();
-    res.status(200).json({ data });
+    const { search = "" } = res.locals;
+    if (search) {
+      const data = await service.search(search);
+      res.status(200).json({ data });
+    } else {
+      const data = await service.list();
+      res.status(200).json({ data });
+    }
   } catch (err) {
     return next({ status: 500, message: "Unable to gather ad-libs" });
   }

@@ -7,6 +7,7 @@ import Card from "../../Components/Card/Card";
 import Hero from "../../Components/Hero/Hero";
 const Browse = () => {
   const [featuredLibs, setFeaturedLibs] = useState([]);
+  const [query, setQuery] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -21,6 +22,15 @@ const Browse = () => {
     };
     getFeaturedLibs();
   }, []);
+
+  useEffect(() => {
+    const getSearchedLibs = async () => {
+      const api = new MadLibApi();
+      const response = await api.search(query);
+      setFeaturedLibs(response);
+    };
+    getSearchedLibs();
+  }, [query]);
 
   const selectLib = ({ target }) => {
     const index = target.getAttribute("data-index");
@@ -41,9 +51,9 @@ const Browse = () => {
         }
       >
         <ErrorAlert error={error} setError={setError} />
-        <div className="max-w-4xl mx-auto pt-4 px-4">
+        <div className="max-w-4xl  mx-auto pt-4 px-4">
           <section>
-            <Searchbar />
+            <Searchbar setQuery={setQuery} />
             <div className="flex flex-col gap-4 pt-4">
               <h3 className="text-2xl font-semibold mb-2">Featured</h3>
               {featuredLibs.map((lib, index) => {
