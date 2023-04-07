@@ -22,7 +22,7 @@
   },
   {
     "prompt": "Going to the store",
-    "text": "One [adjective] [noun] went to the [adjective] [noun] to buy some [plural noun]. The [noun] said, 'Sorry, we're all out of [plural noun] today.' The [adjective] [noun] replied, 'No problem, I'll just buy some [adjective] [noun] instead!' The [noun] nodded and said, 'Great choice! That's our most popular item.' So the [adjective] [noun] happily walked home with a bag of [adjective] [noun], feeling [adjective] and [adjective] with their purchase.",
+    "text": "One [adjective] [noun] went to the [adjective] [noun] to buy some [plural noun]. The [noun] said, 'Sorry, we're all out of [plural_noun] today.' The [adjective] [noun] replied, 'No problem, I'll just buy some [adjective] [noun] instead!' The [noun] nodded and said, 'Great choice! That's our most popular item.' So the [adjective] [noun] happily walked home with a bag of [adjective] [noun], feeling [adjective] and [adjective] with their purchase.",
     "numberOfLikes": 20,
     "numberOfDislikes": 2,
     "numberOfSaves": 4

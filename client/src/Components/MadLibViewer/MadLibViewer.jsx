@@ -1,9 +1,11 @@
 import React from "react";
-import ButtonOutline from "../Button/ButtonOutline/ButtonOutline";
-const MadLibViewer = ({ text, questions }) => {
+
+import MadLibReactions from "../MadLibReactions/MadLibReactions";
+const MadLibViewer = ({ text, questions, prompt }) => {
   const regex = /\[(.*?)\]/g;
   let index = 0;
   console.log(questions);
+
   return text ? (
     <div>
       <div className="mb-3">
@@ -21,11 +23,7 @@ const MadLibViewer = ({ text, questions }) => {
         }
       </div>
 
-      <div className="flex gap-2">
-        <ButtonOutline>
-          Like Lib <i class="fa-regular fa-heart ml-1"></i>
-        </ButtonOutline>
-      </div>
+      <MadLibReactions prompt={prompt} lib={text} />
     </div>
   ) : null;
 };

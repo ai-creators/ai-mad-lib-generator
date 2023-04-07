@@ -8,7 +8,7 @@ const PromptInput = () => {
   const submitPrompt = async (event) => {
     event.preventDefault();
     navigate({
-      pathname: "lib",
+      pathname: "lib-create",
       search: createSearchParams({
         prompt,
       }).toString(),

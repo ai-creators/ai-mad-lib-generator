@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import MadLibViewer from "../MadLibViewer/MadLibViewer";
 import { snakeToTitleCase } from "../../utils/snakeToTitleCase";
 
-const MadLibBuilder = ({ madLib }) => {
+const MadLibBuilder = ({ madLib, prompt }) => {
   const [questions, setQuestions] = useState([]);
   const [isBuilderDone, setIsBuilderDone] = useState(false);
   const [isMadLibShowing, setIsMadLibShowing] = useState(false);
@@ -55,7 +55,7 @@ const MadLibBuilder = ({ madLib }) => {
     setIsMadLibShowing(true);
   };
   if (isMadLibShowing) {
-    return <MadLibViewer text={madLib} questions={questions} />;
+    return <MadLibViewer text={madLib} questions={questions} prompt={prompt} />;
   }
   return isBuilderDone ? (
     <>

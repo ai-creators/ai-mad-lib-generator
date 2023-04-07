@@ -15,7 +15,7 @@ export class MadLibApi extends Api {
     const path = "/generate/madlib";
     const options = {
       method: "POST",
-      body: JSON.stringify({ data: prompt }),
+      body: JSON.stringify({ data: { prompt } }),
     };
     return this.fetchJson(path, options, {});
   }
