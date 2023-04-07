@@ -9,10 +9,14 @@ const Navbar = () => {
         </Link>
         <ul className="flex gap-4">
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" className="p-2">
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/browse">Browse</Link>
+            <Link to="/browse" className="p-2">
+              Browse
+            </Link>
           </li>
         </ul>
       </div>
