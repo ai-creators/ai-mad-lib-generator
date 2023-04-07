@@ -5,19 +5,24 @@ import Searchbar from "../../Components/Searchbar/Searchbar";
 import { MadLibApi } from "../../api/madLibApi";
 import Card from "../../Components/Card/Card";
 import Hero from "../../Components/Hero/Hero";
+import Loader from "../../Components/Loader/Loader";
 const Browse = () => {
   const [featuredLibs, setFeaturedLibs] = useState([]);
   const [query, setQuery] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getFeaturedLibs = async () => {
       try {
+        setIsLoading(true);
         const api = new MadLibApi();
         const response = await api.listMostPopular();
         setFeaturedLibs(response);
       } catch (err) {
         setError(err);
+      } finally {
+        setIsLoading(false);
       }
     };
     getFeaturedLibs();
@@ -56,20 +61,24 @@ const Browse = () => {
             <Searchbar setQuery={setQuery} />
             <div className="flex flex-col gap-4 pt-4">
               <h3 className="text-2xl font-semibold mb-2">Featured</h3>
-              {featuredLibs.map((lib, index) => {
-                return index <= 5 ? (
-                  <Card key={lib.prompt + index}>
-                    <h4 className="text-lg font-semibold">{lib.prompt}...</h4>
-                    <button
-                      className="p-2 underline underline-offset-2 rounded"
-                      onClick={selectLib}
-                      data-index={index}
-                    >
-                      Go To ad-Lib
-                    </button>
-                  </Card>
-                ) : null;
-              })}
+              {isLoading ? (
+                <Loader />
+              ) : (
+                featuredLibs.map((lib, index) => {
+                  return index <= 5 ? (
+                    <Card key={lib.prompt + index}>
+                      <h4 className="text-lg font-semibold">{lib.prompt}...</h4>
+                      <button
+                        className="p-2 underline underline-offset-2 rounded"
+                        onClick={selectLib}
+                        data-index={index}
+                      >
+                        Go To ad-Lib
+                      </button>
+                    </Card>
+                  ) : null;
+                })
+              )}
             </div>
           </section>
         </div>
