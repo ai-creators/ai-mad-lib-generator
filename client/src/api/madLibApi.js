@@ -19,4 +19,11 @@ export class MadLibApi extends Api {
     };
     return this.fetchJson(path, options, {});
   }
+  async generateRandomLib() {
+    const path = "/generate/random-lib";
+    const options = {
+      method: "POST",
+    };
+    return this.fetchJson(path, options, {});
+  }
 }
