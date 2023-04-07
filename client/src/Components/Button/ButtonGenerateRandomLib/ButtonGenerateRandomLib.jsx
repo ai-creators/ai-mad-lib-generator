@@ -1,7 +1,7 @@
 // src/ButtonGenerateRandomLib.js
 
 import React, { useState } from "react";
-import axios from "axios";
+import { MadLibApi } from "../../../api/madLibApi";
 import "./ButtonGenerateRandomLib.css"; // Import stylesheet
 
 const ButtonGenerateRandomLib = () => {
@@ -9,8 +9,10 @@ const ButtonGenerateRandomLib = () => {
 
   const generateRandomMadLib = async () => {
     try {
-      const response = await axios.post("/api/generateRandomMadLib");
-      setGeneratedMadLib(response.data.madLib);
+      const api = new MadLibApi();
+      const response = await api.generateRandomLib();
+      console.log(response);
+      setGeneratedMadLib(response.choices[0].text);
     } catch (error) {
       console.error("Error generating random mad lib:", error);
     }
