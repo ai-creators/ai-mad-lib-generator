@@ -26,6 +26,7 @@ export class MadLibApi extends Api {
       signal,
     };
     return this.fetchJson(path, options, []);
+  }
   async generateRandomLib() {
     const path = "/generate/random-lib";
     const options = {

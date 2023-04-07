@@ -5,7 +5,7 @@ const MadLibViewer = ({ madLib, questions }) => {
   const { text } = madLib;
   const regex = /\[(.*?)\]/g;
   let index = 0;
-  console.log(questions);
+  console.log(madLib, questions);
 
   return text ? (
     <div>

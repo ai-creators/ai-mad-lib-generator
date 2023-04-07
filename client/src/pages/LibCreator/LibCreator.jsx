@@ -18,6 +18,7 @@ const LibCreator = () => {
 
         const api = new MadLibApi();
         const response = await api.generate(prompt);
+        console.log("RESPONSE: ", response);
         setLib(response);
       } catch (err) {
         setError(err);

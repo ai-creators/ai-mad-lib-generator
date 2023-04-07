@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import MadLibViewer from "../MadLibViewer/MadLibViewer";
 import { snakeToTitleCase } from "../../utils/snakeToTitleCase";
+import { findNumberIndex } from "../../utils/findNumberIndex";
 
 const MadLibBuilder = ({ madLib }) => {
   const [questions, setQuestions] = useState([]);
@@ -23,12 +24,17 @@ const MadLibBuilder = ({ madLib }) => {
         const letter = madLibText[i];
         if (letter === "]") {
           isInBracket = false;
-          const question = {
-            question: questionType,
-            answer: "",
-          };
-          setQuestions((curr) => [...curr, question]);
-          questionType = "";
+          if (
+            !findNumberIndex(questionType) ||
+            !questions.find((question) => question === questionType)
+          ) {
+            const question = {
+              question: questionType,
+              answer: "",
+            };
+            setQuestions((curr) => [...curr, question]);
+            questionType = "";
+          }
         }
         if (isInBracket) {
           questionType += letter;

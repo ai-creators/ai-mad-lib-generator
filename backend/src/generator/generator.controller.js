@@ -1,29 +1,56 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const { Configuration, OpenAIApi } = require("openai");
 const service = require("./generator.service");
+const { MAX_TOKENS, MIN_TOKENS } = process.env;
+const { OPENAI_API_KEY } = process.env;
 
-async function MadLib(req, res, next) {
+function buildPrompt(req, res, next) {
+  if (!MAX_TOKENS) {
+    return next({
+      status: 500,
+      message: "No max tokens have been provided",
+    });
+  }
+  const { prompt = "" } = req.body.data;
+  if (!prompt) {
+    return next({
+      status: 400,
+      message: "A prompt is required",
+    });
+  }
+  res.locals.prompt = `Generate mad lib to fill out using [] for each replacement word to fill in. The brackets should have what the replacement is such as: adjective, noun, verb plurar noun, etc. If it's the same word suffix the word in the brackets with the number. Do not include spaces in the bracket but instead underscores. the mad lib cannot exceed ${MAX_TOKENS}. The prompt of the mad lib is: ${prompt}`;
+  return next();
+}
+
+function buildRandomPrompt(req, res, next) {
+  if (!MAX_TOKENS) {
+    return next({
+      status: 500,
+      message: "No max tokens have been provided",
+    });
+  }
+  res.locals.prompt = `Generate random mad lib to fill out using [] for each replacement word to fill in. The brackets should have what the replacement is such as: adjective, noun, verb plurar noun, etc. If it's the same word suffix the word in the brackets with the number. Do not include spaces in the bracket but instead underscores. the mad lib cannot exceed ${MAX_TOKENS}.`;
+  return next();
+}
+
+async function getMadLib(req, res, next) {
   try {
-    const { OPENAI_API_KEY } = process.env;
     if (!OPENAI_API_KEY) {
       throw new Error("No open ai key has been provided");
+    }
+    if (!MAX_TOKENS) {
+      throw new Error("No max tokens has been provided");
     }
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
     });
     const openai = new OpenAIApi(configuration);
-    // Use the prompt from the request body
-    const { prompt } = req.body.data;
-
-    const min_tokens = 50;
-    const max_tokens = 50;
+    const { prompt } = res.locals;
+    console.log("PROMPT: ", prompt);
     const { data } = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. 
-      Any word inside the bracket should not use spaces, and adjective/noun/verb/pluralnoun should be in the bold format, 
-      but instead use underscores. The mad lib cannot exceed ${max_tokens} tokens and be less then ${min_tokens}. 
-      Use what type of word it is. The prompt is ${prompt}`,
-      max_tokens,
+      prompt,
+      max_tokens: parseInt(MAX_TOKENS),
       temperature: 0.5,
       n: 1,
     });
@@ -64,46 +91,18 @@ function sendPayload(req, res, next) {
   res.status(200).json({ data });
 }
 
-async function RandomMadLib(req, res, next) {
-  try {
-    const { OPENAI_API_KEY } = process.env;
-    if (!OPENAI_API_KEY) {
-      throw new Error("No open ai key has been provided");
-    }
-    const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
-    const openai = new OpenAIApi(configuration);
-
-    const min_tokens = 50;
-    const max_tokens = 100;
-    const { data } = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `Generate a random mad lib to fill out with using [] and no spaces inside the bracket. 
-      Any word inside the bracket should not use spaces, and adjective/noun/verb/pluralnoun should be in the bold format, 
-      but instead use underscores. The mad lib cannot exceed ${max_tokens} tokens and be less then ${min_tokens}.`,
-      max_tokens,
-      temperature: 0.5,
-      n: 1,
-    });
-    res.status(200).json({ data });
-  } catch (error) {
-    console.error(error);
-    return next({
-      status: 500,
-      message: error,
-    });
-  }
-}
-
-
-
 // Export the controller
 module.exports = {
   generateMadLib: [
+    buildPrompt,
     asyncErrorBoundary(getMadLib),
     asyncErrorBoundary(saveMadLib),
     sendPayload,
   ],
-  generateRandomMadLib: [asyncErrorBoundary(RandomMadLib)],
+  generateRandomMadLib: [
+    buildRandomPrompt,
+    asyncErrorBoundary(getMadLib),
+    asyncErrorBoundary(saveMadLib),
+    sendPayload,
+  ],
 };
