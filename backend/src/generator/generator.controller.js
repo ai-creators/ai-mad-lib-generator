@@ -1,7 +1,7 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const { Configuration, OpenAIApi } = require("openai");
 
-async function getMadLib(req, res, next) {
+async function MadLib(req, res, next) {
   try {
     const { OPENAI_API_KEY } = process.env;
     if (!OPENAI_API_KEY) {
@@ -37,7 +37,7 @@ async function getMadLib(req, res, next) {
   }
 }
 
-async function generateRandomMadLib(req, res, next) {
+async function RandomMadLib(req, res, next) {
   try {
     const { OPENAI_API_KEY } = process.env;
     if (!OPENAI_API_KEY) {
@@ -71,8 +71,8 @@ async function generateRandomMadLib(req, res, next) {
 
 // Export the controllers
 module.exports = {
-  getMadLib: [asyncErrorBoundary(getMadLib)],
-  generateRandomMadLib: [asyncErrorBoundary(generateRandomMadLib)],
+  madLib: [asyncErrorBoundary(MadLib)],
+  randomMadLib: [asyncErrorBoundary(RandomMadLib)],
 };
 
 

@@ -3,13 +3,13 @@ const controller = require("./generator.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
 router
-  .route("/generateRandomMadLib")
-  .post(controller.generateRandomMadLib)
+  .route("/RandomMadLib")
+  .post(controller.randomMadLib)
   .all(methodNotAllowed);
 
 router
-  .route("/generateMadLib")
-  .post(controller.madLibGenerator)
+  .route("/MadLib")
+  .post(controller.madLib)
   .all(methodNotAllowed);
 
 router.route("/").all(methodNotAllowed);
