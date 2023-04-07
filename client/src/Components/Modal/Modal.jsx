@@ -1,13 +1,30 @@
 import React from "react";
 
-const Modal = () => {
+const Modal = ({ header, children, body, isOpen, setIsOpen }) => {
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   return (
-    <>
-      <div className="modal-backdrop"></div>
-      <div className="absolute top-1/2 left-1/2 -translate-1/2 bg-white border rounded w-[24rem]">
-        Modal
-      </div>
-    </>
+    isOpen && (
+      <>
+        <div className="modal-backdrop" onClick={closeModal}></div>
+        <article className="modal bg-white border rounded w-[24rem]">
+          <header className="flex justify-between items-center p-2 border-b">
+            <h3>{header}</h3>
+            <button
+              className="h-8 w-8 rounded  hover:bg-neutral-100 active:bg-neutral-200"
+              onClick={closeModal}
+            >
+              <i className="fa-solid fa-x"></i>
+            </button>
+          </header>
+          <section>
+            <p>{body}</p>
+            {children}
+          </section>
+        </article>
+      </>
+    )
   );
 };
 

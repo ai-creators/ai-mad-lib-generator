@@ -66,7 +66,17 @@ const Saves = () => {
           </section>
         </div>
       </Layout>
-      {isClearModalOpen && <Modal />}
+      <Modal
+        header={"Clear Saves"}
+        body={
+          "Are you sure you want to clear your saves? There is no way to undo this."
+        }
+        isOpen={isClearModalOpen}
+        setIsOpen={setIsClearModalOpen}
+      >
+        <button className="px-3 py-2">Yes</button>
+        <button className="px-3 py-2">No</button>
+      </Modal>
     </>
   );
 };
