@@ -27,6 +27,12 @@ const Saves = () => {
     setIsClearModalOpen(true);
   };
 
+  const confirmedClearSaves = () => {
+    storage.local.set("saves", null);
+    setSavedLibs([]);
+    setIsClearModalOpen(false);
+  };
+
   return (
     <>
       <Layout
@@ -74,8 +80,20 @@ const Saves = () => {
         isOpen={isClearModalOpen}
         setIsOpen={setIsClearModalOpen}
       >
-        <button className="px-3 py-2">Yes</button>
-        <button className="px-3 py-2">No</button>
+        <div className="flex gap-3 mt-3">
+          <button
+            className="px-3 py-2 w-20 border-red-500 bg-red-500 hover:bg-red-600 active:bg-red-700 text-white rounded"
+            onClick={confirmedClearSaves}
+          >
+            Yes
+          </button>
+          <button
+            className="px-3 py-2 w-20  rounded border hover:bg-neutral-100 active:bg-neutral-200"
+            onClick={() => setIsClearModalOpen(false)}
+          >
+            No
+          </button>
+        </div>
       </Modal>
     </>
   );

@@ -9,8 +9,8 @@ const Modal = ({ header, children, body, isOpen, setIsOpen }) => {
       <>
         <div className="modal-backdrop" onClick={closeModal}></div>
         <article className="modal bg-white border rounded w-[24rem]">
-          <header className="flex justify-between items-center p-2 border-b">
-            <h3>{header}</h3>
+          <header className="flex justify-between items-center p-4 border-b">
+            <h3 className="text-lg font-semibold">{header}</h3>
             <button
               className="h-8 w-8 rounded  hover:bg-neutral-100 active:bg-neutral-200"
               onClick={closeModal}
@@ -18,7 +18,7 @@ const Modal = ({ header, children, body, isOpen, setIsOpen }) => {
               <i className="fa-solid fa-x"></i>
             </button>
           </header>
-          <section>
+          <section className="p-4">
             <p>{body}</p>
             {children}
           </section>
