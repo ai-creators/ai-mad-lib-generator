@@ -45,7 +45,7 @@ async function dislikeLib(req, res, next) {
 }
 
 module.exports = {
-  list: [asyncErrorBoundary(listLibs)],
+  list: [checkQueryParams, asyncErrorBoundary(listLibs)],
   like: [asyncErrorBoundary(likeLib)],
   dislike: [asyncErrorBoundary(dislikeLib)],
   create: [],
