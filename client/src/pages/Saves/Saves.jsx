@@ -60,6 +60,7 @@ const Saves = () => {
                       className="p-2 underline underline-offset-2 rounded text-indigo-800"
                       onClick={selectLib}
                       data-index={index}
+                      disabled={savedLibs.length === 0}
                     >
                       Go to ad-lib
                     </button>

@@ -21,7 +21,7 @@ const ButtonGenerateRandomLib = () => {
   return (
     <div>
       <button
-        className="ButtonGenerateRandomLib" // Add the class
+        className="py-2 px-3 border border-gray-900 rounded font-semibold bg-gray-900 text-white"
         onClick={generateRandomMadLib}
       >
         Generate Random Mad Lib
