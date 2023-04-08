@@ -47,7 +47,7 @@ const Home = () => {
       }
     >
       <ErrorAlert error={error} setError={setError} />
-      <div className="max-w-4xl mx-auto pt-2 lg:pt-14 px-4 flex flex-col gap-5">
+      <div className="max-w-4xl mx-auto pt-4 px-4 flex flex-col gap-5">
         <section>
           <h3 className="text-2xl font-semibold mb-2">Create an Ad-Lib</h3>
           <PromptInput />

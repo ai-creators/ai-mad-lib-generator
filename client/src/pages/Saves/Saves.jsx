@@ -41,7 +41,7 @@ const Saves = () => {
       >
         <div className="max-w-4xl mx-auto pt-4 px-4 flex flex-col gap-2">
           <header className="flex justify-between items-center">
-            <h3 className="text-xl font-semibold">Your Ad-Libs</h3>
+            <h3 className="text-2xl font-semibold">Your Ad-Libs</h3>
             <button
               onClick={clearSaves}
               className="py-2 px-3 border rounded text-red-800"

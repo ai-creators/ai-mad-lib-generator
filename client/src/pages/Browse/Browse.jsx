@@ -58,6 +58,7 @@ const Browse = () => {
         <ErrorAlert error={error} setError={setError} />
         <div className="max-w-4xl  mx-auto pt-4 px-4">
           <section>
+            <h3 className="text-2xl font-semibold mb-2">Featured</h3>
             <Searchbar setQuery={setQuery} />
             <div className="flex flex-col gap-4 pt-4">
               <h3 className="text-2xl font-semibold mb-2">Featured</h3>
