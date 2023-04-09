@@ -20,7 +20,10 @@ const Landing = () => {
             </h2>
             <p className={`${styles.description}`}></p>
             <div>
-              <Link to="/" className="px-3 py-2 bg-red-500 rounded text-black">
+              <Link
+                to="/dashboard"
+                className="px-3 py-2 bg-red-500 rounded text-black"
+              >
                 Get Started
               </Link>
             </div>
@@ -28,7 +31,25 @@ const Landing = () => {
         </section>
       </header>
       <main></main>
-      <footer></footer>
+      <footer>
+        <div className="container mx-auto p-4">
+          <div>
+            <h5>AI-LIB</h5>
+            <p>This website was built for Ai Wrangler hackathon.</p>
+          </div>
+          <div>
+            <h5>AI-LIB</h5>
+            <p>This website was built for Ai Wrangler hackathon.</p>
+          </div>
+          <div>
+            <h5>AI-LIB</h5>
+            <p>This website was built for Ai Wrangler hackathon.</p>
+          </div>
+        </div>
+        <div className="p-4 bg-blue-500">
+          <p className="text-center">Website made with love 💙</p>
+        </div>
+      </footer>
     </>
   );
 };

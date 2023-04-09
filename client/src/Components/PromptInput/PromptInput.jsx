@@ -21,7 +21,7 @@ const PromptInput = () => {
       <label htmlFor="prompt" className="pb-2 text-slate-600">
         Enter a prompt to generate Mad Lib
       </label>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-col md:flex-row">
         <div className="relative grow">
           <input
             id="prompt"
