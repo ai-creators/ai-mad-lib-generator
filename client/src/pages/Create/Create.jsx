@@ -48,14 +48,14 @@ const Create = () => {
     >
       <ErrorAlert error={error} setError={setError} />
       <div className="max-w-4xl mx-auto pt-4 px-4 flex flex-col gap-5">
-        <section>
-          <h3 className="text-2xl font-semibold mb-2">Create an Ad-Lib</h3>
+        <section className="mb-5">
+          <h3 className="text-2xl font-semibold mb-3">Create an Ad-Lib</h3>
           <PromptInput />
         </section>
         <section>
           {mostLikedLibs.length > 0 && (
             <>
-              <h3 className="text-2xl font-semibold mb-2">Feature Ad-Libs</h3>
+              <h3 className="text-2xl font-semibold mb-4">Feature Ad-Libs</h3>
               <div className="flex flex-col gap-4">
                 {isLoading ? (
                   <div className="flex justify-center items-center">

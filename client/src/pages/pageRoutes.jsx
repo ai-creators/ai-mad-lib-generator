@@ -11,9 +11,9 @@ import Landing from "./Landing/Landing";
 const PageRoutes = () => {
   return (
     <Routes>
-      <Route index element={<Landing />} />
-      <Route path="/dashboard" element={<Create />} />
-      {/* <Route path="/" element={<Create />} /> */}
+      {/* <Route index element={<Landing />} /> */}
+      {/* <Route path="/dashboard" element={<Create />} /> */}
+      <Route path="/" element={<Create />} />
       <Route path="/lib-create" element={<LibCreator />} />
       <Route path="/lib" element={<LibViewer />} />
       <Route path="/browse" element={<Browse />} />
