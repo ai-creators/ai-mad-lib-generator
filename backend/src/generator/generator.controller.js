@@ -4,6 +4,16 @@ const service = require("./generator.service");
 const { MAX_TOKENS, MIN_TOKENS } = process.env;
 const { OPENAI_API_KEY } = process.env;
 
+if (!OPENAI_API_KEY) {
+  throw new Error("No open ai key has been provided");
+}
+if (!MAX_TOKENS) {
+  throw new Error("No max tokens has been provided");
+}
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
 function buildPrompt(req, res, next) {
   if (!MAX_TOKENS) {
     return next({
@@ -18,32 +28,33 @@ function buildPrompt(req, res, next) {
       message: "A prompt is required",
     });
   }
+  res.locals.userPrompt = req.body.data;
   res.locals.prompt = `Generate mad lib to fill out using [] for each replacement word to fill in. The brackets should have what the replacement is such as: adjective, noun, verb plurar noun, etc. If it's the same word suffix the word in the brackets with the number. Do not include spaces in the bracket but instead underscores. the mad lib cannot exceed ${MAX_TOKENS}. The prompt of the mad lib is: ${prompt}`;
   return next();
 }
 
-function buildRandomPrompt(req, res, next) {
+async function buildRandomPrompt(req, res, next) {
   if (!MAX_TOKENS) {
     return next({
       status: 500,
       message: "No max tokens have been provided",
     });
   }
+  const openai = new OpenAIApi(configuration);
+  const prompt = "Create a short random prompt for a mad lib";
+  const { data } = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt,
+    max_tokens: parseInt(MAX_TOKENS),
+    temperature: 0.5,
+    n: 1,
+  });
   res.locals.prompt = `Generate random mad lib to fill out using [] for each replacement word to fill in. The brackets should have what the replacement is such as: adjective, noun, verb plurar noun, etc. If it's the same word suffix the word in the brackets with the number. Do not include spaces in the bracket but instead underscores. the mad lib cannot exceed ${MAX_TOKENS}.`;
   return next();
 }
 
 async function getMadLib(req, res, next) {
   try {
-    if (!OPENAI_API_KEY) {
-      throw new Error("No open ai key has been provided");
-    }
-    if (!MAX_TOKENS) {
-      throw new Error("No max tokens has been provided");
-    }
-    const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
     const openai = new OpenAIApi(configuration);
     const { prompt } = res.locals;
     const { data } = await openai.createCompletion({
@@ -100,7 +111,7 @@ module.exports = {
     sendPayload,
   ],
   generateRandomMadLib: [
-    buildRandomPrompt,
+    asyncErrorBoundary(buildRandomPrompt),
     asyncErrorBoundary(getMadLib),
     asyncErrorBoundary(saveMadLib),
     sendPayload,
