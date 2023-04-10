@@ -9,6 +9,7 @@ const PromptInput = ({ setError }) => {
   const navigate = useNavigate();
   const submitPrompt = async (event) => {
     try {
+      setError(null);
       event.preventDefault();
       setIsLoading(true);
       if (!prompt) {
@@ -45,19 +46,13 @@ const PromptInput = ({ setError }) => {
                 ? "text-white bg-gray-900 border-gray-900"
                 : "text-slate-600 bg-white"
             }`}
-            disabled={prompt.length === 0}
+            disabled={prompt.length === 0 || isLoading}
             type="submit"
           >
-            {isLoading ? (
-              <div className="flex justify-center items-center">
-                <Loader />
-              </div>
-            ) : (
-              Generate
-            )}
+            {isLoading ? "Loading..." : "Generate"}
           </button>
         </div>
-        <ButtonGenerateRandomLib />
+        <ButtonGenerateRandomLib setError={setError} />
       </div>
     </form>
   );

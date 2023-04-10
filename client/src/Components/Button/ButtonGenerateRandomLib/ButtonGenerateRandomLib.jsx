@@ -3,17 +3,22 @@
 import React, { useState } from "react";
 import { MadLibApi } from "../../../api/madLibApi";
 import "./ButtonGenerateRandomLib.css"; // Import stylesheet
+import { useNavigate } from "react-router-dom";
 
-const ButtonGenerateRandomLib = () => {
-  const [generatedMadLib, setGeneratedMadLib] = useState("");
-
+const ButtonGenerateRandomLib = ({ setError }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const generateRandomMadLib = async () => {
     try {
+      setError(null);
+      setIsLoading(true);
       const api = new MadLibApi();
       const response = await api.generateRandomLib();
-      setGeneratedMadLib(response.choices[0].text);
-    } catch (error) {
-      console.error("Error generating random mad lib:", error);
+      navigate("/lib", { state: response });
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -22,10 +27,10 @@ const ButtonGenerateRandomLib = () => {
       <button
         className="py-2 px-3 border border-gray-900 rounded font-semibold bg-gray-900 text-white"
         onClick={generateRandomMadLib}
+        disabled={isLoading}
       >
-        Random Ad-Lib
+        {isLoading ? "Loading..." : "Random Ad-Lib"}
       </button>
-      {generatedMadLib && <p>{generatedMadLib}</p>}
     </div>
   );
 };

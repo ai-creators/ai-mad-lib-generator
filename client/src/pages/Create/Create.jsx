@@ -49,7 +49,7 @@ const Create = () => {
       <div className="max-w-4xl mx-auto pt-4 px-4 mb-4 flex flex-col gap-5">
         <section className="mb-5">
           <h3 className="text-2xl font-semibold mb-3">Create an Ad-Lib</h3>
-          <PromptInput />
+          <PromptInput setError={setError} />
         </section>
         <section>
           {mostLikedLibs.length > 0 && (
