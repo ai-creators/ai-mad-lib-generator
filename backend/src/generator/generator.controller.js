@@ -46,7 +46,6 @@ async function getMadLib(req, res, next) {
     });
     const openai = new OpenAIApi(configuration);
     const { prompt } = res.locals;
-    console.log("PROMPT: ", prompt);
     const { data } = await openai.createCompletion({
       model: "text-davinci-003",
       prompt,
@@ -56,7 +55,7 @@ async function getMadLib(req, res, next) {
     });
     if (data.choices && Array.isArray(data.choices)) {
       const { text } = data.choices[0];
-      const lib = { prompt, text };
+      const lib = { prompt: req.body.data.prompt, text };
       res.locals.lib = lib;
       return next();
     }
@@ -88,6 +87,7 @@ async function saveMadLib(req, res, next) {
 
 function sendPayload(req, res, next) {
   const { data } = res.locals;
+  console.log("DATA: ", data);
   res.status(200).json({ data });
 }
 

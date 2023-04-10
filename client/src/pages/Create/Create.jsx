@@ -35,7 +35,6 @@ const Create = () => {
     const lib = mostLikedLibs[index];
     navigate("/lib", { state: lib });
   };
-  console.log(mostLikedLibs);
   return (
     <Layout
       className="min-h-screen"
@@ -47,7 +46,7 @@ const Create = () => {
       }
     >
       <ErrorAlert error={error} setError={setError} />
-      <div className="max-w-4xl mx-auto pt-4 px-4 flex flex-col gap-5">
+      <div className="max-w-4xl mx-auto pt-4 px-4 mb-4 flex flex-col gap-5">
         <section className="mb-5">
           <h3 className="text-2xl font-semibold mb-3">Create an Ad-Lib</h3>
           <PromptInput />

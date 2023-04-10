@@ -9,13 +9,11 @@ const LibViewer = ({ selectedLib }) => {
   const { state } = useLocation();
   const [lib, setLib] = useState("");
   const [error, setError] = useState(null);
-  console.log(state);
   useEffect(() => {
     if (state) {
       setLib(state);
     }
   }, [state]);
-  console.log("STATE: ", lib);
   return (
     <Layout
       className="min-h-screen"

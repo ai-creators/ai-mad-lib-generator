@@ -11,11 +11,12 @@ export class MadLibApi extends Api {
     super(baseUrl, headers);
   }
 
-  async generate(prompt) {
+  async generate(prompt, controller = new AbortController()) {
     const path = "/generate/madlib";
     const options = {
       method: "POST",
       body: JSON.stringify({ data: { prompt } }),
+      signal: controller.sinal,
     };
     return this.fetchJson(path, options, {});
   }

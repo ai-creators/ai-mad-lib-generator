@@ -5,7 +5,6 @@ import NavbarCanvas from "./NavbarCanvas/NavbarCanvas";
 const Navbar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const toggleNav = () => {
-    console.log("TOGGLING!");
     setIsNavbarOpen((c) => !c);
   };
   return (

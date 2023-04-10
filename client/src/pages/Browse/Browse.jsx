@@ -8,7 +8,7 @@ import Hero from "../../Components/Hero/Hero";
 import Loader from "../../Components/Loader/Loader";
 const Browse = () => {
   const [featuredLibs, setFeaturedLibs] = useState([]);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("featured");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,13 +30,9 @@ const Browse = () => {
 
   useEffect(() => {
     const getSearchedLibs = async () => {
-      if (query) {
-        console.log(query);
-        const api = new MadLibApi();
-        const response = await api.search(query);
-        console.log("res:", response);
-        setFeaturedLibs(response);
-      }
+      const api = new MadLibApi();
+      const response = await api.search(query);
+      setFeaturedLibs(response);
     };
     getSearchedLibs();
   }, [query]);
@@ -46,6 +42,10 @@ const Browse = () => {
     const prompt = mostLikedLibs[index].prompt;
     const lib = mostLikedLibs[index].text;
     navigate("/lib", { state: { prompt, lib } });
+  };
+
+  const changeQuery = ({ target: { id } }) => {
+    setQuery(id);
   };
 
   return (
@@ -60,12 +60,55 @@ const Browse = () => {
         }
       >
         <ErrorAlert error={error} setError={setError} />
-        <div className="max-w-4xl  mx-auto pt-4 px-4">
+        <div className="max-w-4xl  mx-auto pt-4 px-4 mb-4">
           <section>
-            <h3 className="text-2xl font-semibold mb-3">Featured</h3>
+            <h3 className="text-2xl font-semibold mb-3">Search</h3>
             <Searchbar setQuery={setQuery} />
             <div className="flex flex-col gap-4 pt-4">
-              <h3 className="text-2xl font-semibold mb-2">Featured</h3>
+              <header className="flex justify-between items-center">
+                <h3 className="text-2xl font-semibold mb-2 capitalize">
+                  {query ? `${query}...` : "Featured"}
+                </h3>
+                <ul className="flex items-center gap-2">
+                  <li>
+                    <button
+                      onClick={changeQuery}
+                      className={`p-2 rounded ${
+                        query.toLowerCase() === "featured" &&
+                        "font-semibold bg-neutral-100"
+                      }`}
+                      id="newest"
+                    >
+                      Featured
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={changeQuery}
+                      className={`p-2 rounded ${
+                        query.toLowerCase() === "newest" &&
+                        "font-semibold bg-neutral-100"
+                      }`}
+                      id="newest"
+                    >
+                      Newest
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={changeQuery}
+                      className={`p-2 rounded ${
+                        query.toLowerCase() === "interesting" &&
+                        "font-semibold bg-neutral-100"
+                      }`}
+                      id="interesting"
+                    >
+                      Interesting
+                    </button>
+                  </li>
+                </ul>
+              </header>
+
               {isLoading ? (
                 <div className="flex justify-center items-center">
                   <Loader />

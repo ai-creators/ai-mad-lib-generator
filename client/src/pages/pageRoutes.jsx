@@ -9,6 +9,7 @@ import Saves from "./Saves/Saves";
 import Landing from "./Landing/Landing";
 
 const PageRoutes = () => {
+  console.log("RE RENDER IN PAGE ROUTES");
   return (
     <Routes>
       {/* <Route index element={<Landing />} /> */}

@@ -5,7 +5,7 @@ function list() {
 }
 
 function listMostRecent() {
-  return Lib.find().limit(20);
+  return Lib.find({}, null, { sort: { createdAt: 1 } });
 }
 
 function like(_id) {
@@ -28,4 +28,5 @@ module.exports = {
   like,
   dislike,
   search,
+  listMostRecent,
 };

@@ -12,13 +12,15 @@ function checkQueryParams(req, res, next) {
 async function listLibs(req, res, next) {
   try {
     const { search = "" } = res.locals;
-    if (search) {
-      const data = await service.search(search);
-      res.status(200).json({ data });
+    let data = [];
+    if (search === "newest") {
+      data = await service.listMostRecent();
+    } else if (search) {
+      data = await service.search(search);
     } else {
-      const data = await service.list();
-      res.status(200).json({ data });
+      data = await service.list();
     }
+    res.status(200).json({ data });
   } catch (err) {
     return next({ status: 500, message: "Unable to gather ad-libs" });
   }

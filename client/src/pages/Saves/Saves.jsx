@@ -52,12 +52,11 @@ const Saves = () => {
           <section className="flex flex-col gap-2">
             {savedLibs.length > 0 ? (
               savedLibs.map((lib, index) => {
-                console.log("LIB: ", lib);
                 return (
                   <Card key={lib.prompt + index}>
                     <h4 className="text-lg font-semibold">{lib.prompt}...</h4>
                     <button
-                      className="p-2 underline underline-offset-2 rounded text-indigo-800"
+                      className="p-2 underline underline-offset-2 rounded text-indigo-800 disabled:cursor-not-allowed"
                       onClick={selectLib}
                       data-index={index}
                       disabled={savedLibs.length === 0}

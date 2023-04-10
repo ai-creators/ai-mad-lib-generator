@@ -11,7 +11,6 @@ const ButtonGenerateRandomLib = () => {
     try {
       const api = new MadLibApi();
       const response = await api.generateRandomLib();
-      console.log(response);
       setGeneratedMadLib(response.choices[0].text);
     } catch (error) {
       console.error("Error generating random mad lib:", error);

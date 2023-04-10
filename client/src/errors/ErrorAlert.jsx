@@ -1,7 +1,6 @@
 import React from "react";
 import { isObjectEmpty } from "../utils/isObjectEmpty";
 const ErrorAlert = ({ error, setError }) => {
-  console.log(error);
   return (
     error &&
     !isObjectEmpty(error) && (

@@ -7,7 +7,7 @@ const Searchbar = ({ setQuery }) => {
   };
   const submitQuery = (event) => {
     event.preventDefault();
-    setQuery(search);
+    setQuery(search.toLowerCase());
   };
   return (
     <form onSubmit={submitQuery}>

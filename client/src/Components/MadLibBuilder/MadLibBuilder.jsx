@@ -7,7 +7,6 @@ const MadLibBuilder = ({ madLib }) => {
   const [questions, setQuestions] = useState([]);
   const [isBuilderDone, setIsBuilderDone] = useState(false);
   const [isMadLibShowing, setIsMadLibShowing] = useState(false);
-  console.log(madLib);
   useEffect(() => {
     if (madLib) {
       setQuestions([]);
@@ -47,10 +46,8 @@ const MadLibBuilder = ({ madLib }) => {
     }
   }, [questions]);
 
-  console.log("QUESTIONS: ", questions);
   const changeAnswers = ({ target }) => {
     const index = parseInt(target.getAttribute("data-index"));
-    console.log(target.value, index);
     const updatedAnswer = questions[index];
     updatedAnswer.answer = target.value;
     setQuestions((curr) => {
@@ -82,6 +79,7 @@ const MadLibBuilder = ({ madLib }) => {
                   className="border rounded py-2 px-3 w-full drop-shadow-sm focus:drop-shadow-xl ease-out duration-300 outline-offset-4"
                   onChange={changeAnswers}
                   data-index={index}
+                  required={true}
                 />
               </div>
             );

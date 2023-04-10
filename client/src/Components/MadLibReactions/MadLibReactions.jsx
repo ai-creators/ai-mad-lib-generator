@@ -43,8 +43,6 @@ const MadLibReactions = ({ lib }) => {
         setIsSaved(true);
       }
     }
-
-    console.log("SAVES: ", JSON.parse(storage.local.get("saves")));
   }, []);
 
   return (
