@@ -2,18 +2,26 @@ import React, { useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { MadLibApi } from "../../api/madLibApi";
 import ButtonGenerateRandomLib from "../Button/ButtonGenerateRandomLib/ButtonGenerateRandomLib";
-
-const PromptInput = () => {
+import Loader from "../Loader/Loader";
+const PromptInput = ({ setError }) => {
   const [prompt, setPrompt] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const submitPrompt = async (event) => {
-    event.preventDefault();
-    navigate({
-      pathname: "lib-create",
-      search: createSearchParams({
-        prompt,
-      }).toString(),
-    });
+    try {
+      event.preventDefault();
+      setIsLoading(true);
+      if (!prompt) {
+        throw new Error("No prompt has been provided");
+      }
+      const api = new MadLibApi();
+      const response = await api.generate(prompt);
+      navigate("/lib", { state: response });
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,7 +48,13 @@ const PromptInput = () => {
             disabled={prompt.length === 0}
             type="submit"
           >
-            Generate
+            {isLoading ? (
+              <div className="flex justify-center items-center">
+                <Loader />
+              </div>
+            ) : (
+              Generate
+            )}
           </button>
         </div>
         <ButtonGenerateRandomLib />
