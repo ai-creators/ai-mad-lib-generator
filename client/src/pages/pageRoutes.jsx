@@ -15,7 +15,6 @@ const PageRoutes = () => {
       {/* <Route index element={<Landing />} /> */}
       {/* <Route path="/dashboard" element={<Create />} /> */}
       <Route path="/" element={<Create />} />
-      <Route path="/lib-create" element={<LibCreator />} />
       <Route path="/lib" element={<LibViewer />} />
       <Route path="/browse" element={<Browse />} />
       <Route path="/saves" element={<Saves />} />
