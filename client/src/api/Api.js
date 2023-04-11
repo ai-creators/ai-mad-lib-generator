@@ -1,3 +1,6 @@
+const limit = import.meta.env.VITE_MAX_REQUEST_LIMIT;
+const requestTimeout = import.meta.env.VITE_MAX_REQUEST_TIMEOUT;
+
 export class Api {
   baseUrl;
   headers;
@@ -13,6 +16,14 @@ export class Api {
         headers: this.headers,
         ...options,
       });
+      console.log(response.message);
+      if (response.status === 429) {
+        return Promise.reject({
+          message: `You can only make ${limit} ad-lib request every  ${
+            parseInt(requestTimeout) / 60000
+          } minutes. Please try again later.`,
+        });
+      }
       if (response.status === 204) {
         return onCancel;
       }
@@ -22,6 +33,7 @@ export class Api {
       }
       return payload.data;
     } catch (error) {
+      console.log("ERROR: ", error);
       if (error.name !== "AbortError") {
         throw error;
       }

@@ -35,6 +35,7 @@ const Create = () => {
     const lib = mostLikedLibs[index];
     navigate("/lib", { state: lib });
   };
+  console.log(error);
   return (
     <Layout
       className="min-h-screen"
