@@ -18,9 +18,7 @@ export class Api {
       });
       if (response.status === 429) {
         return Promise.reject({
-          message: `You can only make ${limit} ad-lib request every  ${
-            parseInt(requestTimeout) / 60000
-          } minutes. Please try again later.`,
+          message: `You can only make ${limit} ad-lib request every ${requestTimeout}. Please try again later.`,
         });
       }
       if (response.status === 204) {
