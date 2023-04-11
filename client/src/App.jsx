@@ -4,7 +4,6 @@ import PageRoutes from "./pages/pageRoutes";
 import ButtonGenerateRandomLib from "./Components/Button/ButtonGenerateRandomLib/ButtonGenerateRandomLib"; // The component is imported here
 
 function App() {
-  console.log("RE RENDER");
   return <PageRoutes />;
 }
 
