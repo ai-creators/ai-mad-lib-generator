@@ -8,7 +8,7 @@ const Modal = ({ header, children, body, isOpen, setIsOpen }) => {
     isOpen && (
       <>
         <div className="modal-backdrop" onClick={closeModal}></div>
-        <article className="modal bg-white border rounded w-[24rem]">
+        <article className="modal bg-white border rounded left-0 right-0 md:w-[24rem]">
           <header className="flex justify-between items-center p-4 border-b">
             <h3 className="text-lg font-semibold">{header}</h3>
             <button

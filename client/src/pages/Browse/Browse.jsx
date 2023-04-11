@@ -67,11 +67,11 @@ const Browse = () => {
             <h3 className="text-2xl font-semibold mb-3">Search</h3>
             <Searchbar setQuery={setQuery} />
             <div className="flex flex-col gap-4 pt-4">
-              <header className="flex justify-between items-center">
+              <header className="flex  flex-col-reverse md:flex-row  md:justify-between md:items-center">
                 <h3 className="text-2xl font-semibold mb-2 capitalize">
                   {query ? `${query}...` : "Featured"}
                 </h3>
-                <ul className="flex items-center gap-2">
+                <ul className="flex items-center gap-2 mb-2 md:mb-0">
                   <li>
                     <button
                       onClick={changeQuery}
