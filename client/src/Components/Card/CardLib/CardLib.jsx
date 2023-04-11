@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import Card from "../Card";
 
 const CardLib = ({ lib, index, selectLib }) => {
+  console.log(lib);
   const day = dayjs(lib.createdAt);
   return (
     <Card>

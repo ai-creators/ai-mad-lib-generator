@@ -18,7 +18,7 @@ async function listLibs(req, res, next) {
       data = await service.listMostRecent();
     } else if (search === "featured") {
       data = await service.listFeatured();
-    } else if (search) {
+    } else if (search !== "interesting" && search) {
       data = await service.search(search);
     } else {
       data = await service.list();

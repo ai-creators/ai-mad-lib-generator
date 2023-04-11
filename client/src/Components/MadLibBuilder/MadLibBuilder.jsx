@@ -8,7 +8,7 @@ const MadLibBuilder = ({ madLib }) => {
   const [isBuilderDone, setIsBuilderDone] = useState(false);
   const [isMadLibShowing, setIsMadLibShowing] = useState(false);
   const [errors, setErrors] = useState({});
-
+  console.log(madLib);
   useEffect(() => {
     if (madLib) {
       setQuestions([]);

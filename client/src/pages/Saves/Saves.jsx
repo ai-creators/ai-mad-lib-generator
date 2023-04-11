@@ -21,9 +21,8 @@ const Saves = () => {
 
   const selectLib = ({ target }) => {
     const index = target.getAttribute("data-index");
-    const prompt = savedLibs[index].prompt;
-    const lib = savedLibs[index].text;
-    navigate("/lib", { state: { prompt, lib } });
+    const lib = savedLibs[index];
+    navigate("/lib", { state: lib });
   };
 
   const clearSaves = () => {

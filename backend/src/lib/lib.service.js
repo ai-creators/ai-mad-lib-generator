@@ -5,11 +5,11 @@ function list() {
 }
 
 function listMostRecent() {
-  return Lib.find({}, null, { sort: { createdAt: 1 } });
+  return Lib.find({}, null, { sort: { createdAt: -1 } });
 }
 
 function listFeatured() {
-  return Lib.find().sort({ numberOfLikes: -1 }).limit(100);
+  return Lib.find().sort({ numberOfLikes: -1 }).limit(10);
 }
 
 function like(_id) {
