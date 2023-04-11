@@ -16,7 +16,6 @@ export class Api {
         headers: this.headers,
         ...options,
       });
-      console.log(response.message);
       if (response.status === 429) {
         return Promise.reject({
           message: `You can only make ${limit} ad-lib request every  ${
@@ -33,7 +32,6 @@ export class Api {
       }
       return payload.data;
     } catch (error) {
-      console.log("ERROR: ", error);
       if (error.name !== "AbortError") {
         throw error;
       }

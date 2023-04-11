@@ -7,6 +7,8 @@ import Card from "../../Components/Card/Card";
 import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader/Loader";
 import Hero from "../../Components/Hero/Hero";
+import dayjs from "dayjs";
+import CardLib from "../../Components/Card/CardLib/CardLib";
 
 const Create = () => {
   const [mostLikedLibs, setMostLikedLibs] = useState([]);
@@ -35,7 +37,7 @@ const Create = () => {
     const lib = mostLikedLibs[index];
     navigate("/lib", { state: lib });
   };
-  console.log(error);
+  console.log(mostLikedLibs);
   return (
     <Layout
       className="min-h-screen"
@@ -63,19 +65,14 @@ const Create = () => {
                   </div>
                 ) : mostLikedLibs.length > 0 ? (
                   mostLikedLibs.map((lib, index) => {
+                    const day = dayjs(lib.createdAt);
                     return index <= 5 ? (
-                      <Card key={lib.prompt + index}>
-                        <h4 className="text-lg font-semibold">
-                          {lib.prompt}...
-                        </h4>
-                        <button
-                          className="p-2 underline underline-offset-2 rounded text-indigo-800 active:text-indigo-900"
-                          onClick={selectLib}
-                          data-index={index}
-                        >
-                          Go To ad-Lib
-                        </button>
-                      </Card>
+                      <CardLib
+                        key={lib.prompt + index}
+                        index={index}
+                        selectLib={selectLib}
+                        lib={lib}
+                      />
                     ) : null;
                   })
                 ) : (

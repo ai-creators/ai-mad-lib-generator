@@ -6,6 +6,8 @@ import { MadLibApi } from "../../api/madLibApi";
 import Card from "../../Components/Card/Card";
 import Hero from "../../Components/Hero/Hero";
 import Loader from "../../Components/Loader/Loader";
+import dayjs from "dayjs";
+import CardLib from "../../Components/Card/CardLib/CardLib";
 const Browse = () => {
   const [featuredLibs, setFeaturedLibs] = useState([]);
   const [query, setQuery] = useState("featured");
@@ -77,7 +79,7 @@ const Browse = () => {
                         query.toLowerCase() === "featured" &&
                         "font-semibold bg-neutral-100"
                       }`}
-                      id="newest"
+                      id="featured"
                     >
                       Featured
                     </button>
@@ -116,16 +118,12 @@ const Browse = () => {
               ) : (
                 featuredLibs.map((lib, index) => {
                   return index <= 5 ? (
-                    <Card key={lib.prompt + index}>
-                      <h4 className="text-lg font-semibold">{lib.prompt}...</h4>
-                      <button
-                        className="p-2 underline underline-offset-2 rounded"
-                        onClick={selectLib}
-                        data-index={index}
-                      >
-                        Go To ad-Lib
-                      </button>
-                    </Card>
+                    <CardLib
+                      key={lib.prompt + index}
+                      selectLib={selectLib}
+                      index={index}
+                      lib={lib}
+                    />
                   ) : null;
                 })
               )}

@@ -5,10 +5,13 @@ import Hero from "../../Components/Hero/Hero";
 import { storage } from "../../utils/Storage";
 import Card from "../../Components/Card/Card";
 import Modal from "../../Components/Modal/Modal";
+import CardLib from "../../Components/Card/CardLib/CardLib";
+
 const Saves = () => {
   const [savedLibs, setSavedLibs] = useState([]);
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     const foundSaves = JSON.parse(storage.local.get("saves"));
     if (Array.isArray(foundSaves) && foundSaves.length > 0) {
@@ -44,7 +47,10 @@ const Saves = () => {
             <h3 className="text-2xl font-semibold">Your Ad-Libs</h3>
             <button
               onClick={clearSaves}
-              className="py-2 px-3 border rounded text-red-800"
+              className="py-2 px-3 border rounded text-red-800 disabled:cursor-not-allowed"
+              tabIndex="0"
+              aria-label="Clear all saved ad-libs"
+              disabled={savedLibs.length === 0}
             >
               Clear Saves
             </button>
@@ -53,17 +59,12 @@ const Saves = () => {
             {savedLibs.length > 0 ? (
               savedLibs.map((lib, index) => {
                 return (
-                  <Card key={lib.prompt + index}>
-                    <h4 className="text-lg font-semibold">{lib.prompt}...</h4>
-                    <button
-                      className="p-2 underline underline-offset-2 rounded text-indigo-800 disabled:cursor-not-allowed"
-                      onClick={selectLib}
-                      data-index={index}
-                      disabled={savedLibs.length === 0}
-                    >
-                      Go to ad-lib
-                    </button>
-                  </Card>
+                  <CardLib
+                    key={lib.prompt + index}
+                    lib={lib}
+                    selectLib={selectLib}
+                    index={index}
+                  />
                 );
               })
             ) : (
@@ -88,7 +89,7 @@ const Saves = () => {
             Yes
           </button>
           <button
-            className="px-3 py-2 w-20  rounded border hover:bg-neutral-100 active:bg-neutral-200"
+            className="px-3 py-2 w-20 rounded border hover:bg-neutral-100 active:bg-neutral-200"
             onClick={() => setIsClearModalOpen(false)}
           >
             No
