@@ -8,6 +8,10 @@ function listMostRecent() {
   return Lib.find({}, null, { sort: { createdAt: 1 } });
 }
 
+function listFeatured() {
+  return Lib.find().sort({ numberOfLikes: -1 }).limit(100);
+}
+
 function like(_id) {
   return Lib.findOneAndUpdate({ _id }, {});
 }
@@ -29,4 +33,5 @@ module.exports = {
   dislike,
   search,
   listMostRecent,
+  listFeatured,
 };

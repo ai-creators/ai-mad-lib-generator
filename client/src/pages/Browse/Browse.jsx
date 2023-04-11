@@ -8,12 +8,13 @@ import Hero from "../../Components/Hero/Hero";
 import Loader from "../../Components/Loader/Loader";
 import dayjs from "dayjs";
 import CardLib from "../../Components/Card/CardLib/CardLib";
+import { useNavigate } from "react-router-dom";
 const Browse = () => {
   const [featuredLibs, setFeaturedLibs] = useState([]);
   const [query, setQuery] = useState("featured");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getFeaturedLibs = async () => {
       try {
@@ -41,9 +42,8 @@ const Browse = () => {
 
   const selectLib = ({ target }) => {
     const index = target.getAttribute("data-index");
-    const prompt = mostLikedLibs[index].prompt;
-    const lib = mostLikedLibs[index].text;
-    navigate("/lib", { state: { prompt, lib } });
+    const lib = featuredLibs[index];
+    navigate("/lib", { state: lib });
   };
 
   const changeQuery = ({ target: { id } }) => {
@@ -117,14 +117,14 @@ const Browse = () => {
                 </div>
               ) : (
                 featuredLibs.map((lib, index) => {
-                  return index <= 5 ? (
+                  return (
                     <CardLib
                       key={lib.prompt + index}
                       selectLib={selectLib}
                       index={index}
                       lib={lib}
                     />
-                  ) : null;
+                  );
                 })
               )}
             </div>
