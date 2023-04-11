@@ -41,7 +41,7 @@ const PromptInput = ({ setError }) => {
             onChange={({ target: { value } }) => setPrompt(value)}
           />
           <button
-            className={`ease-out duration-300 absolute py-2 px-3 right-0 border rounded-r font-semibold disabled:cursor-not-allowed ${
+            className={`ease-out duration-200 absolute py-2 px-3 right-0 border rounded-r font-semibold disabled:cursor-not-allowed ${
               prompt.length > 0
                 ? "text-white bg-gray-900 border-gray-900"
                 : "text-slate-600 bg-white"

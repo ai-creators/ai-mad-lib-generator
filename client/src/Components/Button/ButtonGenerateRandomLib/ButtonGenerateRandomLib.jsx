@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { MadLibApi } from "../../../api/madLibApi";
-import "./ButtonGenerateRandomLib.css"; // Import stylesheet
 import { useNavigate } from "react-router-dom";
 
 const ButtonGenerateRandomLib = ({ setError }) => {
@@ -25,7 +24,7 @@ const ButtonGenerateRandomLib = ({ setError }) => {
   return (
     <div>
       <button
-        className="py-2 px-3 border border-gray-900 rounded font-semibold bg-gray-900 text-white"
+        className="py-2 px-3 border border-gray-900 rounded font-semibold bg-gray-900 text-white  disabled:cursor-not-allowed"
         onClick={generateRandomMadLib}
         disabled={isLoading}
       >

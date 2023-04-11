@@ -6,7 +6,7 @@ const CardLib = ({ lib, index, selectLib }) => {
   console.log(lib);
   const day = dayjs(lib.createdAt);
   return (
-    <Card>
+    <Card padding="p-3">
       <header className="flex items-center mb-4">
         <h4 className="text-lg font-semibold capitalize">{lib.prompt}...</h4>
         <p className="ml-auto text-sm text-neutral-600 font-semibold">

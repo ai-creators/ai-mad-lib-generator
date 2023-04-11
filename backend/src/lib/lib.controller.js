@@ -23,7 +23,6 @@ async function listLibs(req, res, next) {
     } else {
       data = await service.list();
     }
-    console.log("DATA: ", data);
     res.status(200).json({ data });
   } catch (err) {
     return next({ status: 500, message: "Unable to gather ad-libs" });

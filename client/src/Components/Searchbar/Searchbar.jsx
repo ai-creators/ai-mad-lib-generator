@@ -19,14 +19,19 @@ const Searchbar = ({ setQuery }) => {
           <input
             type="text"
             id="lib-search"
-            placeholder="Search ad-lib..."
+            placeholder="Search for an ad-lib..."
             className="border rounded py-2 pl-3 pr-24 w-full drop-shadow-sm focus:drop-shadow-xl ease-out duration-300 outline-offset-4"
             value={search}
             onChange={changeSearch}
           />
           <button
-            className="absolute top-1/2 -translate-y-1/2 right-0 py-2 px-3 border rounded-r"
+            className={`absolute top-1/2 ease-out duration-200 -translate-y-1/2 right-0 py-2 px-3 border rounded-r disabled:cursor-not-allowed ${
+              search.length > 0
+                ? "text-white bg-gray-900 border-gray-900"
+                : "text-slate-600 bg-white"
+            }`}
             type="submit"
+            disabled={search.length === 0}
           >
             Search
           </button>
