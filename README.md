@@ -9,7 +9,6 @@
  - Generate random prompts for Mad Libs
  - Save generated Mad Libs for later use
  - Utilizes OpenAI's GPT-3 for AI-powered Mad Lib generation
- - Responsive web design
 
 - Part of Ai-wranglers Hackathon by Don the Developer.
 
