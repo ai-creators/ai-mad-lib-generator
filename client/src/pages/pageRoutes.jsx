@@ -7,6 +7,7 @@ import LibViewer from "./LibViewer/LibViewer";
 import Browse from "./Browse/Browse";
 import Saves from "./Saves/Saves";
 import Landing from "./Landing/Landing";
+import Play from "./Play/Play";
 
 const PageRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const PageRoutes = () => {
       <Route path="/lib" element={<LibViewer />} />
       <Route path="/browse" element={<Browse />} />
       <Route path="/saves" element={<Saves />} />
+      <Route path="/play" element={<Play />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

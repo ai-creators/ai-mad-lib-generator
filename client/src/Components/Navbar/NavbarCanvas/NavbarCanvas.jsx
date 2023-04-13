@@ -48,6 +48,14 @@ const NavbarCanvas = ({ isNavbarOpen, setIsNavbarOpen }) => {
             Saves
           </Link>
         </li>
+        <li>
+          <Link
+            to="/play"
+            className="p-4 block border-b hover:bg-neutral-100 ease-out duration-200"
+          >
+            Multiplayer
+          </Link>
+        </li>
       </ul>
     </div>
   );
