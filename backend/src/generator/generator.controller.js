@@ -23,8 +23,8 @@ async function getMadLib(req, res, next) {
       return res.status(400).json({ error: "Missing data object in request body" });
     }
 
-    // Use the prompt from the request body
-    const { prompt } = data;
+    // Use the prompt, againstHumanity, and pgLimit from the request body
+    const { prompt, againstHumanity = false, pgLimit = "PG" } = data;
     if (!prompt) {
       return res.status(400).json({ error: "Prompt is required." });
     }
@@ -41,7 +41,9 @@ async function getMadLib(req, res, next) {
       prompt: `Generate mad lib to fill out with using [] and no spaces inside the bracket. 
       Any word inside the bracket should not use spaces, and adjective/noun/verb/pluralnoun should be in the bold format, 
       but instead use underscores. The mad lib cannot exceed ${max_tokens} tokens and be less then ${min_tokens}. 
-      Use what type of word it is. The prompt is ${prompt}`,
+      Use what type of word it is. The prompt is ${prompt}.
+      ${againstHumanity ? "The mad lib should be in the style of Cards Against Humanity." : ""}
+      The mad lib should be suitable for a ${pgLimit} rating.`,
       max_tokens,
       temperature: 0.5,
       n: 1,
