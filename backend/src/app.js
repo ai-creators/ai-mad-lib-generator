@@ -31,8 +31,6 @@ app.use("/libs", libsRoute);
 app.use(limiter);
 app.use("/generate", generatorRoute);
 
-app.set("trust proxy", 6);
-app.use("/api/", (req, res) => res.send(req.ip));
 app.use(notFound);
 app.use(errorHandler);
 
