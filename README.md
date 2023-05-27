@@ -10,7 +10,7 @@
  - Save generated Mad Libs for later use
  - Utilizes OpenAI's GPT-3 for AI-powered Mad Lib generation
 
-- Part of Ai-wranglers Hackathon by Don the Developer.
+- Part of Ai-wranglers Hackathon.
 
 
 ## Deployed version
