@@ -3,7 +3,7 @@ import Container from "../../Container/Container";
 
 const NavbarLanding = () => {
   return (
-    <nav className="bg-black text-white border-zinc-600">
+    <nav className="bg-zinc-950 text-white border-b border-zinc-600">
       <Container className="p-3">
         <Link to="/" className="py-2">
           <h1>Ai Ad Libs</h1>
