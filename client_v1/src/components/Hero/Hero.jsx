@@ -4,7 +4,7 @@ import ButtonPink from "../Button/ButtonPink/ButtonPink";
 
 const Hero = () => {
   return (
-    <section className="h-[40vh] flex flex-col justify-center">
+    <section className="h-[60vh] flex flex-col justify-center">
       <Container className="flex gap-3">
         <div className="w-[50%] flex flex-col gap-7">
           <h1 className="text-5xl font-bold">
