@@ -36,6 +36,11 @@ video {
   max-width: 100%;
 }
 
+.grid-aside {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -97,6 +102,9 @@ video {
 }
 
 @media screen and (min-width: 1024px) {
+  .grid-aside {
+    grid-template-columns: 3fr 2fr;
+  }
 }
 
 @media screen and (min-width: 1280px) {

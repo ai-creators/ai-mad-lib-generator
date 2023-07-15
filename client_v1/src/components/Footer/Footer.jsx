@@ -3,7 +3,7 @@ import Container from "../Container/Container";
 
 const Footer = () => {
   return (
-    <footer className="py-5 lg:py-16 px-3">
+    <footer className="py-5 lg:py-16 px-3 border-t border-zinc-600">
       <Container className="flex flex-col gap-5 lg:gap-16">
         <div className="footer-grid gap-y-5 gap-x-3 md:gap-x-0 xl:gap-0">
           <div className="flex flex-col gap-3 footer-1">
@@ -75,7 +75,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-out rounded-full w-8 h-8 flex justify-center items-center"
+                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-in rounded-full w-8 h-8 flex justify-center items-center"
                 >
                   <i className="fa-brands fa-facebook-f"></i>
                 </Link>
@@ -83,7 +83,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-out rounded-full w-8 h-8 flex justify-center items-center"
+                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-in rounded-full w-8 h-8 flex justify-center items-center"
                 >
                   <i className="fa-brands fa-twitter"></i>
                 </Link>
@@ -91,7 +91,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-out rounded-full w-8 h-8 flex justify-center items-center"
+                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-in rounded-full w-8 h-8 flex justify-center items-center"
                 >
                   <i className="fa-brands fa-tiktok"></i>
                 </Link>
@@ -99,7 +99,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-out rounded-full w-8 h-8 flex justify-center items-center"
+                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-in rounded-full w-8 h-8 flex justify-center items-center"
                 >
                   <i className="fa-brands fa-instagram"></i>
                 </Link>
@@ -107,7 +107,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-out rounded-full w-8 h-8 flex justify-center items-center"
+                  className="hover:bg-zinc-950 hover:text-white duration-200 ease-in rounded-full w-8 h-8 flex justify-center items-center"
                 >
                   <i className="fa-brands fa-youtube"></i>
                 </Link>

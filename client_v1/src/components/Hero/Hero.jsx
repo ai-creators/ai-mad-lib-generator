@@ -16,10 +16,20 @@ const Hero = () => {
             families.
           </p>
           <div className="flex gap-3">
-            <ButtonPink className="w-44 text-center" padding="py-2.5" link="/">
+            <ButtonPink
+              className="w-44 text-center"
+              padding="py-2.5"
+              link="libs"
+            >
               Start Creating
             </ButtonPink>
-            <ButtonClear className="w-44">Browse</ButtonClear>
+            <ButtonClear
+              className="w-44 text-center"
+              padding="py-2.5"
+              link="/libs/browse"
+            >
+              Browse
+            </ButtonClear>
           </div>
         </div>
         <div className="w-[50%]"></div>
