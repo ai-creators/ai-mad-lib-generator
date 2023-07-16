@@ -7,10 +7,7 @@ const Libs = () => {
   return (
     <Layout>
       <Container className="grid-aside py-12 gap-12 px-3">
-        <div>
-          <h3 className="text-2xl font-semibold">Create an Ad-lib</h3>
-          <LibsCreate />
-        </div>
+        <LibsCreate />
         <aside>
           <h3 className="text-2xl font-semibold">Featured Ad-Libs</h3>
         </aside>

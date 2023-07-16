@@ -4,18 +4,18 @@ import ButtonPink from "../Button/ButtonPink/ButtonPink";
 
 const Hero = () => {
   return (
-    <section className="h-[60vh] flex flex-col justify-center">
+    <section className="p-3 h-[60vh] flex flex-col justify-center">
       <Container className="flex gap-3">
-        <div className="w-[50%] flex flex-col gap-7">
-          <h1 className="text-5xl font-bold">
+        <div className="lg:w-[50%] flex flex-col gap-7">
+          <h1 className="text-5xl font-bold text-center lg:text-left">
             Create Custom Ad Libs Based
-            <br /> on Your Prompt
+            <br className="hidden 2xl:block" /> on Your Prompt
           </h1>
-          <p>
+          <p className="text-center lg:text-left">
             Browse, Create, and share your favorite ad libs with friends and
             families.
           </p>
-          <div className="flex gap-3">
+          <div className="flex gap-3 justify-center lg:justify-start">
             <ButtonPink
               className="w-44 text-center"
               padding="py-2.5"
@@ -32,7 +32,7 @@ const Hero = () => {
             </ButtonClear>
           </div>
         </div>
-        <div className="w-[50%]"></div>
+        <div className="hidden lg:block lg:w-[50%]"></div>
       </Container>
     </section>
   );
