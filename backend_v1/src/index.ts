@@ -1,3 +1,5 @@
+import path from "path";
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 const { PORT = 5000, NODE_ENV } = process.env;
 import mongoose from "mongoose";
 import app from "./app";
