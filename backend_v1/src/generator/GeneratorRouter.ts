@@ -4,8 +4,6 @@ import { RouterErrorHandler } from "../errors/RouterErrorHandler";
 import { GeneratorController } from "./GeneratorController";
 
 export class GeneratorRouter {
-  private static router: Router = express.Router();
-
   public static init(): Router {
     this.router
       .route("/random-lib")
@@ -17,4 +15,6 @@ export class GeneratorRouter {
       .all(RouterErrorHandler.methodNotAllowed);
     return this.router;
   }
+
+  private static router: Router = express.Router();
 }
