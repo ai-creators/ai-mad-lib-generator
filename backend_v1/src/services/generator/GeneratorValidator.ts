@@ -1,4 +1,4 @@
-import { GeneratorProps } from "../ts/types/GeneratorProps";
+import { GeneratorProps } from "../../ts/types/GeneratorProps";
 
 export class GeneratorValidator {
   public validate(data: GeneratorProps): boolean {

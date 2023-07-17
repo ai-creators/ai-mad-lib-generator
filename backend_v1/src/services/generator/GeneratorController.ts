@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { Configuration } from "openai";
 import { GeneratorValidator } from "./GeneratorValidator";
-import { ErrroHandler } from "../errors/ErrorHandler";
-import { LibVendor } from "../lib-vendor/LibVendor";
+import { ErrroHandler } from "../../errors/ErrorHandler";
+import { LibVendor } from "../../lib-vendor/LibVendor";
+import { Controller } from "../../common/Controller";
 
-export class GeneratorController {
+export class GeneratorController extends Controller {
   public static generateRandomLib(
     req: Request,
     res: Response,
@@ -33,7 +34,7 @@ export class GeneratorController {
         })
       );
       const createdLib = await libVendor.createFromPrompt(prompt);
-      res.status(200).json(createdLib);
+      return this.sendResponse(res, createdLib, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
       return next({

@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import { ErrroHandler } from "../errors/ErrorHandler";
-import { RouterErrorHandler } from "../errors/RouterErrorHandler";
+import { ErrroHandler } from "../../errors/ErrorHandler";
+import { RouterErrorHandler } from "../../errors/RouterErrorHandler";
 import { GeneratorController } from "./GeneratorController";
 
 export class GeneratorRouter {
