@@ -48,7 +48,6 @@ export class AdLibValidator {
   }
 
   public addToInvalidProperties(property: string): void {
-    console.log("property: ", property);
     this.invalidProperties.push(property);
   }
 
