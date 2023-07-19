@@ -1,6 +1,24 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const LibsFeatured = () => {
+  const [libs, setLibs] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const pagination = 20;
+
+  const getFood = async (isStart) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+    } catch (e) {
+      setError(e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-3">
       <div>
