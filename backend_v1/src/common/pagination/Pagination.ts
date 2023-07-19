@@ -19,12 +19,12 @@ export class Pagination<T> {
       results,
       pagination: pagination,
       page: page,
-      totalPages: this.getTotal(conditional),
+      totalPages: await this.getTotal(conditional),
     };
     return response;
   }
 
-  private getTotal(conditional: {}): Query<number, T> {
+  private async getTotal(conditional: {}): Promise<number> {
     return this.model.countDocuments(conditional);
   }
 

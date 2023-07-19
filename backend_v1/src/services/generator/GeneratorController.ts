@@ -4,6 +4,7 @@ import { GeneratorValidator } from "./GeneratorValidator";
 import { ErrroHandler } from "../../errors/ErrorHandler";
 import { LibVendor } from "../../lib-vendor/LibVendor";
 import { Controller } from "../../common/Controller";
+import { AdLibController } from "../adlib/AdLibController";
 
 export class GeneratorController extends Controller {
   public static generateRandomLib(
@@ -24,7 +25,7 @@ export class GeneratorController extends Controller {
     if (!this.validator.validate(data)) {
       return next({
         status: 400,
-        message: `These properties are not valid: ${this.validator.getInvalidPropsAsString()}`,
+        message: `These properties are not valid: ${this.validator.getInvalidPropertiesAsString()}`,
       });
     }
     try {
@@ -34,7 +35,7 @@ export class GeneratorController extends Controller {
         })
       );
       const createdLib = await libVendor.createFromPrompt(prompt);
-      return this.sendResponse(res, createdLib, 200);
+      return AdLibController.sendResponse(res, createdLib, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
       return next({

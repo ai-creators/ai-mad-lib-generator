@@ -1,10 +1,42 @@
-import express from "express";
+import express, { Express } from "express";
+import cors from "cors";
 import { GeneratorRouter } from "./services/generator/GeneratorRouter";
 import { AdLibRouter } from "./services/adlib/AdLibRouter";
+import { RouterErrorHandler } from "./errors/RouterErrorHandler";
 
-const app = express();
+export class App {
+  private constructor() {}
 
-app.use("/generate", GeneratorRouter.init);
-app.use("/adlib", AdLibRouter.init);
+  public static getInstance(): App {
+    if (!App.instance) {
+      App.instance = new App();
+    }
+    return App.instance;
+  }
 
-export default app;
+  private generateHelpers(): void {
+    this.app.use(express.json());
+    this.app.use(cors());
+  }
+
+  private generateRoutes(): void {
+    console.log("GENERATING ROUTES");
+    // this.app.use("/generate", GeneratorRouter.init);
+    this.app.use("/adlib", AdLibRouter.init());
+    this.app.use(RouterErrorHandler.notFound);
+    this.app.use(RouterErrorHandler.handler);
+  }
+
+  public init(): void {
+    this.generateHelpers();
+    this.generateRoutes();
+  }
+
+  public getExpressApp(): Express {
+    return this.app;
+  }
+
+  private app: Express = express();
+
+  private static instance: App;
+}
