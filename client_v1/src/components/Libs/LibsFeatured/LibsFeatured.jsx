@@ -29,7 +29,6 @@ const LibsFeatured = () => {
       }
     })();
   }, []);
-  console.log("LIUBS: ", libs);
   return (
     <Card className="flex flex-col gap-3">
       <ErrorAlert error={error} />
