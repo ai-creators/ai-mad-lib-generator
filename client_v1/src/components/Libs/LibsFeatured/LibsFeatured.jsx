@@ -1,26 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Card from "../../Card/Card";
+import Lib from "../../../api/Lib";
+import ApiErrorHandler from "../../../errors/ApiErrorHandler";
+import ErrorAlert from "../../../errors/ErrorAlert";
+import dayjs from "dayjs";
 
 const LibsFeatured = () => {
   const [libs, setLibs] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const pagination = 20;
+  const [timestamp] = useState(new Date());
 
-  const getFood = async (isStart) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-    } catch (e) {
-      setError(e);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const formattedDate = dayjs(timestamp).format("YYYY-MM-DD");
+        const response = await Lib.get(formattedDate, "featured");
+        if (response.data.results) {
+          setLibs(response.data.results);
+        }
+      } catch (e) {
+        setError(ApiErrorHandler.handleRequestResponse(e));
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+  console.log("LIUBS: ", libs);
   return (
-    <div className="flex flex-col gap-3">
+    <Card className="flex flex-col gap-3">
+      <ErrorAlert error={error} />
       <div>
         <h3 className="text-2xl font-semibold">Featured Ad-libs</h3>
         <p className="text-zinc-400">
@@ -30,18 +42,18 @@ const LibsFeatured = () => {
 
       <ul>
         <li>
-          <div className="bg-white text-black p-6 rounded-lg">
+          <div className="border border-zinc-600 text-white p-5 rounded-lg">
             <h6 className="text-xl font-semibold">The Magic Wand...</h6>
             <Link
-              to="/"
-              className="p-3 rounded bg-zinc-950 text-white inline-block mt-6"
+              to="view"
+              className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
             >
               Go To Ad-Lib
             </Link>
           </div>
         </li>
       </ul>
-    </div>
+    </Card>
   );
 };
 
