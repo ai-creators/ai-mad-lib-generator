@@ -19,10 +19,12 @@ export class AdLibController extends Controller {
     const page: number = parseInt((req.query.page as string) ?? 0);
     const pagination: number = parseInt((req.query.pagination as string) ?? 0);
     const time = req.query.timestamp;
+    const type = (req.query.type as string) ?? "";
     const data: AdLibProps = {
       timestamp: new Date(time as string),
       pagination,
       page,
+      type,
     };
     return data;
   }
@@ -36,12 +38,21 @@ export class AdLibController extends Controller {
       });
     }
     try {
-      const foundAdLibs = await this.service.getLibs(
-        new Date(req.query.timestamp as string),
-        data.page,
-        data.pagination
-      );
-      return AdLibController.sendResponse(res, foundAdLibs, 200);
+      if (data?.type === "featured") {
+        const foundAdLibs = await this.service.getLibsByFeatured(
+          new Date(req.query.timestamp as string),
+          data.page,
+          data.pagination
+        );
+        return AdLibController.sendResponse(res, foundAdLibs, 200);
+      } else {
+        const foundAdLibs = await this.service.getLibs(
+          new Date(req.query.timestamp as string),
+          data.page,
+          data.pagination
+        );
+        return AdLibController.sendResponse(res, foundAdLibs, 200);
+      }
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
       return next({

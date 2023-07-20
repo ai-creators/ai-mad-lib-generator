@@ -1,8 +1,8 @@
 import Api from "./Api";
 
-const get = async (timestamp, type, page = "1", pagination = "15") => {
+const get = async (timestamp, type, page = "1", pagination = "5") => {
   return await Api.get(
-    `libs?type=${type}&featured&timestamp=${timestamp}&pagination=${pagination}&page=${page}`
+    `adlib?type=${type}&featured&timestamp=${timestamp}&pagination=${pagination}&page=${page}`
   );
 };
 

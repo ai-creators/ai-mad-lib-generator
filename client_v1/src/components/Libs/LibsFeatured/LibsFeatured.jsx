@@ -4,8 +4,8 @@ import Card from "../../Card/Card";
 import Lib from "../../../api/Lib";
 import ApiErrorHandler from "../../../errors/ApiErrorHandler";
 import ErrorAlert from "../../../errors/ErrorAlert";
+import Loader from "../../Loader/Loader";
 import dayjs from "dayjs";
-
 const LibsFeatured = () => {
   const [libs, setLibs] = useState([]);
   const [error, setError] = useState(null);
@@ -40,19 +40,41 @@ const LibsFeatured = () => {
         </p>
       </div>
 
-      <ul>
-        <li>
-          <div className="border border-zinc-600 text-white p-5 rounded-lg">
-            <h6 className="text-xl font-semibold">The Magic Wand...</h6>
-            <Link
-              to="view"
-              className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
-            >
-              Go To Ad-Lib
-            </Link>
-          </div>
-        </li>
-      </ul>
+      {isLoading ? (
+        <div className="flex justify-center items-center">
+          <Loader />
+        </div>
+      ) : error ? (
+        <p className="font-bold">Error Loading Featured Ad-Libs</p>
+      ) : (
+        <ul className="flex flex-col gap-5 max-w-[100%]">
+          {libs.map((lib) => {
+            console.log("LIB: ", lib);
+            return (
+              <li key={lib._id}>
+                <div className="border border-zinc-600 text-white p-5 rounded-lg">
+                  <div className="flex justify-between items-start">
+                    <h6 className="text-xl font-semibold whitespace-wrap max-w-[75%]">
+                      {lib.prompt}
+                    </h6>
+                    <p className="text-zinc-400">
+                      {dayjs(lib.createdAt).format("MMM, D")}
+                    </p>
+                  </div>
+
+                  <Link
+                    to="view"
+                    className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
+                    state={{ lib }}
+                  >
+                    Go To Ad-Lib
+                  </Link>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </Card>
   );
 };

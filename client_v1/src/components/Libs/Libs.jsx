@@ -77,17 +77,21 @@ const Libs = () => {
       </div>
 
       <ul>
-        <li>
-          <div className="border border-zinc-600 text-white p-5 rounded-lg">
-            <h6 className="text-xl font-semibold">The Magic Wand...</h6>
-            <Link
-              to="view"
-              className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
-            >
-              Go To Ad-Lib
-            </Link>
-          </div>
-        </li>
+        {libs.map((lib) => {
+          return (
+            <li key={lib._id}>
+              <div className="border border-zinc-600 text-white p-5 rounded-lg">
+                <h6 className="text-xl font-semibold">The Magic Wand...</h6>
+                <Link
+                  to="view"
+                  className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
+                >
+                  Go To Ad-Lib
+                </Link>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </Card>
   );

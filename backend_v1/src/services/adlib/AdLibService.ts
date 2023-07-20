@@ -13,4 +13,19 @@ export class AdLibService implements Service {
     const pager = new Pagination(AdLib);
     return pager.pageable({}, page, pagination);
   }
+
+  public getLibsByCreatedAt(
+    timestamp: Date,
+    page: number,
+    pagination: number,
+    sorter = -1
+  ): Promise<PaginationResponse<IAdLib>> {
+    const pager = new Pagination(AdLib);
+    return pager.pageable({}, page, pagination, { createdAt: sorter });
+  }
+
+  public getLibsByFeatured(timestamp: Date, page: number, pagination: number) {
+    const pager = new Pagination(AdLib);
+    return pager.pageable({}, page, pagination, { createdAt: 1 });
+  }
 }
