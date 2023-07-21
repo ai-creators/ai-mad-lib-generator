@@ -5,18 +5,19 @@ import { AdLibService } from "./AdLibService";
 import { AdLibValidator } from "./AdLibValidator";
 import { ErrroHandler } from "../../errors/ErrorHandler";
 import { AdLibProps } from "../../ts/types/AdLibProps";
+import { AdLibRequestTransformer } from "./AdLibRequestTransformer";
 
 export class AdLibController extends Controller {
   constructor() {
     super();
     this.service = new AdLibService();
     this.validator = new AdLibValidator();
+    this.requestTransformer = new AdLibRequestTransformer();
     this.getLibs = this.getLibs.bind(this);
-    this.transformRequest = this.transformRequest.bind(this);
   }
 
   public async getLibs(req: Request, res: Response, next: NextFunction) {
-    const data: AdLibProps = this.transformRequest(req);
+    const data: AdLibProps = this.requestTransformer.transFormRequest(req);
     if (!this.validator.validate(data)) {
       const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
       this.validator.resetInvalidProperties();
@@ -50,20 +51,7 @@ export class AdLibController extends Controller {
     }
   }
 
-  private transformRequest(req: Request): AdLibProps {
-    const page: number = parseInt((req.query.page as string) ?? 0);
-    const pagination: number = parseInt((req.query.pagination as string) ?? 0);
-    const time = req.query.timestamp;
-    const type = (req.query.type as string) ?? "";
-    const data: AdLibProps = {
-      timestamp: new Date(time as string),
-      pagination,
-      page,
-      type,
-    };
-    return data;
-  }
-
   private service: AdLibService;
   private validator: AdLibValidator;
+  private requestTransformer: AdLibRequestTransformer;
 }
