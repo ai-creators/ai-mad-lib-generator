@@ -1,5 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
-import { OpenAiApiResponse } from "../ts/types/OpenAiApiResponse";
+import { OpenAiApiResponse } from "../../ts/types/OpenAiApiResponse";
+import { Prompt } from "../../services/generator/Prompt";
 const { MAX_TOKENS = "0" } = process.env;
 
 type AiApiResponseChoices = {
@@ -20,11 +21,12 @@ export class LibVendor {
     this.aiApi = new OpenAIApi(configuartion);
   }
 
-  public async createFromPrompt(prompt: string): Promise<any> {
+  public async createFromPrompt(prompt: Prompt): Promise<any> {
     try {
+      prompt.setPromptLimits(LibVendor.MAX_TOKENS);
       const response: any = await this.aiApi.createCompletion({
         model: "text-davinci-003",
-        prompt,
+        prompt: prompt.getPrompt(),
         max_tokens: LibVendor.MAX_TOKENS,
         temperature: LibVendor.TEMPERATURE,
         n: 1,

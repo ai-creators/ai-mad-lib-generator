@@ -2,12 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import { Configuration } from "openai";
 import { GeneratorValidator } from "./GeneratorValidator";
 import { ErrroHandler } from "../../errors/ErrorHandler";
-import { LibVendor } from "../../lib-vendor/LibVendor";
+import { LibVendor } from "../../vendors/libVendor/LibVendor";
 import { Controller } from "../../common/Controller";
 import { AdLibController } from "../adlib/AdLibController";
 import { GeneratorService } from "./GeneratorService";
 import { GeneratorRequestTransformer } from "./GeneratorRequestTransformer";
 import { GeneratorProps } from "../../ts/types/GeneratorProps";
+import { Prompt } from "./Prompt";
 
 export class GeneratorController extends Controller {
   constructor() {
@@ -31,18 +32,15 @@ export class GeneratorController extends Controller {
       });
     }
     try {
-      console.log("DATA PROMPT: ", data.prompt);
       const libVendor = new LibVendor(
         new Configuration({
           apiKey: process.env.OPENAI_API_KEY,
         })
       );
-      console.log("LIB VENDOR: ", libVendor);
-      const createAdLib = await libVendor.createFromPrompt(data.prompt);
-      console.log("CREATED LIB: ", createAdLib);
+      const prompt: Prompt = new Prompt(data.prompt);
+      const createAdLib = await libVendor.createFromPrompt(prompt);
       return AdLibController.sendResponse(res, createAdLib, 200);
     } catch (e: unknown) {
-      console.log("ERROR: ", e);
       const error = ErrroHandler.ensureError(e);
       return next({
         status: 400,
