@@ -1,69 +1,104 @@
+import { Validator } from "../../common/Validator";
 import { AdLibProps } from "../../ts/types/AdLibProps";
 
-export class AdLibValidator {
+export class AdLibValidator implements Validator {
   constructor() {
     this.invalidProperties = [];
   }
 
   public validate(data: AdLibProps): boolean {
-    if (!this.isValidTimeStamp(data.timestamp)) {
-      this.addToInvalidProperties("timestamp");
-    }
-    if (!this.isValidPage(data.page)) {
-      this.addToInvalidProperties("page");
-    }
-    if (!this.isValidPagination(data.pagination)) {
-      this.addToInvalidProperties("pagination");
-    }
+    this.validateTimestamp(data.timestamp);
+    this.validatePage(data.page);
+    this.validatePagination(data.pagination);
     return this.invalidProperties.length === 0;
   }
 
-  private isValidTimeStamp(timestamp: Date): boolean {
+  private validateTimestamp(timestamp: Date): void {
+    const invalidObject: { label: string; message: string } = {
+      label: "timestamp",
+      message: "",
+    };
     if (!timestamp) {
-      return false;
+      invalidObject.message = "No timestamp provided";
+      this.addToInvalidProperties(invalidObject);
+      return;
     }
     if (timestamp instanceof Date && isNaN(timestamp.getTime())) {
-      return false;
+      invalidObject.message = "Timestamp is not a valid date";
+      this.addToInvalidProperties(invalidObject);
+      return;
     }
     const currentTime = new Date();
     if (currentTime < timestamp) {
-      return false;
+      invalidObject.message = "Timestamp is in the future";
+      this.addToInvalidProperties(invalidObject);
+      return;
     }
-    return true;
   }
 
-  private isValidPage(page: number): boolean {
+  private validatePage(page: number): void {
+    const invalidObject: { label: string; message: string } = {
+      label: "page",
+      message: "",
+    };
     if (!page || page <= 0) {
-      return false;
+      invalidObject.message = `Page is not defined or is less than 0`;
+      this.addToInvalidProperties(invalidObject);
+      return;
     }
-    return true;
   }
 
-  private isValidPagination(pagination: number): boolean {
-    console.log(!pagination);
-    if (!pagination || pagination <= 0 || pagination > 100) {
-      return false;
+  private validatePagination(pagination: number): void {
+    const invalidObject: { label: string; message: string } = {
+      label: "pagination",
+      message: "",
+    };
+    if (!pagination || pagination <= 0) {
+      invalidObject.message = `Pagination is not defined or is less than 0`;
+      this.addToInvalidProperties(invalidObject);
+      return;
     }
-    return true;
+    if (pagination > AdLibValidator.MAX_PAGINATION) {
+      invalidObject.message = `Pagination is greater than ${AdLibValidator.MAX_PAGINATION}`;
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
   }
 
-  public addToInvalidProperties(property: string): void {
+  public addToInvalidProperties(property: {
+    label: string;
+    message: string;
+  }): void {
     this.invalidProperties.push(property);
   }
 
   public getInvalidPropertiesAsString(): string {
-    const invalidProperties = this.invalidProperties.join(", ");
-    this.setInvalidProperties([]);
+    const invalidProperties = this.invalidProperties
+      .map(({ label }) => label)
+      .join(", ");
     return invalidProperties;
   }
 
-  public getInvalidProperties(): string[] {
+  public getFormattedInvalidProperties(): string {
+    return this.getInvalidProperties()
+      .map(({ label, message }) => {
+        return `${label}: ${message}`;
+      })
+      .join(", ");
+  }
+
+  public getInvalidProperties(): { label: string; message: string }[] {
     return this.invalidProperties;
   }
 
-  public setInvalidProperties(reset: string[]) {
-    this.invalidProperties = reset;
+  public resetInvalidProperties(): void {
+    this.invalidProperties = [];
   }
 
-  private invalidProperties: string[];
+  private invalidProperties: {
+    label: string;
+    message: string;
+  }[];
+
+  private static MAX_PAGINATION: number = 100;
 }

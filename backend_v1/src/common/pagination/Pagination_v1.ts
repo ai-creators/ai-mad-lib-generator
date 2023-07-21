@@ -10,7 +10,7 @@ export class Pagination<T> {
     this.documents = [];
   }
 
-  public async find(conditional: {}): Promise<Query<any>> {
+  public async find(conditional: {}): Promise<Query> {
     this.total = await this.calcualteTotal(conditional);
     this.pageAmount = this.calcaultePageAmount();
     return this.model.find(conditional);
