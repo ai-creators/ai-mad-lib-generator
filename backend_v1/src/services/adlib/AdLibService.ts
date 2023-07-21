@@ -2,7 +2,6 @@ import AdLib from "../../db/models/AdLibModel";
 import { Pagination } from "../../common/pagination/Pagination";
 import { IAdLib } from "../../ts/Interfaces/IAdLibs";
 import { PaginationResponse } from "../../ts/types/PaginationResponse";
-import { Service } from "../../common/Service";
 
 export class AdLibService {
   public getLibs(
