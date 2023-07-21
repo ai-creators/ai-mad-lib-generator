@@ -1,28 +1,65 @@
+import { Validator } from "../../common/Validator";
 import { GeneratorProps } from "../../ts/types/GeneratorProps";
 
-export class GeneratorValidator {
+export class GeneratorValidator implements Validator {
+  constructor() {
+    this.invalidProperties = [];
+  }
+
   public validate(data: GeneratorProps): boolean {
-    if (!this.isValidPrompt(data.prompt)) {
-      this.addToInvalidProperties("Prompt");
+    this.validatePrompt(data.prompt);
+    return this.invalidProperties.length === 0;
+  }
+
+  private validatePrompt(prompt: String): void {
+    const invalidObject: { label: string; message: string } = {
+      label: "prompt",
+      message: "",
+    };
+    if (!prompt) {
+      invalidObject.message = "Prompt is required";
+      this.addToInvalidProperties(invalidObject);
+      return;
     }
-    return this.getInvalidProperties().length === 0;
+    if (typeof prompt !== "string") {
+      invalidObject.message = "A prompt needs to be of type string";
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
   }
 
-  private isValidPrompt(prompt: String): boolean {
-    return typeof prompt === "string" && prompt.length > 0;
-  }
-
-  public addToInvalidProperties(property: string): void {
+  public addToInvalidProperties(property: {
+    label: string;
+    message: string;
+  }): void {
     this.invalidProperties.push(property);
   }
 
   public getInvalidPropertiesAsString(): string {
-    return this.invalidProperties.join(", ");
+    const invalidProperties = this.invalidProperties
+      .map(({ label }) => label)
+      .join(", ");
+    return invalidProperties;
   }
 
-  public getInvalidProperties(): string[] {
+  public getFormattedInvalidProperties(): string {
+    return this.getInvalidProperties()
+      .map(({ label, message }) => {
+        return `${label}: ${message}`;
+      })
+      .join(", ");
+  }
+
+  public getInvalidProperties(): { label: string; message: string }[] {
     return this.invalidProperties;
   }
 
-  private invalidProperties: string[] = [];
+  public resetInvalidProperties(): void {
+    this.invalidProperties = [];
+  }
+
+  private invalidProperties: {
+    label: string;
+    message: string;
+  }[];
 }

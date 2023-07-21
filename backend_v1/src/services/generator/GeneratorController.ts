@@ -5,38 +5,44 @@ import { ErrroHandler } from "../../errors/ErrorHandler";
 import { LibVendor } from "../../lib-vendor/LibVendor";
 import { Controller } from "../../common/Controller";
 import { AdLibController } from "../adlib/AdLibController";
+import { GeneratorService } from "./GeneratorService";
+import { GeneratorRequestTransformer } from "./GeneratorRequestTransformer";
+import { GeneratorProps } from "../../ts/types/GeneratorProps";
 
 export class GeneratorController extends Controller {
-  public static generateRandomLib(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {}
+  constructor() {
+    super();
+    this.service = new GeneratorService();
+    this.validator = new GeneratorValidator();
+    this.requestTransformer = new GeneratorRequestTransformer();
+    this.generateLib = this.generateLib.bind(this);
+  }
 
-  public static async generateLib(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    const { prompt = "" } = req.body;
-    const data = {
-      prompt,
-    };
+  public generateRandomLib(req: Request, res: Response, next: NextFunction) {}
+
+  public async generateLib(req: Request, res: Response, next: NextFunction) {
+    const data: GeneratorProps = this.requestTransformer.transform(req);
     if (!this.validator.validate(data)) {
+      const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
+      this.validator.resetInvalidProperties();
       return next({
         status: 400,
-        message: `These properties are not valid: ${this.validator.getInvalidPropertiesAsString()}`,
+        message: message,
       });
     }
     try {
+      console.log("DATA PROMPT: ", data.prompt);
       const libVendor = new LibVendor(
         new Configuration({
           apiKey: process.env.OPENAI_API_KEY,
         })
       );
-      const createdLib = await libVendor.createFromPrompt(prompt);
-      return AdLibController.sendResponse(res, createdLib, 200);
+      console.log("LIB VENDOR: ", libVendor);
+      const createAdLib = await libVendor.createFromPrompt(data.prompt);
+      console.log("CREATED LIB: ", createAdLib);
+      return AdLibController.sendResponse(res, createAdLib, 200);
     } catch (e: unknown) {
+      console.log("ERROR: ", e);
       const error = ErrroHandler.ensureError(e);
       return next({
         status: 400,
@@ -45,6 +51,7 @@ export class GeneratorController extends Controller {
     }
   }
 
-  private static readonly validator: GeneratorValidator =
-    new GeneratorValidator();
+  private service: GeneratorService;
+  private validator: GeneratorValidator;
+  private requestTransformer: GeneratorRequestTransformer;
 }

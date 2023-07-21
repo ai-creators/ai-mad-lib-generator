@@ -5,13 +5,14 @@ import { GeneratorController } from "./GeneratorController";
 
 export class GeneratorRouter {
   public static init(): Router {
+    const controller = new GeneratorController();
     this.router
-      .route("/random-lib")
-      .post(GeneratorController.generateRandomLib)
+      .route("/random-adlib")
+      .post(controller.generateRandomLib)
       .all(RouterErrorHandler.methodNotAllowed);
     this.router
       .route("/adlib")
-      .post(GeneratorController.generateLib)
+      .post(controller.generateLib)
       .all(RouterErrorHandler.methodNotAllowed);
     return this.router;
   }
