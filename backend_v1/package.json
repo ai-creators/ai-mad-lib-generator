@@ -8,7 +8,7 @@
     "node": "18.14.2"
   },
   "scripts": {
-    "build": "echo 📦 Building 🏗 && npx tsc",
+    "build": "tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
