@@ -15,6 +15,10 @@ export class Prompt {
     return this.originalPrompt;
   }
 
+  public setLength(length: "short" | "medium" | "long"): void {
+    this.promptLimits = `Keep the ad lib ${length}`;
+  }
+
   public getPrompt(): string {
     return `${Prompt.PROMPT_RULES} ${this.promptLimits} ${this.originalPrompt}`;
   }

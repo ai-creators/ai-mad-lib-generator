@@ -20,7 +20,6 @@ export class App {
   }
 
   private generateRoutes(): void {
-    console.log("GENERATING ROUTES");
     // this.app.use("/generate", GeneratorRouter.init);
     this.app.use("/adlib", AdLibRouter.init());
     this.app.use("/generator", GeneratorRouter.init());

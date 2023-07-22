@@ -19,9 +19,19 @@ export class GeneratorController extends Controller {
     this.generateLib = this.generateLib.bind(this);
   }
 
-  public generateRandomLib(req: Request, res: Response, next: NextFunction) {}
+  public generateRandomLib(req: Request, res: Response, next: NextFunction) {
+    try {
+    } catch (e: unknown) {
+      const error = ErrroHandler.ensureError(e);
+      return next({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
 
   public async generateLib(req: Request, res: Response, next: NextFunction) {
+    console.log("REQ: ", req.body.data);
     const data: GeneratorProps = this.requestTransformer.transform(req);
     if (!this.validator.validate(data)) {
       const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
@@ -39,6 +49,7 @@ export class GeneratorController extends Controller {
       );
       const prompt: Prompt = new Prompt(data.prompt);
       const createAdLib = await libVendor.createFromPrompt(prompt);
+      const savedAdLib = await this.service.saveAdLib(createAdLib);
       return AdLibController.sendResponse(res, createAdLib, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);

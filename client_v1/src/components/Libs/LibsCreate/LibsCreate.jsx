@@ -1,15 +1,69 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../Card/Card";
+import Lib from "../../../api/Lib";
+import ApiErrorHandler from "../../../errors/ApiErrorHandler";
+import ErrorAlert from "../../../errors/ErrorAlert";
+import ToastInformation from "../../Toast/ToastInformation/ToastInformation";
+import Loader from "../../Loader/Loader";
 
 const LibsCreate = () => {
   const [prompt, setPrompt] = useState("");
-  const createLib = (event) => {
-    event.preventDefault();
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const createLib = async (event) => {
+    try {
+      console.log("CREATING");
+      if (!isLoading) {
+        setIsLoading(true);
+        setError(null);
+        event.preventDefault();
+        if (!prompt) {
+          throw new Error(" A prompt is required");
+        }
+        const response = await Lib.create(prompt);
+        console.log("RESPONSE: ", response);
+        if (response.data) {
+          navigate("play", { state: { lib: response.data.text } });
+        }
+      }
+    } catch (e) {
+      setError(ApiErrorHandler.handleRequestResponse(e));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const createRandomLib = () => {};
+  const createRandomLib = async () => {
+    try {
+      console.log("RANDOM");
+      setIsLoading(true);
+      setError(null);
+      setPrompt("");
+      event.preventDefault();
+      const response = await Lib.createRandom();
+      console.log("RESPONSE: ", response);
+      if (response.data) {
+        navigate("play", { state: { lib: response.data.text } });
+      }
+    } catch (e) {
+      setError(ApiErrorHandler.handleRequestResponse(e));
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <Card>
+      {isLoading ? (
+        <ToastInformation className="w-48">
+          <div className="flex items-center justify-center gap-5">
+            <p>Loading</p>
+            <Loader />
+          </div>
+        </ToastInformation>
+      ) : null}
+      <ErrorAlert error={error} setError={setError} className="mb-3" />
       <h3 className="text-2xl font-semibold">Create an Ad-lib</h3>
       <form className="flex flex-col gap-3" onSubmit={createLib}>
         <label htmlFor="prompt" className="text-zinc-400">
@@ -25,17 +79,20 @@ const LibsCreate = () => {
               onChange={({ target: { value } }) => setPrompt(value)}
             />
             <button
-              className="absolute py-3 right-0 top-1/2 -translate-y-1/2 w-24 hover:bg-zinc-900 active:bg-zinc-800 ease-out duration-200 border-zinc-600 border-r-rounded border"
+              className="absolute py-3 right-0 top-1/2 -translate-y-1/2 w-24 hover:bg-zinc-900 active:bg-zinc-800 ease-out duration-200 border-zinc-600 border-r-rounded border disabled:cursor-not-allowed disabled:bg-zinc-800"
               type="submit"
+              disabled={isLoading}
             >
-              Generate
+              {isLoading ? "Loading" : "Generate"}
             </button>
           </div>
           <button
-            className="py-3 px-3 hover:bg-zinc-900 w-fit active:bg-zinc-800 ease-out duration-200 border-r-rounded border rounded border-zinc-600"
+            className="py-3 px-3 hover:bg-zinc-900 w-fit active:bg-zinc-800 ease-out duration-200 border-r-rounded border rounded border-zinc-600 disabled:cursor-not-allowed disabled:bg-zinc-800"
+            type="button"
             onClick={createRandomLib}
+            disabled={isLoading}
           >
-            Random Ad-Lib
+            {isLoading ? "Loading" : "Random Ad-Lib"}
           </button>
         </div>
       </form>

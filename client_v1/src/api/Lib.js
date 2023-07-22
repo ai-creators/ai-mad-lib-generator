@@ -6,8 +6,22 @@ const get = async (timestamp, type, page = "1", pagination = "5") => {
   );
 };
 
+const create = async (prompt) => {
+  return await Api.post("generator/adlib", {
+    data: {
+      prompt,
+    },
+  });
+};
+
+const createRandom = async () => {
+  return await Api.post("generator/random-adlib");
+};
+
 const Lib = {
   get,
+  create,
+  createRandom,
 };
 
 Object.freeze(Lib);

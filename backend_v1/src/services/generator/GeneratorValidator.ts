@@ -8,10 +8,12 @@ export class GeneratorValidator implements Validator {
 
   public validate(data: GeneratorProps): boolean {
     this.validatePrompt(data.prompt);
+    console.log("INVALID PROPS: ", this.invalidProperties);
     return this.invalidProperties.length === 0;
   }
 
   private validatePrompt(prompt: String): void {
+    console.log("PROMPT: ", prompt);
     const invalidObject: { label: string; message: string } = {
       label: "prompt",
       message: "",
