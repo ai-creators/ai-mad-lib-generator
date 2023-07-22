@@ -4,7 +4,7 @@ import { GeneratorRouter } from "./services/generator/GeneratorRouter";
 import { AdLibRouter } from "./services/adlib/AdLibRouter";
 import { RouterErrorHandler } from "./errors/RouterErrorHandler";
 
-class App {
+export class App {
   private constructor() {}
 
   public static getInstance(): App {
@@ -40,5 +40,3 @@ class App {
 
   private static instance: App;
 }
-
-export default App;
