@@ -2,8 +2,8 @@ import path from "path";
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 const { PORT = 5000, NODE_ENV } = process.env;
 import mongoose from "mongoose";
-import { App } from "./App";
 import { DatabaseConfig } from "./db/DatabaseConfig";
+import app from "./app";
 
 mongoose
   .connect(DatabaseConfig.getDatabaseUri(NODE_ENV))
@@ -15,7 +15,6 @@ mongoose
     console.error(error);
   });
 
-const app = App.getInstance();
 app.init();
 app.getExpressApp().listen(PORT, listener);
 function listener() {
