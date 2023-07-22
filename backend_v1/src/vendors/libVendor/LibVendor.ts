@@ -42,6 +42,7 @@ export class LibVendor {
       return this.validateResponse(formattedResponse, prompt);
     } catch (e: unknown) {
       console.log("ERROR IN VENODR: ", e);
+      throw e;
     }
   }
 
