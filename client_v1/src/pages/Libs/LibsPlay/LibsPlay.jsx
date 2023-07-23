@@ -1,8 +1,21 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Layout from "../../../layout/Layout";
+import Container from "../../../components/Container/Container";
+import LibsBuilder from "../../../components/Libs/LibsBuilder/LibsBuilder";
 
 const LibsPlay = () => {
-  const { state } = useLocation();
-  return <div>{JSON.stringify(state)}</div>;
+  const { lib } = useLocation().state;
+  const navigate = useNavigate();
+  if (!lib) {
+    navigate("/", { state: { error: "No ad-lib found." } });
+  }
+  return (
+    <Layout>
+      <Container className="grid-aside py-12 gap-12 px-3">
+        {lib && <LibsBuilder lib={lib} />}
+      </Container>
+    </Layout>
+  );
 };
 
 export default LibsPlay;
