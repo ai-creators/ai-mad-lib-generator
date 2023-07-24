@@ -8,6 +8,7 @@ const AdLibSchema = new Schema<IAdLib>(
     numberOfLikes: { type: Number, default: 0 },
     numberOfDislikes: { type: Number, default: 0 },
     numberOfSaves: { type: Number, default: 0 },
+    isHidden: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
