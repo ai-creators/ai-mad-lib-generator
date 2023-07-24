@@ -75,7 +75,7 @@ const LibsCreate = () => {
               type="text"
               className="border-zinc-600 border p-3 pr-28 rounded bg-inherit w-full  focus:outline outline-2 outline-offset-2 outline-white placeholder:text-zinc-500"
               value={prompt}
-              placeholder="A chciken fighting with my mother..."
+              placeholder="A chicken fighting with my mother..."
               onChange={({ target: { value } }) => setPrompt(value)}
             />
             <button
