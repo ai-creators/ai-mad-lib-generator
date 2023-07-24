@@ -50,7 +50,7 @@ export class GeneratorController extends Controller {
       const prompt: Prompt = new Prompt(data.prompt);
       const createAdLib = await libVendor.createFromPrompt(prompt);
       const savedAdLib = await this.service.saveAdLib(createAdLib);
-      return AdLibController.sendResponse(res, createAdLib, 200);
+      return AdLibController.sendResponse(res, savedAdLib, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
       return next({
