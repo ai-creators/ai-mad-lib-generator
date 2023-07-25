@@ -19,7 +19,10 @@ const LibViewer = ({ lib, questions }) => {
                 const replaced = word.replace(regex, questions[index].answer);
                 index++;
                 return (
-                  <b key={i} className="rainbow">
+                  <b
+                    key={i}
+                    className="tracking-wide font-bold underline underline-offset-4"
+                  >
                     {replaced}{" "}
                   </b>
                 );
