@@ -48,7 +48,6 @@ const LibsFeatured = () => {
       ) : (
         <ul className="flex flex-col gap-5 max-w-[100%]">
           {libs.map((lib) => {
-            console.log("LIB: ", lib);
             return (
               <li key={lib._id}>
                 <div className="border border-zinc-600 text-white p-5 rounded-lg">
