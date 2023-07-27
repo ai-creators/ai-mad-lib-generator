@@ -37,13 +37,10 @@ const LibsCreate = () => {
 
   const createRandomLib = async () => {
     try {
-      console.log("RANDOM");
       setIsLoading(true);
       setError(null);
       setPrompt("");
-      event.preventDefault();
       const response = await Lib.createRandom();
-      console.log("RESPONSE: ", response);
       if (response.data) {
         navigate("play", { state: { lib: response.data.text } });
       }

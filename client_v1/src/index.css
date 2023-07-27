@@ -69,6 +69,20 @@ video {
   -webkit-text-fill-color: transparent;
 }
 
+.navbar-canvas-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 23;
+  background-color: rgba(0, 0, 0, 0.377);
+}
+
+.navbar-canvas {
+  z-index: 25;
+}
+
 @media screen and (min-width: 500px) {
   .footer-grid {
     display: grid;
