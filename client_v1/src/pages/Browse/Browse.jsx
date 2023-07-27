@@ -7,7 +7,7 @@ const Browse = () => {
       <Container className="grid-aside py-12 gap-12 px-3">
         <BrowseLibs />
         <aside>
-          <h3 className="text-2xl font-semibold">Featured Ad-Libs</h3>
+          <h3 className="text-2xl font-semibold">Search Ad-Libs</h3>
         </aside>
       </Container>
     </Layout>

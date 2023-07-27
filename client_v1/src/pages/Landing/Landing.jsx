@@ -7,7 +7,7 @@ const Landing = () => {
   return (
     <LayoutLanding>
       <Hero />
-      <section className="h-[40vh] bg-white text-black flex justify-center items-center">
+      <section className="h-[90vh] bg-white text-black flex justify-center items-center">
         <Container className="flex flex-col items-center justify-center gap-5 max-w-lg text-center">
           <h3 className="text-4xl font-bold">Coming Soon</h3>
           <p>
