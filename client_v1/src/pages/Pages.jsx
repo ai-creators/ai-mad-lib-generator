@@ -1,8 +1,9 @@
 import Landing from "./Landing/Landing";
 import { Routes, Route } from "react-router-dom";
 import Libs from "./Libs/Libs";
-import LibsBrowse from "./Libs/LibsBrowse/LibsBrowse";
 import LibsPlay from "./Libs/LibsPlay/LibsPlay";
+import Browse from "./Browse/Browse";
+import NotFound from "./NotFound/NotFound";
 
 const Pages = () => {
   return (
@@ -10,8 +11,9 @@ const Pages = () => {
       <Route index element={<Landing />} />
       <Route path="landing" element={<Landing />} />
       <Route path="libs" element={<Libs />}></Route>
-      <Route path="libs/browse" element={<LibsBrowse />} />
+      <Route path="libs/browse" element={<Browse />} />
       <Route path="libs/play" element={<LibsPlay />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

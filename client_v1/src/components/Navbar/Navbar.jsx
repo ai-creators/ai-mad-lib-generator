@@ -20,12 +20,12 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="browse" className="p-3">
+            <Link to="/libs/browse" className="p-3">
               Browse
             </Link>
           </li>
           <li>
-            <Link to="saves" className="p-3">
+            <Link to="/saves" className="p-3">
               Saves
             </Link>
           </li>
