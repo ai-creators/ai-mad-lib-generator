@@ -1,13 +1,19 @@
 import ButtonYellow from "../../components/Button/ButtonYellow/ButtonYellow";
 import Container from "../../components/Container/Container";
 import Hero from "../../components/Hero/Hero";
+import HeroDemo from "../../components/Hero/HeroDemo/HeroDemo";
 import LayoutLanding from "../../layout/LayoutLanding/LayoutLanding";
 
 const Landing = () => {
   return (
     <LayoutLanding>
       <Hero />
-      <section className="h-[90vh] bg-white text-black flex justify-center items-center">
+      <section className="p-5 bg-white flex justify-center items-center">
+        <div className="h-[50vh] w-[48rem]">
+          <HeroDemo />
+        </div>
+      </section>
+      <section className="h-[40vh] bg-white text-black flex justify-center items-center">
         <Container className="flex flex-col items-center justify-center gap-5 max-w-lg text-center">
           <h3 className="text-4xl font-bold">Coming Soon</h3>
           <p>
