@@ -6,6 +6,10 @@ export class Prompt {
     this.setPromptLimits();
   }
 
+  public getPatreonLevel(): "silver" | "gold" | "platinum" {
+    return this.patreonLevel;
+  }
+
   private setPromptLimits(): void {
     switch (this.patreonLevel) {
       case "silver":
@@ -21,6 +25,7 @@ export class Prompt {
         // if not recognized patreon level, use the default limit set in the constructor
         break;
     }
+
   }
 
   public getPromptLimits(): string {
@@ -39,7 +44,7 @@ export class Prompt {
     return this.minSentences;
   }
 
-  public setMinimumSentences(minSentences: 3): void {
+  public setMinimumSentences(minSentences: number): void {
     this.minSentences = `The AI must generate at least ${minSentences} sentences.`;
   }
 
