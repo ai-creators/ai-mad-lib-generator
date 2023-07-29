@@ -4,7 +4,7 @@ import Container from "../../components/Container/Container";
 const Saves = () => {
   return (
     <Container className="grid-aside py-12 gap-12">
-      <Card>
+      <Card useForSmall>
         <div className="flex flex-col gap-3">
           <div>
             <h3 className="text-2xl font-semibold cpaitalize">Saved Ad-Libs</h3>

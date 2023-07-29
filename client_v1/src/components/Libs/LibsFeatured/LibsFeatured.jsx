@@ -30,7 +30,7 @@ const LibsFeatured = () => {
     })();
   }, []);
   return (
-    <Card className="flex flex-col gap-3">
+    <Card className="flex flex-col gap-3" useForSmall>
       <ErrorAlert error={error} />
       <div>
         <h3 className="text-2xl font-semibold">Featured Ad-libs</h3>
@@ -61,7 +61,7 @@ const LibsFeatured = () => {
                   </div>
 
                   <Link
-                    to="play"
+                    to="/libs/play"
                     className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
                     state={{ lib }}
                   >

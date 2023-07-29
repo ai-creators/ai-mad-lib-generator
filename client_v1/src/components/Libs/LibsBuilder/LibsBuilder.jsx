@@ -91,7 +91,7 @@ const LibsBuilder = ({ lib }) => {
   }
   console.log("QUESTIONS: ", questions);
   return isBuilderDone ? (
-    <Card className="flex flex-col gap-5">
+    <Card className="flex flex-col gap-5" useForSmall>
       <header>
         <h2 className="text-xl font-semibold capitalize">{lib.prompt}...</h2>
       </header>

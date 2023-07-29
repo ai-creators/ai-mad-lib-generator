@@ -4,12 +4,13 @@ const Card = ({
   border = "border border-zinc-600",
   borderRadius = "rounded-lg",
   className = "",
+  useForSmall = false,
 }) => {
   return (
     <article
-      className={`${padding} ${border} ${borderRadius}${
-        className && " " + className
-      }`}
+      className={`${padding} ${useForSmall ? `lg:${border}` : border} ${
+        useForSmall ? `lg:${borderRadius}` : borderRadius
+      }${className && " " + className}`}
     >
       {children}
     </article>

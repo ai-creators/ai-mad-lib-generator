@@ -50,7 +50,7 @@ const LibsCreate = () => {
     }
   };
   return (
-    <Card>
+    <Card useForSmall>
       {isLoading ? (
         <ToastInformation className="w-48">
           <div className="flex items-center justify-center gap-5">

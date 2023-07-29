@@ -6,7 +6,7 @@ const BrowseSearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const searchLib = () => {};
   return (
-    <Card>
+    <Card useForSmall>
       <h3 className="text-2xl font-semibold">Search an Ad-Lib</h3>
       <form className="flex flex-col gap-3" onSubmit={searchLib}>
         <label htmlFor="search" className="text-zinc-400">
