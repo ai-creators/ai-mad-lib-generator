@@ -49,7 +49,7 @@ const BrowseLibs = () => {
 
   return (
     <Card className="flex flex-col gap-3">
-      <div className="flex justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:justify-between">
         <div>
           <h3 className="text-2xl font-semibold capitalize">{type}...</h3>
           <p className="text-zinc-400">View {type} Ad-Libs</p>
