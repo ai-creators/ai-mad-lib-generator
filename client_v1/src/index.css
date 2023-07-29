@@ -138,7 +138,7 @@ video {
 
 @media screen and (min-width: 1024px) {
   .grid-aside {
-    grid-template-columns: 3fr 2fr;
+    /* grid-template-columns: 3fr 2fr; */
   }
 }
 

@@ -1,4 +1,4 @@
-import Footer from "../components/Footer/Footer";
+import FooterOld from "../components/Footer/FooterOld/FooterOld";
 import Navbar from "../components/Navbar/Navbar";
 
 const Layout = ({ children }) => {
@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <>
       <Navbar />
       <main className="bg-zinc-950 text-white">{children}</main>
-      <Footer />
+      <FooterOld />
     </>
   );
 };

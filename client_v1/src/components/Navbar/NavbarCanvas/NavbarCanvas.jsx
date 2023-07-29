@@ -37,15 +37,6 @@ const NavbarCanvas = ({ isOpen, setIsOpen }) => {
           </li>
           <li>
             <Link
-              to="/libs"
-              className="p-5 block ease-out duration-200 hover:bg-zinc-900 active:bg-zinc-800"
-              onClick={closeCanvas}
-            >
-              Create
-            </Link>
-          </li>
-          <li>
-            <Link
               to="/libs/browse"
               className="p-5 block ease-out duration-200 hover:bg-zinc-900 active:bg-zinc-800"
               onClick={closeCanvas}

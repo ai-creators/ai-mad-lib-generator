@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Container from "../../components/Container/Container";
-import Layout from "../../layout/Layout";
 
 const NotFound = () => {
   return (

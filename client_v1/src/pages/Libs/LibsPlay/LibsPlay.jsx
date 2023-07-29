@@ -10,7 +10,7 @@ const LibsPlay = () => {
     navigate("/", { state: { error: "No ad-lib found." } });
   }
   return (
-    <Container className="grid-aside py-12 gap-12 px-3">
+    <Container className="grid-aside py-12 gap-12">
       {lib && <LibsBuilder lib={lib} />}
     </Container>
   );

@@ -8,7 +8,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-zinc-950 text-white border-b border-zinc-600">
-      <Container className="p-3 flex justify-between items-center">
+      <Container className="py-3 flex justify-between items-center">
         <Link to="/" className="py-3">
           <h1 className="text-lg font-semibold">Ai Ad-Libs</h1>
         </Link>
@@ -22,11 +22,6 @@ const Navbar = () => {
           <li>
             <Link to="/" className="p-3">
               Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/libs" className="p-3">
-              Create
             </Link>
           </li>
           <li>

@@ -1,6 +1,6 @@
 const Container = ({ children, className = "" }) => {
   return (
-    <div className={`${className && className + " "}container mx-auto`}>
+    <div className={`${className && className + " "}max-w-4xl mx-auto`}>
       {children}
     </div>
   );

@@ -4,13 +4,8 @@ import LibsFeatured from "../../components/Libs/LibsFeatured/LibsFeatured";
 
 const Libs = () => {
   return (
-    <Container className="grid-aside py-12 gap-12 px-3">
+    <Container className="grid-aside py-12 gap-12">
       <LibsCreate />
-      <aside className="hidden lg:block">
-        <h3 className="text-2xl font-semibold">Featured Ad-Libs</h3>
-        <p className="text-zinc-400">View</p>
-      </aside>
-
       <LibsFeatured />
     </Container>
   );
