@@ -5,7 +5,7 @@ const Browse = () => {
   return (
     <Container className="grid-aside py-12 gap-12 px-3">
       <BrowseSearch />
-      <aside>
+      <aside className="hidden lg:block">
         <h3 className="text-2xl font-semibold">Search Ad-Libs</h3>
       </aside>
       <BrowseLibs />
