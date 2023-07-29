@@ -12,8 +12,8 @@ const BrowseLibs = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [timestamp] = useState(new Date());
-  const [page, setPage] = useState(1);
-  const [pagination, setPagination] = useState(30);
+  const [page] = useState(1);
+  const [pagination] = useState(30);
   const changeType = ({ target: { id } }) => {
     setType(id);
   };
@@ -113,7 +113,7 @@ const BrowseLibs = () => {
                   </div>
 
                   <Link
-                    to="play"
+                    to="/libs/play"
                     className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
                     state={{ lib }}
                   >
