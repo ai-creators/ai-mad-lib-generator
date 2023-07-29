@@ -33,6 +33,13 @@ export class AdLibController extends Controller {
           data.pagination
         );
         return AdLibController.sendResponse(res, foundAdLibs, 200);
+      } else if (data?.type === "newest") {
+        const foundAdLibs = await this.service.getLibsByNewest(
+          new Date(req.query.timestamp as string),
+          data.page,
+          data.pagination
+        );
+        return AdLibController.sendResponse(res, foundAdLibs, 200);
       } else {
         const foundAdLibs = await this.service.getLibs(
           new Date(req.query.timestamp as string),

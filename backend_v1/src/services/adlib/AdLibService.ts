@@ -27,4 +27,9 @@ export class AdLibService {
     const pager = new Pagination(AdLib);
     return pager.pageable({}, page, pagination, { createdAt: 1 });
   }
+
+  public getLibsByNewest(timestamp: Date, page: number, pagination: number) {
+    const pager = new Pagination(AdLib);
+    return pager.pageable({}, page, pagination, { createdAt: -1 });
+  }
 }
