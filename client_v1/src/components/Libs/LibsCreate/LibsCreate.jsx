@@ -24,7 +24,7 @@ const LibsCreate = () => {
         const response = await Lib.create(prompt);
         console.log("RESPONSE: ", response);
         if (response.data) {
-          navigate("play", { state: { lib: response.data } });
+          navigate("/libs/play", { state: { lib: response.data } });
         }
       }
     } catch (e) {
