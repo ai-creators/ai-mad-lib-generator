@@ -1,7 +1,12 @@
+import Layout from "./layout/Layout";
 import Pages from "./pages/Pages";
 
 const App = () => {
-  return <Pages />;
+  return (
+    <Layout>
+      <Pages />
+    </Layout>
+  );
 };
 
 export default App;

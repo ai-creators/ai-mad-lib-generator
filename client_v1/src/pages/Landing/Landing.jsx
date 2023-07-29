@@ -6,7 +6,7 @@ import LayoutLanding from "../../layout/LayoutLanding/LayoutLanding";
 
 const Landing = () => {
   return (
-    <LayoutLanding>
+    <>
       <Hero />
       <section className="p-5 bg-white flex justify-center items-center">
         <div className="h-[50vh] w-[48rem]">
@@ -42,7 +42,7 @@ const Landing = () => {
           </div>
         </Container>
       </section>
-    </LayoutLanding>
+    </>
   );
 };
 

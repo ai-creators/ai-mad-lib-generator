@@ -14,7 +14,6 @@ const LibsCreate = () => {
   const navigate = useNavigate();
   const createLib = async (event) => {
     try {
-      console.log("CREATING");
       if (!isLoading) {
         setIsLoading(true);
         setError(null);
