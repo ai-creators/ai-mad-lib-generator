@@ -41,7 +41,7 @@ const LibsCreate = () => {
       setPrompt("");
       const response = await Lib.createRandom();
       if (response.data) {
-        navigate("play", { state: { lib: response.data.text } });
+        navigate("/libs/play", { state: { lib: response.data.text } });
       }
     } catch (e) {
       setError(ApiErrorHandler.handleRequestResponse(e));
