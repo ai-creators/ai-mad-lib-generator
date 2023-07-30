@@ -29,5 +29,9 @@ jobs:
         working-directory: ./backend_v1
 
       - name: Run tests
+        env:
+          OPEN_API_KEY: ${{ secrets.OPEN_API_KEY }}
+          DATABASE_URL_TEST: ${{ secrets.DATABASE_URL_TEST }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
         run: npm test
         working-directory: ./backend_v1
