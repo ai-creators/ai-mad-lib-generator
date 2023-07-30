@@ -1,28 +1,18 @@
 import { NextFunction, Request, Response } from "express";
-
+import httpMocks, { MockRequest, MockResponse } from "node-mocks-http";
 export class Mocker {
-  public static mockParams(): {
-    req: Request;
-    res: Response;
-    next: NextFunction;
-  } {
-    return {
-      req: Mocker.mockRequest(),
-      res: Mocker.mockResponse(),
-      next: Mocker.mockNextFunction(),
-    };
+  public static mockParams(reqConfig: {} = {}, resConfig: {} = {}): any {
+    return httpMocks.createMocks(reqConfig, resConfig);
   }
 
-  public static mockRequest(): Request {
-    return {
-      body: {
-        data: {},
-      },
-    } as Request;
+  public static mockRequest(config: {} = {}): MockRequest<any> {
+    const req = httpMocks.createRequest(config);
+    return req;
   }
 
-  public static mockResponse(): Response {
-    return {} as Response;
+  public static mockResponse(): MockResponse<any> {
+    const res = httpMocks.createResponse();
+    return res;
   }
 
   public static mockNextFunction(): NextFunction {

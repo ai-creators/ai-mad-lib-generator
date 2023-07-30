@@ -1,5 +1,5 @@
 import path from "path";
-require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
+require("dotenv").config({ path: path.join(__dirname, "../../", ".env") });
 
 export class DatabaseConfig {
   public static getDatabaseUri(NODE_ENV: string | undefined): string {
