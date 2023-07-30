@@ -27,10 +27,6 @@ describe("Generator Controller", () => {
     }
   });
 
-  afterAll(() => {
-    DatabaseManager.disconnect();
-  });
-
   describe("generateLib", () => {
     it("Should return the proper error if no prompt is provided", async () => {
       const req = Mocker.mockRequest({
