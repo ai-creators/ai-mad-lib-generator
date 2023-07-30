@@ -34,7 +34,6 @@ export class GeneratorController extends Controller {
       const randomPrompt: string = await libVendor.createRandomPrompt();
       const prompt: Prompt = new Prompt(randomPrompt);
       const createdAdLib = await libVendor.createFromPrompt(prompt);
-      console.log("CREATED: ", createdAdLib);
       const savedAdLib = await this.service.saveAdLib(createdAdLib);
       return AdLibController.sendResponse(res, savedAdLib, 200);
     } catch (e: unknown) {

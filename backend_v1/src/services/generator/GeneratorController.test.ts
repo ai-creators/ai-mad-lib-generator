@@ -13,7 +13,6 @@ describe("Generator Controller", () => {
       try {
         await controller.generateLib(req, res, next);
       } catch (e: any) {
-        console.log(e.status);
         expect(expectedMessage).toBe(e.message);
         expect(expectedStatus).toBe(e.status);
       }
@@ -22,7 +21,6 @@ describe("Generator Controller", () => {
     it("Should return the propper error if the prompt is not a string", async () => {
       const { req, res, next } = Mocker.mockParams();
       req.body.data.prompt = 100;
-      console.log("REQ: ", req);
       const expectedMessage =
         "These properties are not valid: prompt: Prompt needs to be of type string";
       const expectedStatus = 400;
@@ -40,7 +38,7 @@ describe("Generator Controller", () => {
         "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
       req.body.data.prompt = prompt;
       const expectedPromptLength = prompt.length;
-      const expectedMessage = `These properties are not valid: prompt: Prompt has ${expectedPromptLength} cannot exceed 255 characters`;
+      const expectedMessage = `These properties are not valid: prompt: Prompt has ${expectedPromptLength} characters and cannot exceed 255 characters`;
       const expectedStatus = 400;
       try {
         await controller.generateLib(req, res, next);
