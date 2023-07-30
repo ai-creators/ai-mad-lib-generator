@@ -16,16 +16,16 @@ export class AdLibController extends Controller {
   }
 
   public async getLibs(req: Request, res: Response, next: NextFunction) {
-    const data: AdLibProps = this.requestTransformer.transform(req);
-    if (!this.validator.validate(data)) {
-      const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
-      this.validator.resetInvalidProperties();
-      return next({
-        status: 400,
-        message: message,
-      });
-    }
     try {
+      const data: AdLibProps = this.requestTransformer.transform(req);
+      if (!this.validator.validate(data)) {
+        const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
+        this.validator.resetInvalidProperties();
+        return next({
+          status: 400,
+          message: message,
+        });
+      }
       if (data?.type === "featured") {
         const foundAdLibs = await this.service.getLibsByFeatured(
           new Date(req.query.timestamp as string),

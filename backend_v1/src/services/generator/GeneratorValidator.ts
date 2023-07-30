@@ -8,12 +8,10 @@ export class GeneratorValidator implements Validator {
 
   public validate(data: GeneratorProps): boolean {
     this.validatePrompt(data.prompt);
-    console.log("INVALID PROPS: ", this.invalidProperties);
     return this.invalidProperties.length === 0;
   }
 
   private validatePrompt(prompt: String): void {
-    console.log("PROMPT: ", prompt);
     const invalidObject: { label: string; message: string } = {
       label: "prompt",
       message: "",
@@ -24,10 +22,16 @@ export class GeneratorValidator implements Validator {
       return;
     }
     if (typeof prompt !== "string") {
-      invalidObject.message = "A prompt needs to be of type string";
+      invalidObject.message = "prompt needs to be of type string";
       this.addToInvalidProperties(invalidObject);
       return;
     }
+    if (prompt.length > 255) {
+      invalidObject.message = `Prompt has ${prompt.length} characters and cannot exceed 255 characters`;
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
+    return;
   }
 
   public addToInvalidProperties(property: {
@@ -63,5 +67,7 @@ export class GeneratorValidator implements Validator {
   private invalidProperties: {
     label: string;
     message: string;
-  }[];
+  }[] = [];
+
+  private static readonly PROMPT_LENGTH = 255;
 }

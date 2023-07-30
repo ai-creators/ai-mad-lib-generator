@@ -47,16 +47,16 @@ export class GeneratorController extends Controller {
   }
 
   public async generateLib(req: Request, res: Response, next: NextFunction) {
-    const data: GeneratorProps = this.requestTransformer.transform(req);
-    if (!this.validator.validate(data)) {
-      const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
-      this.validator.resetInvalidProperties();
-      return next({
-        status: 400,
-        message: message,
-      });
-    }
     try {
+      const data: GeneratorProps = this.requestTransformer.transform(req);
+      if (!this.validator.validate(data)) {
+        const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
+        this.validator.resetInvalidProperties();
+        return next({
+          status: 400,
+          message: message,
+        });
+      }
       const libVendor = new LibVendor(
         new Configuration({
           apiKey: process.env.OPENAI_API_KEY,
