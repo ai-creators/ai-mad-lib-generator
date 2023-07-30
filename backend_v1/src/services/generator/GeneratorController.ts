@@ -49,6 +49,7 @@ export class GeneratorController extends Controller {
   public async generateLib(req: Request, res: Response, next: NextFunction) {
     try {
       const data: GeneratorProps = this.requestTransformer.transform(req);
+      throw new Error("POOP");
       if (!this.validator.validate(data)) {
         const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
         this.validator.resetInvalidProperties();
