@@ -10,9 +10,9 @@ const Card = ({
   const formattedBorder = useForSmall ? "border-0 lg:border" : border;
   return (
     <article
-      className={`${padding} ${formattedBorder} ${borderColor} ${
-        useForSmall ? `lg:${borderRadius}` : borderRadius
-      }${className && " " + className}`}
+      className={`${padding} ${formattedBorder} ${borderColor} ${borderRadius} ${
+        className && " " + className
+      }`}
     >
       {children}
     </article>

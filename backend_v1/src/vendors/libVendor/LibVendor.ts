@@ -37,11 +37,30 @@ export class LibVendor {
         temperature: LibVendor.TEMPERATURE,
         n: 1,
       });
-      console.log("RESPONSE: ", response.data);
       const formattedResponse = this.transformer.transform(response.data);
       return this.validateResponse(formattedResponse, prompt);
     } catch (e: unknown) {
-      console.log("ERROR IN VENODR: ", e);
+      throw e;
+    }
+  }
+
+  public async createRandomPrompt(): Promise<string> {
+    try {
+      const response: any = await this.aiApi.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Create a 5-8 word prompt for a short story without quotes",
+          },
+        ],
+        temperature: LibVendor.TEMPERATURE,
+        n: 1,
+      });
+      const formattedResponse = this.transformer.transform(response.data);
+      return this.validateResponse(formattedResponse, new Prompt("")).text;
+    } catch (e: unknown) {
       throw e;
     }
   }
