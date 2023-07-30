@@ -18,11 +18,6 @@ describe("Generator Controller", () => {
     }
     try {
       // console.log("Connecting to db for testing 🔌");
-      console.log("NODE_ENVVVVVVVVVVVVVVV: ", NODE_ENV);
-      console.log(
-        "URIIIIIIIIIIIIIII: ",
-        DatabaseConfig.getDatabaseUri(NODE_ENV)
-      );
       DatabaseManager.connect(DatabaseConfig.getDatabaseUri(NODE_ENV));
       DatabaseManager.rollback<any>(AdLib, []);
     } catch (error) {

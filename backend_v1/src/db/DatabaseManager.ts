@@ -7,7 +7,10 @@ export class DatabaseManager {
     if (!dbUri) {
       throw new Error(`Database uri provided: "${dbUri}" is no a valid uri`);
     }
-    return mongoose.connect(dbUri);
+    return mongoose.connect(dbUri).then((res) => {
+      console.log("CONNECXTED TO THE DB");
+      return res;
+    });
   }
 
   public static disconnect(): Promise<void> {
