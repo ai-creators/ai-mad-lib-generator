@@ -27,7 +27,7 @@ describe("Generator Controller", () => {
       try {
         await controller.generateLib(req, res, next);
       } catch (e: any) {
-        expect(expectedMessage).toBe(e.message);
+        expect(1).toBe(2);
         expect(expectedStatus).toBe(e.status);
       }
     });
