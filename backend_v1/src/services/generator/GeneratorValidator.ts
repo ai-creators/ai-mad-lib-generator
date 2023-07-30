@@ -22,7 +22,7 @@ export class GeneratorValidator implements Validator {
       return;
     }
     if (typeof prompt !== "string") {
-      invalidObject.message = "prompt needs to be of type string";
+      invalidObject.message = "Prompt needs to be of type string";
       this.addToInvalidProperties(invalidObject);
       return;
     }
