@@ -1,5 +1,5 @@
 import path from "path";
-import { Mocker } from "../test/Mocker";
+import { HttpMocker } from "../test/HttpMocker";
 import { Controller } from "./Controller";
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
@@ -17,7 +17,7 @@ describe("Controller", () => {
       updatedAt: "2023-07-30T18:50:52.489Z",
       __v: 0,
     };
-    const res = Mocker.mockResponse();
+    const res = HttpMocker.mockResponse();
     const expectedStatus = 200;
     Controller.sendResponse(res, expectedData, expectedStatus);
     const data = res._getJSONData();

@@ -11,7 +11,7 @@
     "build": "echo 🚧 📦 Building 📦 🚧 && tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "test": "npm run build && npx cross-env NODE_ENV=test ENV_FILE=./.env jest",
+    "test": "npm run build && npx cross-env NODE_ENV=test ENV_FILE=./.env jest --detectOpenHandles",
     "test:coverage": "npx cross-env NODE_ENV=test ENV_FILE=./.env jest --coverage"
   },
   "keywords": [],

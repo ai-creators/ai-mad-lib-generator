@@ -18,6 +18,7 @@ export class GeneratorController extends Controller {
     this.requestTransformer = new GeneratorRequestTransformer();
     this.generateLib = this.generateLib.bind(this);
     this.generateRandomLib = this.generateRandomLib.bind(this);
+    this.getService = this.getService.bind(this);
   }
 
   public async generateRandomLib(
@@ -63,6 +64,7 @@ export class GeneratorController extends Controller {
       );
       const prompt: Prompt = new Prompt(data.prompt);
       const createdAdLib = await libVendor.createFromPrompt(prompt);
+      console.log("CREATED AD LIB: ", createdAdLib);
       const savedAdLib = await this.service.saveAdLib(createdAdLib);
       return AdLibController.sendResponse(res, savedAdLib, 200);
     } catch (e: unknown) {
@@ -72,6 +74,10 @@ export class GeneratorController extends Controller {
         message: error.message,
       });
     }
+  }
+
+  public getService(): GeneratorService {
+    return this.service;
   }
 
   private service: GeneratorService;
