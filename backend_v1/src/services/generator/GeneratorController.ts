@@ -9,6 +9,7 @@ import { GeneratorService } from "./GeneratorService";
 import { GeneratorRequestTransformer } from "./GeneratorRequestTransformer";
 import { GeneratorProps } from "../../ts/types/GeneratorProps";
 import { Prompt } from "./Prompt";
+import { Service } from "../../common/Service";
 
 export class GeneratorController extends Controller {
   constructor() {
@@ -66,6 +67,7 @@ export class GeneratorController extends Controller {
       const createdAdLib = await libVendor.createFromPrompt(prompt);
       console.log("CREATED AD LIB: ", createdAdLib);
       const savedAdLib = await this.service.saveAdLib(createdAdLib);
+      console.log("RESPONSE: ", savedAdLib);
       return AdLibController.sendResponse(res, savedAdLib, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
@@ -76,7 +78,7 @@ export class GeneratorController extends Controller {
     }
   }
 
-  public getService(): GeneratorService {
+  public getService(): Service {
     return this.service;
   }
 

@@ -7,16 +7,25 @@ import { GeneratorController } from "./GeneratorController";
 import { DatabaseManager } from "../../db/DatabaseManager";
 import { DatabaseConfig } from "../../db/DatabaseConfig";
 import AdLib from "../../db/models/AdLibModel";
+import { GeneratorService } from "./GeneratorService";
+import { IAdLib } from "../../ts/Interfaces/IAdLibs";
 import { GeneratorServiceMock } from "../../test/__mocks__/GeneratorServiceMock";
 
+jest.mock("./GeneratorService");
+
 describe("Generator Controller", () => {
-  let controller = new GeneratorController();
+  let controller: GeneratorController;
   let spy: jest.SpyInstance;
   beforeEach(() => {
-    spy = jest.spyOn(controller, "getService").mockReturnValue(new GeneratorServiceMock());
+    controller = new GeneratorController();
+    const mockService = new GeneratorServiceMock();
+    spy = jest
+      .spyOn(controller, "getService")
+      .mockImplementation(() => mockService);
+  });
 
   afterEach(() => {
-    spy.mockRestore();
+    jest.clearAllMocks();
   });
 
   beforeAll(() => {
@@ -35,6 +44,20 @@ describe("Generator Controller", () => {
   });
 
   describe("generateLib", () => {
+    let controller: GeneratorController;
+    let spy: jest.SpyInstance;
+    beforeEach(() => {
+      controller = new GeneratorController();
+      const mockService = new GeneratorService();
+      spy = jest
+        .spyOn(controller, "getService")
+        .mockImplementation(() => mockService);
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     it("Should return the proper error if no prompt is provided", async () => {
       const req = HttpMocker.mockRequest({
         body: {
@@ -109,7 +132,10 @@ describe("Generator Controller", () => {
       const res = HttpMocker.mockResponse();
       const next = HttpMocker.mockNextFunction();
       await controller.generateLib(req, res, next);
+      console.log("RES: ", res);
+      console.log("UNFORMATTED: ", res._getData());
       const data = res._getJSONData();
+      console.log("DATA: ", data);
       expect(data.text).toBeDefined();
       expect(data.prompt).toBeDefined();
       expect(data.numberOfLikes).toBeDefined();
