@@ -1,26 +1,34 @@
-import { NextFunction } from "express";
-import { MockNextFunction, MockRequest, MockResponse } from "./IMocker";
+import { NextFunction, Request, Response } from "express";
 
 export class Mocker {
-  public static mockRequest<T>(data: T): MockRequest<T> {
-    const req = {
+  public static mockParams(): {
+    req: Request;
+    res: Response;
+    next: NextFunction;
+  } {
+    return {
+      req: Mocker.mockRequest(),
+      res: Mocker.mockResponse(),
+      next: Mocker.mockNextFunction(),
+    };
+  }
+
+  public static mockRequest(): Request {
+    return {
       body: {
-        data,
+        data: {},
       },
-    };
-    return req;
+    } as Request;
   }
 
-  public static mockResponse(): MockResponse {
-    const res: MockResponse = {
-      status: () => res,
-      json: () => res,
-    };
-    return res;
+  public static mockResponse(): Response {
+    return {} as Response;
   }
 
-  public static mockNextFunction<T>(obj: T): MockNextFunction {
-    const next: NextFunction = (obj) => {};
+  public static mockNextFunction(): NextFunction {
+    const next: NextFunction = (obj: any) => {
+      throw obj;
+    };
     return next;
   }
 }

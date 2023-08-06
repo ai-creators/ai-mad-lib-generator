@@ -1,0 +1,14 @@
+{
+  "name": "ai-mad-lib-generator",
+  "version": "1.0.0",
+  "description": "- An application that allows users to generate ad-libs using ai based on user prompt.",
+  "main": "index.js",
+  "engines": {
+    "npm": "9.5.0",
+    "node": "18.14.2"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "author": "",
+  "license": "ISC"
+}

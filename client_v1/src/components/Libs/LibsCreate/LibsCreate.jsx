@@ -22,7 +22,6 @@ const LibsCreate = () => {
           throw new Error(" A prompt is required");
         }
         const response = await Lib.create(prompt);
-        console.log("RESPONSE: ", response);
         if (response.data) {
           navigate("/libs/play", { state: { lib: response.data } });
         }
@@ -41,7 +40,7 @@ const LibsCreate = () => {
       setPrompt("");
       const response = await Lib.createRandom();
       if (response.data) {
-        navigate("/libs/play", { state: { lib: response.data.text } });
+        navigate("/libs/play", { state: { lib: response.data } });
       }
     } catch (e) {
       setError(ApiErrorHandler.handleRequestResponse(e));

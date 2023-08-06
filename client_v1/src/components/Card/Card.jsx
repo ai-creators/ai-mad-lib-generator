@@ -1,16 +1,18 @@
 const Card = ({
   children,
   padding = "p-5",
-  border = "border border-zinc-600",
+  borderColor = "border-zinc-600",
+  border = "border",
   borderRadius = "rounded-lg",
   className = "",
   useForSmall = false,
 }) => {
+  const formattedBorder = useForSmall ? "border-0 lg:border" : border;
   return (
     <article
-      className={`${padding} ${useForSmall ? `lg:${border}` : border} ${
-        useForSmall ? `lg:${borderRadius}` : borderRadius
-      }${className && " " + className}`}
+      className={`${padding} ${formattedBorder} ${borderColor} ${borderRadius} ${
+        className && " " + className
+      }`}
     >
       {children}
     </article>
@@ -18,3 +20,4 @@ const Card = ({
 };
 
 export default Card;
+896;
