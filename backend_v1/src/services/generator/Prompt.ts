@@ -9,7 +9,7 @@ export class Prompt {
     // Placeholder method. Modify as needed.
     this.promptLimits = "Default limit";  // Example value
   }
-  constructor(originalPrompt: string, patreonLevel: "silver" | "gold" | "platinum") {
+  constructor(originalPrompt: string, patreonLevel: "silver" | "gold" | "platinum" = "silver") {
     this.originalPrompt = originalPrompt;
     this.patreonLevel = patreonLevel;
     this.promptLimits = "The mad lib cannot exceed 500 tokens."; // default limit
@@ -34,7 +34,7 @@ export class Prompt {
     return this.minSentences;
   }
 
-  public setMinimumSentences(minSentences: 3): void {
+  public setMinimumSentences(minSentences: number = 3): void {
     this.minSentences = `The AI must generate at least ${minSentences} sentences.`;
   }
 
