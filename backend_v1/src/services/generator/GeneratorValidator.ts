@@ -34,7 +34,7 @@ export class GeneratorValidator implements Validator {
     return;
   }
 
-  public addToInvalidProperties(property: {
+  private addToInvalidProperties(property: {
     label: string;
     message: string;
   }): void {
