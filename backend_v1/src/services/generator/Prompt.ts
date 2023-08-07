@@ -40,11 +40,11 @@ export class Prompt {
     return this.patreonLevel;
   }
 
-  public patreonLevel: "silver" | "gold" | "platinum";
-  public originalPrompt: string;
-  public promptLimits: string;
-  public minSentences: string;
-  public promptLength: string;
+  private patreonLevel: "silver" | "gold" | "platinum";
+  private originalPrompt: string;
+  private promptLimits: string;
+  private minSentences: string;
+  private promptLength: string;
 
-  public static readonly PROMPT_RULES: string = 'Default rules';
+  private static readonly PROMPT_RULES: string = 'Default rules';
 }
