@@ -1,10 +1,10 @@
 import path from "path";
-require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
+require("dotenv").config({ path: path.join(__dirname, "../../", ".env") });
 const { PORT = 5000, NODE_ENV } = process.env;
 import mongoose from "mongoose";
 import { DatabaseConfig } from "./db/DatabaseConfig";
 import app from "./app";
-
+console.log("INDEX NoDE ENV: ", NODE_ENV);
 mongoose
   .connect(DatabaseConfig.getDatabaseUri(NODE_ENV))
   .then(() => {
