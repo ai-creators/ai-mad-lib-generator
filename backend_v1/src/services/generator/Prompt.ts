@@ -1,14 +1,4 @@
 export class Prompt {
-  public patreonLevel: "silver" | "gold" | "platinum";
-  public originalPrompt: string;
-  public promptLimits: string;
-  public minSentences: string;
-  public promptLength: string;
-
-  public setPromptLimits(): void {
-    // Placeholder method. Modify as needed.
-    this.promptLimits = "Default limit";  // Example value
-  }
   constructor(originalPrompt: string, patreonLevel: "silver" | "gold" | "platinum" = "silver") {
     this.originalPrompt = originalPrompt;
     this.patreonLevel = patreonLevel;
@@ -16,6 +6,11 @@ export class Prompt {
     this.setPromptLimits();
     this.minSentences = '';
     this.promptLength = '';
+  }
+
+  public setPromptLimits(): void {
+    // Placeholder method. Modify as needed.
+    this.promptLimits = "Default limit";  // Example value
   }
 
   public getPromptLimits(): string {
@@ -44,6 +39,12 @@ export class Prompt {
   public getPatreonLevel(): "silver" | "gold" | "platinum" {
     return this.patreonLevel;
   }
+
+  public patreonLevel: "silver" | "gold" | "platinum";
+  public originalPrompt: string;
+  public promptLimits: string;
+  public minSentences: string;
+  public promptLength: string;
 
   public static readonly PROMPT_RULES: string = 'Default rules';
 }
