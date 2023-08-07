@@ -34,7 +34,7 @@ export class Prompt {
     return this.minSentences;
   }
 
-  public setMinimumSentences(minSentences: number): void {
+  public setMinimumSentences(minSentences: 3): void {
     this.minSentences = `The AI must generate at least ${minSentences} sentences.`;
   }
 
