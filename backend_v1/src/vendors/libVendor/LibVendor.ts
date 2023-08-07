@@ -25,7 +25,6 @@ export class LibVendor {
 
   public async createFromPrompt(prompt: Prompt): Promise<IAdLib> {
     try {
-      console.log("IN THE ORGIANL CREATING");
       prompt.setLength("short");
       const response: any = await this.aiApi.createChatCompletion({
         model: "gpt-3.5-turbo",
