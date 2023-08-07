@@ -2,38 +2,93 @@ import { GeneratorController } from "../../src/services/generator/GeneratorContr
 import { HttpMocker } from "../HttpMocker";
 
 describe("Generator Controller", () => {
-  let controller = new GeneratorController();
-  let serviceSpy: jest.SpyInstance;
-  let vendorSpy: jest.SpyInstance;
+  describe("generateRandomLib", () => {
+    let controller = new GeneratorController();
+    let serviceSpy: jest.SpyInstance;
+    let vendorSpy: jest.SpyInstance;
+    let vendorSpy2: jest.SpyInstance;
+    beforeEach(() => {
+      serviceSpy = jest
+        .spyOn(controller.getService(), "saveAdLib")
+        .mockReturnValue(
+          Promise.resolve({
+            prompt: "Test Prompt",
+            text: "I went to the [adjective_1] store to buy some [noun_1]. I couldn't believe the [adjective_2] prices! I ended up leaving with a [noun_2] and a [noun_3]. It was definitely a [adjective_3] shopping experience.",
+            numberOfLikes: 0,
+            numberOfDislikes: 0,
+            numberOfSaves: 0,
+            isHidden: false,
+            _id: "64ceafdb42ac5736aeff3c3a",
+            createdAt: "2023-08-05T20:23:55.465Z",
+            updatedAt: "2023-08-05T20:23:55.465Z",
+            __v: 0,
+          })
+        );
+      vendorSpy = jest
+        .spyOn(controller.getLibVendor(), "createRandomPrompt")
+        .mockReturnValue(Promise.resolve("Test prompt"));
 
-  beforeEach(() => {
-    serviceSpy = jest
-      .spyOn(controller.getService(), "saveAdLib")
-      .mockReturnValue(
-        Promise.resolve({
-          prompt: "Test Prompt",
-          text: "I went to the [adjective_1] store to buy some [noun_1]. I couldn't believe the [adjective_2] prices! I ended up leaving with a [noun_2] and a [noun_3]. It was definitely a [adjective_3] shopping experience.",
-          numberOfLikes: 0,
-          numberOfDislikes: 0,
-          numberOfSaves: 0,
-          isHidden: false,
-          _id: "64ceafdb42ac5736aeff3c3a",
-          createdAt: "2023-08-05T20:23:55.465Z",
-          updatedAt: "2023-08-05T20:23:55.465Z",
-          __v: 0,
-        })
-      );
-    vendorSpy = jest
-      .spyOn(controller.getLibVendor(), "createFromPrompt")
-      .mockReturnValue(
-        Promise.resolve({
-          prompt: "Test Prompt",
-          text: "I went to the [adjective_1] store to buy some [noun_1]. I couldn't believe the [adjective_2] prices! I ended up leaving with a [noun_2] and a [noun_3]. It was definitely a [adjective_3] shopping experience.",
-        })
-      );
+      vendorSpy2 = jest
+        .spyOn(controller.getLibVendor(), "createFromPrompt")
+        .mockReturnValue(
+          Promise.resolve({
+            prompt: "Test Prompt",
+            text: "I went to the [adjective_1] store to buy some [noun_1]. I couldn't believe the [adjective_2] prices! I ended up leaving with a [noun_2] and a [noun_3]. It was definitely a [adjective_3] shopping experience.",
+          })
+        );
+    });
+
+    it("Should generate random ad-lib", async () => {
+      const req = HttpMocker.mockRequest({
+        body: {
+          data: {},
+        },
+      });
+      const res = HttpMocker.mockResponse();
+      const next = HttpMocker.mockNextFunction();
+      await controller.generateRandomLib(req, res, next);
+      const data = res._getJSONData();
+      expect(data.text).toBeDefined();
+      expect(data.prompt).toBeDefined();
+      expect(data.numberOfLikes).toBeDefined();
+      expect(data.numberOfDislikes).toBeDefined();
+      expect(data.numberOfSaves).toBeDefined();
+      expect(data.isHidden).toBeDefined();
+    });
   });
 
   describe("generateLib", () => {
+    let controller = new GeneratorController();
+    let serviceSpy: jest.SpyInstance;
+    let vendorSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      serviceSpy = jest
+        .spyOn(controller.getService(), "saveAdLib")
+        .mockReturnValue(
+          Promise.resolve({
+            prompt: "Test Prompt",
+            text: "I went to the [adjective_1] store to buy some [noun_1]. I couldn't believe the [adjective_2] prices! I ended up leaving with a [noun_2] and a [noun_3]. It was definitely a [adjective_3] shopping experience.",
+            numberOfLikes: 0,
+            numberOfDislikes: 0,
+            numberOfSaves: 0,
+            isHidden: false,
+            _id: "64ceafdb42ac5736aeff3c3a",
+            createdAt: "2023-08-05T20:23:55.465Z",
+            updatedAt: "2023-08-05T20:23:55.465Z",
+            __v: 0,
+          })
+        );
+      vendorSpy = jest
+        .spyOn(controller.getLibVendor(), "createFromPrompt")
+        .mockReturnValue(
+          Promise.resolve({
+            prompt: "Test Prompt",
+            text: "I went to the [adjective_1] store to buy some [noun_1]. I couldn't believe the [adjective_2] prices! I ended up leaving with a [noun_2] and a [noun_3]. It was definitely a [adjective_3] shopping experience.",
+          })
+        );
+    });
+
     it("Should return the proper error if no prompt is provided", async () => {
       const req = HttpMocker.mockRequest({
         body: {

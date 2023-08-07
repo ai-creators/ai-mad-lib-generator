@@ -24,12 +24,8 @@ export class GeneratorController extends Controller {
     next: NextFunction
   ) {
     try {
-      const libVendor = new LibVendor(
-        new Configuration({
-          apiKey: process.env.OPENAI_API_KEY,
-        })
-      );
-      const randomPrompt: string = await libVendor.createRandomPrompt();
+      const randomPrompt: string =
+        await this.getLibVendor().createRandomPrompt();
       const prompt: Prompt = new Prompt(randomPrompt);
       const createdAdLib = await this.getLibVendor().createFromPrompt(prompt);
       const savedAdLib = await this.getService().saveAdLib(createdAdLib);
