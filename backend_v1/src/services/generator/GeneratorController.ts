@@ -13,11 +13,9 @@ import { Prompt } from "./Prompt";
 export class GeneratorController extends Controller {
   constructor() {
     super();
-    this.service = new GeneratorService();
-    this.validator = new GeneratorValidator();
-    this.requestTransformer = new GeneratorRequestTransformer();
     this.generateLib = this.generateLib.bind(this);
     this.generateRandomLib = this.generateRandomLib.bind(this);
+    this.getService = this.getService.bind(this);
   }
 
   public async generateRandomLib(
@@ -33,8 +31,8 @@ export class GeneratorController extends Controller {
       );
       const randomPrompt: string = await libVendor.createRandomPrompt();
       const prompt: Prompt = new Prompt(randomPrompt);
-      const createdAdLib = await libVendor.createFromPrompt(prompt);
-      const savedAdLib = await this.service.saveAdLib(createdAdLib);
+      const createdAdLib = await this.getLibVendor().createFromPrompt(prompt);
+      const savedAdLib = await this.getService().saveAdLib(createdAdLib);
       return AdLibController.sendResponse(res, savedAdLib, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
@@ -47,23 +45,18 @@ export class GeneratorController extends Controller {
 
   public async generateLib(req: Request, res: Response, next: NextFunction) {
     try {
-      const data: GeneratorProps = this.requestTransformer.transform(req);
-      if (!this.validator.validate(data)) {
-        const message = `These properties are not valid: ${this.validator.getFormattedInvalidProperties()}`;
-        this.validator.resetInvalidProperties();
+      const data: GeneratorProps = GeneratorRequestTransformer.transform(req);
+      if (!GeneratorController.validator.validate(data)) {
+        const message = `These properties are not valid: ${GeneratorController.validator.getFormattedInvalidProperties()}`;
+        GeneratorController.validator.resetInvalidProperties();
         return next({
           status: 400,
           message: message,
         });
       }
-      const libVendor = new LibVendor(
-        new Configuration({
-          apiKey: process.env.OPENAI_API_KEY,
-        })
-      );
       const prompt: Prompt = new Prompt(data.prompt);
-      const createdAdLib = await libVendor.createFromPrompt(prompt);
-      const savedAdLib = await this.service.saveAdLib(createdAdLib);
+      const createdAdLib = await this.getLibVendor().createFromPrompt(prompt);
+      const savedAdLib = await this.getService().saveAdLib(createdAdLib);
       return AdLibController.sendResponse(res, savedAdLib, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
@@ -74,7 +67,19 @@ export class GeneratorController extends Controller {
     }
   }
 
-  private service: GeneratorService;
-  private validator: GeneratorValidator;
-  private requestTransformer: GeneratorRequestTransformer;
+  public getService(): any {
+    return GeneratorController.service;
+  }
+
+  public getLibVendor(): any {
+    return GeneratorController.libVendor;
+  }
+
+  private static validator: GeneratorValidator = new GeneratorValidator();
+  private static service: GeneratorService = new GeneratorService();
+  private static libVendor: LibVendor = new LibVendor(
+    new Configuration({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+  );
 }
