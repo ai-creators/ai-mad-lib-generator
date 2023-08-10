@@ -9,9 +9,6 @@ import { AdLibRequestTransformer } from "./AdLibRequestTransformer";
 export class AdLibController extends Controller {
   constructor() {
     super();
-    this.service = new AdLibService();
-    this.validator = new AdLibValidator();
-    this.requestTransformer = new AdLibRequestTransformer();
     this.getLibs = this.getLibs.bind(this);
   }
 
