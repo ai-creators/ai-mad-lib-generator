@@ -15,6 +15,7 @@ export class AdLibController extends Controller {
   public async getLibs(req: Request, res: Response, next: NextFunction) {
     try {
       const data: AdLibProps = this.getRequestTransformer().transform(req);
+      console.log("DATA: ", data);
       if (!this.getValidator().validate(data)) {
         const message = `These properties are not valid: ${this.getValidator().getFormattedInvalidProperties()}`;
         this.getValidator().resetInvalidProperties();

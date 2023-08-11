@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { AdLibController } from "../../src/services/adlib/AdLibController";
 import { HttpMocker } from "../HttpMocker";
-import { MAX_PAGINATION } from process.env;
 
 describe("AdLib Controller", () => {
   let controller = new AdLibController();
@@ -156,32 +155,11 @@ describe("AdLib Controller", () => {
   });
 
   describe("getLibs", () => {
-    it("Should return the proper error if no timestamp has been provided", async () => {
-      const req = HttpMocker.mockRequest({
-        method: "Get",
-        params: {
-          page: 1,
-          pagination: 10,
-        },
-      });
-      const res = HttpMocker.mockResponse();
-      const next = HttpMocker.mockNextFunction();
-      const expectedMessage =
-        "These properties are not valid: timestamp: Timestamp is required";
-      const expectedStatus = 400;
-      try {
-        await controller.getLibs(req, res, next);
-      } catch (e: any) {
-        expect(e.message).toBe(expectedMessage);
-        expect(e.status).toBe(expectedStatus);
-      }
-    });
-
     it("Should return the proper error if timestamp is not a valid date", async () => {
       const req = HttpMocker.mockRequest({
         method: "Get",
-        params: {
-          timestamp: "this is not a data",
+        query: {
+          timestamp: "this is not a date",
           page: 1,
           pagination: 10,
         },
@@ -189,7 +167,7 @@ describe("AdLib Controller", () => {
       const res = HttpMocker.mockResponse();
       const next = HttpMocker.mockNextFunction();
       const expectedMessage =
-        "These properties are not valid: timestamp: Timestamp is required";
+        "These properties are not valid: timestamp: Timestamp is not a valid date";
       const expectedStatus = 400;
       try {
         await controller.getLibs(req, res, next);
@@ -205,7 +183,7 @@ describe("AdLib Controller", () => {
       futureDate.setDate(currentDate.getDate() + 3);
       const req = HttpMocker.mockRequest({
         method: "Get",
-        params: {
+        query: {
           timestamp: futureDate,
           page: 1,
           pagination: 10,
@@ -227,8 +205,8 @@ describe("AdLib Controller", () => {
     it("Should return the proper error if page is not defined", async () => {
       const req = HttpMocker.mockRequest({
         method: "Get",
-        params: {
-          timestamp: new Date(),
+        query: {
+          timestamp: "2023-07-01",
           pagination: 10,
         },
       });
@@ -248,8 +226,8 @@ describe("AdLib Controller", () => {
     it("Should return the proper error if the page is less than zero", async () => {
       const req = HttpMocker.mockRequest({
         method: "Get",
-        params: {
-          timestamp: new Date(),
+        query: {
+          timestamp: "2023-07-01",
           pagination: 10,
         },
       });
@@ -269,8 +247,8 @@ describe("AdLib Controller", () => {
     it("Should return the proper error if the page is equal to zero", async () => {
       const req = HttpMocker.mockRequest({
         method: "Get",
-        params: {
-          timestamp: new Date(),
+        query: {
+          timestamp: "2023-07-01",
           pagination: 10,
         },
       });
@@ -290,16 +268,38 @@ describe("AdLib Controller", () => {
     it("Should return the proper error if the pagination is greater than the max pagination", async () => {
       const req = HttpMocker.mockRequest({
         method: "Get",
-        params: {
-          timestamp: new Date(),
-          pagination:  + 10,
+        query: {
+          timestamp: "2023-07-01",
+          pagination: 9999999,
           page: 1,
         },
       });
       const res = HttpMocker.mockResponse();
       const next = HttpMocker.mockNextFunction();
       const expectedMessage =
-        "These properties are not valid: page: Page is not defined or is less than 0";
+        "These properties are not valid: pagination: Pagination is greater than";
+      const expectedStatus = 400;
+      try {
+        await controller.getLibs(req, res, next);
+      } catch (e: any) {
+        const expectedIncluded: boolean = e.message.includes(expectedMessage);
+        expect(expectedIncluded).toBeTruthy;
+        expect(e.status).toBe(expectedStatus);
+      }
+    });
+
+    it("Should return the proper error if pagination is not defined", async () => {
+      const req = HttpMocker.mockRequest({
+        method: "Get",
+        query: {
+          timestamp: "2023-07-01",
+          page: 1,
+        },
+      });
+      const res = HttpMocker.mockResponse();
+      const next = HttpMocker.mockNextFunction();
+      const expectedMessage =
+        "These properties are not valid: pagination: Pagination is not defined or is less than 0";
       const expectedStatus = 400;
       try {
         await controller.getLibs(req, res, next);
@@ -309,18 +309,57 @@ describe("AdLib Controller", () => {
       }
     });
 
-    it("Should return the proper error if pagination is not defined", async () => {});
+    it("Should return the proper error if the pagination is less than zero", async () => {
+      const req = HttpMocker.mockRequest({
+        method: "Get",
+        query: {
+          timestamp: "2023-07-01",
+          page: 1,
+          pagination: -100,
+        },
+      });
+      const res = HttpMocker.mockResponse();
+      const next = HttpMocker.mockNextFunction();
+      const expectedMessage =
+        "These properties are not valid: pagination: Pagination is not defined or is less than 0";
+      const expectedStatus = 400;
+      try {
+        await controller.getLibs(req, res, next);
+      } catch (e: any) {
+        expect(e.message).toBe(expectedMessage);
+        expect(e.status).toBe(expectedStatus);
+      }
+    });
 
-    it("Should return the proper error if the pagination is less than zero", async () => {});
-
-    it("Should return the proper error if the pagination is equal to zero", async () => {});
+    it("Should return the proper error if the pagination is equal to zero", async () => {
+      const req = HttpMocker.mockRequest({
+        method: "Get",
+        query: {
+          timestamp: "2023-07-01",
+          page: 1,
+          pagination: 0,
+        },
+      });
+      const res = HttpMocker.mockResponse();
+      const next = HttpMocker.mockNextFunction();
+      const expectedMessage =
+        "These properties are not valid: pagination: Pagination is not defined or is less than 0";
+      const expectedStatus = 400;
+      try {
+        await controller.getLibs(req, res, next);
+      } catch (e: any) {
+        expect(e.message).toBe(expectedMessage);
+        expect(e.status).toBe(expectedStatus);
+      }
+    });
 
     it("Should return the proper results and the correct data structure", async () => {
       const req = HttpMocker.mockRequest({
         method: "Get",
-        params: {
+        query: {
           page: 1,
           pagination: 10,
+          timestamp: "2023-07-01",
         },
       });
       const res = HttpMocker.mockResponse();
