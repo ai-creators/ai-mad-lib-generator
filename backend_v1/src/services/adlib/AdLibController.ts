@@ -73,7 +73,8 @@ export class AdLibController extends Controller {
       const foundAdLibs = await this.getService().getLibsBySearch(
         data.search,
         data.page,
-        data.pagination
+        data.pagination,
+        data.timestamp
       );
       return AdLibController.sendResponse(res, foundAdLibs, 200);
     } catch (e: unknown) {

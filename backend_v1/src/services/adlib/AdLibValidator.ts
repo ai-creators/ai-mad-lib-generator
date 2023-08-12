@@ -18,6 +18,7 @@ export class AdLibValidator implements Validator {
   public validateSearchData(data: AdLibSearchProps): boolean {
     this.resetInvalidProperties();
     this.validateSearch(data.search);
+    this.validateTimestamp(data.timestamp);
     this.validatePage(data.page);
     this.validatePagination(data.pagination);
     return this.invalidProperties.length === 0;
