@@ -100,5 +100,7 @@ export class AdLibValidator implements Validator {
     message: string;
   }[];
 
-  private static MAX_PAGINATION: number = 100;
+  private static MAX_PAGINATION: number = parseInt(
+    process.env.MAX_PAGINATION ?? "100"
+  );
 }
