@@ -1,5 +1,6 @@
 import { Request } from "express";
 import { AdLibProps } from "../../ts/types/AdLibProps";
+import { AdLibSearchProps } from "../../ts/types/AdLibSearchProps";
 
 export class AdLibRequestTransformer {
   public transform(req: Request): AdLibProps {
@@ -12,6 +13,23 @@ export class AdLibRequestTransformer {
       pagination,
       page,
       type,
+    };
+    return data;
+  }
+
+  public transformSearch(req: Request): AdLibSearchProps {
+    if (!req.body.hasOwnProperty("data")) {
+      throw new Error("No data has been provided");
+    }
+    const page: number = parseInt((req.query.page as string) ?? 0);
+    const pagination: number = parseInt((req.query.pagination as string) ?? 0);
+    const search: string = req.body.data.search ?? "";
+    const time = req.query.timestamp;
+    const data: AdLibSearchProps = {
+      timestamp: new Date(time as string),
+      pagination,
+      page,
+      search,
     };
     return data;
   }

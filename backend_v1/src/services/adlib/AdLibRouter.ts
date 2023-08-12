@@ -9,6 +9,11 @@ export class AdLibRouter {
       .route("/")
       .get(controller.getLibs)
       .all(RouterErrorHandler.methodNotAllowed);
+
+    AdLibRouter.router
+      .route("/search")
+      .post(controller.getLibsBySearch)
+      .all(RouterErrorHandler.methodNotAllowed);
     return AdLibRouter.router;
   }
 

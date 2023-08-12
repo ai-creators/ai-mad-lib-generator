@@ -23,13 +23,40 @@ export class AdLibService {
     return pager.pageable({}, page, pagination, { createdAt: sorter });
   }
 
-  public getLibsByFeatured(timestamp: Date, page: number, pagination: number) {
+  public getLibsByFeatured(
+    timestamp: Date,
+    page: number,
+    pagination: number
+  ): Promise<PaginationResponse<IAdLib>> {
     const pager = new Pagination(AdLib);
     return pager.pageable({}, page, pagination, { createdAt: 1 });
   }
 
-  public getLibsByNewest(timestamp: Date, page: number, pagination: number) {
+  public getLibsByNewest(
+    timestamp: Date,
+    page: number,
+    pagination: number
+  ): Promise<PaginationResponse<IAdLib>> {
     const pager = new Pagination(AdLib);
     return pager.pageable({}, page, pagination, { createdAt: -1 });
+  }
+
+  public getLibsBySearch(
+    search: string,
+    page: number,
+    pagination: number,
+    timestamp: Date
+  ): Promise<PaginationResponse<IAdLib>> {
+    const pager = new Pagination(AdLib);
+    return pager.pageable(
+      {
+        $or: [
+          { prompt: { $regex: search, $options: "i" } },
+          { text: { $regex: search, $options: "i" } },
+        ],
+      },
+      page,
+      pagination
+    );
   }
 }
