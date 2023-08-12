@@ -8,7 +8,7 @@ const get = async (timestamp, type, page = "1", pagination = "5") => {
 
 const search = async (timestamp, search, page = "1", pagination = "10") => {
   return await Api.post(
-    `adlib?timestamp=${timestamp}&pagination=${pagination}&page=${page}`,
+    `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}`,
     {
       data: {
         search,

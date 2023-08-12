@@ -6,17 +6,25 @@ import Lib from "../../../api/Lib";
 import Loader from "../../Loader/Loader";
 import ApiErrorHandler from "../../../errors/ApiErrorHandler";
 
-const BrowseLibs = () => {
+const BrowseLibs = ({ search, setSearch }) => {
   const [type, setType] = useState("featured");
   const [libs, setLibs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [timestamp] = useState(new Date());
-  const [page] = useState(1);
+  const [page, setPage] = useState(1);
   const [pagination] = useState(30);
   const changeType = ({ target: { id } }) => {
+    if (search) {
+      setSearch("");
+    }
     setType(id);
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+    setPage(1);
+  }, [search]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -25,12 +33,9 @@ const BrowseLibs = () => {
         setIsLoading(true);
         setError(null);
         const formattedDate = dayjs(timestamp).format("YYYY-MM-DD");
-        const response = await Lib.get(
-          formattedDate,
-          type,
-          `${page}`,
-          `${pagination}`
-        );
+        const response = await (search
+          ? Lib.search(formattedDate, search, `${page}`, `${pagination}`)
+          : Lib.get(formattedDate, type, `${page}`, `${pagination}`));
         if (response.data.page === 1 && response.data.results) {
           setLibs(response.data.results);
         } else {
@@ -45,7 +50,7 @@ const BrowseLibs = () => {
     return () => {
       controller.abort();
     };
-  }, [type]);
+  }, [type, search]);
 
   return (
     <Card className="flex flex-col gap-3" useForSmall>
