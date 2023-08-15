@@ -13,6 +13,10 @@ export const savesSlice = createSlice({
       storage.set("saves", saves);
       state.saves = saves;
     },
+    setAll: (state, action) => {
+      storage.set("saves", action.payload);
+      state.saves = action.payload;
+    },
     removeLib: (state, action) => {
       const saves = storage.get("saves");
       const filteredSaves = saves.filter(
@@ -28,6 +32,6 @@ export const savesSlice = createSlice({
   },
 });
 
-export const { addLib, removeLib, removeAll } = savesSlice.actions;
+export const { addLib, removeLib, removeAll, setAll } = savesSlice.actions;
 
 export default savesSlice.reducer;
