@@ -61,7 +61,6 @@ const LibsBuilder = ({ lib }) => {
   const createAdLib = (event) => {
     event.preventDefault();
     const newErrors = {};
-    console.log("QUESTIONS: ", questions);
     questions.forEach((question, index) => {
       if (question.answer.trim() === "") {
         newErrors[index] = "Please provide an answer";
@@ -89,7 +88,6 @@ const LibsBuilder = ({ lib }) => {
   if (isAdLibShowing) {
     return <LibViewer lib={lib} questions={questions} />;
   }
-  console.log("QUESTIONS: ", questions);
   return isBuilderDone ? (
     <Card className="flex flex-col gap-5" useForSmall>
       <header>
