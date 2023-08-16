@@ -15,7 +15,6 @@ const LibViewerReactions = ({ lib }) => {
     setIsReported((curr) => !curr);
   };
   const toggleSave = () => {
-    console.log(saves.some((save) => save._id === lib._id));
     if (saves.some((save) => save._id === lib._id)) {
       dispatch(removeLib(lib));
     } else {

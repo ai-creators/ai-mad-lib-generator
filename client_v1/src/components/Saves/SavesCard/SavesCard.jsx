@@ -6,8 +6,8 @@ const SavesCard = ({ saves, removeAllLibs }) => {
   console.log("SAVES: ", saves);
   return (
     <Card useForSmall>
-      <div className="flex flex-col gap-3">
-        <div className="flex justify-between items-start gap-3">
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col sm:flex-row items-start sm:justify-between sm:items-start gap-3">
           <div>
             <h3
               className="text-2xl font-semibold cpaitalize"
@@ -34,7 +34,7 @@ const SavesCard = ({ saves, removeAllLibs }) => {
             You don not have any saved Ad-Libs
           </p>
         ) : (
-          <ul data-testid="saves-list">
+          <ul data-testid="saves-list" className="flex flex-col gap-5">
             {saves.map((save) => {
               return (
                 <li key={save._id}>
