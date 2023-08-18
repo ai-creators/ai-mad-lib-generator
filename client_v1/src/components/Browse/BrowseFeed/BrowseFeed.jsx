@@ -11,7 +11,7 @@ const BrowseFeed = ({ search, type, error, setError }) => {
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [timestamp] = useState(new Date());
-  const [pagination] = useState(2);
+  const [pagination] = useState(30);
 
   const getLibs = async (isStart) => {
     try {
