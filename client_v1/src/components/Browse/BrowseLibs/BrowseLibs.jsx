@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import Card from "../../Card/Card";
-import dayjs from "dayjs";
-import Lib from "../../../api/Lib";
-import Loader from "../../Loader/Loader";
-import ApiErrorHandler from "../../../errors/ApiErrorHandler";
 import BrowseFeed from "../BrowseFeed/BrowseFeed";
 
-const BrowseLibs = ({ search, setSearch }) => {
-  const [type, setType] = useState("featured");
+const BrowseLibs = ({ search, setSearch, type, setType }) => {
   const [error, setError] = useState(null);
   const changeType = ({ target: { id } }) => {
-    if (search) {
-      setSearch("");
-    }
+    setSearch("");
     setType(id);
   };
 
@@ -21,8 +13,10 @@ const BrowseLibs = ({ search, setSearch }) => {
     <Card className="flex flex-col gap-3" useForSmall>
       <div className="flex flex-col gap-3 md:flex-row md:justify-between">
         <div>
-          <h3 className="text-2xl font-semibold capitalize">{type}...</h3>
-          <p className="text-zinc-400">View {type} Ad-Libs</p>
+          <h3 className="text-2xl font-semibold capitalize">
+            {search ? search : type ? type : "Ad-libs"}...
+          </h3>
+          <p className="text-zinc-400">View {search ? search : type} Ad-Libs</p>
         </div>
 
         <ul className="flex gap-3">
