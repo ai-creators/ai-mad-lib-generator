@@ -1,13 +1,16 @@
 import { useState } from "react";
 import Card from "../../Card/Card";
 
-const BrowseSearch = ({ setSearch }) => {
+const BrowseSearch = ({ setSearch, setType }) => {
   const [inputValue, setInputValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const searchLib = (event) => {
     event.preventDefault();
     setSearch(inputValue);
+    setInputValue("");
+    setType("");
   };
+
   return (
     <Card useForSmall>
       <h3 className="text-2xl font-semibold">Search an Ad-Lib</h3>

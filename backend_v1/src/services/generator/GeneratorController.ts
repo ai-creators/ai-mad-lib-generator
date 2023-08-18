@@ -51,6 +51,7 @@ export class GeneratorController extends Controller {
         });
       }
       const prompt: Prompt = new Prompt(data.prompt);
+      console.log("API KEY: ", process.env.OPENAI_API_KEY);
       const createdAdLib = await this.getLibVendor().createFromPrompt(prompt);
       const savedAdLib = await this.getService().saveAdLib(createdAdLib);
       return AdLibController.sendResponse(res, savedAdLib, 200);

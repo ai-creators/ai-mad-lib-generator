@@ -8,7 +8,7 @@ export const savesSlice = createSlice({
   },
   reducers: {
     addLib: (state, action) => {
-      const saves = storage.get("saves");
+      const saves = storage.get("saves") ?? [];
       saves.push(action.payload);
       storage.set("saves", saves);
       state.saves = saves;
@@ -18,7 +18,7 @@ export const savesSlice = createSlice({
       state.saves = action.payload;
     },
     removeLib: (state, action) => {
-      const saves = storage.get("saves");
+      const saves = storage.get("saves") ?? [];
       const filteredSaves = saves.filter(
         (save) => save._id !== action.payload._id
       );
