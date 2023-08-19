@@ -1,16 +1,32 @@
+const filterOptions = ["funny", "serious", "crazy", "neutral"];
+
 export class Prompt {
-  constructor(originalPrompt: string, patreonLevel: "silver" | "gold" | "platinum" = "silver") {
+  private static readonly PROMPT_RULES: string = 'Default rules';
+  private patreonLevel: "silver" | "gold" | "platinum";
+  private originalPrompt: string;
+  private promptLimits: string;
+  private minSentences: string = '';
+  private promptLength: string = '';
+  private filter: "funny" | "serious" | "crazy" | "neutral" = "neutral";
+
+  constructor(originalPrompt: string, patreonLevel: "silver" | "gold" | "platinum" = "silver", filter: "funny" | "serious" | "crazy" | "neutral" = "neutral") {
     this.originalPrompt = originalPrompt;
+    if (originalPrompt.split(" ").length > 50) {
+      throw new Error("The initial prompt cannot exceed 50 words.");
+    }
+
     this.patreonLevel = patreonLevel;
+
+    this.setFilter(filter, filterOptions);
+
     this.promptLimits = "The mad lib cannot exceed 500 tokens."; // default limit
     this.setPromptLimits();
-    this.minSentences = '';
+    this.setMinimumSentences();
     this.promptLength = '';
   }
 
   public setPromptLimits(): void {
-    // Placeholder method. Modify as needed.
-    this.promptLimits = "Default limit";  // Example value
+    this.promptLimits = "Make sure it’s at least 3 sentences. The mad lib cannot exceed 50 words.";  // Example value
   }
 
   public getPromptLimits(): string {
@@ -33,18 +49,23 @@ export class Prompt {
     this.minSentences = `The AI must generate at least ${minSentences} sentences.`;
   }
 
-  public getPrompt(): string {
-    return `${Prompt.PROMPT_RULES} ${this.promptLimits} ${this.minSentences} ${this.promptLength} ${this.originalPrompt}`;
+  public getFilter(): "funny" | "serious" | "crazy" | "neutral" {
+    return this.filter;
   }
+
+  public setFilter(filter: "funny" | "serious" | "crazy" | "neutral", filterOptions: string[]): void {
+    if (filterOptions.includes(filter)) {
+      this.filter = filter;
+    } else {
+      throw new Error("Invalid filter type.");
+    }
+  }
+
+  public getPrompt(): string {
+    return `${Prompt.PROMPT_RULES} ${this.promptLimits} ${this.minSentences} ${this.promptLength} Filter: ${this.filter} ${this.originalPrompt}`;
+  }
+
   public getPatreonLevel(): "silver" | "gold" | "platinum" {
     return this.patreonLevel;
   }
-
-  private patreonLevel: "silver" | "gold" | "platinum";
-  private originalPrompt: string;
-  private promptLimits: string;
-  private minSentences: string;
-  private promptLength: string;
-
-  private static readonly PROMPT_RULES: string = 'Default rules';
 }
