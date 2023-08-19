@@ -34,6 +34,11 @@ const Navbar = () => {
               Saves
             </Link>
           </li>
+          <li>
+            <Link to="/multiplayer" className="p-3">
+              Multiplayer
+            </Link>
+          </li>
         </ul>
         <NavbarCanvas isOpen={isCanvasOpen} setIsOpen={setIsCanvasOpen} />
       </Container>
