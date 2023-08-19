@@ -16,7 +16,7 @@ export class Prompt {
   }
 
   public getPrompt(): string {
-    return `${Prompt.PROMPT_RULES} ${this.promptLimits} ${this.originalPrompt}`;
+    return `${Prompt.PROMPT_RULES} ${this.promptLimits}. Make the mad lib a mininum of 3 sentences. ${this.originalPrompt}`;
   }
 
   private static readonly PROMPT_RULES: string =
