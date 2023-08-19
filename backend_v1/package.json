@@ -12,7 +12,8 @@
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\"",
     "test": "npm run build && npx cross-env NODE_ENV=test ENV_FILE=./.env jest --detectOpenHandles",
-    "test:coverage": "npx cross-env NODE_ENV=test ENV_FILE=./.env jest --coverage"
+    "test:coverage": "npx cross-env NODE_ENV=test ENV_FILE=./.env jest --coverage",
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",

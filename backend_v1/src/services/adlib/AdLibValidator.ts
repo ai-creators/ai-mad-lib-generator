@@ -1,5 +1,6 @@
 import { Validator } from "../../common/Validator";
 import { AdLibProps } from "../../ts/types/AdLibProps";
+import { AdLibSearchProps } from "../../ts/types/AdLibSearchProps";
 
 export class AdLibValidator implements Validator {
   constructor() {
@@ -7,6 +8,16 @@ export class AdLibValidator implements Validator {
   }
 
   public validate(data: AdLibProps): boolean {
+    this.resetInvalidProperties();
+    this.validateTimestamp(data.timestamp);
+    this.validatePage(data.page);
+    this.validatePagination(data.pagination);
+    return this.invalidProperties.length === 0;
+  }
+
+  public validateSearchData(data: AdLibSearchProps): boolean {
+    this.resetInvalidProperties();
+    this.validateSearch(data.search);
     this.validateTimestamp(data.timestamp);
     this.validatePage(data.page);
     this.validatePagination(data.pagination);
@@ -65,6 +76,24 @@ export class AdLibValidator implements Validator {
     }
   }
 
+  private validateSearch(search: string): void {
+    const invalidObject: { label: string; message: string } = {
+      label: "search",
+      message: "",
+    };
+    if (!search) {
+      invalidObject.message = `search is not defined or is empty`;
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
+
+    if (search.length >= AdLibValidator.MAX_SEARCH_LENGTH) {
+      invalidObject.message = `search cannot be longer than ${AdLibValidator.MAX_SEARCH_LENGTH} characters`;
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
+  }
+
   public addToInvalidProperties(property: {
     label: string;
     message: string;
@@ -102,5 +131,9 @@ export class AdLibValidator implements Validator {
 
   private static MAX_PAGINATION: number = parseInt(
     process.env.MAX_PAGINATION ?? "100"
+  );
+
+  private static MAX_SEARCH_LENGTH: number = parseInt(
+    process.env.MAX_SEARCH ?? "1000"
   );
 }
