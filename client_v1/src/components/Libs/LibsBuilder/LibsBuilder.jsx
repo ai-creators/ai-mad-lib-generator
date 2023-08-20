@@ -4,6 +4,8 @@ import { findNumberIndex } from "../../utils/findNumberIndex";
 import LibViewer from "../LibViewer/LibViewer";
 import { snakeToTitleCase } from "../../utils/snakeToTitleCase";
 import FormInput from "../../Form/FormInput/FormInput";
+import BadgeNSFW from "../../Badge/BadgeNSFW/BadgeNSFW";
+import BadgePG from "../../Badge/BadgePG/BadgePG";
 
 const LibsBuilder = ({ lib }) => {
   const [questions, setQuestions] = useState([]);
@@ -90,8 +92,9 @@ const LibsBuilder = ({ lib }) => {
   }
   return isBuilderDone ? (
     <Card className="flex flex-col gap-5" useForSmall>
-      <header>
+      <header className="flex flex-col gap-3">
         <h2 className="text-xl font-semibold capitalize">{lib.prompt}...</h2>
+        <div>{lib.isPG ? <BadgePG /> : <BadgeNSFW />}</div>
       </header>
       <form className="flex flex-col gap-5">
         {!isAdLibShowing &&
