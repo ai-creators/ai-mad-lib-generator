@@ -54,20 +54,6 @@ const BrowseLibs = ({ search, setSearch, type, setType }) => {
             </button>
           </li> */}
           </ul>
-          <div>
-            <ul className="p-1 bg-zinc-800 flex gap-1 rounded">
-              <li>
-                <button className={`bg-zinc-950 rounded px-3 py-0.5`}>
-                  PG
-                </button>
-              </li>
-              <li>
-                <button className={`bg-zinc-950 rounded px-3 py-0.5`}>
-                  NSFW
-                </button>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
       <BrowseFeed
