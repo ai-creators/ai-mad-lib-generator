@@ -42,7 +42,7 @@ const BrowseLibs = ({ search, setSearch, type, setType }) => {
               Newest
             </button>
           </li>
-          <li>
+          {/* <li>
             <button
               className={`py-2.5 w-24 ${
                 type === "interesting" ? "bg-zinc-900" : ""
@@ -52,7 +52,7 @@ const BrowseLibs = ({ search, setSearch, type, setType }) => {
             >
               Interesting
             </button>
-          </li>
+          </li> */}
         </ul>
       </div>
       <BrowseFeed
