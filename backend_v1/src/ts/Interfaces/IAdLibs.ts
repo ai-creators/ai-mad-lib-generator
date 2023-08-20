@@ -5,4 +5,5 @@ export interface IAdLib {
   numberOfDislikes?: number;
   numberOfSaves?: number;
   isHidden?: boolean;
+  isPG?: boolean;
 }

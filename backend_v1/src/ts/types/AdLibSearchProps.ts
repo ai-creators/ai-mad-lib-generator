@@ -3,4 +3,5 @@ export type AdLibSearchProps = {
   page: number;
   pagination: number;
   timestamp: Date;
+  isPG?: boolean;
 };
