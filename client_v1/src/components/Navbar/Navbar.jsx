@@ -34,6 +34,11 @@ const Navbar = () => {
               Saves
             </Link>
           </li>
+          <li>
+            <Link to="/settings" className="p-3">
+              Settings
+            </Link>
+          </li>
         </ul>
         <NavbarCanvas isOpen={isCanvasOpen} setIsOpen={setIsCanvasOpen} />
       </Container>

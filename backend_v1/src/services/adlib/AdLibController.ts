@@ -28,21 +28,24 @@ export class AdLibController extends Controller {
         const foundAdLibs = await this.getService().getLibsByFeatured(
           new Date(req.query.timestamp as string),
           data.page,
-          data.pagination
+          data.pagination,
+          data.isPG
         );
         return AdLibController.sendResponse(res, foundAdLibs, 200);
       } else if (data?.type === "newest") {
         const foundAdLibs = await this.getService().getLibsByNewest(
           new Date(req.query.timestamp as string),
           data.page,
-          data.pagination
+          data.pagination,
+          data.isPG
         );
         return AdLibController.sendResponse(res, foundAdLibs, 200);
       } else {
         const foundAdLibs = await this.getService().getLibs(
           new Date(req.query.timestamp as string),
           data.page,
-          data.pagination
+          data.pagination,
+          data.isPG
         );
         return AdLibController.sendResponse(res, foundAdLibs, 200);
       }
@@ -74,7 +77,8 @@ export class AdLibController extends Controller {
         data.search,
         data.page,
         data.pagination,
-        data.timestamp
+        data.timestamp,
+        data.isPG
       );
       return AdLibController.sendResponse(res, foundAdLibs, 200);
     } catch (e: unknown) {

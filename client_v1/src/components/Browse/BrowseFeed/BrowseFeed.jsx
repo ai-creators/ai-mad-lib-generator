@@ -5,8 +5,7 @@ import ApiErrorHandler from "../../../errors/ApiErrorHandler";
 import InfiniteScroll from "react-infinite-scroll-component";
 import BrowseList from "../BrowseList/BrowseList";
 
-const BrowseFeed = ({ search, type, error, setError }) => {
-  const [adlibs, setAdlibs] = useState([]);
+const BrowseFeed = ({ search, type, error, setError, adlibs, setAdlibs }) => {
   const [page, setPage] = useState(0);
   const [isEnd, setIsEnd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
