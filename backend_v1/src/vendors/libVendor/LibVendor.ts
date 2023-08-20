@@ -25,7 +25,6 @@ export class LibVendor {
 
   public async createFromPrompt(prompt: Prompt): Promise<IAdLib> {
     try {
-      console.log("IN CREATING FROM VENDOR");
       prompt.setLength("short");
       const response: any = await this.aiApi.createChatCompletion({
         model: "gpt-3.5-turbo",
@@ -39,6 +38,15 @@ export class LibVendor {
         n: 1,
       });
       const formattedResponse = this.transformer.transform(response.data);
+      if (
+        formattedResponse.choices[0].message.content ===
+        "I'm sorry, but I'm unable to generate that mad lib for you."
+      ) {
+        throw new Error(
+          "Unable to create ad-lib based on inappropriate language."
+        );
+      }
+      console.log("DATA: ", formattedResponse.choices[0]);
       return this.validateResponse(formattedResponse, prompt);
     } catch (e: unknown) {
       throw e;

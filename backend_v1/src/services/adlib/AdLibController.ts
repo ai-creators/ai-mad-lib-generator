@@ -77,7 +77,8 @@ export class AdLibController extends Controller {
         data.search,
         data.page,
         data.pagination,
-        data.timestamp
+        data.timestamp,
+        data.isPG
       );
       return AdLibController.sendResponse(res, foundAdLibs, 200);
     } catch (e: unknown) {

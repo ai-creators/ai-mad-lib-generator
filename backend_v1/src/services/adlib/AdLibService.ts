@@ -8,7 +8,7 @@ export class AdLibService {
     timestamp: Date,
     page: number,
     pagination: number,
-    isPG: boolean
+    isPG: boolean = true
   ): Promise<PaginationResponse<IAdLib>> {
     const pager = new Pagination(AdLib);
     if (!isPG) {
@@ -22,7 +22,7 @@ export class AdLibService {
     page: number,
     pagination: number,
     sorter = -1,
-    isPG: boolean
+    isPG: boolean = true
   ): Promise<PaginationResponse<IAdLib>> {
     const pager = new Pagination(AdLib);
     if (!isPG) {
@@ -35,7 +35,7 @@ export class AdLibService {
     timestamp: Date,
     page: number,
     pagination: number,
-    isPG: boolean
+    isPG: boolean = true
   ): Promise<PaginationResponse<IAdLib>> {
     const pager = new Pagination(AdLib);
     return pager.pageable({}, page, pagination, { createdAt: 1 });
@@ -45,7 +45,7 @@ export class AdLibService {
     timestamp: Date,
     page: number,
     pagination: number,
-    isPG: boolean
+    isPG: boolean = true
   ): Promise<PaginationResponse<IAdLib>> {
     const pager = new Pagination(AdLib);
     if (!isPG) {
@@ -59,7 +59,7 @@ export class AdLibService {
     page: number,
     pagination: number,
     timestamp: Date,
-    isPG: boolean
+    isPG: boolean = true
   ): Promise<PaginationResponse<IAdLib>> {
     const pager = new Pagination(AdLib);
     if (!isPG) {

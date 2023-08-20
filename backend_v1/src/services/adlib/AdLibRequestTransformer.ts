@@ -27,11 +27,13 @@ export class AdLibRequestTransformer {
     const pagination: number = parseInt((req.query.pagination as string) ?? 0);
     const search: string = req.body.data.search ?? "";
     const time = req.query.timestamp;
+    const contentRating = (req.query.rating as string) ?? "pg";
     const data: AdLibSearchProps = {
       timestamp: new Date(time as string),
       pagination,
       page,
       search,
+      isPG: contentRating === "pg",
     };
     return data;
   }
