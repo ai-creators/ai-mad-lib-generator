@@ -94,7 +94,7 @@ const LibsBuilder = ({ lib }) => {
     <Card className="flex flex-col gap-5" useForSmall>
       <header className="flex flex-col gap-3">
         <h2 className="text-xl font-semibold capitalize">{lib.prompt}...</h2>
-        <div>{lib.isPG ? <BadgePG /> : <BadgeNSFW />}</div>
+        <div>{!lib.isPG && <BadgeNSFW />}</div>
       </header>
       <form className="flex flex-col gap-5">
         {!isAdLibShowing &&

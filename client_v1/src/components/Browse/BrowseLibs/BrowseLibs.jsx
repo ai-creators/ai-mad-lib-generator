@@ -4,9 +4,11 @@ import BrowseFeed from "../BrowseFeed/BrowseFeed";
 
 const BrowseLibs = ({ search, setSearch, type, setType }) => {
   const [error, setError] = useState(null);
+  const [adlibs, setAdlibs] = useState([]);
   const changeType = ({ target: { id } }) => {
     setSearch("");
     setType(id);
+    setAdlibs([]);
   };
 
   return (
@@ -61,6 +63,8 @@ const BrowseLibs = ({ search, setSearch, type, setType }) => {
         type={type}
         error={error}
         setError={setError}
+        adlibs={adlibs}
+        setAdlibs={setAdlibs}
       />
     </Card>
   );
