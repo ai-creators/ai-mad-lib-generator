@@ -3,4 +3,5 @@ export type AdLibProps = {
   page: number;
   pagination: number;
   type?: string;
+  isPG?: boolean;
 };

@@ -3,16 +3,16 @@ import storage from "../utils/Storage";
 
 const get = async (timestamp, type, page = "1", pagination = "5") => {
   return await Api.get(
-    `adlib?type=${type}&featured&timestamp=${timestamp}&pagination=${pagination}&page=${page}&content-rating=${
-      storage.get("content-rating") ?? "pg"
+    `adlib?type=${type}&featured&timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
+      storage.get("content-rating") ?? "nsfw"
     }`
   );
 };
 
 const search = async (timestamp, search, page = "1", pagination = "10") => {
   return await Api.post(
-    `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}${
-      storage.get("content-rating") ?? "pg"
+    `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
+      storage.get("content-rating") ?? "nsfw"
     }`,
     {
       data: {
