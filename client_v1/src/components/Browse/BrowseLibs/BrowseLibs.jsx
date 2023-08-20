@@ -18,31 +18,31 @@ const BrowseLibs = ({ search, setSearch, type, setType }) => {
           </h3>
           <p className="text-zinc-400">View {search ? search : type} Ad-Libs</p>
         </div>
-
-        <ul className="flex gap-3">
-          <li>
-            <button
-              className={`py-2.5 w-24 ${
-                type === "featured" ? "bg-zinc-900" : ""
-              } hover:bg-zinc-900 active:bg-zinc-700 ease-out duration-200 rounded`}
-              id="featured"
-              onClick={changeType}
-            >
-              Featured
-            </button>
-          </li>
-          <li>
-            <button
-              className={`py-2.5 w-24 ${
-                type === "newest" ? "bg-zinc-900" : ""
-              } hover:bg-zinc-900 active:bg-zinc-700 ease-out duration-200 rounded`}
-              id="newest"
-              onClick={changeType}
-            >
-              Newest
-            </button>
-          </li>
-          {/* <li>
+        <div>
+          <ul className="flex gap-3">
+            <li>
+              <button
+                className={`py-2.5 w-24 ${
+                  type === "featured" ? "bg-zinc-900" : ""
+                } hover:bg-zinc-900 active:bg-zinc-700 ease-out duration-200 rounded`}
+                id="featured"
+                onClick={changeType}
+              >
+                Featured
+              </button>
+            </li>
+            <li>
+              <button
+                className={`py-2.5 w-24 ${
+                  type === "newest" ? "bg-zinc-900" : ""
+                } hover:bg-zinc-900 active:bg-zinc-700 ease-out duration-200 rounded`}
+                id="newest"
+                onClick={changeType}
+              >
+                Newest
+              </button>
+            </li>
+            {/* <li>
             <button
               className={`py-2.5 w-24 ${
                 type === "interesting" ? "bg-zinc-900" : ""
@@ -53,7 +53,22 @@ const BrowseLibs = ({ search, setSearch, type, setType }) => {
               Interesting
             </button>
           </li> */}
-        </ul>
+          </ul>
+          <div>
+            <ul className="p-1 bg-zinc-800 flex gap-1 rounded">
+              <li>
+                <button className={`bg-zinc-950 rounded px-3 py-0.5`}>
+                  PG
+                </button>
+              </li>
+              <li>
+                <button className={`bg-zinc-950 rounded px-3 py-0.5`}>
+                  NSFW
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
       <BrowseFeed
         search={search}
