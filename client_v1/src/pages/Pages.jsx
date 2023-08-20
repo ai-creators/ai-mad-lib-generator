@@ -4,6 +4,7 @@ import LibsPlay from "./Libs/LibsPlay/LibsPlay";
 import Browse from "./Browse/Browse";
 import NotFound from "./NotFound/NotFound";
 import Saves from "./Saves/Saves";
+import Multiplayer from "./Multiplayer/Multiplayer";
 
 const Pages = () => {
   return (
@@ -13,6 +14,7 @@ const Pages = () => {
       <Route index element={<Libs />}></Route>
       <Route path="libs/browse" element={<Browse />} />
       <Route path="libs/play" element={<LibsPlay />} />
+      <Route path="multiplayer" element={<Multiplayer />} />
       <Route path="saves" element={<Saves />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
