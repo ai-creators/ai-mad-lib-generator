@@ -46,7 +46,7 @@ export class LibVendor {
           "Unable to create ad-lib based on inappropriate language."
         );
       }
-      console.log("DATA: ", formattedResponse.choices[0]);
+      this.validatePromptResponse(formattedResponse);
       return this.validateResponse(formattedResponse, prompt);
     } catch (e: unknown) {
       throw e;
@@ -101,6 +101,19 @@ export class LibVendor {
   ): IAdLib {
     const adLib: IAdLib = this.transformer.transFormToLib(response, prompt);
     return adLib;
+  }
+
+  private validatePromptResponse(response: LibVendorResponse): void {
+    const message = "this is a story without bracktes.";
+    if (!message.includes("[") && !message.includes("]")) {
+      if (message.includes("sorry")) {
+        throw new Error(
+          "Unable to create ad-lib based on inappropriate language."
+        );
+      } else {
+        throw new Error("Unable to generate the ad-lib");
+      }
+    }
   }
 
   private transformer: LibVendorTransformer = new LibVendorTransformer();
