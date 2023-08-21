@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Container from "../Container/Container";
 import { useState } from "react";
 import NavbarCanvas from "./NavbarCanvas/NavbarCanvas";
+import NavbarNotSignedIn from "./NavbarNotSIgnedIn/NavbarNotSignedIn";
 
 const Navbar = () => {
   const [isCanvasOpen, setIsCanvasOpen] = useState(false);
@@ -18,28 +19,7 @@ const Navbar = () => {
         >
           <i className="fa-solid fa-bars"></i>
         </button>
-        <ul className="gap-3 hidden sm:flex">
-          <li>
-            <Link to="/" className="p-3">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/libs/browse" className="p-3">
-              Browse
-            </Link>
-          </li>
-          <li>
-            <Link to="/saves" className="p-3">
-              Saves
-            </Link>
-          </li>
-          <li>
-            <Link to="/settings" className="p-3">
-              Settings
-            </Link>
-          </li>
-        </ul>
+        <NavbarNotSignedIn />
         <NavbarCanvas isOpen={isCanvasOpen} setIsOpen={setIsCanvasOpen} />
       </Container>
     </nav>
