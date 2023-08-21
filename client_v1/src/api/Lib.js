@@ -1,14 +1,19 @@
 import Api from "./Api";
+import storage from "../utils/Storage";
 
 const get = async (timestamp, type, page = "1", pagination = "5") => {
   return await Api.get(
-    `adlib?type=${type}&featured&timestamp=${timestamp}&pagination=${pagination}&page=${page}`
+    `adlib?type=${type}&featured&timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
+      storage.get("content-rating") ?? "pg"
+    }`
   );
 };
 
 const search = async (timestamp, search, page = "1", pagination = "10") => {
   return await Api.post(
-    `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}`,
+    `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
+      storage.get("content-rating") ?? "pg"
+    }`,
     {
       data: {
         search,

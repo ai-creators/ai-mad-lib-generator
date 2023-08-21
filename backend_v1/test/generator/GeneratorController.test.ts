@@ -7,6 +7,8 @@ describe("Generator Controller", () => {
     let serviceSpy: jest.SpyInstance;
     let vendorSpy: jest.SpyInstance;
     let vendorSpy2: jest.SpyInstance;
+    let vendorSpy3: jest.SpyInstance;
+
     beforeEach(() => {
       serviceSpy = jest
         .spyOn(controller.getService(), "saveAdLib")
@@ -36,6 +38,9 @@ describe("Generator Controller", () => {
             text: "I went to the [adjective_1] store to buy some [noun_1]. I couldn't believe the [adjective_2] prices! I ended up leaving with a [noun_2] and a [noun_3]. It was definitely a [adjective_3] shopping experience.",
           })
         );
+      vendorSpy3 = jest
+        .spyOn(controller.getLibVendor(), "isPromptPG")
+        .mockReturnValue(true);
     });
 
     it("Should generate random ad-lib", async () => {

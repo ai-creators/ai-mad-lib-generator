@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
 const BrowseList = ({ adlibs }) => {
+  console.log("AD LIBS: ", adlibs);
   return (
     <ul className="flex flex-col gap-5 max-w-[100%]">
       {adlibs.map((lib) => {
