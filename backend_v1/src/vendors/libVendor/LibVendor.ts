@@ -104,7 +104,7 @@ export class LibVendor {
   }
 
   private validatePromptResponse(response: LibVendorResponse): void {
-    const message = "this is a story without bracktes.";
+    const message = response.choices[0].message.content;
     if (!message.includes("[") && !message.includes("]")) {
       if (message.includes("sorry")) {
         throw new Error(
