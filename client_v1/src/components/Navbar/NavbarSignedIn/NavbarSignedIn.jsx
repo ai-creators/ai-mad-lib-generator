@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const NavbarSignedIn = () => {
   const { logout } = useAuth0();
 
-  const handleLogout = () => {
-    logout({
+  const handleLogout = async () => {
+    await logout({
       logoutParams: {
         returnTo: window.location.origin,
       },
@@ -25,8 +25,8 @@ const NavbarSignedIn = () => {
         </Link>
       </li>
       <li>
-        <Link to="/saves" className="p-3">
-          Saves
+        <Link to="/profile" className="p-3">
+          Profile
         </Link>
       </li>
       <li>

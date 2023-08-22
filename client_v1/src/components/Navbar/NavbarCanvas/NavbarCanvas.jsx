@@ -27,7 +27,11 @@ const NavbarCanvas = ({ isOpen, setIsOpen, user }) => {
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
-        {user ? <NavbarSignedInCavnas /> : <NavbarNotSignedInCanvas />}
+        {user ? (
+          <NavbarSignedInCavnas closeCanvas={closeCanvas} />
+        ) : (
+          <NavbarNotSignedInCanvas closeCanvas={closeCanvas} />
+        )}
       </div>
     </>
   );

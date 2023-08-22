@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 const NavbarSignedInCavnas = ({ closeCanvas }) => {
   const { logout } = useAuth0();
 
-  const handleLogout = () => {
-    logout({
+  const handleLogout = async () => {
+    await logout({
       logoutParams: {
         returnTo: window.location.origin,
       },
     });
+    closeCanvas();
   };
 
   return (
@@ -34,11 +35,11 @@ const NavbarSignedInCavnas = ({ closeCanvas }) => {
       </li>
       <li>
         <Link
-          to="/saves"
+          to="/profile"
           className="p-5 block ease-out duration-200 hover:bg-zinc-900 active:bg-zinc-800"
           onClick={closeCanvas}
         >
-          Saves
+          Profile
         </Link>
       </li>
       <li>

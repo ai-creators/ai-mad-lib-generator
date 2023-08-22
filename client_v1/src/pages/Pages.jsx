@@ -5,6 +5,7 @@ import Browse from "./Browse/Browse";
 import NotFound from "./NotFound/NotFound";
 import Saves from "./Saves/Saves";
 import Settings from "./Settings/Settings";
+import Profile from "./Profile/Profile";
 
 const Pages = () => {
   return (
@@ -16,6 +17,7 @@ const Pages = () => {
       <Route path="libs/play" element={<LibsPlay />} />
       <Route path="saves" element={<Saves />} />
       <Route path="settings" element={<Settings />} />
+      <Route path="profile" element={<Profile />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
