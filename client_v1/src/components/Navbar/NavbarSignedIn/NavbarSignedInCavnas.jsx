@@ -1,28 +1,15 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 
-const NavbarNotSignedInCanvas = ({ closeCanvas }) => {
-  const { loginWithRedirect } = useAuth0();
+const NavbarSignedInCavnas = ({ closeCanvas }) => {
+  const { logout } = useAuth0();
 
-  const handleLogin = async () => {
-    await loginWithRedirect({
-      appState: {
-        returnTo: "/",
+  const handleLogout = () => {
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
       },
     });
-    closeCanvas();
-  };
-
-  const handleSignup = async () => {
-    await loginWithRedirect({
-      appState: {
-        returnTo: "/",
-      },
-      authorizationParams: {
-        screen_hint: "signup",
-      },
-    });
-    closeCanvas();
   };
 
   return (
@@ -56,18 +43,10 @@ const NavbarNotSignedInCanvas = ({ closeCanvas }) => {
       </li>
       <li>
         <button
+          onClick={handleLogout}
           className="text-start w-full p-5 block ease-out duration-200 hover:bg-zinc-900 active:bg-zinc-800"
-          onClick={handleLogin}
         >
-          Log in
-        </button>
-      </li>
-      <li>
-        <button
-          className="text-start w-full p-5 block ease-out duration-200 hover:bg-zinc-900 active:bg-zinc-800"
-          onClick={handleSignup}
-        >
-          Sign up
+          Logout
         </button>
       </li>
       <li>
@@ -83,4 +62,4 @@ const NavbarNotSignedInCanvas = ({ closeCanvas }) => {
   );
 };
 
-export default NavbarNotSignedInCanvas;
+export default NavbarSignedInCavnas;
