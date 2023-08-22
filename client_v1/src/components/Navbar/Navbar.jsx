@@ -23,7 +23,11 @@ const Navbar = () => {
           <i className="fa-solid fa-bars"></i>
         </button>
         {user ? <NavbarSignedIn /> : <NavbarNotSignedIn />}
-        <NavbarCanvas isOpen={isCanvasOpen} setIsOpen={setIsCanvasOpen} />
+        <NavbarCanvas
+          isOpen={isCanvasOpen}
+          setIsOpen={setIsCanvasOpen}
+          user={user}
+        />
       </Container>
     </nav>
   );
