@@ -9,6 +9,7 @@ import { GeneratorService } from "./GeneratorService";
 import { GeneratorRequestTransformer } from "./GeneratorRequestTransformer";
 import { GeneratorProps } from "../../ts/types/GeneratorProps";
 import { Prompt } from "./Prompt";
+import Filter from "bad-words";
 
 export class GeneratorController extends Controller {
   constructor() {
@@ -51,11 +52,9 @@ export class GeneratorController extends Controller {
         });
       }
       const prompt: Prompt = new Prompt(data.prompt);
-      const isPG = await this.getLibVendor().isPromptPG(prompt);
+      const isPG = this.isPgPrompt(prompt);
       const createdAdLib = await this.getLibVendor().createFromPrompt(prompt);
       createdAdLib.isPG = isPG;
-      // const isPG = await this.getLibVendor().isPromptPG(prompt);
-      // createdAdLib.isPG = isPG;
       const savedAdLib = await this.getService().saveAdLib(createdAdLib);
       return AdLibController.sendResponse(res, savedAdLib, 200);
     } catch (e: unknown) {
@@ -82,4 +81,10 @@ export class GeneratorController extends Controller {
       apiKey: process.env.OPENAI_API_KEY,
     })
   );
+
+  private isPgPrompt(prompt: Prompt): boolean {
+    const filter = new Filter({ placeHolder: "x" });
+    const filteredPrompt = filter.clean(prompt.getOriginalPrompt());
+    return filteredPrompt === prompt.getOriginalPrompt();
+  }
 }
