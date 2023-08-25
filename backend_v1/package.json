@@ -19,6 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bad-words": "^3.0.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dayjs": "^1.11.9",
@@ -28,6 +29,7 @@
     "openai": "^3.3.0"
   },
   "devDependencies": {
+    "@types/bad-words": "^3.0.1",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.3",
