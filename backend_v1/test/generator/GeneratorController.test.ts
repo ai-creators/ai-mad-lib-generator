@@ -38,9 +38,6 @@ describe("Generator Controller", () => {
             text: "I went to the [adjective_1] store to buy some [noun_1]. I couldn't believe the [adjective_2] prices! I ended up leaving with a [noun_2] and a [noun_3]. It was definitely a [adjective_3] shopping experience.",
           })
         );
-      vendorSpy3 = jest
-        .spyOn(controller.getLibVendor(), "isPromptPG")
-        .mockReturnValue(true);
     });
 
     it("Should generate random ad-lib", async () => {
@@ -176,5 +173,20 @@ describe("Generator Controller", () => {
       expect(data.numberOfSaves).toBeDefined();
       expect(data.isHidden).toBeDefined();
     });
+
+    // it("Should show it's not pg if a prompt contains inappropriate language", async () => {
+    //   const req = HttpMocker.mockRequest({
+    //     body: {
+    //       data: {
+    //         prompt: "This prompt contains the inappropriate word fuck",
+    //       },
+    //     },
+    //   });
+    //   const res = HttpMocker.mockResponse();
+    //   const next = HttpMocker.mockNextFunction();
+    //   await controller.generateLib(req, res, next);
+    //   const data = res._getJSONData();
+    //   expect(data.isPG).toBeTruthy();
+    // });
   });
 });
