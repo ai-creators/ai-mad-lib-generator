@@ -46,7 +46,7 @@ export class LibVendor {
           "Unable to create ad-lib based on inappropriate language."
         );
       }
-      console.log("DATA: ", formattedResponse.choices[0]);
+      this.validatePromptResponse(formattedResponse);
       return this.validateResponse(formattedResponse, prompt);
     } catch (e: unknown) {
       throw e;
@@ -74,33 +74,25 @@ export class LibVendor {
     }
   }
 
-  public async isPromptPG(prompt: Prompt): Promise<boolean> {
-    try {
-      const response: any = await this.aiApi.createChatCompletion({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "system",
-            content: `Respond in json with a key of isPG and a boolean value of true or false if this mad lib is PG: ${prompt.getOriginalPrompt()}`,
-          },
-        ],
-        temperature: LibVendor.TEMPERATURE,
-        n: 1,
-      });
-      const jsonObject = JSON.parse(response.data.choices[0].message.content);
-      const isPgObject: { isPG: boolean } = jsonObject as { isPG: true };
-      return isPgObject.isPG;
-    } catch (e: unknown) {
-      throw e;
-    }
-  }
-
   private validateResponse(
     response: LibVendorResponse,
     prompt: Prompt
   ): IAdLib {
     const adLib: IAdLib = this.transformer.transFormToLib(response, prompt);
     return adLib;
+  }
+
+  private validatePromptResponse(response: LibVendorResponse): void {
+    const message = response.choices[0].message.content;
+    if (!message.includes("[") && !message.includes("]")) {
+      if (message.includes("sorry")) {
+        throw new Error(
+          "Unable to create ad-lib based on inappropriate language."
+        );
+      } else {
+        throw new Error("Unable to generate the ad-lib");
+      }
+    }
   }
 
   private transformer: LibVendorTransformer = new LibVendorTransformer();
