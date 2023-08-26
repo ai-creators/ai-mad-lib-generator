@@ -19,11 +19,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "compromise": "^14.10.0",
-=======
     "bad-words": "^3.0.4",
->>>>>>> 808b9880dc5ceb56a4fc8ff8867f2e41bf70e60d
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dayjs": "^1.11.9",
