@@ -2,9 +2,13 @@ import { Link } from "react-router-dom";
 import Container from "../Container/Container";
 import { useState } from "react";
 import NavbarCanvas from "./NavbarCanvas/NavbarCanvas";
+import NavbarNotSignedIn from "./NavbarNotSIgnedIn/NavbarNotSignedIn";
+import { useAuth0 } from "@auth0/auth0-react";
+import NavbarSignedIn from "./NavbarSignedIn/NavbarSignedIn";
 
 const Navbar = () => {
   const [isCanvasOpen, setIsCanvasOpen] = useState(false);
+  const { user } = useAuth0();
 
   return (
     <nav className="bg-zinc-950 text-white border-b border-zinc-600">
@@ -18,29 +22,12 @@ const Navbar = () => {
         >
           <i className="fa-solid fa-bars"></i>
         </button>
-        <ul className="gap-3 hidden sm:flex">
-          <li>
-            <Link to="/" className="p-3">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/libs/browse" className="p-3">
-              Browse
-            </Link>
-          </li>
-          <li>
-            <Link to="/saves" className="p-3">
-              Saves
-            </Link>
-          </li>
-          <li>
-            <Link to="/settings" className="p-3">
-              Settings
-            </Link>
-          </li>
-        </ul>
-        <NavbarCanvas isOpen={isCanvasOpen} setIsOpen={setIsCanvasOpen} />
+        {user ? <NavbarSignedIn /> : <NavbarNotSignedIn />}
+        <NavbarCanvas
+          isOpen={isCanvasOpen}
+          setIsOpen={setIsCanvasOpen}
+          user={user}
+        />
       </Container>
     </nav>
   );
