@@ -16,7 +16,11 @@ class App {
 
   private generateHelpers(): void {
     this.app.use(express.json());
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: process.env.FRONT_END_BASE_URL,
+      })
+    );
   }
 
   private generateRoutes(): void {
