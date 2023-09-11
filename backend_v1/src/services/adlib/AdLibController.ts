@@ -6,6 +6,8 @@ import { ErrroHandler } from "../../errors/ErrorHandler";
 import { AdLibProps } from "../../ts/types/AdLibProps";
 import { AdLibRequestTransformer } from "./AdLibRequestTransformer";
 import { AdLibSearchProps } from "../../ts/types/AdLibSearchProps";
+import { AdLibResponseProps } from "../../ts/types/AdLibResponseProps";
+import { GeneratorRequestTransformer } from "../generator/GeneratorRequestTransformer";
 
 export class AdLibController extends Controller {
   constructor() {
@@ -48,6 +50,26 @@ export class AdLibController extends Controller {
           data.isPG
         );
         return AdLibController.sendResponse(res, foundAdLibs, 200);
+      }
+    } catch (e: unknown) {
+      const error = ErrroHandler.ensureError(e);
+      return next({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
+
+  public createAdLibResponse(req: Request, res: Response, next: NextFunction) {
+    try {
+      const data: AdLibResponseProps =
+        this.getRequestTransformer().transformAdLibResponse(req);
+      if (!this.getValidator().validateAdlibResponse(data)) {
+        const message = `These properties are not valid: ${this.getValidator().getFormattedInvalidProperties()}`;
+        return next({
+          status: 400,
+          message: message,
+        });
       }
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);

@@ -1,6 +1,8 @@
 import { Validator } from "../../common/Validator";
 import { AdLibProps } from "../../ts/types/AdLibProps";
+import { AdLibResponseProps } from "../../ts/types/AdLibResponseProps";
 import { AdLibSearchProps } from "../../ts/types/AdLibSearchProps";
+import { AdLibService } from "./AdLibService";
 
 export class AdLibValidator implements Validator {
   constructor() {
@@ -21,6 +23,10 @@ export class AdLibValidator implements Validator {
     this.validateTimestamp(data.timestamp);
     this.validatePage(data.page);
     this.validatePagination(data.pagination);
+    return this.invalidProperties.length === 0;
+  }
+
+  public validateAdlibResponse(data: AdLibResponseProps): boolean {
     return this.invalidProperties.length === 0;
   }
 
@@ -94,6 +100,18 @@ export class AdLibValidator implements Validator {
     }
   }
 
+  private validateAdlibId(adlibId: string): void {
+    const invalidObject: { label: string; message: string } = {
+      label: "adlibId",
+      message: "",
+    };
+    if (!adlibId) {
+      invalidObject.message = `adlib id is not defined or is empty`;
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
+  }
+
   public addToInvalidProperties(property: {
     label: string;
     message: string;
@@ -136,4 +154,10 @@ export class AdLibValidator implements Validator {
   private static MAX_SEARCH_LENGTH: number = parseInt(
     process.env.MAX_SEARCH ?? "1000"
   );
+
+  public getAdlibService(): AdLibService {
+    return AdLibValidator.adlibService;
+  }
+
+  private static adlibService: AdLibService = new AdLibService();
 }
