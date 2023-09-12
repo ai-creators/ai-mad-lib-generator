@@ -54,6 +54,18 @@ export class AdLibService {
     return pager.pageable({ isPG }, page, pagination, { createdAt: -1 });
   }
 
+  public getLibsByUser(
+    timestamp: Date,
+    page: number,
+    pagination: number,
+    user_id: string
+  ): Promise<PaginationResponse<IAdLib>> {
+    const pager = new Pagination(AdLib);
+    return pager.pageable({ createdBy: user_id }, page, pagination, {
+      createdAt: -1,
+    });
+  }
+
   public getLibsBySearch(
     search: string,
     page: number,

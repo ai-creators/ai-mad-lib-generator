@@ -21,8 +21,8 @@ class App {
 
   private generateRoutes(): void {
     // this.app.use("/generate", GeneratorRouter.init);
-    this.app.use("/adlib", AdLibRouter.init());
     this.app.use("/generator", GeneratorRouter.init());
+    this.app.use("/adlib", AdLibRouter.init());
     this.app.use(RouterErrorHandler.notFound);
     this.app.use(RouterErrorHandler.handler);
   }
