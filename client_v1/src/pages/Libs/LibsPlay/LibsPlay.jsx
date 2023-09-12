@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Container from "../../../components/Container/Container";
-import LibsBuilder from "../../../components/Libs/LibsBuilder/LibsBuilder";
+import LibsBuilderV1 from "../../../components/Libs/LibsBuilder/LibsBuilderV1/LibsBuilderV1";
 
 const LibsPlay = () => {
   const { lib } = useLocation().state;
@@ -11,7 +11,7 @@ const LibsPlay = () => {
   }
   return (
     <Container className="grid-aside py-12 gap-12">
-      {lib && <LibsBuilder lib={lib} />}
+      {lib && <LibsBuilderV1 lib={lib} />}
     </Container>
   );
 };

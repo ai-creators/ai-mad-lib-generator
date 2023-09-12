@@ -21,7 +21,8 @@ export class AdLibService {
   }
 
   public getLib(id: string): Promise<IAdLib | null> {
-    return AdLib.findById(id);
+    console.log("ID FORM SERVICE: ", id);
+    return AdLib.findById("6434c7565f27b581e326d458");
   }
 
   public getLibsByCreatedAt(

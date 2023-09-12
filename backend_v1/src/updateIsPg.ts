@@ -4,7 +4,13 @@ import AdLib from "./db/models/AdLibModel";
 mongoose
   .connect("")
   .then(() => {
-    return AdLib.updateMany({}, { $set: { isPG: true } });
+    return AdLib.updateMany({}, [
+      {
+        $set: {
+          _id: { $convert: { input: "$_id", to: "objectId" } },
+        },
+      },
+    ]);
   })
   .then((res) => {
     console.log("FINISHED: ", res);

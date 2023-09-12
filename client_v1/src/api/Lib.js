@@ -34,11 +34,21 @@ const createRandom = async () => {
   return await Api.post("generator/random-adlib");
 };
 
+const createResponse = async (adlibId, questions) => {
+  return await Api.post("adlib/response", {
+    data: {
+      adlibId,
+      questions,
+    },
+  });
+};
+
 const Lib = {
   get,
   create,
   createRandom,
   search,
+  createResponse,
 };
 
 Object.freeze(Lib);

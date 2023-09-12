@@ -18,7 +18,10 @@ export class AdLibSeviceMock {
     return Promise.resolve(null);
   }
 
-  public getLibs(timestamp: Date, page: number, pagination: number, isPG: boolean = true): Promise<PaginationResponse<IAdLib>> {
-    
-  }
+  public getLibs(
+    timestamp: Date,
+    page: number,
+    pagination: number,
+    isPG: boolean = true
+  ): void {}
 }

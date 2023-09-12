@@ -8,6 +8,7 @@ import { AdLibService } from "./AdLibService";
 export class AdLibValidator implements Validator {
   constructor() {
     this.invalidProperties = [];
+    this.getAdlibService = this.getAdlibService.bind(this);
   }
 
   public validate(data: AdLibProps): boolean {
@@ -115,10 +116,16 @@ export class AdLibValidator implements Validator {
       this.addToInvalidProperties(invalidObject);
       return;
     }
-
-    const foundAdlib = await this.getAdlibService().getLib(adlibId);
-    if (!foundAdlib) {
-      invalidObject.message = `adlib cannot be found from id`;
+    try {
+      console.log("ID: ", adlibId);
+      const foundAdlib = await AdLibValidator.adlibService.getLib(adlibId);
+      if (!foundAdlib) {
+        invalidObject.message = `adlib cannot be found from id`;
+        this.addToInvalidProperties(invalidObject);
+        return;
+      }
+    } catch (error: any) {
+      invalidObject.message = `Error fetching adlib`;
       this.addToInvalidProperties(invalidObject);
       return;
     }

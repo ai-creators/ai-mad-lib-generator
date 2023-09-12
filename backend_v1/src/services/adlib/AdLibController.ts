@@ -14,6 +14,7 @@ export class AdLibController extends Controller {
     super();
     this.getLibs = this.getLibs.bind(this);
     this.getLibsBySearch = this.getLibsBySearch.bind(this);
+    this.createAdLibResponse = this.createAdLibResponse.bind(this);
   }
 
   public async getLibs(req: Request, res: Response, next: NextFunction) {
@@ -68,6 +69,7 @@ export class AdLibController extends Controller {
     try {
       const data: AdLibResponseProps =
         this.getRequestTransformer().transformAdLibResponse(req);
+      console.log("ID: ", data.adlibId);
       if (!(await this.getValidator().validateAdlibResponse(data))) {
         const message = `These properties are not valid: ${this.getValidator().getFormattedInvalidProperties()}`;
         return next({
