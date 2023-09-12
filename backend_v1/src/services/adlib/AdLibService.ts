@@ -2,6 +2,9 @@ import AdLib from "../../db/models/AdLibModel";
 import { Pagination } from "../../common/pagination/Pagination";
 import { IAdLib } from "../../ts/Interfaces/IAdLibs";
 import { PaginationResponse } from "../../ts/types/PaginationResponse";
+import { AdLibResponseProps } from "../../ts/types/AdLibResponseProps";
+import AdLibResponse from "../../db/models/AdLibResponseModel";
+import { IAdLibResponse } from "../../ts/Interfaces/IAdLibResponse";
 
 export class AdLibService {
   public getLibs(
@@ -89,5 +92,11 @@ export class AdLibService {
       page,
       pagination
     );
+  }
+
+  public createLibResponse(
+    libResponse: AdLibResponseProps
+  ): Promise<IAdLibResponse> {
+    return AdLibResponse.create(libResponse);
   }
 }

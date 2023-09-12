@@ -60,17 +60,23 @@ export class AdLibController extends Controller {
     }
   }
 
-  public createAdLibResponse(req: Request, res: Response, next: NextFunction) {
+  public async createAdLibResponse(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const data: AdLibResponseProps =
         this.getRequestTransformer().transformAdLibResponse(req);
-      if (!this.getValidator().validateAdlibResponse(data)) {
+      if (!(await this.getValidator().validateAdlibResponse(data))) {
         const message = `These properties are not valid: ${this.getValidator().getFormattedInvalidProperties()}`;
         return next({
           status: 400,
           message: message,
         });
       }
+      const createdResponse = await this.getService().createLibResponse(data);
+      return AdLibController.sendResponse(res, createdResponse, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
       return next({

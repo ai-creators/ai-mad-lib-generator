@@ -31,6 +31,7 @@ export class AdLibValidator implements Validator {
     data: AdLibResponseProps
   ): Promise<boolean> {
     await this.validateAdlibId(data.adlibId);
+    this.validateQuestions(data.questions);
     return this.invalidProperties.length === 0;
   }
 
@@ -123,13 +124,16 @@ export class AdLibValidator implements Validator {
     }
   }
 
-  private validateQuestions(questions: IAdLibResponseQuestion[]): void {\
+  private validateQuestions(questions: IAdLibResponseQuestion[]): void {
     const invalidObject: { label: string; message: string } = {
       label: "questions",
       message: "",
     };
     for (const question of questions) {
       if (!this.validateQuestion(question)) {
+        invalidObject.message = `Adlib questions are invalid.`;
+        this.addToInvalidProperties(invalidObject);
+        return;
       }
     }
   }
