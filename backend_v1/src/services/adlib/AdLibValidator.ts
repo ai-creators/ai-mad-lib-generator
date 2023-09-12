@@ -1,4 +1,5 @@
 import { Validator } from "../../common/Validator";
+import { IAdLibResponseQuestion } from "../../ts/Interfaces/IAdLibResponseQuestion";
 import { AdLibProps } from "../../ts/types/AdLibProps";
 import { AdLibResponseProps } from "../../ts/types/AdLibResponseProps";
 import { AdLibSearchProps } from "../../ts/types/AdLibSearchProps";
@@ -26,7 +27,10 @@ export class AdLibValidator implements Validator {
     return this.invalidProperties.length === 0;
   }
 
-  public validateAdlibResponse(data: AdLibResponseProps): boolean {
+  public async validateAdlibResponse(
+    data: AdLibResponseProps
+  ): Promise<boolean> {
+    await this.validateAdlibId(data.adlibId);
     return this.invalidProperties.length === 0;
   }
 
@@ -100,7 +104,7 @@ export class AdLibValidator implements Validator {
     }
   }
 
-  private validateAdlibId(adlibId: string): void {
+  private async validateAdlibId(adlibId: string): Promise<void> {
     const invalidObject: { label: string; message: string } = {
       label: "adlibId",
       message: "",
@@ -110,6 +114,28 @@ export class AdLibValidator implements Validator {
       this.addToInvalidProperties(invalidObject);
       return;
     }
+
+    const foundAdlib = await this.getAdlibService().getLib(adlibId);
+    if (!foundAdlib) {
+      invalidObject.message = `adlib cannot be found from id`;
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
+  }
+
+  private validateQuestions(questions: IAdLibResponseQuestion[]): void {\
+    const invalidObject: { label: string; message: string } = {
+      label: "questions",
+      message: "",
+    };
+    for (const question of questions) {
+      if (!this.validateQuestion(question)) {
+      }
+    }
+  }
+
+  private validateQuestion(question: IAdLibResponseQuestion): boolean {
+    return question && question.answer.length > 0;
   }
 
   public addToInvalidProperties(property: {

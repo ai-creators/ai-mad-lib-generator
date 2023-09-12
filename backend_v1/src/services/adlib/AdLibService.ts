@@ -17,6 +17,10 @@ export class AdLibService {
     return pager.pageable({ isPG: true }, page, pagination);
   }
 
+  public getLib(id: string): Promise<IAdLib | null> {
+    return AdLib.findById(id);
+  }
+
   public getLibsByCreatedAt(
     timestamp: Date,
     page: number,
