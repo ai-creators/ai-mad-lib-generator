@@ -18,6 +18,12 @@ const Profile = () => {
           <p className="text-zinc-400">Welcome Back,</p>
         </div>
       </Card>
+      <Card useForSmall>
+        <div>
+          <h4 className="text-2xl font-semibold capitalize">Your Ad-Libs</h4>
+          <p className="text-zinc-400">Recently Created Ad-Libs</p>
+        </div>
+      </Card>
     </Container>
   );
 };

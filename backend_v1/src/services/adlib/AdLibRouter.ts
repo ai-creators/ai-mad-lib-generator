@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import { RouterErrorHandler } from "../../errors/RouterErrorHandler";
 import { AdLibController } from "./AdLibController";
-
+import checkJwt from "../../security/checkJwt";
 export class AdLibRouter {
   public static init(): Router {
     const controller = new AdLibController();
@@ -17,7 +17,7 @@ export class AdLibRouter {
 
     AdLibRouter.router
       .route("/user")
-      .get(controller.getUserLibs)
+      .get(checkJwt, controller.getUserLibs)
       .all(RouterErrorHandler.methodNotAllowed);
     return AdLibRouter.router;
   }

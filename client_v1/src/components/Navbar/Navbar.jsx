@@ -9,6 +9,7 @@ import NavbarSignedIn from "./NavbarSignedIn/NavbarSignedIn";
 const Navbar = () => {
   const [isCanvasOpen, setIsCanvasOpen] = useState(false);
   const { user } = useAuth0();
+  console.log("USER: ", user);
 
   return (
     <nav className="bg-zinc-950 text-white border-b border-zinc-600">
