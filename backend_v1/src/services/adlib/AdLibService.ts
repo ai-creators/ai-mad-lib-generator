@@ -5,6 +5,7 @@ import { PaginationResponse } from "../../ts/types/PaginationResponse";
 import { AdLibResponseProps } from "../../ts/types/AdLibResponseProps";
 import AdLibResponse from "../../db/models/AdLibResponseModel";
 import { IAdLibResponse } from "../../ts/Interfaces/IAdLibResponse";
+import { IAdLibResponseWIthAdLib } from "../../ts/Interfaces/IAdLibResponseWithAdLib";
 
 export class AdLibService {
   public getLibs(
@@ -24,8 +25,15 @@ export class AdLibService {
     return AdLib.findOne({ _id: id });
   }
 
-  public getLibResponseById(id: string): Promise<IAdLibResponse | null> {
-    return AdLibResponse.findOne({ _id: id });
+  public async getLibResponseById(
+    id: string
+  ): Promise<IAdLibResponseWIthAdLib | null> {
+    const response = await AdLibResponse.findOne({ _id: id });
+    const adlib = await AdLib.findOne({ _id: response?.adlibId });
+    if (!adlib || !response) {
+      return null;
+    }
+    return { ...response.toObject(), adlib: adlib.toObject() };
   }
 
   public getLibsByCreatedAt(

@@ -16,6 +16,7 @@ export class AdLibController extends Controller {
     this.getLibsBySearch = this.getLibsBySearch.bind(this);
     this.createAdLibResponse = this.createAdLibResponse.bind(this);
     this.getLibById = this.getLibById.bind(this);
+    this.getLibResponse = this.getLibResponse.bind(this);
   }
 
   public async getLibs(req: Request, res: Response, next: NextFunction) {
