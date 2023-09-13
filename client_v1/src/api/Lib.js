@@ -9,6 +9,14 @@ const get = async (timestamp, type, page = "1", pagination = "5") => {
   );
 };
 
+const getById = async (id) => {
+  return await Api.get("adlib/find", {
+    params: {
+      id,
+    },
+  });
+};
+
 const search = async (timestamp, search, page = "1", pagination = "10") => {
   return await Api.post(
     `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
@@ -45,6 +53,7 @@ const createResponse = async (adlibId, questions) => {
 
 const Lib = {
   get,
+  getById,
   create,
   createRandom,
   search,

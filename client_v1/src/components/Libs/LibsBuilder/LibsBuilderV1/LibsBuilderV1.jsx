@@ -4,11 +4,13 @@ import BadgeNSFW from "../../../Badge/BadgeNSFW/BadgeNSFW";
 import { snakeToTitleCase } from "../../../utils/snakeToTitleCase";
 import FormInput from "../../../Form/FormInput/FormInput";
 import Lib from "../../../../api/Lib";
+import { useNavigate } from "react-router-dom";
 
 const LibsBuilderV1 = ({ lib }) => {
   const [questions, setQuestions] = useState([]);
   const [isBuilderDone, setIsBuilderDone] = useState(false);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   useMemo(() => {
     setQuestions([]);
@@ -44,9 +46,10 @@ const LibsBuilderV1 = ({ lib }) => {
       }
     });
     if (Object.keys(newErrors).length === 0) {
-      console.log("IS SHOWING");
-      const adlibResponse = await Lib.createResponse(lib._id, questions);
-      console.log("RES: ", adlibResponse);
+      const response = await Lib.createResponse(lib._id, questions);
+      if (response.data) {
+        navigate(`/libs/view/${response.data._id}`);
+      }
     } else {
       setErrors(newErrors);
     }

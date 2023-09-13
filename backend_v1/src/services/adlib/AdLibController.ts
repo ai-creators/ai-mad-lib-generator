@@ -15,6 +15,7 @@ export class AdLibController extends Controller {
     this.getLibs = this.getLibs.bind(this);
     this.getLibsBySearch = this.getLibsBySearch.bind(this);
     this.createAdLibResponse = this.createAdLibResponse.bind(this);
+    this.getLibById = this.getLibById.bind(this);
   }
 
   public async getLibs(req: Request, res: Response, next: NextFunction) {
@@ -52,6 +53,40 @@ export class AdLibController extends Controller {
         );
         return AdLibController.sendResponse(res, foundAdLibs, 200);
       }
+    } catch (e: unknown) {
+      const error = ErrroHandler.ensureError(e);
+      return next({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
+
+  public async getLibById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const adlibId = req.query.id as string;
+      if (!adlibId) {
+        throw new Error("Adlib id not found");
+      }
+      const foundAdLib = await this.getService().getLib(adlibId);
+      return AdLibController.sendResponse(res, foundAdLib, 200);
+    } catch (e: unknown) {
+      const error = ErrroHandler.ensureError(e);
+      return next({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
+
+  public async getLibResponse(req: Request, res: Response, next: NextFunction) {
+    try {
+      const responseId = req.query.id as string;
+      if (!responseId) {
+        throw new Error("Adlib response id not found");
+      }
+      const foundAdLib = await this.getService().getLibResponseById(responseId);
+      return AdLibController.sendResponse(res, foundAdLib, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
       return next({

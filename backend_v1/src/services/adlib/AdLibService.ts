@@ -24,6 +24,10 @@ export class AdLibService {
     return AdLib.findOne({ _id: id });
   }
 
+  public getLibResponseById(id: string): Promise<IAdLibResponse | null> {
+    return AdLibResponse.findOne({ _id: id });
+  }
+
   public getLibsByCreatedAt(
     timestamp: Date,
     page: number,
