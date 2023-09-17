@@ -78,7 +78,6 @@ const LibsBuilder = ({ lib }) => {
   const removeErrorOnBlur = ({ target }) => {
     const index = parseInt(target.getAttribute("data-index"));
     if (index === 0 || index) {
-      console.log(errors[index], questions[index]);
       if (errors[index] && questions[index].answer) {
         const errorsCopy = { ...errors };
         delete errorsCopy[index];

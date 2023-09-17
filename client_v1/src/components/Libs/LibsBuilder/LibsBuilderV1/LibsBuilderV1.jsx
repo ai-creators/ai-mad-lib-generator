@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Card from "../../../Card/Card";
 import BadgeNSFW from "../../../Badge/BadgeNSFW/BadgeNSFW";
 import { snakeToTitleCase } from "../../../utils/snakeToTitleCase";
@@ -58,7 +58,6 @@ const LibsBuilderV1 = ({ lib }) => {
   const removeErrorOnBlur = ({ target }) => {
     const index = parseInt(target.getAttribute("data-index"));
     if (index === 0 || index) {
-      console.log(errors[index], questions[index]);
       if (errors[index] && questions[index].answer) {
         const errorsCopy = { ...errors };
         delete errorsCopy[index];
@@ -66,8 +65,6 @@ const LibsBuilderV1 = ({ lib }) => {
       }
     }
   };
-
-  console.log("QUESTIONS: ", questions);
 
   return isBuilderDone ? (
     <Card className="flex flex-col gap-5" useForSmall>

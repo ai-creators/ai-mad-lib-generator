@@ -2,7 +2,6 @@ import Card from "../../Card/Card";
 import LibViewerReactions from "./LibViewerReactions/LibViewerReactions";
 
 const LibViewer = ({ lib, questions }) => {
-  console.log(lib, questions);
   const { text } = lib;
   const regex = /\[(.*?)\]/g;
   let index = 0;

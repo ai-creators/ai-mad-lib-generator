@@ -2,7 +2,7 @@ import Card from "../../Card/Card";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
-const SavesCard = ({ saves, removeAllLibs }) => {
+const SavesPrompts = ({ saves, removeAllLibs }) => {
   return (
     <Card useForSmall>
       <div className="flex flex-col gap-3">
@@ -12,10 +12,10 @@ const SavesCard = ({ saves, removeAllLibs }) => {
               className="text-2xl font-semibold cpaitalize"
               data-testid="header"
             >
-              Saved Ad-Lib Prompts
+              Saved Ad-Libs
             </h3>
             <p className="text-zinc-600" data-testid="description">
-              View your saved ad-lib prompts
+              View your saved ad-libs
             </p>
           </div>
           <button
@@ -65,4 +65,4 @@ const SavesCard = ({ saves, removeAllLibs }) => {
   );
 };
 
-export default SavesCard;
+export default SavesPrompts;

@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import Card from "../../../Card/Card";
-import LibViewerReactions from "../LibViewerReactions/LibViewerReactions";
 import { useParams } from "react-router-dom";
 import LibResponse from "../../../../api/LibResponse";
 import ErrorAlert from "../../../../errors/ErrorAlert";
 import ApiErrorHandler from "../../../../errors/ApiErrorHandler";
 import Container from "../../../Container/Container";
+import LibViewerReactionsV1 from "../LibViewerReactionsV1/LibViewerReactionsV1";
 
 const LibViewerV1 = () => {
   const { responseid } = useParams();
   const [lib, setLib] = useState(null);
   const [questions, setQuestions] = useState([]);
+  const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   useEffect(() => {
     (async () => {
@@ -20,6 +21,7 @@ const LibViewerV1 = () => {
           if (response.data) {
             setLib(response.data.adlib);
             setQuestions(response.data.questions);
+            setResponse(response.data);
           }
         }
       } catch (e) {
@@ -27,7 +29,7 @@ const LibViewerV1 = () => {
       }
     })();
   }, [responseid]);
-  console.log(lib, questions);
+
   const regex = /\[(.*?)\]/g;
   let index = 0;
 
@@ -66,7 +68,7 @@ const LibViewerV1 = () => {
                 </p>
               }
             </Card>
-            <LibViewerReactions lib={lib} />
+            <LibViewerReactionsV1 lib={lib} response={response} />
           </>
         ) : null}
       </Container>

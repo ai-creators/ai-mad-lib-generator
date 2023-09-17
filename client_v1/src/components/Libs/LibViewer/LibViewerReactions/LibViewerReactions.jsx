@@ -15,7 +15,6 @@ const LibViewerReactions = ({ lib }) => {
     setIsReported((curr) => !curr);
   };
   const toggleSave = () => {
-    console.log(saves.some((save) => save._id === lib._id));
     if (saves.some((save) => save._id === lib._id)) {
       dispatch(removeLib(lib));
     } else {
@@ -25,8 +24,6 @@ const LibViewerReactions = ({ lib }) => {
   const toggleHidden = () => {
     setIsHidden((curr) => !curr);
   };
-
-  console.log("SAVES: ", saves);
 
   return (
     <ul className="flex gap-3 items-center">
@@ -70,7 +67,7 @@ const LibViewerReactions = ({ lib }) => {
       <li>
         <button
           onClick={toggleSave}
-          className="py-3 px-3 hover:bg-zinc-900  w-32 active:bg-zinc-800 ease-out duration-200 border-r-rounded border rounded border-zinc-600 disabled:cursor-not-allowed disabled:bg-zinc-800"
+          className="py-3 px-3 w-44 hover:bg-zinc-900  w-32 active:bg-zinc-800 ease-out duration-200 border-r-rounded border rounded border-zinc-600 disabled:cursor-not-allowed disabled:bg-zinc-800"
         >
           <i
             className={`${
@@ -79,7 +76,23 @@ const LibViewerReactions = ({ lib }) => {
                 : "fa-regular"
             } fa-heart mr-2`}
           ></i>{" "}
-          {saves.some((save) => save._id === lib._id) ? "Saved" : "Save"}
+          {saves.some((save) => save._id === lib._id) ? "Saved" : "Save"} Prompt
+        </button>
+      </li>
+      <li>
+        <button
+          onClick={toggleSave}
+          className="py-3 px-3 w-44 hover:bg-zinc-900  w-32 active:bg-zinc-800 ease-out duration-200 border-r-rounded border rounded border-zinc-600 disabled:cursor-not-allowed disabled:bg-zinc-800"
+        >
+          <i
+            className={`${
+              saves.some((save) => save._id === lib._id)
+                ? "fa-solid"
+                : "fa-regular"
+            } fa-heart mr-2`}
+          ></i>{" "}
+          {saves.some((save) => save._id === lib._id) ? "Saved" : "Save"}{" "}
+          Response
         </button>
       </li>
     </ul>
