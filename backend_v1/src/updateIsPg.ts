@@ -104,21 +104,6 @@ console.log(
       createdBy: null,
     },
     {
-      _id: "6434dc6333670742f8645405",
-      prompt: "\n\nA broken promise of freedom",
-      text: '/*\n * Copyright (C) 2012 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the "License");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed',
-      numberOfLikes: 0,
-      numberOfDislikes: 0,
-      numberOfSaves: 0,
-      createdAt: "2023-04-11T04:04:51.126Z",
-      updatedAt: {
-        $date: "2023-09-12T04:37:40.772Z",
-      },
-      __v: 0,
-      isPG: true,
-      createdBy: null,
-    },
-    {
       _id: "6434c7565f27b581e326d45a",
       prompt: "The Magic Wand",
       text: "In a far-off [place], there was a [adjective] [noun] who longed to be a [adjective] [noun]. One day, while wandering in the [adjective] [noun], the [adjective] [noun] stumbled upon a [adjective] [noun]. The [adjective] [noun] picked up the wand and waved it, and suddenly, the [adjective] [noun] was transformed into a [adjective] [noun]! Overjoyed, the [adjective] [noun] thanked the wand and promised to use its [adjective] powers for good.",
@@ -4937,25 +4922,6 @@ console.log(
     },
     {
       _id: {
-        $oid: "6500dd564338568260209d0a",
-      },
-      prompt: "\n\nA broken promise of freedom",
-      text: '/*\n * Copyright (C) 2012 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the "License");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed',
-      numberOfLikes: 0,
-      numberOfDislikes: 0,
-      numberOfSaves: 0,
-      isHidden: false,
-      isPG: true,
-      createdAt: {
-        $date: "2023-09-13T15:02:51.431Z",
-      },
-      updatedAt: {
-        $date: "2023-09-13T15:02:51.431Z",
-      },
-      __v: 0,
-    },
-    {
-      _id: {
         $oid: "6500dd564338568260209d0e",
       },
       prompt: "The Magic Wand",
@@ -6876,25 +6842,6 @@ console.log(
       },
       updatedAt: {
         $date: "2023-09-13T15:02:59.399Z",
-      },
-      __v: 0,
-    },
-    {
-      _id: {
-        $oid: "6434dc6333670742f8645405",
-      },
-      prompt: "\n\nA broken promise of freedom",
-      text: '/*\n * Copyright (C) 2012 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the "License");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed',
-      numberOfLikes: 0,
-      numberOfDislikes: 0,
-      numberOfSaves: 0,
-      isHidden: false,
-      isPG: true,
-      createdAt: {
-        $date: "2023-09-13T15:02:59.468Z",
-      },
-      updatedAt: {
-        $date: "2023-09-13T15:02:59.468Z",
       },
       __v: 0,
     },

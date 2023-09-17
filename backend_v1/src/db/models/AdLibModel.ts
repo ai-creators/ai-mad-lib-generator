@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { IAdLib } from "../../ts/Interfaces/IAdLibs";
 
-const AdLibSchema = new Schema<IAdLib>(
+export const AdLibSchema = new Schema<IAdLib>(
   {
     prompt: { type: String, required: [true, "A lib requires a prompt"] },
     text: { type: String, required: [true, "A lib requires a text"] },
@@ -13,6 +13,5 @@ const AdLibSchema = new Schema<IAdLib>(
   },
   { timestamps: true }
 );
-
 const AdLib = mongoose.model("AdLib", AdLibSchema);
 export default AdLib;
