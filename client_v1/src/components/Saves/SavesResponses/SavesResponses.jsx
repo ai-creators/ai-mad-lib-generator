@@ -33,7 +33,7 @@ const SavesResponses = ({ responses, removeResponse, removeAllResponses }) => {
             You don not have any saved Ad-Libs
           </p>
         ) : (
-          <ul data-testid="saves-list">
+          <ul data-testid="saves-responses" className="flex flex-col gap-5">
             {responses.map((response) => {
               return (
                 <li key={response._id}>

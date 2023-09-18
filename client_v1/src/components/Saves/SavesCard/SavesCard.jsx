@@ -33,7 +33,7 @@ const SavesCard = ({ saves, removeAllLibs }) => {
             You don not have any saved Ad-Libs
           </p>
         ) : (
-          <ul data-testid="saves-list">
+          <ul data-testid="saves-list" className="flex flex-col gap-5">
             {saves.map((save) => {
               return (
                 <li key={save._id}>

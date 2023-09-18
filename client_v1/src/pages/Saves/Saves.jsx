@@ -8,6 +8,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import SavesCard from "../../components/Saves/SavesCard/SavesCard";
 import SavesResponses from "../../components/Saves/SavesResponses/SavesResponses";
+import SavesPrompts from "../../components/Saves/SavesPrompts/SavesPrompts";
 
 const Saves = () => {
   const { saves } = useAppSelector((state) => state.saves);
@@ -30,7 +31,7 @@ const Saves = () => {
 
   return (
     <Container className="grid-aside py-12 gap-12">
-      <SavesCard saves={saves} removeAllLibs={removeAllLibs} />
+      <SavesPrompts saves={saves} removeAllLibs={removeAllLibs} />
       <SavesResponses
         responses={responses}
         removeResponse={removeAdLibResponse}

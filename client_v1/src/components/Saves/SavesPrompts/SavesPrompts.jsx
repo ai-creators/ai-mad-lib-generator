@@ -12,7 +12,7 @@ const SavesPrompts = ({ saves, removeAllLibs }) => {
               className="text-2xl font-semibold cpaitalize"
               data-testid="header"
             >
-              Saved Ad-Libs
+              Saved Ad-Lib Prompts
             </h3>
             <p className="text-zinc-600" data-testid="description">
               View your saved ad-libs
@@ -33,7 +33,7 @@ const SavesPrompts = ({ saves, removeAllLibs }) => {
             You don not have any saved Ad-Libs
           </p>
         ) : (
-          <ul data-testid="saves-list">
+          <ul data-testid="saves-list" className="flex flex-col gap-5">
             {saves.map((save) => {
               return (
                 <li key={save._id}>
