@@ -6,6 +6,7 @@ import { AdLibResponseProps } from "../../ts/types/AdLibResponseProps";
 import AdLibResponse from "../../db/models/AdLibResponseModel";
 import { IAdLibResponse } from "../../ts/Interfaces/IAdLibResponse";
 import { IAdLibResponseWIthAdLib } from "../../ts/Interfaces/IAdLibResponseWithAdLib";
+import AdLibFeatured from "../../db/models/AdLibFeatured";
 
 export class AdLibService {
   public getLibs(
@@ -56,7 +57,7 @@ export class AdLibService {
     pagination: number,
     isPG: boolean = true
   ): Promise<PaginationResponse<IAdLib>> {
-    const pager = new Pagination(AdLib);
+    const pager = new Pagination(AdLibFeatured);
     return pager.pageable({}, page, pagination, { createdAt: 1 });
   }
 

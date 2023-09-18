@@ -17,6 +17,7 @@ export class AdLibController extends Controller {
     this.createAdLibResponse = this.createAdLibResponse.bind(this);
     this.getLibById = this.getLibById.bind(this);
     this.getLibResponse = this.getLibResponse.bind(this);
+    this.getLibsFeatured = this.getLibsFeatured.bind(this);
   }
 
   public async getLibs(req: Request, res: Response, next: NextFunction) {
@@ -29,15 +30,7 @@ export class AdLibController extends Controller {
           message: message,
         });
       }
-      if (data?.type === "featured") {
-        const foundAdLibs = await this.getService().getLibsByFeatured(
-          new Date(req.query.timestamp as string),
-          data.page,
-          data.pagination,
-          data.isPG
-        );
-        return AdLibController.sendResponse(res, foundAdLibs, 200);
-      } else if (data?.type === "newest") {
+      if (data?.type === "newest") {
         const foundAdLibs = await this.getService().getLibsByNewest(
           new Date(req.query.timestamp as string),
           data.page,
@@ -54,6 +47,37 @@ export class AdLibController extends Controller {
         );
         return AdLibController.sendResponse(res, foundAdLibs, 200);
       }
+    } catch (e: unknown) {
+      const error = ErrroHandler.ensureError(e);
+      return next({
+        status: 400,
+        message: error.message,
+      });
+    }
+  }
+
+  public async getLibsFeatured(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const data: AdLibProps = this.getRequestTransformer().transform(req);
+      if (!this.getValidator().validate(data)) {
+        const message = `These properties are not valid: ${this.getValidator().getFormattedInvalidProperties()}`;
+        return next({
+          status: 400,
+          message: message,
+        });
+      }
+      console.log("DATA: ", data);
+      const foundAdLibs = await this.getService().getLibsByFeatured(
+        new Date(req.query.timestamp as string),
+        data.page,
+        data.pagination,
+        data.isPG
+      );
+      return AdLibController.sendResponse(res, foundAdLibs, 200);
     } catch (e: unknown) {
       const error = ErrroHandler.ensureError(e);
       return next({

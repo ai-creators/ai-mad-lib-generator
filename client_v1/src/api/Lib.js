@@ -17,6 +17,16 @@ const getById = async (id) => {
   });
 };
 
+const getFeatured = async (timestamp, page, pagination = "5") => {
+  return await Api.get("adlib/featured", {
+    params: {
+      timestamp,
+      pagination,
+      page,
+    },
+  });
+};
+
 const search = async (timestamp, search, page = "1", pagination = "10") => {
   return await Api.post(
     `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
@@ -53,6 +63,7 @@ const createResponse = async (adlibId, questions) => {
 
 const Lib = {
   get,
+  getFeatured,
   getById,
   create,
   createRandom,

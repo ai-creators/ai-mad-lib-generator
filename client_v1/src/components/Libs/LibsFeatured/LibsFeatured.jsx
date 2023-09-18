@@ -18,7 +18,7 @@ const LibsFeatured = () => {
         setIsLoading(true);
         setError(null);
         const formattedDate = dayjs(timestamp).format("YYYY-MM-DD");
-        const response = await Lib.get(formattedDate, "featured");
+        const response = await Lib.getFeatured(formattedDate, "1", "10");
         if (response.data.results) {
           setLibs(response.data.results);
         }
