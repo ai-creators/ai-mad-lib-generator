@@ -14,7 +14,7 @@ const LibsBuilderV1 = ({ lib }) => {
 
   useMemo(() => {
     setQuestions([]);
-    const libText = lib.text;
+    const libText = lib?.text ?? "";
     const placeholders = libText.match(/\[(.*?)\]/g);
     if (placeholders) {
       placeholders.forEach((placeholder) => {
@@ -26,7 +26,7 @@ const LibsBuilderV1 = ({ lib }) => {
       });
       setIsBuilderDone(true);
     }
-  }, [lib.text]);
+  }, [lib?.text]);
 
   const changeAnswer = ({ target }) => {
     const index = parseInt(target.getAttribute("data-index"));
@@ -69,7 +69,9 @@ const LibsBuilderV1 = ({ lib }) => {
   return isBuilderDone ? (
     <Card className="flex flex-col gap-5" useForSmall>
       <header className="flex flex-col gap-3">
-        <h2 className="text-xl font-semibold capitalize">{lib.prompt}...</h2>
+        <h2 className="text-xl font-semibold capitalize" data-testid="prompt">
+          {lib.prompt}...
+        </h2>
         <div>{!lib.isPG && <BadgeNSFW />}</div>
       </header>
       <form className="flex flex-col gap-5">
