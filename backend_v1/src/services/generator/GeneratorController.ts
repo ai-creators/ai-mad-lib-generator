@@ -24,10 +24,12 @@ export class GeneratorController extends Controller {
     next: NextFunction
   ) {
     try {
+      const userId: string = req.body.data.userId ?? "";
       const randomPrompt: string =
         await this.getLibVendor().createRandomPrompt();
       const prompt: Prompt = new Prompt(randomPrompt);
       const createdAdLib = await this.getLibVendor().createFromPrompt(prompt);
+      createdAdLib.createdBy = userId;
       const savedAdLib = await this.getService().saveAdLib(createdAdLib);
       return AdLibController.sendResponse(res, savedAdLib, 200);
     } catch (e: unknown) {
@@ -54,6 +56,7 @@ export class GeneratorController extends Controller {
       const isPG = await this.getLibVendor().isPromptPG(prompt);
       const createdAdLib = await this.getLibVendor().createFromPrompt(prompt);
       createdAdLib.isPG = isPG;
+      createdAdLib.createdBy = data.createdBy;
       // const isPG = await this.getLibVendor().isPromptPG(prompt);
       // createdAdLib.isPG = isPG;
       const savedAdLib = await this.getService().saveAdLib(createdAdLib);

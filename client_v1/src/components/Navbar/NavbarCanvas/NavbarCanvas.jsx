@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import NavbarNotSignedInCanvas from "../NavbarNotSIgnedIn/NavbarNotSignedInCanvas";
 import NavbarSignedInCavnas from "../NavbarSignedIn/NavbarSignedInCavnas";
 
-const NavbarCanvas = ({ isOpen, setIsOpen, user }) => {
+const NavbarCanvas = ({ isOpen, setIsOpen, isAuthenticated }) => {
   const closeCanvas = () => {
     setIsOpen(false);
   };
@@ -27,7 +27,7 @@ const NavbarCanvas = ({ isOpen, setIsOpen, user }) => {
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
-        {user ? (
+        {isAuthenticated ? (
           <NavbarSignedInCavnas closeCanvas={closeCanvas} />
         ) : (
           <NavbarNotSignedInCanvas closeCanvas={closeCanvas} />

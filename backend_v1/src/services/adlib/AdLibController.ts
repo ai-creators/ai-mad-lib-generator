@@ -101,6 +101,13 @@ export class AdLibController extends Controller {
           message: "No user id provided.",
         });
       }
+      if (!this.getValidator().validate(data)) {
+        const message = `These properties are not valid: ${this.getValidator().getFormattedInvalidProperties()}`;
+        return next({
+          status: 400,
+          message: message,
+        });
+      }
       const { timestamp, page, pagination } = data;
       const foundAdLibs = await this.getService().getLibsByUser(
         timestamp,

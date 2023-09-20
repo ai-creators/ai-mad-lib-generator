@@ -6,12 +6,14 @@ import ApiErrorHandler from "../../../errors/ApiErrorHandler";
 import ErrorAlert from "../../../errors/ErrorAlert";
 import ToastInformation from "../../Toast/ToastInformation/ToastInformation";
 import Loader from "../../Loader/Loader";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const LibsCreate = () => {
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth0();
   const createLib = async (event) => {
     try {
       if (!isLoading) {
@@ -21,7 +23,8 @@ const LibsCreate = () => {
         if (!prompt) {
           throw new Error(" A prompt is required");
         }
-        const response = await Lib.create(prompt);
+
+        const response = await Lib.create(prompt, user?.sub ?? "");
         if (response.data) {
           navigate("/libs/play", { state: { lib: response.data } });
         }
@@ -38,7 +41,7 @@ const LibsCreate = () => {
       setIsLoading(true);
       setError(null);
       setPrompt("");
-      const response = await Lib.createRandom();
+      const response = await Lib.createRandom(user.sub ?? "");
       if (response.data) {
         navigate("/libs/play", { state: { lib: response.data } });
       }

@@ -8,8 +8,7 @@ import NavbarSignedIn from "./NavbarSignedIn/NavbarSignedIn";
 
 const Navbar = () => {
   const [isCanvasOpen, setIsCanvasOpen] = useState(false);
-  const { user } = useAuth0();
-  console.log("USER: ", user);
+  const { isAuthenticated, user } = useAuth0();
 
   return (
     <nav className="bg-zinc-950 text-white border-b border-zinc-600">
@@ -23,11 +22,11 @@ const Navbar = () => {
         >
           <i className="fa-solid fa-bars"></i>
         </button>
-        {user ? <NavbarSignedIn /> : <NavbarNotSignedIn />}
+        {isAuthenticated ? <NavbarSignedIn /> : <NavbarNotSignedIn />}
         <NavbarCanvas
           isOpen={isCanvasOpen}
           setIsOpen={setIsCanvasOpen}
-          user={user}
+          isAuthenticated={isAuthenticated}
         />
       </Container>
     </nav>

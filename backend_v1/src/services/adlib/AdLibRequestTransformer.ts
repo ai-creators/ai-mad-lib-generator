@@ -19,8 +19,8 @@ export class AdLibRequestTransformer {
     return data;
   }
 
-  public transformUserId(req: Request): string {
-    const user_id = (req.query.user_id as string) ?? "";
+  public transformUserId(req: Request): string | undefined {
+    const user_id = req.auth?.payload.sub;
     return user_id;
   }
 
