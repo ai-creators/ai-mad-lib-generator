@@ -8,7 +8,6 @@ const BrowseLibs = ({ search, setSearch, type, setType }) => {
   const changeType = ({ target: { id } }) => {
     setSearch("");
     setType(id);
-    setAdlibs([]);
   };
 
   return (
