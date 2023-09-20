@@ -6,7 +6,6 @@ import {
 } from "../../slices/responsesSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import SavesCard from "../../components/Saves/SavesCard/SavesCard";
 import SavesResponses from "../../components/Saves/SavesResponses/SavesResponses";
 import SavesPrompts from "../../components/Saves/SavesPrompts/SavesPrompts";
 
