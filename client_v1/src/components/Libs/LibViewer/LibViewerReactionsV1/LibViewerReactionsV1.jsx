@@ -126,7 +126,7 @@ const LibViewerReactionsV1 = ({ lib, response }) => {
             className="py-3 px-3 w-44 hover:bg-zinc-900  w-32 active:bg-zinc-800 ease-out duration-200 border-r-rounded border rounded border-zinc-600 disabled:cursor-not-allowed disabled:bg-zinc-800"
           >
             <i className="fa-solid fa-copy mr-2"></i>
-            {isResponseCopied ? "Shared Response" : "Share Response"}
+            {isResponseCopied ? "Copied Link" : "Share Response"}
           </button>
         </li>
       </ul>
