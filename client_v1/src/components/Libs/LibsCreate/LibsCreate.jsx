@@ -23,7 +23,7 @@ const LibsCreate = () => {
         }
         const response = await Lib.create(prompt);
         if (response.data) {
-          navigate("/libs/play", { state: { lib: response.data } });
+          navigate(`/libs/play/${response.data._id}`);
         }
       }
     } catch (e) {
@@ -40,7 +40,7 @@ const LibsCreate = () => {
       setPrompt("");
       const response = await Lib.createRandom();
       if (response.data) {
-        navigate("/libs/play", { state: { lib: response.data } });
+        navigate(`/libs/play/${response.data._id}`);
       }
     } catch (e) {
       setError(ApiErrorHandler.handleRequestResponse(e));

@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 
 const BrowseList = ({ adlibs }) => {
-  console.log("AD LIBS: ", adlibs);
   return (
     <ul className="flex flex-col gap-5 max-w-[100%]">
       {adlibs.map((lib) => {
@@ -19,9 +18,8 @@ const BrowseList = ({ adlibs }) => {
               </div>
 
               <Link
-                to="/libs/play"
+                to={`/libs/play/${lib._id}`}
                 className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
-                state={{ lib }}
               >
                 Go To Ad-Lib
               </Link>

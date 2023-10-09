@@ -1,9 +1,11 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 import savesReducer from "../slices/savesSlice";
+import responsesReducer from "../slices/responsesSlice";
 
 const rootReducer = combineReducers({
   saves: savesReducer,
+  responses: responsesReducer,
 });
 
 export function setupStore(preloadedState) {
@@ -16,6 +18,7 @@ export function setupStore(preloadedState) {
 const store = configureStore({
   reducer: {
     saves: savesReducer,
+    responses: responsesReducer,
   },
 });
 
