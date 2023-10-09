@@ -7,8 +7,10 @@ export class GeneratorRequestTransformer {
       throw new Error("No data has been provided");
     }
     const prompt: string = req.body.data.prompt ?? "";
+    const userId: string = req.body.data.userId ?? "";
     const data: GeneratorProps = {
       prompt,
+      createdBy: userId,
     };
     return data;
   }

@@ -10,6 +10,7 @@ const AdLibSchema = new Schema<IAdLib>(
     numberOfSaves: { type: Number, default: 0 },
     isHidden: { type: Boolean, default: false },
     isPG: { type: Boolean, default: true },
+    createdBy: { type: String, default: null },
   },
   { timestamps: true }
 );

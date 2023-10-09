@@ -3,6 +3,7 @@ import cors from "cors";
 import { GeneratorRouter } from "./services/generator/GeneratorRouter";
 import { AdLibRouter } from "./services/adlib/AdLibRouter";
 import { RouterErrorHandler } from "./errors/RouterErrorHandler";
+import helmet from "helmet";
 
 class App {
   private constructor() {}
@@ -15,6 +16,7 @@ class App {
   }
 
   private generateHelpers(): void {
+    this.app.use(helmet());
     this.app.use(express.json());
     this.app.use(
       cors({
@@ -25,8 +27,8 @@ class App {
 
   private generateRoutes(): void {
     // this.app.use("/generate", GeneratorRouter.init);
-    this.app.use("/adlib", AdLibRouter.init());
     this.app.use("/generator", GeneratorRouter.init());
+    this.app.use("/adlib", AdLibRouter.init());
     this.app.use(RouterErrorHandler.notFound);
     this.app.use(RouterErrorHandler.handler);
   }

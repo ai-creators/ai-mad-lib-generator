@@ -6,4 +6,5 @@ export interface IAdLib {
   numberOfSaves?: number;
   isHidden?: boolean;
   isPG?: boolean;
+  createdBy?: string;
 }

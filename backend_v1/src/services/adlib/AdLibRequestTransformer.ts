@@ -19,6 +19,11 @@ export class AdLibRequestTransformer {
     return data;
   }
 
+  public transformUserId(req: Request): string | undefined {
+    const user_id = req.auth?.payload.sub;
+    return user_id;
+  }
+
   public transformSearch(req: Request): AdLibSearchProps {
     if (!req.body.hasOwnProperty("data")) {
       throw new Error("No data has been provided");

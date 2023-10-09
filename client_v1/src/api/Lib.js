@@ -9,6 +9,24 @@ const get = async (timestamp, type, page = "1", pagination = "5") => {
   );
 };
 
+const getUserCreated = async (
+  accessToken,
+  timestamp,
+  page = "1",
+  pagination = "5"
+) => {
+  return await Api.get("adlib/user", {
+    params: {
+      timestamp,
+      page,
+      pagination,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
 const search = async (timestamp, search, page = "1", pagination = "10") => {
   return await Api.post(
     `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
@@ -22,16 +40,21 @@ const search = async (timestamp, search, page = "1", pagination = "10") => {
   );
 };
 
-const create = async (prompt) => {
+const create = async (prompt, subId) => {
   return await Api.post("generator/adlib", {
     data: {
       prompt,
+      userId: subId,
     },
   });
 };
 
-const createRandom = async () => {
-  return await Api.post("generator/random-adlib");
+const createRandom = async (userId) => {
+  return await Api.post("generator/random-adlib", {
+    data: {
+      userId,
+    },
+  });
 };
 
 const Lib = {
@@ -39,6 +62,7 @@ const Lib = {
   create,
   createRandom,
   search,
+  getUserCreated,
 };
 
 Object.freeze(Lib);
