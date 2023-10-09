@@ -1,5 +1,5 @@
 import Container from "../../components/Container/Container";
-import { removeAll } from "../../slices/savesSlice";
+import { removeAll, removeLib } from "../../slices/savesSlice";
 import {
   removeResponse,
   removeAllResponses,
@@ -17,6 +17,13 @@ const Saves = () => {
     dispatch(removeAll());
   };
 
+  const removeSave = ({ target }) => {
+    const id = target.getAttribute("data-responseid");
+    if (id) {
+      dispatch(removeLib({ _id: id }));
+    }
+  };
+
   const removeAllAdLibResponses = () => {
     dispatch(removeAllResponses());
   };
@@ -30,7 +37,11 @@ const Saves = () => {
 
   return (
     <Container className="grid-aside py-12 gap-12">
-      <SavesPrompts saves={saves} removeAllLibs={removeAllLibs} />
+      <SavesPrompts
+        saves={saves}
+        removeAllLibs={removeAllLibs}
+        removeSave={removeSave}
+      />
       <SavesResponses
         responses={responses}
         removeResponse={removeAdLibResponse}

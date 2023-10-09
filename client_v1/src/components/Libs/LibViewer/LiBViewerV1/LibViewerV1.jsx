@@ -22,6 +22,11 @@ const LibViewerV1 = () => {
             setLib(response.data.adlib);
             setQuestions(response.data.questions);
             setResponse(response.data);
+          } else {
+            setError({
+              message:
+                "Unable to find adlib response. The creator of the response could've deleted the adlib adlib response.",
+            });
           }
         }
       } catch (e) {

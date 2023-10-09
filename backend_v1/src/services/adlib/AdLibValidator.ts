@@ -117,7 +117,6 @@ export class AdLibValidator implements Validator {
       return;
     }
     try {
-      console.log("ID: ", adlibId);
       const foundAdlib = await AdLibValidator.adlibService.getLib(adlibId);
       if (!foundAdlib) {
         invalidObject.message = `adlib cannot be found from id`;

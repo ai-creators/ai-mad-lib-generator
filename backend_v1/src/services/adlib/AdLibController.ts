@@ -70,7 +70,6 @@ export class AdLibController extends Controller {
           message: message,
         });
       }
-      console.log("DATA: ", data);
       const foundAdLibs = await this.getService().getLibsByFeatured(
         new Date(req.query.timestamp as string),
         data.page,
@@ -129,7 +128,6 @@ export class AdLibController extends Controller {
     try {
       const data: AdLibResponseProps =
         this.getRequestTransformer().transformAdLibResponse(req);
-      console.log("ID: ", data.adlibId);
       if (!(await this.getValidator().validateAdlibResponse(data))) {
         const message = `These properties are not valid: ${this.getValidator().getFormattedInvalidProperties()}`;
         return next({
