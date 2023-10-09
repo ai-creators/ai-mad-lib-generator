@@ -1,18 +1,38 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Container from "../../../components/Container/Container";
-import LibsBuilder from "../../../components/Libs/LibsBuilder/LibsBuilder";
+import LibsBuilderV1 from "../../../components/Libs/LibsBuilder/LibsBuilderV1/LibsBuilderV1";
+import ErrorAlert from "../../../errors/ErrorAlert";
+import { useEffect, useState } from "react";
+import Lib from "../../../api/Lib";
 
 const LibsPlay = () => {
-  const { lib } = useLocation().state;
-  console.log("LIB: ", lib);
-  const navigate = useNavigate();
-  if (!lib) {
-    navigate("/", { state: { error: "No ad-lib found." } });
-  }
+  const { adlibid } = useParams();
+  const [lib, setLib] = useState(null);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    (async () => {
+      if (adlibid) {
+        const response = await Lib.getById(adlibid);
+        if (response.data) {
+          setLib(response.data);
+        } else {
+          setError({
+            message:
+              "Unable to find adlib. The creator of the adlib could've deleted the adlib.",
+          });
+        }
+      }
+    })();
+  }, [adlibid]);
   return (
-    <Container className="grid-aside py-12 gap-12">
-      {lib && <LibsBuilder lib={lib} />}
-    </Container>
+    <>
+      <Container>
+        <ErrorAlert error={error} className="mt-5" />
+      </Container>
+      <Container className="grid-aside py-12 gap-12">
+        {lib && <LibsBuilderV1 lib={lib} />}
+      </Container>
+    </>
   );
 };
 

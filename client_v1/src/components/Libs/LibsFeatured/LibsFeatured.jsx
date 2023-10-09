@@ -18,7 +18,7 @@ const LibsFeatured = () => {
         setIsLoading(true);
         setError(null);
         const formattedDate = dayjs(timestamp).format("YYYY-MM-DD");
-        const response = await Lib.get(formattedDate, "featured");
+        const response = await Lib.getFeatured(formattedDate, "1", "10");
         if (response.data.results) {
           setLibs(response.data.results);
         }
@@ -61,9 +61,8 @@ const LibsFeatured = () => {
                   </div>
 
                   <Link
-                    to="/libs/play"
+                    to={`/libs/play/${lib._id}`}
                     className="p-3 rounded border border-zinc-600 text-white inline-block mt-6 hover:bg-zinc-900 active:bg-zinc-800 duration-200 ease-out"
-                    state={{ lib }}
                   >
                     Go To Ad-Lib
                   </Link>

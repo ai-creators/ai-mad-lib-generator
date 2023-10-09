@@ -1,10 +1,14 @@
 import { Validator } from "../../common/Validator";
+import { IAdLibResponseQuestion } from "../../ts/Interfaces/IAdLibResponseQuestion";
 import { AdLibProps } from "../../ts/types/AdLibProps";
+import { AdLibResponseProps } from "../../ts/types/AdLibResponseProps";
 import { AdLibSearchProps } from "../../ts/types/AdLibSearchProps";
+import { AdLibService } from "./AdLibService";
 
 export class AdLibValidator implements Validator {
   constructor() {
     this.invalidProperties = [];
+    this.getAdlibService = this.getAdlibService.bind(this);
   }
 
   public validate(data: AdLibProps): boolean {
@@ -21,6 +25,14 @@ export class AdLibValidator implements Validator {
     this.validateTimestamp(data.timestamp);
     this.validatePage(data.page);
     this.validatePagination(data.pagination);
+    return this.invalidProperties.length === 0;
+  }
+
+  public async validateAdlibResponse(
+    data: AdLibResponseProps
+  ): Promise<boolean> {
+    await this.validateAdlibId(data.adlibId);
+    this.validateQuestions(data.questions);
     return this.invalidProperties.length === 0;
   }
 
@@ -94,6 +106,48 @@ export class AdLibValidator implements Validator {
     }
   }
 
+  private async validateAdlibId(adlibId: string): Promise<void> {
+    const invalidObject: { label: string; message: string } = {
+      label: "adlibId",
+      message: "",
+    };
+    if (!adlibId) {
+      invalidObject.message = `adlib id is not defined or is empty`;
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
+    try {
+      const foundAdlib = await AdLibValidator.adlibService.getLib(adlibId);
+      if (!foundAdlib) {
+        invalidObject.message = `adlib cannot be found from id`;
+        this.addToInvalidProperties(invalidObject);
+        return;
+      }
+    } catch (error: any) {
+      invalidObject.message = `Error fetching adlib`;
+      this.addToInvalidProperties(invalidObject);
+      return;
+    }
+  }
+
+  private validateQuestions(questions: IAdLibResponseQuestion[]): void {
+    const invalidObject: { label: string; message: string } = {
+      label: "questions",
+      message: "",
+    };
+    for (const question of questions) {
+      if (!this.validateQuestion(question)) {
+        invalidObject.message = `Adlib questions are invalid.`;
+        this.addToInvalidProperties(invalidObject);
+        return;
+      }
+    }
+  }
+
+  private validateQuestion(question: IAdLibResponseQuestion): boolean {
+    return question && question.answer.length > 0;
+  }
+
   public addToInvalidProperties(property: {
     label: string;
     message: string;
@@ -136,4 +190,10 @@ export class AdLibValidator implements Validator {
   private static MAX_SEARCH_LENGTH: number = parseInt(
     process.env.MAX_SEARCH ?? "1000"
   );
+
+  public getAdlibService(): AdLibService {
+    return AdLibValidator.adlibService;
+  }
+
+  private static adlibService: AdLibService = new AdLibService();
 }
