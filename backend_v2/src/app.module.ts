@@ -15,7 +15,7 @@ import { AdlibModule } from './adlib/adlib.module';
           'MONGODB_USERNAME',
         )}:${config.get<string>('MONGODB_PASSWORD')}@${config.get<string>(
           'MONGODB_HOST',
-        )}/${'MONGODB_NAME'}?retryWrites=true&w=majority`,
+        )}/${config.get<string>('MONGODB_NAME')}?retryWrites=true&w=majority`,
       }),
       inject: [ConfigService],
     }),

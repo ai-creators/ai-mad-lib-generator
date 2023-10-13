@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type AdlibFeaturedDocument = HydratedDocument<AdlibFeatured>;
+export type AdlibFeatureDocument = HydratedDocument<AdlibFeature>;
 
 @Schema({ timestamps: true })
-export class AdlibFeatured {
+export class AdlibFeature {
   @Prop({ required: true })
   prompt: string;
 
@@ -24,4 +24,4 @@ export class AdlibFeatured {
   isPG: boolean;
 }
 
-export const AdlibFeaturedSchema = SchemaFactory.createForClass(AdlibFeatured);
+export const AdlibFeatureSchema = SchemaFactory.createForClass(AdlibFeature);

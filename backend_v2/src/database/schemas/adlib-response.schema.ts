@@ -2,9 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
 export type AdlibResponseDocument = HydratedDocument<AdlibResponse>;
+export type AdLibResponseQuestionDocument =
+  HydratedDocument<AdLibResponseQuestion>;
 
-@Schema()
-export class IAdLibResponseQuestion {
+@Schema({ _id: false })
+export class AdLibResponseQuestion {
   @Prop({ required: true })
   question: string;
 
@@ -17,8 +19,8 @@ export class AdlibResponse {
   @Prop({ required: true })
   adlibId: String;
 
-  @Prop({ type: [IAdLibResponseQuestion], required: true })
-  questions: IAdLibResponseQuestion[];
+  @Prop({ required: true })
+  questions: AdLibResponseQuestion[];
 }
 
 export const AdlibResponseSchema = SchemaFactory.createForClass(AdlibResponse);

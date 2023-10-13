@@ -29,6 +29,6 @@ export class Pagination {
     if (total === 0) {
       return 0;
     }
-    return Math.ceil(size / total);
+    return Math.ceil(total / size);
   }
 }
