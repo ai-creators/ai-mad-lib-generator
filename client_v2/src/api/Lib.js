@@ -70,10 +70,8 @@ const createRandom = () => {
 
 const createResponse = (adlibId, questions) => {
   return Api.post("api/adlib/response", {
-    data: {
-      adlibId,
-      questions,
-    },
+    adlibId,
+    questions,
   });
 };
 
