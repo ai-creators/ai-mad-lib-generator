@@ -1,7 +1,14 @@
 import { LibVendorResponseChoice } from "./LibVendorResponseChoice";
 
 export type LibVendorResponse = {
-  choices: LibVendorResponseChoice[];
+  choices: {
+    finish_reason: string | null;
+    index: number;
+    message: {
+      content: string;
+      role: string;
+    };
+  }[];
   created: number;
   id: string;
   model: string;
