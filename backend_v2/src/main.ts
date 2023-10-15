@@ -18,6 +18,7 @@ function checkEnvironment(configService: ConfigService) {
     'OPEN_AI_API_KEY',
     'MAX_PAGINATION',
     'MAX_SEARCH',
+    'OPEN_AI_API_MODEL',
   ];
 
   requiredEnvVars.forEach((envVar) => {

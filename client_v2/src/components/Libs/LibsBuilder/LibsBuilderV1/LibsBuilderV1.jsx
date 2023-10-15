@@ -19,13 +19,19 @@ const LibsBuilderV1 = ({ lib }) => {
     setQuestions([]);
     const libText = lib?.text ?? "";
     const placeholders = libText.match(/\[(.*?)\]/g);
+    console.log(placeholders);
+    const usedTypeOfSpeeches = [];
     if (placeholders) {
       placeholders.forEach((placeholder) => {
-        const question = {
-          question: placeholder.slice(1, -1),
-          answer: "",
-        };
-        setQuestions((curr) => [...curr, question]);
+        console.log(usedTypeOfSpeeches);
+        if (!usedTypeOfSpeeches.includes(placeholder)) {
+          const question = {
+            question: placeholder.slice(1, -1),
+            answer: "",
+          };
+          setQuestions((curr) => [...curr, question]);
+          usedTypeOfSpeeches.push(placeholder);
+        }
       });
       setIsBuilderDone(true);
     }

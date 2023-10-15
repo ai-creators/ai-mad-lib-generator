@@ -16,7 +16,7 @@ export class Prompt {
   }
 
   public getPrompt(): string {
-    return `${Prompt.PROMPT_RULES} ${this.promptLimits}. Make the mad lib a mininum of 3 sentences and 50 words. ${this.originalPrompt}`;
+    return `${Prompt.PROMPT_RULES} ${this.promptLimits}. Make the mad lib a mininum of 3 sentences and a mininum 50 words. ${this.originalPrompt}`;
   }
 
   public setResponseAsJSON(): void {

@@ -65,7 +65,7 @@ const create = (prompt) => {
 };
 
 const createRandom = () => {
-  return Api.post("api/generator/random-adlib");
+  return Api.post("api/generator/random");
 };
 
 const createResponse = (adlibId, questions) => {

@@ -122,6 +122,7 @@ export class AdlibController {
     )
     getAdlibResponseByIdDto: GetAdlibResponseByIdDto,
   ): Promise<AdlibResponseAggregate | AdlibResponse> {
+    console.log;
     const foundAdlibResponse =
       await this.adlibResponseService.getAdlibResponseById(
         getAdlibResponseByIdDto.id,
@@ -135,7 +136,6 @@ export class AdlibController {
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
     }
-    console.log(foundAdlibResponse);
     return {
       adlib: foundAdlib,
       adlibId: foundAdlibResponse.adlibId,

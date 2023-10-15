@@ -11,16 +11,16 @@ export class Adlib {
   @Prop({ required: true })
   text: string;
 
-  @Prop({ default: 0 })
+  @Prop({ default: 0, required: false })
   numberOfLikes: number;
 
-  @Prop({ default: 0 })
+  @Prop({ default: 0, required: false })
   numberOfDislikes: number;
 
-  @Prop({ default: false })
+  @Prop({ default: false, required: false })
   isHidden: boolean;
 
-  @Prop({ default: false })
+  @Prop({ default: false, required: false })
   isPG: boolean;
 }
 

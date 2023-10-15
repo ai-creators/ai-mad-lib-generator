@@ -22,6 +22,7 @@ import {
     ]),
   ],
   controllers: [AdlibController],
+  exports: [AdlibService],
   providers: [AdlibService, AdlibResponseService],
 })
 export class AdlibModule {}

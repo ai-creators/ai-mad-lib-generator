@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Adlib } from 'src/database/schemas/adlib.schema';
+import { Adlib, AdlibDocument } from 'src/database/schemas/adlib.schema';
 import { PaginationDto } from 'src/common/pagination/dtos/Pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/PaginationResponse';
 import { Pagination } from 'src/common/pagination';
@@ -9,6 +9,7 @@ import { GetAdlibDto } from 'src/adlib/dtos/get-adlib.dto';
 import { AdlibFeature } from 'src/database/schemas/adlib-feature.schema';
 import { SearchAdlibDto } from 'src/adlib/dtos/search-adlib.dto';
 import { GetAdlibByIdDto } from 'src/adlib/dtos/get-adlib-by-id.dto';
+import { GeneratedAdlib } from 'src/database/models/generated-adlib';
 
 @Injectable()
 export class AdlibService {
@@ -53,6 +54,10 @@ export class AdlibService {
       getAdlibDto,
       this.adlibModel,
     );
+  }
+
+  public createAdlib(adlib: GeneratedAdlib): Promise<AdlibDocument> {
+    return this.adlibModel.create(adlib);
   }
 
   public getAdlibById(id: string): Promise<Adlib> {

@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdlibModule } from './adlib/adlib.module';
+import { GeneratorModule } from './generator/generator.module';
+import { VendorsModule } from './vendors/vendors.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { AdlibModule } from './adlib/adlib.module';
       inject: [ConfigService],
     }),
     AdlibModule,
+    GeneratorModule,
+    VendorsModule,
   ],
   controllers: [],
   providers: [],

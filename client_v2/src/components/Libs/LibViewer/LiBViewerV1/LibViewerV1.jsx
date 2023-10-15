@@ -18,6 +18,7 @@ const LibViewerV1 = () => {
       try {
         if (responseid) {
           const response = await LibResponse.getById(responseid);
+          console.log("RES: ", response.data);
           if (response.data) {
             setLib(response.data.adlib);
             setQuestions(response.data.questions);
@@ -54,17 +55,16 @@ const LibViewerV1 = () => {
                 <p className="text-lg">
                   {lib.text.split(" ").map((word, i) => {
                     if (word.includes("[") && word.includes("]")) {
-                      const replaced = word.replace(
-                        regex,
-                        questions[index].answer
+                      console.log(word);
+                      const foundQuestion = questions.find(
+                        (question) => question.question === word.slice(1, -1)
                       );
-                      index++;
                       return (
                         <b
                           key={i}
                           className="tracking-wide font-bold underline underline-offset-4"
                         >
-                          {replaced}{" "}
+                          {foundQuestion?.answer}{" "}
                         </b>
                       );
                     }
