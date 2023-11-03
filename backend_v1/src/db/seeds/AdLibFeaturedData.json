@@ -1,0 +1,50 @@
+{
+  "adlibs": [
+    {
+      "_id": "6434c7565f27b581e326d458",
+      "prompt": "Animal buys some food",
+      "text": "One [color] [animal] went to the [adjective] [place] to buy some [food]. The [place] said, 'Sorry, we're all out of [food] today.' The [color] [animal] replied, 'No problem, I'll just buy some [adjective] [beverage] instead!' The [place] nodded and said, 'Great choice! That's our most popular item.' So the [color] [animal] happily walked home with a cup of [adjective] [beverage], feeling [emotion] and [emotion] with their purchase.",
+      "numberOfLikes": 10,
+      "numberOfDislikes": 0,
+      "numberOfSaves": 3,
+      "isHidden": false,
+      "isPG": true
+    },
+    {
+      "prompt": "The Missing Key",
+      "text": "The [adjective] [noun] had lost its [adjective] key. It searched high and low, [verb] through the [place] and peering into every [noun] it could find. Finally, after [verb] for hours, the [adjective] [noun] found the key [preposition] a [adjective] [noun]. Relieved, the [adjective] [noun] grabbed the key and ran [adverb] back to its [adjective] [noun].",
+      "numberOfLikes": 20,
+      "numberOfDislikes": 2,
+      "numberOfSaves": 1,
+      "isHidden": false,
+      "isPG": true
+    },
+    {
+      "prompt": "The Magic Wand",
+      "text": "In a far-off [place], there was a [adjective] [noun] who longed to be a [adjective] [noun]. One day, while wandering in the [adjective] [noun], the [adjective] [noun] stumbled upon a [adjective] [noun]. The [adjective] [noun] picked up the wand and waved it, and suddenly, the [adjective] [noun] was transformed into a [adjective] [noun]! Overjoyed, the [adjective] [noun] thanked the wand and promised to use its [adjective] powers for good.",
+      "numberOfLikes": 5,
+      "numberOfDislikes": 0,
+      "numberOfSaves": 0,
+      "isHidden": false,
+      "isPG": true
+    },
+    {
+      "prompt": "Comedy Show",
+      "text": "Last night, I went to see a comedy show and it was hilarious! The comedian told some [adjective] jokes and had the whole crowd laughing. There was even a surprise guest appearance by a [celebrity], which made the night even more memorable. After the show, I went to the [bar] and had a few [beverage] with my friends. It was a great night out!",
+      "numberOfLikes": 3,
+      "numberOfDislikes": 0,
+      "numberOfSaves": 1,
+      "isHidden": false,
+      "isPG": true
+    },
+    {
+      "prompt": "Camping Trip",
+      "text": "Our camping trip was a [adjective] adventure! We spent our days [verb_ending_in_-ing] and [verb_ending_in_-ing] in the great outdoors. At night, we gathered around the campfire to roast [food] and tell [adjective] stories. One night, we even heard a [animal] howling in the distance! We slept in [adjective] tents and woke up to the sound of [sound]. It was a trip we'll never forget!",
+      "numberOfLikes": 12,
+      "numberOfDislikes": 2,
+      "numberOfSaves": 5,
+      "isHidden": false,
+      "isPG": true
+    }
+  ]
+}

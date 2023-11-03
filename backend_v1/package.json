@@ -13,7 +13,8 @@
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\"",
     "test": "npm run build && npx cross-env NODE_ENV=test ENV_FILE=./.env jest --detectOpenHandles",
     "test:coverage": "npx cross-env NODE_ENV=test ENV_FILE=./.env jest --coverage",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "seed:adlib:featured": "node dist/src/db/seeds/Seeder --import --featured"
   },
   "keywords": [],
   "author": "",

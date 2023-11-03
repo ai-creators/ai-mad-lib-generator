@@ -2,6 +2,11 @@ import AdLib from "../../db/models/AdLibModel";
 import { Pagination } from "../../common/pagination/Pagination";
 import { IAdLib } from "../../ts/Interfaces/IAdLibs";
 import { PaginationResponse } from "../../ts/types/PaginationResponse";
+import { AdLibResponseProps } from "../../ts/types/AdLibResponseProps";
+import AdLibResponse from "../../db/models/AdLibResponseModel";
+import { IAdLibResponse } from "../../ts/Interfaces/IAdLibResponse";
+import { IAdLibResponseWIthAdLib } from "../../ts/Interfaces/IAdLibResponseWithAdLib";
+import AdLibFeatured from "../../db/models/AdLibFeatured";
 
 export class AdLibService {
   public getLibs(
@@ -15,6 +20,21 @@ export class AdLibService {
       return pager.pageable({}, page, pagination);
     }
     return pager.pageable({ isPG: true }, page, pagination);
+  }
+
+  public getLib(id: string): Promise<IAdLib | null> {
+    return AdLib.findOne({ _id: id });
+  }
+
+  public async getLibResponseById(
+    id: string
+  ): Promise<IAdLibResponseWIthAdLib | null> {
+    const response = await AdLibResponse.findOne({ _id: id });
+    const adlib = await AdLib.findOne({ _id: response?.adlibId });
+    if (!adlib || !response) {
+      return null;
+    }
+    return { ...response.toObject(), adlib: adlib.toObject() };
   }
 
   public getLibsByCreatedAt(
@@ -37,7 +57,7 @@ export class AdLibService {
     pagination: number,
     isPG: boolean = true
   ): Promise<PaginationResponse<IAdLib>> {
-    const pager = new Pagination(AdLib);
+    const pager = new Pagination(AdLibFeatured);
     return pager.pageable({}, page, pagination, { createdAt: 1 });
   }
 
@@ -85,5 +105,11 @@ export class AdLibService {
       page,
       pagination
     );
+  }
+
+  public createLibResponse(
+    libResponse: AdLibResponseProps
+  ): Promise<IAdLibResponse> {
+    return AdLibResponse.create(libResponse);
   }
 }

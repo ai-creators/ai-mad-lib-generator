@@ -17,9 +17,8 @@ const BrowseFeed = ({ search, type, error, setError, adlibs, setAdlibs }) => {
       setIsLoading(true);
       setError(null);
       const formattedDate = dayjs(timestamp).format("YYYY-MM-DD");
-      console.log("TYPE: ", type);
       if (type === "featured") {
-        const response = await Lib.get(formattedDate, type, "1", "10");
+        const response = await Lib.getFeatured(formattedDate, "1", "10");
         setIsEnd(true);
         return response.data;
       }
