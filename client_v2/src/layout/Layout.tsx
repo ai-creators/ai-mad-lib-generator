@@ -7,7 +7,7 @@ type Props = {
   bgColor?: string;
 };
 
-const Layout = ({ children, bgColor = "bg-white" }: Props) => {
+const Layout = ({ children, bgColor = "bg-zinc-200 text-black " }: Props) => {
   const { theme } = useAppSelector((state) => state.theme);
   return (
     <div className={`flex flex-col min-h-screen ${theme}`}>

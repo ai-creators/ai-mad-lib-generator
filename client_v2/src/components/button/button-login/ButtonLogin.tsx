@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import ButtonLight from "../button-light/ButtonLight";
 
 const ButtonLogin = () => {
   const { loginWithRedirect } = useAuth0();
@@ -14,11 +15,7 @@ const ButtonLogin = () => {
     });
   };
 
-  return (
-    <button className="p-3" onClick={handleLogin}>
-      Log In
-    </button>
-  );
+  return <ButtonLight onClick={handleLogin}>Log In</ButtonLight>;
 };
 
 export default ButtonLogin;

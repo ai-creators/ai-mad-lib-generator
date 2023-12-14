@@ -34,7 +34,7 @@ video {
 
 .custom-grid {
   display: grid;
-  grid-template-columns: 3fr 6fr 3fr;
+  grid-template-columns: 2fr 6fr 2fr;
 }
 
 .grid-aside {
@@ -122,6 +122,10 @@ video {
 
 .navbar-canvas {
   z-index: 25;
+}
+
+.remove-underline {
+  text-decoration: none !important;
 }
 
 /* The typing effect */

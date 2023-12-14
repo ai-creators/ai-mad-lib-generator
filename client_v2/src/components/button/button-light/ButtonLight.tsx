@@ -6,19 +6,21 @@ type Props = {
   className?: string;
   href?: string;
   onClick?: () => void;
+  width?: string;
 };
 
-const ButtonPrimary = ({
+const ButtonLight = ({
   children,
   className = "px-3 py-2",
   href,
   onClick,
+  width = "",
 }: Props) => {
   if (href) {
     return (
       <Link
         to={href}
-        className={`${className} text-white bg-green-600 hover:bg-green-700 active:bg-green-800 duration-200 ease-out py-2 px-4 rounded`}
+        className={`${className} ${width} text-black hover:text-blue-800 hover:underline underline-offset-2 hover:bg-blue-100 active:bg-blue-200 duration-200 ease-out py-2 px-4 rounded`}
       >
         {children}
       </Link>
@@ -26,12 +28,11 @@ const ButtonPrimary = ({
   }
   return (
     <button
-      className={`${className} text-white bg-green-600 hover:bg-green-700 active:bg-green-800 duration-200 ease-out py-2 px-4 rounded`}
+      className={`${className} ${width} text-black hover:text-blue-800 hover:bg-blue-100 hover:underline underline-offset-2 active:bg-blue-200 duration-200 ease-out py-2 px-4 rounded`}
       onClick={onClick}
     >
       {children}
     </button>
   );
 };
-
-export default ButtonPrimary;
+export default ButtonLight;
