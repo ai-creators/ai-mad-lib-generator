@@ -20,7 +20,7 @@ const ButtonLight = ({
     return (
       <Link
         to={href}
-        className={`${className} ${width} text-black hover:text-blue-800 hover:underline underline-offset-2 hover:bg-blue-100 active:bg-blue-200 duration-200 ease-out py-2 px-4 rounded`}
+        className={`${className} ${width} text-black hover:text-indigo-800 hover:underline underline-offset-2 hover:bg-indigo-100 active:bg-indigo-200 duration-200 ease-out py-2 px-4 rounded`}
       >
         {children}
       </Link>
@@ -28,7 +28,7 @@ const ButtonLight = ({
   }
   return (
     <button
-      className={`${className} ${width} text-black hover:text-blue-800 hover:bg-blue-100 hover:underline underline-offset-2 active:bg-blue-200 duration-200 ease-out py-2 px-4 rounded`}
+      className={`${className} ${width} text-black hover:text-indigo-800 hover:bg-indigo-100 hover:underline underline-offset-2 active:bg-indigo-200 duration-200 ease-out py-2 px-4 rounded`}
       onClick={onClick}
     >
       {children}

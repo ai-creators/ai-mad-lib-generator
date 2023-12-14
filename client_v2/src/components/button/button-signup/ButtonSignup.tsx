@@ -1,7 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import ButtonLightOutline from "../button-light-outline/ButtonLightOutline";
 
-const ButtonSignup = () => {
+type Props = {
+  className?: string;
+};
+
+const ButtonSignup = ({ className = "" }: Props) => {
   const { loginWithRedirect } = useAuth0();
 
   const handleSignUp = async () => {
@@ -17,7 +21,7 @@ const ButtonSignup = () => {
   };
 
   return (
-    <ButtonLightOutline className="p-3" onClick={handleSignUp}>
+    <ButtonLightOutline className={`p-3 ${className}`} onClick={handleSignUp}>
       Create Account
     </ButtonLightOutline>
   );

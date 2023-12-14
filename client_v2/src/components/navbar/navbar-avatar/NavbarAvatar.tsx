@@ -29,7 +29,7 @@ const NavbarAvatar = ({
     <OutsideAlerter executable={closeDropdown} className="relative">
       <button
         id="navbar-avatar-button"
-        className="p-1 hover:bg-zinc-700 duration-200 ease-out rounded-full"
+        className="p-1 hover:bg-zinc-300 duration-200 ease-out rounded-full"
         onClick={toggleDropdown}
       >
         <Avatar avatarUrl={avatarUrl} width={width} height={height} id={id} />

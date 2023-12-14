@@ -6,50 +6,34 @@ import NavbarItems from "../../components/navbar/navbar-items/NavbarItems";
 import Layout from "../../layout/Layout";
 import { useEffect } from "react";
 import { getProtectedMessage } from "../../services/MessageService";
+import ButtonLogin from "../../components/button/button-login/ButtonLogin";
+import ButtonSignup from "../../components/button/button-signup/ButtonSignup";
+import Feed from "../../components/feed/Feed";
 
 const HomePage = () => {
-  const { getAccessTokenSilently } = useAuth0();
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const getMessage = async () => {
-      const accessToken = await getAccessTokenSilently();
-      const { data, error } = await getProtectedMessage(accessToken);
-
-      if (!isMounted) {
-        return;
-      }
-
-      if (data) {
-        console.log(data);
-      }
-
-      if (error) {
-        console.log(error);
-      }
-    };
-
-    getMessage();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [getAccessTokenSilently]);
+  const { isAuthenticated } = useAuth0();
 
   return (
     <Layout>
       <Container className="custom-grid gap-5 py-5">
         <aside className="flex flex-col gap-5">
-          <Card>
-            <p>
-              Join the Ai Adlibs community to save you're ai generated adlibs
-            </p>
-          </Card>
+          {!isAuthenticated ? (
+            <Card className="flex flex-col gap-5">
+              <p>
+                Join the Ai Adlibs community to save you're ai generated adlibs
+              </p>
+              <div className="flex flex-col gap-3">
+                <ButtonSignup className="w-full" />
+                <ButtonLogin className="w-full" />
+              </div>
+            </Card>
+          ) : null}
+
           <NavbarItems />
         </aside>
-        <section>
+        <section className="flex flex-col gap-5">
           <CreateAdlibCard />
+          <Feed />
         </section>
         <section></section>
       </Container>

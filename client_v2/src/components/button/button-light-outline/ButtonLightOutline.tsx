@@ -20,7 +20,7 @@ const ButtonLightOutline = ({
     return (
       <Link
         to={href}
-        className={`${className} ${width} text-blue-700 border hover:underline underline-offset-2 border-blue-700 hover:bg-blue-700 active:bg-blue-200 duration-200 ease-out py-2 px-4 rounded`}
+        className={`${className} ${width} text-indigo-700 border hover:underline underline-offset-2 border-indigo-700 hover:bg-indigo-700 active:bg-indigo-200 hover:text-white duration-200 ease-out py-2 px-4 rounded`}
       >
         {children}
       </Link>
@@ -28,7 +28,7 @@ const ButtonLightOutline = ({
   }
   return (
     <button
-      className={`${className} ${width} text-blue-700 border border-blue-700 hover:bg-blue-700 hover:underline underline-offset-2  hover:text-white active:bg-blue-200 duration-200 ease-out py-2 px-4 rounded`}
+      className={`${className} ${width} text-indigo-700 border border-indigo-700 hover:bg-indigo-700 hover:underline underline-offset-2  hover:text-white active:bg-indigo-200 duration-200 ease-out py-2 px-4 rounded`}
       onClick={onClick}
     >
       {children}
