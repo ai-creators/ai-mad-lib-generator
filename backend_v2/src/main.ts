@@ -11,6 +11,11 @@ function checkEnvironment(configService: ConfigService) {
     'ISSUER_BASE_URL',
     'AUDIENCE',
     'CLIENT_ORIGIN_URL',
+    'POSTGRESQL_HOST',
+    'POSTGRESQL_PORT',
+    'POSTGRESQL_USERNAME',
+    'POSTGRESQL_PASSWORD',
+    'POSTGRESQL_NAME',
   ];
 
   requiredEnvVars.forEach((envVar) => {
