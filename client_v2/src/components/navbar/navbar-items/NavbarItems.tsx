@@ -38,7 +38,7 @@ const NavbarItems = ({
   return (
     <ul className={`flex flex-col gap-3${className ? ` ${className}` : ""}`}>
       {links.map((link) => (
-        <li>
+        <li key={link.name}>
           <ButtonLight
             href={`/${link.route}`}
             className="flex gap-3 items-center"

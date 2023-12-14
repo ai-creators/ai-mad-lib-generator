@@ -10,7 +10,7 @@ type Props = {
 const Card = ({
   children,
   padding = "p-5",
-  border = "border border-zinc-300",
+  border = "border border-zinc-200",
   borderRadius = "rounded",
   bgColor = "bg-white text-black",
   className = "",

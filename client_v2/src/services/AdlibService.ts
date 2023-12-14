@@ -1,18 +1,18 @@
 import { AxiosRequestConfig } from "axios";
 import { ApiResponse } from "../models/ApiResponseModel";
 import api from "./Api";
-import { AdlibTypes } from "../models/AdlibTypes";
 import { AdlibModel } from "../models/AdlibModel";
 import { PaginationResponse } from "../models/PaginationResponse";
+import { FeedTypes } from "../components/feed/FeedTypes";
 
 const getAdlibs = (
   timestamp: Date,
-  type: AdlibTypes,
+  type: FeedTypes,
   page = 1,
   size = 5
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
   const config: AxiosRequestConfig = {
-    url: "/adlib",
+    url: "/api/v1/adlib",
     params: {
       timestamp: timestamp.toISOString,
       type,
