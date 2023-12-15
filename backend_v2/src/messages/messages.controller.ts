@@ -17,7 +17,6 @@ export class MessagesController {
   @UseGuards(AuthorizationGuard)
   @Get('protected')
   async getProtected(): Promise<Message> {
-    console.log('IN HERE');
     return this.messagesService.getProtectedMessage();
   }
 

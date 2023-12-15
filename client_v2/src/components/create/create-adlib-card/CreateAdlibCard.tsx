@@ -3,11 +3,14 @@ import Card from "../../card/Card";
 import { ErrorModel } from "../../../models/ErrorModel";
 import GeneratorService from "../../../services/GeneratorService";
 import ErrorAlertFixed from "../../errors/error-alert-fixed/ErrorAlertFixed";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 
 const CreateAdlibCard = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
+
+  const { account } = useAppSelector((state) => state.account);
 
   const changePrompt = ({
     target: { value },
@@ -18,7 +21,10 @@ const CreateAdlibCard = () => {
   const generate = async () => {
     setIsLoading(true);
     setError(null);
-    const { data, error } = await GeneratorService.generateAdlib(prompt);
+    const { data, error } = await GeneratorService.generateAdlib(
+      prompt,
+      account ? account.id : null
+    );
 
     if (error) {
       setError(error);
@@ -47,7 +53,7 @@ const CreateAdlibCard = () => {
             onClick={generate}
             disabled={!prompt.length || isLoading}
           >
-            Generate
+            {isLoading ? "Loading..." : "Generate"}
           </button>
         </div>
       </form>

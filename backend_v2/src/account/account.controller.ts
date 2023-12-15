@@ -2,8 +2,8 @@ import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { Account } from 'src/data-model';
-import { AccountNotFoundException } from './exceptions/account-not-found.exception';
 import { AuthorizationGuard } from 'src/authorization/authorization.guard';
+import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
 
 @Controller('/v1/account')
 export class AccountController {

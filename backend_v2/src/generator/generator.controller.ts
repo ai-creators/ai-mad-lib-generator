@@ -2,9 +2,10 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { GeneratorService } from './generator.service';
 import { GenerateAdlibDto } from './dtos/generate-adlib.dto';
 import { OpenaiService } from 'src/vendors/openai/openai.service';
-import { Adlib } from 'src/data-model';
+import { Account, Adlib } from 'src/data-model';
 import { ErrorCreatingAdlibException } from 'src/vendors/openai/exceptions/error-creating-adlib.exception';
 import { PromptDto } from 'src/vendors/openai/dtos/prompt.dto';
+import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
 
 @Controller('v1/generator')
 export class GeneratorController {
@@ -17,10 +18,33 @@ export class GeneratorController {
   async create(@Body() generateAdlibDto: GenerateAdlibDto) {
     const prompt = new PromptDto();
     prompt.prompt = generateAdlibDto.prompt;
-    const createdAdLib: Adlib = await this.openaiService.createAdlib(prompt);
-    if (!createdAdLib) {
+    try {
+      const createdAdLib: Adlib = await this.openaiService.createAdlib(prompt);
+      if (!createdAdLib) {
+        throw new ErrorCreatingAdlibException();
+      }
+
+      if (generateAdlibDto.userId) {
+        const foundAccount = await this.findAccount(generateAdlibDto.userId);
+        if (foundAccount) {
+          createdAdLib.createdBy = foundAccount;
+        }
+      }
+
+      return this.generatorService.saveAdlib(createdAdLib);
+    } catch (error: unknown) {
+      if (error instanceof AccountNotFoundException) {
+        throw new AccountNotFoundException();
+      }
       throw new ErrorCreatingAdlibException();
     }
-    return new Adlib();
+  }
+
+  private async findAccount(userId: number): Promise<Account> {
+    const foundUser = await this.generatorService.findAccountById(userId);
+    if (!foundUser) {
+      throw new AccountNotFoundException();
+    }
+    return foundUser;
   }
 }

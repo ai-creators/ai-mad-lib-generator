@@ -2,8 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Adlib } from './adlib.entity';
 
 @Entity()
 export class Account {
@@ -18,6 +20,9 @@ export class Account {
 
   @Column({ nullable: false, default: false })
   usePg: boolean;
+
+  @OneToMany(() => Adlib, (adlib) => adlib.createdBy)
+  adlibs: Adlib[];
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

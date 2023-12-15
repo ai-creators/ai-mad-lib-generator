@@ -15,4 +15,12 @@ export class GeneratorService {
   saveAdlib(adlib: Adlib): Promise<Adlib> {
     return this.adlibRepository.save(adlib);
   }
+
+  findAccountById(userId: number): Promise<Account> {
+    return this.accountRepository.findOne({
+      where: {
+        id: userId,
+      },
+    });
+  }
 }
