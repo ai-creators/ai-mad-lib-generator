@@ -4,7 +4,6 @@ import { MessagesModule } from './messages/messages.module';
 import { AdlibModule } from './adlib/adlib.module';
 import { CommonModule } from './common/common.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataModelModule } from './data-model/data-model.module';
 import { AccountModule } from './account/account.module';
 
 @Module({
@@ -28,7 +27,6 @@ import { AccountModule } from './account/account.module';
     MessagesModule,
     AdlibModule,
     CommonModule,
-    DataModelModule,
     AccountModule,
   ],
   controllers: [],
