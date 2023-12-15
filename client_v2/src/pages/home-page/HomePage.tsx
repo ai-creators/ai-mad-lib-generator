@@ -4,8 +4,6 @@ import Container from "../../components/container/Container";
 import CreateAdlibCard from "../../components/create/create-adlib-card/CreateAdlibCard";
 import NavbarItems from "../../components/navbar/navbar-items/NavbarItems";
 import Layout from "../../layout/Layout";
-import { useEffect } from "react";
-import { getProtectedMessage } from "../../services/MessageService";
 import ButtonLogin from "../../components/button/button-login/ButtonLogin";
 import ButtonSignup from "../../components/button/button-signup/ButtonSignup";
 import Feed from "../../components/feed/Feed";
@@ -16,7 +14,7 @@ const HomePage = () => {
   return (
     <Layout>
       <Container className="custom-grid gap-5 py-5">
-        <aside className="flex flex-col gap-5">
+        <aside className="flex flex-col gap-5 hidden lg:block">
           {!isAuthenticated ? (
             <Card className="flex flex-col gap-5">
               <p>

@@ -13,8 +13,9 @@ const getAdlibs = (
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/adlib",
+    method: "GET",
     params: {
-      timestamp: timestamp.toISOString,
+      timestamp: timestamp.toISOString(),
       type,
       page,
       size,

@@ -1,34 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
 import { AdlibService } from './adlib.service';
-import { CreateAdlibDto } from './dto/create-adlib.dto';
-import { UpdateAdlibDto } from './dto/update-adlib.dto';
+import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto/pagination-dto';
 
-@Controller('adlib')
+@Controller('v1/adlib')
 export class AdlibController {
   constructor(private readonly adlibService: AdlibService) {}
 
-  @Post()
-  create(@Body() createAdlibDto: CreateAdlibDto) {
-    return this.adlibService.create(createAdlibDto);
-  }
+  // @Get()
+  // getAdlibs(
+  //   @Query(
+  //     new ValidationPipe({
+  //       transform: true,
+  //       transformOptions: { enableImplicitConversion: true },
+  //       forbidNonWhitelisted: true,
+  //     }),
+  //   )
+  //   paginationDto: PaginationDto,
+  // ) {
 
-  @Get()
-  findAll() {
-    return this.adlibService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.adlibService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdlibDto: UpdateAdlibDto) {
-    return this.adlibService.update(+id, updateAdlibDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.adlibService.remove(+id);
-  }
+  //     return this.adlibService.findAllPageable(paginationDto);
+  //   }
+  // }
 }

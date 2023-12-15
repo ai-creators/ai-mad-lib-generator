@@ -4,11 +4,14 @@ import { ErrorModel } from "../../../models/ErrorModel";
 import GeneratorService from "../../../services/GeneratorService";
 import ErrorAlertFixed from "../../errors/error-alert-fixed/ErrorAlertFixed";
 import { useAppSelector } from "../../../hooks/useAppSelector";
+import { useNavigate } from "react-router-dom";
 
 const CreateAdlibCard = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
+
+  const navigate = useNavigate();
 
   const { account } = useAppSelector((state) => state.account);
 
@@ -25,6 +28,10 @@ const CreateAdlibCard = () => {
       prompt,
       account ? account.id : null
     );
+
+    if (data) {
+      navigate(`/adlib/play/${data.id}`);
+    }
 
     if (error) {
       setError(error);
