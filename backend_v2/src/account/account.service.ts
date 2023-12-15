@@ -15,4 +15,8 @@ export class AccountService {
       where: { sub },
     });
   }
+
+  create(account: Account): Promise<Account> {
+    return this.accountRepository.save(account);
+  }
 }

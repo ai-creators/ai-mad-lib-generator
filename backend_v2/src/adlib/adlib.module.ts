@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AdlibController } from './controllers/adlib/adlib.controller';
-import { AdlibService } from './services/adlib/adlib.service';
+import { AdlibService } from './adlib.service';
+import { AdlibController } from './adlib.controller';
 
 @Module({
   controllers: [AdlibController],
-  providers: [AdlibService],
+  providers: [AdlibService]
 })
 export class AdlibModule {}

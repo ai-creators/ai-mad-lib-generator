@@ -6,18 +6,21 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Account {
+export class Adlib {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: false, length: 100 })
+  prompt: string;
+
   @Column({ nullable: false })
-  sub: string;
+  body: string;
 
-  @Column({ nullable: false, unique: true, length: 100 })
-  username: string;
+  @Column({ default: false })
+  isHidden: boolean;
 
-  @Column({ nullable: false, default: false })
-  usePg: boolean;
+  @Column({ default: false })
+  isPg: boolean;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

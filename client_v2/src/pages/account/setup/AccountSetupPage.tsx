@@ -32,7 +32,7 @@ const AccountSetupPage = () => {
       );
       if (data) {
         dispatch(setAccount(data));
-        navigate(-1);
+        navigate("/");
       }
       if (error) {
         setError(error);

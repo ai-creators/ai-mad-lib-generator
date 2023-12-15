@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MessagesModule } from './messages/messages.module';
-import { AdlibModule } from './adlib/adlib.module';
+import { GeneratorModule } from './generator/generator.module';
 import { CommonModule } from './common/common.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountModule } from './account/account.module';
-import { Account } from './data-model/entities/account.entity';
+import { AdlibModule } from './adlib/adlib.module';
+import { OpenaiModule } from './vendors/openai/openai.module';
 import entities from './data-model';
 
 @Module({
@@ -31,6 +32,8 @@ import entities from './data-model';
     AdlibModule,
     CommonModule,
     AccountModule,
+    GeneratorModule,
+    OpenaiModule,
   ],
   controllers: [],
   providers: [],
