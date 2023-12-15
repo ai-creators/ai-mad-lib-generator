@@ -18,7 +18,7 @@ const ButtonPrimary = ({
     return (
       <Link
         to={href}
-        className={`${className} text-white bg-green-600 hover:bg-green-700 active:bg-green-800 duration-200 ease-out py-2 px-4 rounded`}
+        className={`${className} text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 duration-200 ease-out py-2 px-4 rounded`}
       >
         {children}
       </Link>
@@ -26,7 +26,7 @@ const ButtonPrimary = ({
   }
   return (
     <button
-      className={`${className} text-white bg-green-600 hover:bg-green-700 active:bg-green-800 duration-200 ease-out py-2 px-4 rounded`}
+      className={`${className} text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 duration-200 ease-out py-2 px-4 rounded`}
       onClick={onClick}
     >
       {children}

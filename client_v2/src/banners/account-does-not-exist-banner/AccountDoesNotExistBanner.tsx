@@ -25,7 +25,7 @@ const AccountDoesNotExistBanner = () => {
   }, [account.username, getAccessTokenSilently, user?.sub]);
 
   return isOpen ? (
-    <div className="flex justify-center  items-center gap-5 p-1 text-sm bg-green-800 text-white">
+    <div className="flex justify-center  items-center gap-5 p-1 text-sm bg-indigo-800 text-white">
       <p>
         You're account isn't finished being setup. To finish setting up your
         account,{" "}
@@ -35,7 +35,7 @@ const AccountDoesNotExistBanner = () => {
       </p>
       <button
         onClick={() => setIsOpen(false)}
-        className="hover:bg-green-900 active:bg-green-950 duration-200 ease-out w-8 h-8 flex items-center justify-center rounded"
+        className="hover:bg-indigo-900 active:bg-indigo-950 duration-200 ease-out w-8 h-8 flex items-center justify-center rounded"
       >
         <i className="fa-solid fa-xmark"></i>
       </button>

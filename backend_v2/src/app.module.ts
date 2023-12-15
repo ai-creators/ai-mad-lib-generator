@@ -5,6 +5,8 @@ import { AdlibModule } from './adlib/adlib.module';
 import { CommonModule } from './common/common.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountModule } from './account/account.module';
+import { Account } from './data-model/entities/account.entity';
+import entities from './data-model';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { AccountModule } from './account/account.module';
         password: configService.get('POSTGRESQL_PASSWORD'),
         database: configService.get('POSTGRESQL_NAME'),
         synchronize: true,
+        entities: entities,
       }),
       inject: [ConfigService],
     }),

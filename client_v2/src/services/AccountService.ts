@@ -26,7 +26,7 @@ const isAccountSetup = (
   accessToken: string
 ): Promise<ApiResponse<boolean>> => {
   const config: AxiosRequestConfig = {
-    url: "/api/v1/account/account-is-setup",
+    url: "/api/v1/account/is-account-setup",
     params: {
       sub,
     },

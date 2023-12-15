@@ -1,10 +1,9 @@
 import { FormEvent, useState } from "react";
 import ButtonPrimary from "../../../components/button/button-primary/ButtonPrimary";
-import RedstoneLogo from "../../../components/logo/redstone-logo/RedstoneLogo";
 import Layout from "../../../layout/Layout";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ErrorModel } from "../../../models/ErrorModel";
-import ErrorAlert from "../../../errors/ErrorAlert";
+import ErrorAlert from "../../../components/errors/ErrorAlert";
 import AccountService from "../../../services/AccountService";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
@@ -47,7 +46,6 @@ const AccountSetupPage = () => {
     <Layout bgColor="bg-zinc-200">
       <div className="container mx-auto flex justify-center items-center min-h-[50vh]">
         <div className="flex flex-col items-center gap-5 py-5">
-          <RedstoneLogo width="w-[5rem]" />
           <ErrorAlert
             error={error}
             setError={setError}

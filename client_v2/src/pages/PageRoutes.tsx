@@ -5,6 +5,7 @@ import Layout from "../layout/Layout";
 import { AuthenticationGuard } from "../guards/AuthenticationGuard";
 import HomePage from "./home-page/HomePage";
 import NotFoundPage from "./not-found-page/NotFoundPage";
+import AccountSetupPage from "./account/setup/AccountSetupPage";
 
 const PageRoutes = () => {
   const { isLoading } = useAuth0();
@@ -17,6 +18,9 @@ const PageRoutes = () => {
   return (
     <Routes>
       <Route index element={<HomePage />} />
+      <Route path="account">
+        <Route path="setup" element={<AccountSetupPage />} />
+      </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
