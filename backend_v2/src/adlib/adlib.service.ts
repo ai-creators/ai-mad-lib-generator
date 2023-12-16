@@ -25,4 +25,8 @@ export class AdlibService {
       alias,
     );
   }
+
+  findOneById(id: number): Promise<Adlib> {
+    return this.adlibRepository.findOneBy({ id });
+  }
 }

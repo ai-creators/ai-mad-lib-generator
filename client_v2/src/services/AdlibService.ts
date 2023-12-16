@@ -28,8 +28,24 @@ const getAdlibs = (
   return api.callExternalApi<PaginationResponse<AdlibModel>>({ config });
 };
 
+const findAdlibById = (id: number): Promise<ApiResponse<AdlibModel>> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/adlib/find",
+    method: "GET",
+    params: {
+      id,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return api.callExternalApi<AdlibModel>({ config });
+};
+
 const AdlibService = {
   getAdlibs,
+  findAdlibById,
 };
 
 Object.freeze(AdlibService);
