@@ -72,7 +72,7 @@ const Feed = () => {
   return (
     <>
       <ErrorAlert error={error} setError={setError} />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 p-0 md:p-3 lg:p-0">
         <FeedNav feedType={feedType} setFeedType={setFeedType} />
         <div role="feed">
           <InfiniteScroll

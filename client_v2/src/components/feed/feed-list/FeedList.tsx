@@ -7,7 +7,7 @@ type Props = {
 
 const FeedList = ({ adlibs }: Props) => {
   return (
-    <ul className="flex flex-col gap-5">
+    <ul className="flex flex-col gap-2 lg:gap-5">
       {adlibs.map((adlib) => (
         <li key={adlib.id}>
           <FeedListCard adlib={adlib} />
