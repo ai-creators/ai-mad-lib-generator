@@ -21,47 +21,53 @@ const Feed = () => {
   const [size] = useState<number>(25);
 
   const getAdlibs = async () => {
-    setError(null);
-    const { data, error } = await AdlibService.getAdlibs(
+    const response = await AdlibService.getAdlibs(
       timestamp,
       feedType,
       page + 1,
       size
     );
-    console.log("ERROR: ", error);
-
-    if (error) {
-      setError(error);
-    }
-
-    return data;
+    return response;
   };
 
   const loadMoreAdlibs = async () => {
-    const data = await getAdlibs();
-    if (data?.results) {
-      setAdlibs((curr) => [...curr, ...data.results]);
-    }
-    if (data?.page) {
-      setPage(data.page);
-    }
-    if (data?.page && data.page >= data?.totalPages) {
-      setIsEnd(true);
+    if (!isEnd) {
+      const { data, error } = await getAdlibs();
+      if (data?.results) {
+        setAdlibs((curr) => [...curr, ...data.results]);
+      }
+      if (data?.page) {
+        setPage(data.page);
+      }
+      if (data?.page && data.page >= data?.totalPages) {
+        console.log("IS AT END");
+        setIsEnd(true);
+      }
+      if (error) {
+        setError(error);
+      }
     }
   };
 
   useEffect(() => {
     (async () => {
       setIsEnd(false);
-      const data = await getAdlibs();
+      setError(null);
+      setAdlibs([]);
+      const { data, error } = await getAdlibs();
       if (data?.results) {
         setAdlibs(data.results);
       }
       if (data?.page && data.page >= data?.totalPages) {
         setIsEnd(true);
       }
+      if (error) {
+        setError(error);
+      }
     })();
   }, [feedType]);
+
+  console.log(isEnd, error, adlibs.length);
 
   return (
     <>
@@ -72,7 +78,7 @@ const Feed = () => {
           <InfiniteScroll
             dataLength={adlibs.length ?? 0}
             next={loadMoreAdlibs}
-            hasMore={!isEnd || error === null}
+            hasMore={!isEnd}
             loader={
               <ul className="flex flex-col gap-5">
                 <li>
