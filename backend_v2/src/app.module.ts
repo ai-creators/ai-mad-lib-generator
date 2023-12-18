@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountModule } from './account/account.module';
 import { AdlibModule } from './adlib/adlib.module';
 import { OpenaiModule } from './vendors/openai/openai.module';
+import { AdlibResponseModule } from './adlib-response/adlib-response.module';
 import entities from './data-model';
 
 @Module({
@@ -34,6 +35,7 @@ import entities from './data-model';
     AccountModule,
     GeneratorModule,
     OpenaiModule,
+    AdlibResponseModule,
   ],
   controllers: [],
   providers: [],
