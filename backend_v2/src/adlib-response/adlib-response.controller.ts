@@ -1,12 +1,11 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { AdlibResponseService } from './adlib-response.service';
-import { CreateAdlibResponseDto } from './dto/create-adlib-response.dto';
 import { AdlibService } from 'src/adlib/adlib.service';
 import { AdlibNotFoundException } from 'src/adlib/exceptions/adlib-not-found.exception';
 import { AdlibResponse } from 'src/data-model/entities/adlib-response.entity';
 import { AccountService } from 'src/account/account.service';
 import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
-import { AdlibResponseQuestion } from 'src/data-model/entities/adlib-response-question.entity';
+import { AdlibResponseNotFound } from './exceptions/adlib-response-not-found.exception';
 
 @Controller('v1/response')
 export class AdlibResponseController {
@@ -17,25 +16,34 @@ export class AdlibResponseController {
   ) {}
 
   @Post()
-  async create(@Body() createAdlibResponseDto: CreateAdlibResponseDto) {
+  async create(@Body() adlibResponse: AdlibResponse) {
+    console.log('RESPONSE: ', adlibResponse);
     const foundAdlib = await this.adlibService.findOneById(
-      createAdlibResponseDto.adlib.id,
+      adlibResponse.adlib.id,
     );
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
     }
-    const foundAccount = await this.accountService.findOneById(
-      createAdlibResponseDto.createdBy.id,
-    );
-    if (!foundAccount) {
-      throw new AccountNotFoundException();
-    }
-    const adlibResponse = new AdlibResponse();
-    adlibResponse.adlib = foundAdlib;
-    adlibResponse.createdBy = foundAccount;
-    adlibResponse.questions = createAdlibResponseDto.questions;
 
+    if (adlibResponse.createdBy.id) {
+      const foundAccount = await this.accountService.findOneById(
+        adlibResponse.createdBy.id,
+      );
+      if (!foundAccount) {
+        throw new AccountNotFoundException();
+      }
+    }
     return this.adlibResponseService.create(adlibResponse);
+  }
+
+  @Get('find')
+  async findAdlibResponse(@Param('id') id: number) {
+    const foundAdlibResponse = await this.adlibResponseService.findById(id);
+    console.log('RESPONSE: ', foundAdlibResponse);
+    if (!foundAdlibResponse) {
+      throw new AdlibResponseNotFound();
+    }
+    return foundAdlibResponse;
   }
 
   // private isValidQuestions(questions: AdlibResponseQuestion[]): boolean {}

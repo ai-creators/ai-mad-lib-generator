@@ -13,4 +13,13 @@ export class AdlibResponseService {
   create(adlibResponse: AdlibResponse) {
     return this.adlibResponseRepository.save(adlibResponse);
   }
+
+  findById(id: number) {
+    return this.adlibResponseRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['questions'],
+    });
+  }
 }

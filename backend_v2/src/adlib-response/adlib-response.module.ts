@@ -6,9 +6,17 @@ import { AdlibResponse } from 'src/data-model/entities/adlib-response.entity';
 import { Account, Adlib } from 'src/data-model';
 import { AdlibService } from 'src/adlib/adlib.service';
 import { AccountService } from 'src/account/account.service';
+import { AdlibResponseQuestion } from 'src/data-model/entities/adlib-response-question.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AdlibResponse, Adlib, Account])],
+  imports: [
+    TypeOrmModule.forFeature([
+      AdlibResponse,
+      AdlibResponseQuestion,
+      Adlib,
+      Account,
+    ]),
+  ],
   controllers: [AdlibResponseController],
   providers: [AdlibResponseService, AdlibService, AccountService],
 })

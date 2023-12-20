@@ -66,8 +66,6 @@ const Feed = () => {
     })();
   }, [feedType]);
 
-  console.log(isEnd, error, adlibs.length);
-
   return (
     <>
       <ErrorAlert error={error} setError={setError} />

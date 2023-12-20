@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Adlib } from './adlib.entity';
-import { AdlibResponseQuestion } from './adlib-response-question.entity';
 import { Account } from './account.entity';
+import { AdlibResponseQuestion } from './adlib-response-question.entity';
 
 @Entity()
 export class AdlibResponse {
@@ -19,13 +19,16 @@ export class AdlibResponse {
   oldAdlibResponseId: string;
 
   @ManyToOne(() => Adlib, (adlib) => adlib.adlibResponses)
+  @JoinTable()
   adlib: Adlib;
 
   @OneToMany(
     () => AdlibResponseQuestion,
     (adlibResponseQuestion) => adlibResponseQuestion.adlibResponse,
+    {
+      cascade: true,
+    },
   )
-  @JoinTable()
   questions: AdlibResponseQuestion[];
 
   @ManyToOne(() => Account, (account) => account.adlibResponses)

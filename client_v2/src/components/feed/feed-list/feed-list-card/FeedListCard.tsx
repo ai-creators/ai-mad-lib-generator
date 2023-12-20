@@ -11,7 +11,6 @@ type Props = {
 };
 
 const FeedListCard = ({ adlib }: Props) => {
-  console.log(adlib);
   return (
     <Card className="flex flex-col gap-5">
       <div className="flex justify-between">

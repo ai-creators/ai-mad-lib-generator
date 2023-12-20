@@ -75,11 +75,8 @@ const AdlibBuilder = ({ adlib }: Props) => {
     if (error) {
       setApiError(error);
     }
-    console.log(data);
-    console.log(error);
   };
 
-  console.log(isBuilderDone);
   return isBuilderDone ? (
     <Card className="flex flex-col gap-5">
       {apiError ? (

@@ -2,10 +2,15 @@ type Props = {
   error?: { message: string } | null;
   showClose?: boolean;
   className?: string;
-  setError: React.Dispatch<React.SetStateAction<{ message: string } | null>>;
+  setError?: React.Dispatch<React.SetStateAction<{ message: string } | null>>;
 };
 
-function ErrorAlert({ error, className = "", showClose, setError }: Props) {
+function ErrorAlert({
+  error,
+  className = "",
+  showClose,
+  setError = () => {},
+}: Props) {
   return (
     error &&
     error.message && (

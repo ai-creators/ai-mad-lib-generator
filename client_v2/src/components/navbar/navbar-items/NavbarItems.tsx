@@ -13,7 +13,7 @@ type Props = {
 const NavbarItems = ({
   links = [
     {
-      route: "/home",
+      route: "/",
       name: "Home",
       icon: <i className="fa-solid fa-house remove-underline"></i>,
     },
@@ -40,7 +40,7 @@ const NavbarItems = ({
       {links.map((link) => (
         <li key={link.name}>
           <ButtonLight
-            href={`/${link.route}`}
+            href={`${link.route}`}
             className="flex gap-3 items-center"
           >
             {link.icon ? link.icon : null}

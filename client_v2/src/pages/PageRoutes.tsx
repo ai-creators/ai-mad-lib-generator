@@ -7,6 +7,7 @@ import NotFoundPage from "./not-found/NotFoundPage";
 import AccountSetupPage from "./account/setup/AccountSetupPage";
 import PlayPage from "./adlib/play/PlayPage";
 import ProfilePage from "./profile/ProfilePage";
+import ViewPage from "./adlib/view/ViewPage";
 
 const PageRoutes = () => {
   const { isLoading } = useAuth0();
@@ -21,6 +22,7 @@ const PageRoutes = () => {
       <Route index element={<HomePage />} />
       <Route path="adlib">
         <Route path="play/:adlibId" element={<PlayPage />} />
+        <Route path="view/:adlibResponseId" element={<ViewPage />} />
       </Route>
       <Route path="profile/:username" element={<ProfilePage />} />
       <Route path="account">

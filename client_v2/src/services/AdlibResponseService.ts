@@ -18,8 +18,20 @@ const createAdlibResponse = (
   return api.callExternalApi<AdlibResponseModel>({ config });
 };
 
+const findById = (id: number): Promise<ApiResponse<AdlibResponseModel>> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/response/find",
+    params: {
+      id,
+    },
+  };
+
+  return api.callExternalApi<AdlibResponseModel>({ config });
+};
+
 const AdlibResponseService = {
   createAdlibResponse,
+  findById,
 };
 
 Object.freeze(AdlibResponseService);

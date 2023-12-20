@@ -12,5 +12,5 @@ const entities = [
   AdlibResponseQuestion,
 ];
 
-export { Account, Adlib, Category };
+export { Account, Adlib, Category, AdlibResponseQuestion };
 export default entities;

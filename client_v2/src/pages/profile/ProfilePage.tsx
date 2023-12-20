@@ -10,6 +10,7 @@ import AccountService from "../../services/AccountService";
 import { useParams } from "react-router-dom";
 import PageLoader from "../../components/loader/page-loader/PageLoader";
 import dayjs from "dayjs";
+import ErrorAlert from "../../components/errors/ErrorAlert";
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -36,8 +37,10 @@ const ProfilePage = () => {
   return (
     <Layout mainClassName="relative">
       {isLoading ? <PageLoader /> : null}
+
       <div className="h-36 bg-black-700"></div>
       <Container className="absolute w-full top-10">
+        {error ? <ErrorAlert error={error} /> : null}
         <Card borderRadius="" className="relative">
           <div className="flex flex-col items-center justify-start">
             <Avatar

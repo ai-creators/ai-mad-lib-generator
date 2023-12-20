@@ -36,7 +36,6 @@ const CreateAdlibCard = () => {
     if (error) {
       setError(error);
     }
-    console.log(data, error);
     setIsLoading(false);
   };
   return (
