@@ -6,6 +6,7 @@ import AdlibResponseService from "../../../services/AdlibResponseService";
 import { useQuery } from "@tanstack/react-query";
 import ErrorAlert from "../../../components/errors/ErrorAlert";
 import PageLoader from "../../../components/loader/page-loader/PageLoader";
+import AdlibViewer from "../../../components/adlib/adlib-viewer/AdlibViewer";
 
 const ViewPage = () => {
   const { adlibResponseId } = useParams();
@@ -44,11 +45,7 @@ const ViewPage = () => {
       <Container>
         {isLoading ? <PageLoader /> : null}
         {error ? <ErrorAlert error={error} /> : null}
-        <Card>
-          <header>
-            <h2></h2>
-          </header>
-        </Card>
+        {adlibResponse ? <AdlibViewer response={adlibResponse} /> : null}
       </Container>
     </Layout>
   );

@@ -17,7 +17,9 @@ const AdlibBuilder = ({ adlib }: Props) => {
   const [questions, setQuestions] = useState<AdlibResponseQuestionModel[]>([]);
   const [isBuilderDone, setIsBuilderDone] = useState<boolean>(false);
   const [errors, setErrors] = useState<object>({});
+
   const [apiError, setApiError] = useState<ErrorModel | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { account } = useAppSelector((state) => state.account);
   const navigate = useNavigate();
@@ -64,6 +66,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
   const generateAdlibResponse = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setApiError(null);
+    setIsLoading(true);
     const { data, error } = await AdlibResponseService.createAdlibResponse({
       questions,
       adlib,
@@ -75,6 +78,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
     if (error) {
       setApiError(error);
     }
+    setIsLoading(false);
   };
 
   return isBuilderDone ? (
@@ -114,7 +118,9 @@ const AdlibBuilder = ({ adlib }: Props) => {
           );
         })}
         <div>
-          <ButtonPrimary>Generate adlib</ButtonPrimary>
+          <ButtonPrimary disabled={isLoading}>
+            {isLoading ? "Loading..." : "Generate Adlib"}
+          </ButtonPrimary>
         </div>
       </form>
     </Card>

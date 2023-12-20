@@ -8,15 +8,15 @@ export const useAccountExistence = () => {
   const fetchAccountSetupStatus = async () => {
     if (user?.sub) {
       const accessToken = await getAccessTokenSilently();
-      const { data, error } = await AccountService.isAccountSetup(
+      const { data } = await AccountService.isAccountSetup(
         user?.sub,
         accessToken
       );
-      if (data || error) {
-        return true;
+      if (data === false) {
+        return false;
       }
     }
-    return false;
+    return true;
   };
 
   const { data: isAccountSetup } = useQuery({
