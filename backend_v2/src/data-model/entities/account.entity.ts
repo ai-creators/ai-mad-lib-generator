@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Adlib } from './adlib.entity';
+import { AdlibResponse } from './adlib-response.entity';
 
 @Entity()
 export class Account {
@@ -23,6 +24,9 @@ export class Account {
 
   @OneToMany(() => Adlib, (adlib) => adlib.createdBy)
   adlibs: Adlib[];
+
+  @OneToMany(() => AdlibResponse, (adlibResponse) => adlibResponse.createdBy)
+  adlibResponses: AdlibResponse[];
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

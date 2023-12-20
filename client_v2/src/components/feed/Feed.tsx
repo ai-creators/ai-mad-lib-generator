@@ -40,7 +40,6 @@ const Feed = () => {
         setPage(data.page);
       }
       if (data?.page && data.page >= data?.totalPages) {
-        console.log("IS AT END");
         setIsEnd(true);
       }
       if (error) {

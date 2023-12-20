@@ -9,9 +9,7 @@ import { useParams } from "react-router-dom";
 import ErrorAlert from "../../../components/errors/ErrorAlert";
 import PageLoader from "../../../components/loader/page-loader/PageLoader";
 
-type Props = {};
-
-const PlayPage = (props: Props) => {
+const PlayPage = () => {
   const [adlib, setAdlib] = useState<AdlibModel | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
@@ -38,6 +36,7 @@ const PlayPage = (props: Props) => {
       setIsLoading(false);
     })();
   }, [adlibId]);
+
   return (
     <Layout>
       <Container className="custom-grid gap-5 py-5">

@@ -1,18 +1,25 @@
-import React, { ChangeEvent, FormEvent, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { AdlibModel } from "../../../models/AdlibModel";
-import { AdlibQuestion } from "./AdlibQuestion";
 import { useNavigate } from "react-router-dom";
 import Card from "../../card/Card";
 import ButtonPrimary from "../../button/button-primary/ButtonPrimary";
+import AdlibResponseService from "../../../services/AdlibResponseService";
+import { useAppSelector } from "../../../hooks/useAppSelector";
+import { AdlibResponseQuestionModel } from "../../../models/AdlibResponseQuestionModel";
+import { ErrorModel } from "../../../models/ErrorModel";
+import ErrorAlertFixed from "../../errors/error-alert-fixed/ErrorAlertFixed";
 
 type Props = {
   adlib: AdlibModel;
 };
 
 const AdlibBuilder = ({ adlib }: Props) => {
-  const [questions, setQuestions] = useState<AdlibQuestion[]>([]);
+  const [questions, setQuestions] = useState<AdlibResponseQuestionModel[]>([]);
   const [isBuilderDone, setIsBuilderDone] = useState<boolean>(false);
   const [errors, setErrors] = useState<object>({});
+  const [apiError, setApiError] = useState<ErrorModel | null>(null);
+
+  const { account } = useAppSelector((state) => state.account);
   const navigate = useNavigate();
 
   useMemo(() => {
@@ -54,14 +61,30 @@ const AdlibBuilder = ({ adlib }: Props) => {
     }
   };
 
-  const generateAdlibResponse = (event: FormEvent<HTMLFormElement>) => {
+  const generateAdlibResponse = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(adlib, questions);
+    setApiError(null);
+    const { data, error } = await AdlibResponseService.createAdlibResponse({
+      questions,
+      adlib,
+      createdBy: account || null,
+    });
+    if (data) {
+      navigate(`/adlib/view/${data.id}`);
+    }
+    if (error) {
+      setApiError(error);
+    }
+    console.log(data);
+    console.log(error);
   };
 
   console.log(isBuilderDone);
   return isBuilderDone ? (
     <Card className="flex flex-col gap-5">
+      {apiError ? (
+        <ErrorAlertFixed error={apiError} setError={setApiError} />
+      ) : null}
       <header className="flex flex-col">
         <h2 className="text-xl font-semibold capitalize">{adlib.title}</h2>
         <p className="text-zinc-500">{adlib.prompt}...</p>

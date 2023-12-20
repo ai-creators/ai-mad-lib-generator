@@ -16,6 +16,14 @@ export class AccountService {
     });
   }
 
+  findOneById(id: number): Promise<Account | undefined> {
+    return this.accountRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
   create(account: Account): Promise<Account> {
     return this.accountRepository.save(account);
   }
