@@ -42,6 +42,11 @@ video {
   grid-template-columns: 1fr;
 }
 
+.grid-with-aside {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .footer-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -170,6 +175,10 @@ video {
 @media screen and (min-width: 1024px) {
   .grid-aside {
     grid-template-columns: 2fr 6fr 2fr;
+  }
+
+  .grid-with-aside {
+    grid-template-columns: 2fr 10fr;
   }
 
   .custom-grid {

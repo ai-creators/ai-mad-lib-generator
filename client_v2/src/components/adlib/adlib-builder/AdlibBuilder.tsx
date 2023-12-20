@@ -67,11 +67,11 @@ const AdlibBuilder = ({ adlib }: Props) => {
     event.preventDefault();
     setApiError(null);
     setIsLoading(true);
-    const { data, error } = await AdlibResponseService.createAdlibResponse({
+    const { data, error } = await AdlibResponseService.createAdlibResponse(
+      adlib.id,
       questions,
-      adlib,
-      createdBy: account || null,
-    });
+      account?.id || null
+    );
     if (data) {
       navigate(`/adlib/view/${data.id}`);
     }

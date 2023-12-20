@@ -25,13 +25,11 @@ const AdlibViewer = ({ response }: Props) => {
         <div>
           <p className="text-lg">
             {response.adlib.body.split(" ").map((word, i) => {
-              console.log("IN HERE", word);
               if (word.includes("[") && word.includes("]")) {
                 const replaced = word.replace(
                   regex,
                   response.questions[index].answer
                 );
-                console.log("REPLACE ", i, replaced);
                 index++;
                 return (
                   <b

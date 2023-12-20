@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import ErrorAlert from "../../../components/errors/ErrorAlert";
 import PageLoader from "../../../components/loader/page-loader/PageLoader";
 import AdlibViewer from "../../../components/adlib/adlib-viewer/AdlibViewer";
+import AdlibCategoriesCard from "../../../components/adlib/adlib-categories-card/AdlibCategoriesCard";
+import ProfileCard from "../../../components/profile-card/ProfileCard";
 
 const ViewPage = () => {
   const { adlibResponseId } = useParams();
@@ -38,14 +40,22 @@ const ViewPage = () => {
     queryFn: fetchAdlibResponse,
   });
 
-  console.log(adlibResponse);
-
   return (
     <Layout>
-      <Container>
+      <Container className="grid-with-aside gap-5 my-5">
         {isLoading ? <PageLoader /> : null}
-        {error ? <ErrorAlert error={error} /> : null}
-        {adlibResponse ? <AdlibViewer response={adlibResponse} /> : null}
+        <aside>
+          {adlibResponse?.createdBy ? (
+            <ProfileCard profile={adlibResponse.createdBy} />
+          ) : null}
+          {adlibResponse ? (
+            <AdlibCategoriesCard adlib={adlibResponse.adlib} />
+          ) : null}
+        </aside>
+        <div>
+          {error ? <ErrorAlert error={error} /> : null}
+          {adlibResponse ? <AdlibViewer response={adlibResponse} /> : null}
+        </div>
       </Container>
     </Layout>
   );

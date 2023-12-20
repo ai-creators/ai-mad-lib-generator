@@ -2,14 +2,21 @@ import { AxiosRequestConfig } from "axios";
 import { AdlibResponseModel } from "../models/AdlibResponseModel";
 import { ApiResponse } from "../models/ApiResponseModel";
 import api from "./Api";
+import { AdlibResponseQuestionModel } from "../models/AdlibResponseQuestionModel";
 
 const createAdlibResponse = (
-  adlibResponse: AdlibResponseModel
+  adlibId: number,
+  questions: AdlibResponseQuestionModel[],
+  createdById: number | null
 ): Promise<ApiResponse<AdlibResponseModel>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/response",
     method: "POST",
-    data: adlibResponse,
+    data: {
+      adlibId,
+      questions,
+      createdById,
+    },
     headers: {
       "Content-Type": "application/json",
     },

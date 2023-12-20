@@ -27,6 +27,8 @@ export class AdlibService {
   }
 
   findOneById(id: number): Promise<Adlib> {
-    return this.adlibRepository.findOneBy({ id });
+    return this.adlibRepository.findOne({
+      where: { id },
+    });
   }
 }

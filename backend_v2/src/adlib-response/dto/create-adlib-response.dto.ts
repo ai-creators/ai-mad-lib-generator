@@ -1,6 +1,6 @@
-import { Account, Adlib } from 'src/data-model';
+import { Account } from 'src/data-model';
 export class CreateAdlibResponseDto {
-  adlib: Adlib;
+  adlibId: number;
   questions: { question: string; answer: string }[];
-  createdBy: Account;
+  createdById: number;
 }

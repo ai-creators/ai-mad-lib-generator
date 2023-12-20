@@ -19,7 +19,13 @@ export class AdlibResponseService {
       where: {
         id,
       },
-      relations: ['questions', 'adlib'],
+      relations: [
+        'questions',
+        'adlib',
+        'adlib.categories',
+        'adlib.createdBy',
+        'createdBy',
+      ],
     });
   }
 }
