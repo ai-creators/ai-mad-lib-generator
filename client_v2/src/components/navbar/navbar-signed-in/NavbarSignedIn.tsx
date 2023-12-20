@@ -6,7 +6,7 @@ const NavbarSignedIn = () => {
   const { user } = useAuth0();
   return (
     <ul className="flex items-center gap-5">
-      <li>
+      <li className="hidden min-[320px]:block">
         <ButtonLightOutline href="/create">Create Adlib</ButtonLightOutline>
       </li>
       <li>

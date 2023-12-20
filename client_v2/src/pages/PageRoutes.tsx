@@ -2,11 +2,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Routes, Route } from "react-router-dom";
 import PageLoader from "../components/loader/page-loader/PageLoader";
 import Layout from "../layout/Layout";
-import { AuthenticationGuard } from "../guards/AuthenticationGuard";
-import HomePage from "./home-page/HomePage";
-import NotFoundPage from "./not-found-page/NotFoundPage";
+import HomePage from "./home/HomePage";
+import NotFoundPage from "./not-found/NotFoundPage";
 import AccountSetupPage from "./account/setup/AccountSetupPage";
-import PlayPage from "./adlib/play-page/PlayPage";
+import PlayPage from "./adlib/play/PlayPage";
+import ProfilePage from "./profile/ProfilePage";
 
 const PageRoutes = () => {
   const { isLoading } = useAuth0();
@@ -22,6 +22,7 @@ const PageRoutes = () => {
       <Route path="adlib">
         <Route path="play/:adlibId" element={<PlayPage />} />
       </Route>
+      <Route path="profile/:username" element={<ProfilePage />} />
       <Route path="account">
         <Route path="setup" element={<AccountSetupPage />} />
       </Route>

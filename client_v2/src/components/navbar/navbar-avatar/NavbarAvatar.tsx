@@ -26,7 +26,7 @@ const NavbarAvatar = ({
     setIsDropdownOpoen(false);
   };
   return (
-    <OutsideAlerter executable={closeDropdown} className="relative">
+    <OutsideAlerter executable={closeDropdown}>
       <button
         id="navbar-avatar-button"
         className="p-1 hover:bg-zinc-300 duration-200 ease-out rounded-full"
