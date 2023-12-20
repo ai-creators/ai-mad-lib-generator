@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  FocusEventHandler,
-  useMemo,
-  useState,
-} from "react";
+import React, { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { AdlibModel } from "../../../models/AdlibModel";
 import { AdlibQuestion } from "./AdlibQuestion";
 import { useNavigate } from "react-router-dom";
@@ -36,9 +31,12 @@ const AdlibBuilder = ({ adlib }: Props) => {
     setIsBuilderDone(true);
   }, [adlib.body]);
 
-  const changeAnswer = (questionIndex: number, value: string) => {
+  const changeAnswer = (
+    questionIndex: number,
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     const updatedAnswer = questions[questionIndex];
-    updatedAnswer.answer = value;
+    updatedAnswer.answer = event.target.value;
     setQuestions((curr) => {
       return [
         ...curr.slice(0, questionIndex),
@@ -55,6 +53,12 @@ const AdlibBuilder = ({ adlib }: Props) => {
       setErrors(errorsCopy);
     }
   };
+
+  const generateAdlibResponse = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(adlib, questions);
+  };
+
   console.log(isBuilderDone);
   return isBuilderDone ? (
     <Card className="flex flex-col gap-5">
@@ -62,7 +66,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
         <h2 className="text-xl font-semibold capitalize">{adlib.title}</h2>
         <p className="text-zinc-500">{adlib.prompt}...</p>
       </header>
-      <form className="flex flex-col gap-5">
+      <form className="flex flex-col gap-5" onSubmit={generateAdlibResponse}>
         {questions.map((question, index) => {
           const error = errors[index];
           return (
@@ -77,9 +81,9 @@ const AdlibBuilder = ({ adlib }: Props) => {
                 id={question.question + index}
                 type="text"
                 value={question.answer}
-                onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                  changeAnswer(index, event.target.value)
-                }
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  changeAnswer(index, event);
+                }}
                 placeholder={question.question}
                 onBlur={() => removeErrorOnBlur(index)}
                 className={`${

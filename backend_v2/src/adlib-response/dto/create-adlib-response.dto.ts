@@ -1,1 +1,3 @@
-export class CreateAdlibResponseDto {}
+export class CreateAdlibResponseDto {
+  adlibId: number;
+}

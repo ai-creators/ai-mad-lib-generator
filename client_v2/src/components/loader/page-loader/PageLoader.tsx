@@ -1,6 +1,6 @@
 const PageLoader = () => {
   return (
-    <div>
+    <div className="w-full h-[100vh] flex justify-center items-center">
       <div role="status">
         <svg
           aria-hidden="true"

@@ -6,6 +6,9 @@ import { useAppDispatch } from "./hooks/useAppDispatch";
 import PageLoader from "./components/loader/page-loader/PageLoader";
 import AccountDoesNotExistBanner from "./banners/account-does-not-exist-banner/AccountDoesNotExistBanner";
 import PageRoutes from "./pages/PageRoutes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   const { isAuthenticated, isLoading, user, getAccessTokenSilently } =
@@ -41,8 +44,10 @@ function App() {
 
   return (
     <>
-      {isAuthenticated ? <AccountDoesNotExistBanner /> : null}
-      <PageRoutes />
+      <QueryClientProvider client={queryClient}>
+        {isAuthenticated ? <AccountDoesNotExistBanner /> : null}
+        <PageRoutes />
+      </QueryClientProvider>
     </>
   );
 }
