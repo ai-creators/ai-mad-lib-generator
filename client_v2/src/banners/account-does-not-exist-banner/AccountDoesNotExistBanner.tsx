@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AccountService from "../../services/AccountService";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAccountExistence } from "../../hooks/useAccountExistence";
 
 const AccountDoesNotExistBanner = () => {

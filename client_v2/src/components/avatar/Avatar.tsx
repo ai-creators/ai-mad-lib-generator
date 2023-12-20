@@ -5,6 +5,7 @@ type Props = {
   width?: string;
   height?: string;
   id?: string;
+  className?: string;
 };
 
 const Avatar = ({
@@ -12,9 +13,13 @@ const Avatar = ({
   width = "w-12",
   height = "h-12",
   id,
+  className = "",
 }: Props) => {
   return (
-    <span className={`${width} ${height} rounded-full relative block`} id={id}>
+    <span
+      className={`${width} ${height} rounded-full relative block ${className}`}
+      id={id}
+    >
       <img
         src={avatarUrl}
         alt="avatar"

@@ -4,7 +4,7 @@ import ButtonSignup from "../../button/button-signup/ButtonSignup";
 const NavbarNotSignedIn = () => {
   return (
     <ul className="flex items-center gap-5">
-      <li>
+      <li className="hidden md:block">
         <ButtonLogin />
       </li>
       <li>

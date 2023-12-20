@@ -5,9 +5,14 @@ import { useAppSelector } from "../hooks/useAppSelector";
 type Props = {
   children?: React.ReactNode;
   bgColor?: string;
+  mainClassName?: string;
 };
 
-const Layout = ({ children, bgColor = "bg-zinc-100 text-black " }: Props) => {
+const Layout = ({
+  children,
+  bgColor = "bg-zinc-100 text-black ",
+  mainClassName = "",
+}: Props) => {
   const { theme } = useAppSelector((state) => state.theme);
   return (
     <div className={`flex flex-col min-h-screen ${theme}`}>
@@ -15,7 +20,7 @@ const Layout = ({ children, bgColor = "bg-zinc-100 text-black " }: Props) => {
         <Navbar />
       </header>
 
-      <main className={`grow ${bgColor}`}>{children}</main>
+      <main className={`grow ${bgColor} ${mainClassName}`}>{children}</main>
       <Footer />
     </div>
   );

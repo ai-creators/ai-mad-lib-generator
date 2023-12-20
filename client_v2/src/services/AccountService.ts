@@ -50,6 +50,25 @@ const setupAccount = (
       sub,
     },
     method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+  };
+
+  return api.callExternalApi<AccountModel>({ config });
+};
+
+const getAccountByUsername = (
+  username: string
+): Promise<ApiResponse<AccountModel>> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/account/find",
+    params: {
+      username,
+    },
+    headers: {
+      "content-type": "application/json",
+    },
   };
 
   return api.callExternalApi<AccountModel>({ config });
@@ -59,6 +78,7 @@ const AccountService = {
   getAccountBySub,
   isAccountSetup,
   setupAccount,
+  getAccountByUsername,
 };
 
 Object.freeze(AccountService);
