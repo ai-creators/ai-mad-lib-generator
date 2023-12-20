@@ -1,6 +1,5 @@
 import { Validator } from "../../common/Validator";
 import { GeneratorProps } from "../../ts/types/GeneratorProps";
-import nlp from 'compromise';
 
 export class GeneratorValidator implements Validator {
   constructor() {
@@ -27,28 +26,6 @@ export class GeneratorValidator implements Validator {
       this.addToInvalidProperties(invalidObject);
       return;
     }
-    if (prompt.length > GeneratorValidator.PROMPT_LENGTH) {
-      invalidObject.message = `Prompt has ${prompt.length} characters and cannot exceed ${GeneratorValidator.PROMPT_LENGTH} characters`;
-      this.addToInvalidProperties(invalidObject);
-      return;
-    }
-
-    // Using compromise for additional checks
-    const doc = nlp(prompt);
-    const sentenceCount = doc.sentences().out('array').length;
-    if (sentenceCount > 3) {
-      invalidObject.message = "Prompt cannot exceed 3 sentences";
-      this.addToInvalidProperties(invalidObject);
-      return;
-    }
-
-    const wordCount = doc.out('array').length;
-    if (wordCount > 50) {
-      invalidObject.message = "Prompt cannot exceed 50 words";
-      this.addToInvalidProperties(invalidObject);
-      return;
-    }
-
 
     return;
   }

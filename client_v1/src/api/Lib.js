@@ -1,8 +1,8 @@
-import api from "./Api";
+import Api from "./Api";
 import storage from "../utils/Storage";
 
 const get = async (timestamp, type, page = "1", pagination = "5") => {
-  return await api.get(
+  return await Api.get(
     `adlib?type=${type}&featured&timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
       storage.get("content-rating") ?? "pg"
     }`
@@ -10,7 +10,7 @@ const get = async (timestamp, type, page = "1", pagination = "5") => {
 };
 
 const getById = async (id) => {
-  return await api.get("adlib/find", {
+  return await Api.get("adlib/find", {
     params: {
       id,
     },
@@ -18,7 +18,7 @@ const getById = async (id) => {
 };
 
 const getFeatured = async (timestamp, page, pagination = "5") => {
-  return await api.get("adlib/featured", {
+  return await Api.get("adlib/featured", {
     params: {
       timestamp,
       pagination,
@@ -28,7 +28,7 @@ const getFeatured = async (timestamp, page, pagination = "5") => {
 };
 
 const search = async (timestamp, search, page = "1", pagination = "10") => {
-  return await api.post(
+  return await Api.post(
     `adlib/search?timestamp=${timestamp}&pagination=${pagination}&page=${page}&rating=${
       storage.get("content-rating") ?? "pg"
     }`,
@@ -41,7 +41,7 @@ const search = async (timestamp, search, page = "1", pagination = "10") => {
 };
 
 const create = async (prompt) => {
-  return await api.post("generator/adlib", {
+  return await Api.post("generator/adlib", {
     data: {
       prompt,
     },
@@ -49,11 +49,11 @@ const create = async (prompt) => {
 };
 
 const createRandom = async () => {
-  return await api.post("generator/random-adlib");
+  return await Api.post("generator/random-adlib");
 };
 
 const createResponse = async (adlibId, questions) => {
-  return await api.post("adlib/response", {
+  return await Api.post("adlib/response", {
     data: {
       adlibId,
       questions,
