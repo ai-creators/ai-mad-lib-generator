@@ -127,4 +127,29 @@ describe("Generator Validator", () => {
       expect(validator.getInvalidProperties().length).toBe(0);
     });
   });
+
+  describe("Prompt sentence and word count validation", () => {
+    const validator = new GeneratorValidator();
+
+    it("Should return the correct message when the prompt exceeds 3 sentences", () => {
+      const data = {
+        prompt: "This is the first sentence. This is the second sentence. This is the third sentence. This is the fourth sentence.",
+      };
+
+      validator.validate(data);
+      expect(validator.getInvalidProperties()[0].label).toBe("prompt");
+      expect(validator.getInvalidProperties()[0].message).toBe("Prompt cannot exceed 3 sentences");
+    });
+
+    it("Should return the correct message when the prompt exceeds 50 words", () => {
+      const data = {
+        prompt: "This ".repeat(51).trim(),  // Creates a prompt with 51 words
+      };
+
+      validator.validate(data);
+      expect(validator.getInvalidProperties()[0].label).toBe("prompt");
+      expect(validator.getInvalidProperties()[0].message).toBe("Prompt cannot exceed 50 words");
+    });
+  });
+
 });

@@ -26,11 +26,7 @@ export class GeneratorValidator implements Validator {
       this.addToInvalidProperties(invalidObject);
       return;
     }
-    if (prompt.length > 255) {
-      invalidObject.message = `Prompt has ${prompt.length} characters and cannot exceed 255 characters`;
-      this.addToInvalidProperties(invalidObject);
-      return;
-    }
+
     return;
   }
 
