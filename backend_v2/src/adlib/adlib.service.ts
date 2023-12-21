@@ -29,6 +29,7 @@ export class AdlibService {
   findOneById(id: number): Promise<Adlib> {
     return this.adlibRepository.findOne({
       where: { id },
+      relations: ['categories', 'createdBy'],
     });
   }
 }

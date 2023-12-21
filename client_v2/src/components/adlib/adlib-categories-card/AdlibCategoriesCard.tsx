@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import { AdlibModel } from "../../../models/AdlibModel";
-import { AdlibResponseModel } from "../../../models/AdlibResponseModel";
 import Card from "../../card/Card";
 import ButtonLight from "../../button/button-light/ButtonLight";
 
@@ -10,8 +8,8 @@ type Props = {
 
 const AdlibCategoriesCard = ({ adlib }: Props) => {
   return (
-    <Card className="flex flex-col gap-3">
-      <h4 className="text-xl font-semibold">Categories</h4>
+    <Card className="flex flex-col gap-1" padding="p-1">
+      <h4 className="text-lg font-semibold p-3">Categories</h4>
       <ul>
         {adlib.categories.map((category) => {
           return (

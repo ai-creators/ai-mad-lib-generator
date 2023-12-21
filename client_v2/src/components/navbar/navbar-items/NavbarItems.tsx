@@ -18,6 +18,11 @@ const NavbarItems = ({
       icon: <i className="fa-solid fa-house remove-underline"></i>,
     },
     {
+      route: "/create",
+      name: "Create",
+      icon: <i className="fa-solid fa-plus remove-underline"></i>,
+    },
+    {
       route: "/browse",
       name: "Browse",
       icon: <i className="fa-solid fa-magnifying-glass remove-underline"></i>,

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AdlibResponseModel } from "../../../models/AdlibResponseModel";
 import { ErrorModel } from "../../../models/ErrorModel";
 import Card from "../../card/Card";
+import { Link } from "react-router-dom";
 
 type Props = {
   response: AdlibResponseModel;
@@ -17,7 +18,13 @@ const AdlibViewer = ({ response }: Props) => {
     <>
       <Card className="flex flex-col gap-5">
         <header className="flex flex-col">
-          <h2 className="text-xl font-semibold">{response.adlib.title}</h2>
+          <Link
+            to={`/adlib/${response.adlib.id}`}
+            className="hover:underline underline-offset-2"
+          >
+            <h2 className="text-xl font-semibold">{response.adlib.title}</h2>
+          </Link>
+
           <p className="text-zinc-500 text-sm">
             Prompt: {response.adlib.prompt}...
           </p>

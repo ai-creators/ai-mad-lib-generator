@@ -3,6 +3,9 @@ import { AdlibResponseQuestion } from './entities/adlib-response-question.entity
 import { AdlibResponse } from './entities/adlib-response.entity';
 import { Adlib } from './entities/adlib.entity';
 import { Category } from './entities/category.entity';
+import { Comment } from './entities/comment.entity';
+import { ReactionType } from './entities/reaction-type.entity';
+import { Reaction } from './entities/reaction.entity';
 
 const entities = [
   Account,
@@ -10,7 +13,18 @@ const entities = [
   Category,
   AdlibResponse,
   AdlibResponseQuestion,
+  Comment,
+  Reaction,
+  ReactionType,
 ];
 
-export { Account, Adlib, Category, AdlibResponseQuestion };
+export {
+  Account,
+  Adlib,
+  Category,
+  AdlibResponseQuestion,
+  Comment,
+  Reaction,
+  ReactionType,
+};
 export default entities;

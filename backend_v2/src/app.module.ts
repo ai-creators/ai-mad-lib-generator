@@ -8,6 +8,8 @@ import { AccountModule } from './account/account.module';
 import { AdlibModule } from './adlib/adlib.module';
 import { OpenaiModule } from './vendors/openai/openai.module';
 import { AdlibResponseModule } from './adlib-response/adlib-response.module';
+import { CommentModule } from './comment/comment.module';
+import { ReactionModule } from './reaction/reaction.module';
 import entities from './data-model';
 
 @Module({
@@ -36,6 +38,8 @@ import entities from './data-model';
     GeneratorModule,
     OpenaiModule,
     AdlibResponseModule,
+    CommentModule,
+    ReactionModule,
   ],
   controllers: [],
   providers: [],

@@ -11,6 +11,8 @@ import {
 import { Account } from './account.entity';
 import { Category } from './category.entity';
 import { AdlibResponse } from './adlib-response.entity';
+import { Comment } from './comment.entity';
+import { Reaction } from './reaction.entity';
 @Entity()
 export class Adlib {
   @PrimaryGeneratedColumn()
@@ -44,6 +46,12 @@ export class Adlib {
 
   @OneToMany(() => AdlibResponse, (adlibResponse) => adlibResponse.adlib)
   adlibResponses: AdlibResponse[];
+
+  @ManyToOne(() => Comment, (comment) => comment.adlib)
+  comments: Comment[];
+
+  @OneToMany(() => Reaction, (reaction) => reaction.adlib)
+  reactions: Reaction[];
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

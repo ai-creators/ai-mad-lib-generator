@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import Card from "../../../components/card/Card";
 import Container from "../../../components/container/Container";
 import Layout from "../../../layout/Layout";
 import AdlibResponseService from "../../../services/AdlibResponseService";
@@ -44,7 +43,7 @@ const ViewPage = () => {
     <Layout>
       <Container className="grid-with-aside gap-5 my-5">
         {isLoading ? <PageLoader /> : null}
-        <aside>
+        <aside className="flex flex-col gap-5">
           {adlibResponse?.createdBy ? (
             <ProfileCard profile={adlibResponse.createdBy} />
           ) : null}

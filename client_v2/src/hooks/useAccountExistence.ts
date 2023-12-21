@@ -19,10 +19,10 @@ export const useAccountExistence = () => {
     return true;
   };
 
-  const { data: isAccountSetup } = useQuery({
+  const { data: isAccountSetup, isLoading } = useQuery({
     queryKey: ["accountSetupStatus"],
     queryFn: fetchAccountSetupStatus,
   });
 
-  return { isAccountSetup };
+  return { isAccountSetup, isLoading };
 };
