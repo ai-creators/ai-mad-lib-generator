@@ -1,9 +1,14 @@
+import { AdlibModel } from "../../../models/AdlibModel";
 import Card from "../../card/Card";
 
-const AdlibComment = () => {
+type Props = {
+  adlib: AdlibModel;
+};
+
+const AdlibComment = ({ adlib }: Props) => {
   return (
     <Card>
-      <p>Comments</p>
+      <p>0 Comments</p>
     </Card>
   );
 };

@@ -4,6 +4,7 @@ import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto';
 import { Account, Adlib } from 'src/data-model';
 import { PaginationResponse } from './dto/pagination-response';
 import { AdlibNotFoundException } from './exceptions/adlib-not-found.exception';
+import { CategoryPaginationDto } from './dto/category-pagination.dto';
 
 @Controller('v1/adlib')
 export class AdlibController {
@@ -21,6 +22,15 @@ export class AdlibController {
     paginationDto: PaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
     return this.adlibService.findAllPageable(paginationDto);
+  }
+
+  @Get('category')
+  getAdlibsByCategory(
+    @Query()
+    categoryPaginationDto: CategoryPaginationDto,
+  ): Promise<PaginationResponse<Adlib>> {
+    console.log('IN HERE');
+    return this.adlibService.findAllByCategoriesPageable(categoryPaginationDto);
   }
 
   @Get('find')

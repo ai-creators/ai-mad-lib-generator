@@ -54,24 +54,29 @@ const AdlibPage = () => {
               <h2 className="text-xl font-semibold">{adlib?.title}</h2>
               <p className="text-zinc-500">Prompt: {adlib?.prompt}...</p>
             </header>
-            <div className="flex gap-3">
-              <ButtonPrimary>Go to Adlib</ButtonPrimary>
-              <ButtonLight>Go to Responses</ButtonLight>
-            </div>
+
             <div className="flex justify-between items-center">
-              <div className="flex items-center gap-5">
-                <ButtonLight className="flex gap-2 items-center" hideUnerline>
-                  <i className="fa-regular fa-heart"></i>{" "}
-                  <span>10 reactions</span>
+              <div className="flex gap-3">
+                <ButtonPrimary>Go to Adlib</ButtonPrimary>
+                <ButtonLight>Go to Responses</ButtonLight>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="flex items-center gap-5">
+                  <ButtonLight className="flex gap-2 items-center" hideUnerline>
+                    <i className="fa-regular fa-heart"></i>{" "}
+                    <span>
+                      {adlib?.reactions ? adlib.reactions.length : 0} reactions
+                    </span>
+                  </ButtonLight>
+                </div>
+                <ButtonLight
+                  size="w-10 h-10"
+                  className="flex justify-center items-center"
+                  hideUnerline
+                >
+                  <i className="fa-regular fa-bookmark"></i>
                 </ButtonLight>
               </div>
-              <ButtonLight
-                size="w-10 h-10"
-                className="flex justify-center items-center"
-                hideUnerline
-              >
-                <i className="fa-regular fa-bookmark"></i>
-              </ButtonLight>
             </div>
           </Card>
           <AdlibComment />

@@ -5,6 +5,7 @@ import { Adlib } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CategoryPaginationDto } from './dto/category-pagination.dto';
 
 @Injectable()
 export class AdlibService {
@@ -30,10 +31,28 @@ export class AdlibService {
     );
   }
 
+  findAllByCategoriesPageable(categoryPaginationDto: CategoryPaginationDto) {
+    const alias = 'adlib';
+    const categoriesAlias = 'categories';
+    const createdByAlias = 'createdBy';
+    return Pagination.paginate<Adlib>(
+      this.adlibRepository
+        .createQueryBuilder(alias)
+        .leftJoinAndSelect(`${alias}.categories`, categoriesAlias)
+        .leftJoinAndSelect(`${alias}.createdBy`, createdByAlias)
+        .where(`${categoriesAlias}.name = :categoryName`, {
+          categoryName: categoryPaginationDto.category,
+        })
+        .orderBy(`${alias}.createdAt`, 'DESC'),
+      categoryPaginationDto,
+      alias,
+    );
+  }
+
   findOneById(id: number): Promise<Adlib> {
     return this.adlibRepository.findOne({
       where: { id },
-      relations: ['categories', 'createdBy'],
+      relations: ['categories', 'createdBy', 'reactions'],
     });
   }
 }

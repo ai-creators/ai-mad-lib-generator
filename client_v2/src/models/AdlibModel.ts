@@ -1,5 +1,7 @@
 import { AccountModel } from "./AccountModel";
 import { CategoryModel } from "./CategoryModel";
+import { CommentModel } from "./CommentModel";
+import { ReactionModel } from "./ReactionModel";
 
 export interface AdlibModel {
   id: number;
@@ -9,7 +11,9 @@ export interface AdlibModel {
   isHidden: boolean;
   isPg: boolean;
   createdBy?: AccountModel;
-  categories: CategoryModel[];
+  categories?: CategoryModel[];
+  comments?: CommentModel[];
+  reactions?: ReactionModel[];
   createdAt: Date;
   updatedAt: Date;
 }
