@@ -43,7 +43,7 @@ const AdlibPage = () => {
   ) : (
     <Layout>
       <Container className="grid-aside py-5 gap-5">
-        <aside>
+        <aside className="flex flex-col gap-5">
           {adlib?.createdBy ? <ProfileCard profile={adlib.createdBy} /> : null}
           {adlib?.categories ? <AdlibCategoriesCard adlib={adlib} /> : null}
         </aside>

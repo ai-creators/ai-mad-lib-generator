@@ -17,9 +17,13 @@ export class AdlibService {
     paginationDto: PaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
     const alias = 'adlib';
+    const categoriesAlias = 'categories';
+    const createdByAlias = 'createdBy';
     return Pagination.paginate<Adlib>(
       this.adlibRepository
         .createQueryBuilder(alias)
+        .leftJoinAndSelect(`${alias}.categories`, categoriesAlias)
+        .leftJoinAndSelect(`${alias}.createdBy`, createdByAlias)
         .orderBy(`${alias}.createdAt`, 'DESC'),
       paginationDto,
       alias,

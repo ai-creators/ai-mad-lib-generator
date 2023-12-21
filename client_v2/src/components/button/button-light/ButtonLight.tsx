@@ -8,6 +8,7 @@ type Props = {
   onClick?: () => void;
   size?: string;
   hideUnerline?: boolean;
+  spacing?: string;
 };
 
 const ButtonLight = ({
@@ -17,6 +18,7 @@ const ButtonLight = ({
   onClick,
   size = "",
   hideUnerline = false,
+  spacing = "py-2 px-4",
 }: Props) => {
   if (href) {
     return (
@@ -24,7 +26,7 @@ const ButtonLight = ({
         to={href}
         className={`${className} ${size} text-black hover:text-indigo-800 ${
           hideUnerline ? "" : "hover:underline underline-offset-2"
-        } hover:bg-indigo-100 active:bg-indigo-200 duration-200 ease-out py-2 px-4 rounded`}
+        } hover:bg-indigo-100 active:bg-indigo-200 duration-200 ease-out ${spacing} rounded`}
       >
         {children}
       </Link>
@@ -34,7 +36,7 @@ const ButtonLight = ({
     <button
       className={`${className} ${size} text-black hover:text-indigo-800 hover:bg-indigo-100 ${
         hideUnerline ? "" : "hover:underline underline-offset-2"
-      } active:bg-indigo-200 duration-200 ease-out py-2 px-4 rounded`}
+      } active:bg-indigo-200 duration-200 ease-out ${spacing} rounded`}
       onClick={onClick}
     >
       {children}

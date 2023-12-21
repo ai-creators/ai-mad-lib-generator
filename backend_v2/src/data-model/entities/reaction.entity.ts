@@ -1,5 +1,6 @@
 import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Adlib } from './adlib.entity';
+import { Comment } from './comment.entity';
 
 @Entity()
 export class Reaction {

@@ -38,8 +38,8 @@ const ProfilePage = () => {
     <Layout mainClassName="relative">
       {isLoading ? <PageLoader /> : null}
 
-      <div className="h-36 bg-black-700"></div>
-      <Container className="absolute w-full top-10">
+      <div className="h-40 bg-indigo-900"></div>
+      <Container className="absolute w-full top-10 left-1/2 -translate-x-1/2">
         {error ? <ErrorAlert error={error} /> : null}
         <Card borderRadius="" className="relative">
           <div className="flex flex-col items-center justify-start">
@@ -48,7 +48,7 @@ const ProfilePage = () => {
               width="w-24"
               height="w-24"
             />
-            <h2 className="text-xl font-semibold capitalize text-center">
+            <h2 className="text-xl font-semibold capitalize text-center -mt-6">
               {account?.username}
             </h2>
             {account?.createdAt ? (

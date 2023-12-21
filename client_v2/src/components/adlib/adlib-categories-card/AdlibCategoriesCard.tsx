@@ -8,14 +8,14 @@ type Props = {
 
 const AdlibCategoriesCard = ({ adlib }: Props) => {
   return (
-    <Card className="flex flex-col gap-1" padding="p-1">
-      <h4 className="text-lg font-semibold p-3">Categories</h4>
+    <Card className="flex flex-col gap-1" padding="p-2">
+      <h4 className="text-lg font-semibold px-3 pt-3">Categories</h4>
       <ul>
         {adlib.categories.map((category) => {
           return (
             <li key={category.id}>
               <ButtonLight
-                href={`adlib/categories/${category.id}`}
+                href={`/adlib/categories/${category.name}`}
                 className="block"
               >
                 #{category.name}
