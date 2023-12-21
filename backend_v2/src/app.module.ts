@@ -10,6 +10,7 @@ import { OpenaiModule } from './vendors/openai/openai.module';
 import { AdlibResponseModule } from './adlib-response/adlib-response.module';
 import { CommentModule } from './comment/comment.module';
 import { ReactionModule } from './reaction/reaction.module';
+import { CategoryModule } from './category/category.module';
 import entities from './data-model';
 
 @Module({
@@ -40,6 +41,7 @@ import entities from './data-model';
     AdlibResponseModule,
     CommentModule,
     ReactionModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],

@@ -7,7 +7,7 @@ import Card from "../../components/card/Card";
 import PageLoader from "../../components/loader/page-loader/PageLoader";
 import Container from "../../components/container/Container";
 import ProfileCard from "../../components/profile-card/ProfileCard";
-import AdlibCategoriesCard from "../../components/adlib/adlib-categories-card/AdlibCategoriesCard";
+import AdlibCategoriesCard from "../../components/adlib/adlib-categories/adlib-categories-card/AdlibCategoriesCard";
 import ButtonPrimary from "../../components/button/button-primary/ButtonPrimary";
 import ButtonLight from "../../components/button/button-light/ButtonLight";
 import AdlibComment from "../../components/adlib/adlib-comment/AdlibComment";

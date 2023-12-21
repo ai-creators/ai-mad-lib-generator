@@ -1,13 +1,17 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import Container from "../../../components/container/Container";
 import Layout from "../../../layout/Layout";
 import ButtonLight from "../../../components/button/button-light/ButtonLight";
 import { useState } from "react";
 import Feed from "../../../components/feed/Feed";
 import CategoryService from "../../../services/CategoryService";
+import NavbarItems from "../../../components/navbar/navbar-items/NavbarItems";
+import AdlibCategoriesSearchCard from "../../../components/adlib/adlib-categories/adlib-categories-search-card/AdlibCategoriesSearchCard";
 
 const CategoriesPage = () => {
-  const { categoryName } = useParams();
+  const [searchParmas, setSearchParams] = useSearchParams();
+
+  const categoryName = searchParmas.get("q");
 
   const [timestamp] = useState<Date>(new Date());
   const [page, setPage] = useState<number>(1);
@@ -25,8 +29,11 @@ const CategoriesPage = () => {
   return (
     <Layout>
       <Container className="grid-aside gap-5 my-5">
-        <aside className="flex flex-col gap-5"></aside>
-        <div>
+        <aside className="flex flex-col gap-5">
+          <NavbarItems />
+        </aside>
+        <div className="flex flex-col gap-5">
+          <AdlibCategoriesSearchCard />
           <Feed
             executable={getAdlibs}
             setPage={setPage}

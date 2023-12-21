@@ -4,8 +4,8 @@ import { PaginationResponse } from './dto/pagination-response';
 import { Adlib } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CategoryPaginationDto } from './dto/category-pagination.dto';
+import { LessThan, Repository } from 'typeorm';
+import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 
 @Injectable()
 export class AdlibService {
@@ -31,22 +31,43 @@ export class AdlibService {
     );
   }
 
-  findAllByCategoriesPageable(categoryPaginationDto: CategoryPaginationDto) {
-    const alias = 'adlib';
-    const categoriesAlias = 'categories';
-    const createdByAlias = 'createdBy';
-    return Pagination.paginate<Adlib>(
-      this.adlibRepository
-        .createQueryBuilder(alias)
-        .leftJoinAndSelect(`${alias}.categories`, categoriesAlias)
-        .leftJoinAndSelect(`${alias}.createdBy`, createdByAlias)
-        .where(`${categoriesAlias}.name = :categoryName`, {
-          categoryName: categoryPaginationDto.category,
-        })
-        .orderBy(`${alias}.createdAt`, 'DESC'),
-      categoryPaginationDto,
-      alias,
-    );
+  async findAllByCategoriesPageable({
+    page,
+    size,
+    timestamp,
+    category,
+  }: CategoryPaginationDto) {
+    const query = await this.adlibRepository.find({
+      where: {
+        categories: {
+          name: category,
+        },
+        createdAt: LessThan(timestamp),
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+      skip: (page - 1) * size,
+      take: size,
+    });
+
+    const count = await this.adlibRepository.count({
+      where: {
+        categories: {
+          name: category,
+        },
+        createdAt: LessThan(timestamp),
+      },
+    });
+
+    const totalPages = size ? Math.ceil(count / size) : 0;
+
+    return {
+      results: query,
+      page,
+      size,
+      totalPages,
+    };
   }
 
   findOneById(id: number): Promise<Adlib> {

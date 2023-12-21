@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import ErrorAlert from "../../../components/errors/ErrorAlert";
 import PageLoader from "../../../components/loader/page-loader/PageLoader";
 import AdlibViewer from "../../../components/adlib/adlib-viewer/AdlibViewer";
-import AdlibCategoriesCard from "../../../components/adlib/adlib-categories-card/AdlibCategoriesCard";
+import AdlibCategoriesCard from "../../../components/adlib/adlib-categories/adlib-categories-card/AdlibCategoriesCard";
 import ProfileCard from "../../../components/profile-card/ProfileCard";
 
 const ViewPage = () => {

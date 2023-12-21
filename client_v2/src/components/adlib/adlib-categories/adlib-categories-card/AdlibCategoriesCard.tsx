@@ -1,6 +1,6 @@
-import { AdlibModel } from "../../../models/AdlibModel";
-import Card from "../../card/Card";
-import ButtonLight from "../../button/button-light/ButtonLight";
+import { AdlibModel } from "../../../../models/AdlibModel";
+import Card from "../../../card/Card";
+import ButtonLight from "../../../button/button-light/ButtonLight";
 
 type Props = {
   adlib: AdlibModel;

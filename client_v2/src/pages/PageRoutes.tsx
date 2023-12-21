@@ -24,7 +24,7 @@ const PageRoutes = () => {
       <Route index element={<HomePage />} />
       <Route path="adlib/:adlibId" element={<AdlibPage />} />
       <Route path="adlib">
-        <Route path="categories/:categoryName" element={<CategoriesPage />} />
+        <Route path="categories" element={<CategoriesPage />} />
         <Route path="play/:adlibId" element={<PlayPage />} />
         <Route path="view/:adlibResponseId" element={<ViewPage />} />
       </Route>
