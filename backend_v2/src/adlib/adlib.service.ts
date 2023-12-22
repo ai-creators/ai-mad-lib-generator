@@ -6,6 +6,7 @@ import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LessThan, Repository } from 'typeorm';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
+import { FeedTypes } from 'src/models/feed-type';
 
 @Injectable()
 export class AdlibService {
@@ -36,6 +37,7 @@ export class AdlibService {
     size,
     timestamp,
     category,
+    feedType = FeedTypes.LATEST,
   }: CategoryPaginationDto) {
     const query = await this.adlibRepository.find({
       where: {
@@ -45,7 +47,7 @@ export class AdlibService {
         createdAt: LessThan(timestamp),
       },
       order: {
-        createdAt: 'DESC',
+        createdAt: feedType === FeedTypes.LATEST ? 'ASC' : 'DESC',
       },
       skip: (page - 1) * size,
       take: size,

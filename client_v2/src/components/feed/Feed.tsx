@@ -44,6 +44,7 @@ const Feed = ({ executable, header, setPage, feedType }: Props) => {
       setIsEnd(false);
       setError(null);
       setAdlibs([]);
+      setPage(1);
       const { data, error } = await executable();
       if (data?.results) {
         setAdlibs(data.results);

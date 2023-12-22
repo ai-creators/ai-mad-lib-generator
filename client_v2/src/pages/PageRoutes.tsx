@@ -10,6 +10,7 @@ import ProfilePage from "./profile/ProfilePage";
 import ViewPage from "./adlib/view/ViewPage";
 import AdlibPage from "./adlib/AdlibPage";
 import CategoriesPage from "./adlib/categories/CategoriesPage";
+import CategoriesResultsPage from "./adlib/categories/categories-result/CategoriesResultsPage";
 
 const PageRoutes = () => {
   const { isLoading } = useAuth0();
@@ -24,7 +25,9 @@ const PageRoutes = () => {
       <Route index element={<HomePage />} />
       <Route path="adlib/:adlibId" element={<AdlibPage />} />
       <Route path="adlib">
-        <Route path="categories" element={<CategoriesPage />} />
+        <Route path="categories" element={<CategoriesPage />}>
+          <Route path=":categoryName" element={<CategoriesResultsPage />} />
+        </Route>
         <Route path="play/:adlibId" element={<PlayPage />} />
         <Route path="view/:adlibResponseId" element={<ViewPage />} />
       </Route>

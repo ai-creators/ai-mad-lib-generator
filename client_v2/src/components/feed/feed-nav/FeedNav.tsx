@@ -5,32 +5,25 @@ import ButtonLight from "../../button/button-light/ButtonLight";
 type Props = {
   feedType: FeedTypes;
   setFeedType: React.Dispatch<React.SetStateAction<FeedTypes>>;
+  navItems: FeedTypes[];
 };
 
-const FeedNav = ({ feedType, setFeedType }: Props) => {
+const FeedNav = ({ feedType, setFeedType, navItems }: Props) => {
   const changeFeedType = (feedType: FeedTypes) => {
     setFeedType(feedType);
   };
   return (
     <ul className="flex gap-3">
-      <li>
-        <ButtonLight
-          className={
-            feedType === FeedTypes.FEATURED ? "font-bold w-24" : "w-24"
-          }
-          onClick={() => changeFeedType(FeedTypes.FEATURED)}
-        >
-          Featured
-        </ButtonLight>
-      </li>
-      <li>
-        <ButtonLight
-          className={feedType === FeedTypes.LATEST ? "font-bold w-24" : "w-24"}
-          onClick={() => changeFeedType(FeedTypes.LATEST)}
-        >
-          Latest
-        </ButtonLight>
-      </li>
+      {navItems.map((navItem) => (
+        <li key={navItem}>
+          <ButtonLight
+            className={feedType === navItem ? "font-bold w-24" : "w-24"}
+            onClick={() => changeFeedType(navItem)}
+          >
+            {navItem}
+          </ButtonLight>
+        </li>
+      ))}
     </ul>
   );
 };

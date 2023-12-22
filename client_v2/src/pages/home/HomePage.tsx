@@ -49,7 +49,13 @@ const HomePage = () => {
             executable={getAdlibs}
             setPage={setPage}
             feedType={feedType}
-            header={<FeedNav feedType={feedType} setFeedType={setFeedType} />}
+            header={
+              <FeedNav
+                feedType={feedType}
+                setFeedType={setFeedType}
+                navItems={[FeedTypes.FEATURED, FeedTypes.LATEST]}
+              />
+            }
           />
         </section>
         <section></section>

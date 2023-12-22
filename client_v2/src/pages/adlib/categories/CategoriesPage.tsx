@@ -7,19 +7,23 @@ import Feed from "../../../components/feed/Feed";
 import CategoryService from "../../../services/CategoryService";
 import NavbarItems from "../../../components/navbar/navbar-items/NavbarItems";
 import AdlibCategoriesSearchCard from "../../../components/adlib/adlib-categories/adlib-categories-search-card/AdlibCategoriesSearchCard";
+import FeedNav from "../../../components/feed/feed-nav/FeedNav";
+import { FeedTypes } from "../../../components/feed/FeedTypes";
 
 const CategoriesPage = () => {
-  const [searchParmas, setSearchParams] = useSearchParams();
+  const [searchParmas] = useSearchParams();
 
   const categoryName = searchParmas.get("q");
 
   const [timestamp] = useState<Date>(new Date());
+  const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
   const [page, setPage] = useState<number>(1);
   const [size] = useState<number>(25);
 
-  const getAdlibs = () => {
-    return CategoryService.getAdlibsByCategory(
+  const getCategories = () => {
+    return CategoryService.getCategories(
       categoryName ?? "",
+      feedType,
       timestamp,
       page,
       size
@@ -35,25 +39,21 @@ const CategoriesPage = () => {
         <div className="flex flex-col gap-5">
           <AdlibCategoriesSearchCard />
           <Feed
-            executable={getAdlibs}
+            executable={getCategories}
             setPage={setPage}
             feedType={categoryName ?? ""}
             header={
               <header className="flex justify-between">
                 <h2 className="text-xl font-semibold">
-                  Results for #{categoryName}
+                  {categoryName
+                    ? `Results for #${categoryName}`
+                    : `${feedType} categories`}
                 </h2>
-                <ul className="flex items-center">
-                  <li>
-                    <ButtonLight>Newest</ButtonLight>
-                  </li>
-                  <li>
-                    <ButtonLight>Popular</ButtonLight>
-                  </li>
-                  <li>
-                    <ButtonLight>Oldest</ButtonLight>
-                  </li>
-                </ul>
+                <FeedNav
+                  feedType={feedType}
+                  setFeedType={setFeedType}
+                  navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
+                />
               </header>
             }
           />
