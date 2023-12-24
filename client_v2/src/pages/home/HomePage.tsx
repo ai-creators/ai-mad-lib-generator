@@ -28,7 +28,7 @@ const HomePage = () => {
   return (
     <Layout>
       <Container className="custom-grid gap-5 py-5">
-        <aside className="flex flex-col gap-5 hidden lg:block">
+        <aside className="flex-col gap-5 hidden lg:flex">
           {!isAuthenticated ? (
             <Card className="flex flex-col gap-5">
               <p>

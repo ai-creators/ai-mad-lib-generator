@@ -1,72 +1,74 @@
-import { useEffect, useState } from "react";
-import { ErrorModel } from "../../models/ErrorModel";
-import { AdlibModel } from "../../models/AdlibModel";
+import { ReactNode, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import FeedList from "./feed-list/FeedList";
 import CardSkeleton from "../card/card-skeleton/CardSkeleton";
-import ErrorAlert from "../errors/ErrorAlert";
+import { useQuery } from "@tanstack/react-query";
 import { PaginationResponse } from "../../models/PaginationResponse";
-import { ApiResponse } from "../../models/ApiResponseModel";
+import FeedList from "./feed-list/FeedList";
 
-type Props = {
-  executable: () => Promise<ApiResponse<PaginationResponse<AdlibModel>>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  header: React.ReactNode;
-  feedType: string;
+type Props<T> = {
+  excecutable: (
+    page: number,
+    size: number,
+    timestamp: Date
+  ) => Promise<PaginationResponse<T>>;
+  listComponent: ReactNode;
 };
 
-const Feed = ({ executable, header, setPage, feedType }: Props) => {
-  const [error, setError] = useState<ErrorModel | null>(null);
-  const [adlibs, setAdlibs] = useState<AdlibModel[]>([]);
-
+const Feed = <T extends {}>({ excecutable }: Props<T>) => {
+  const [page, setPage] = useState<number>(0);
+  const [size] = useState<number>(25);
+  const [timestamp] = useState<Date>(new Date());
   const [isEnd, setIsEnd] = useState<boolean>(false);
 
-  const loadMoreAdlibs = async () => {
-    if (!isEnd) {
-      const { data, error } = await executable();
-      if (data?.results) {
-        setAdlibs((curr) => [...curr, ...data.results]);
-      }
-      if (data?.page) {
-        setPage(data.page);
-      }
-      if (data?.page && data.page >= data?.totalPages) {
-        setIsEnd(true);
-      }
-      if (error) {
-        setError(error);
-      }
+  const fetchData = async () => {
+    const { isEnd: hasNoMore } = await excecutable(
+      page === 1 ? 1 : page + 1,
+      size,
+      timestamp
+    );
+
+    if (hasNoMore) {
+      setIsEnd(true);
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      setIsEnd(false);
-      setError(null);
-      setAdlibs([]);
-      setPage(1);
-      const { data, error } = await executable();
-      if (data?.results) {
-        setAdlibs(data.results);
-      }
-      if (data?.page && data.page >= data?.totalPages) {
-        setIsEnd(true);
-      }
-      if (error) {
-        setError(error);
-      }
-    })();
-  }, [feedType]);
+  const { isLoading, isError, error, data, isFetching, isPreviousData } =
+    useQuery({
+      queryKey: ["projects", page],
+      queryFn: () => excecutable(page + 1, size, timestamp),
+    });
+
+  const loadNext = () => {
+    excecutable(page + 1, size, timestamp);
+  };
 
   return (
     <>
-      <ErrorAlert error={error} setError={setError} />
       <div className="flex flex-col gap-3 p-0 md:p-3 lg:p-0">
-        {header}
         <div role="feed">
           <InfiniteScroll
-            dataLength={adlibs.length ?? 0}
-            next={loadMoreAdlibs}
+            dataLength={data?.results.length ?? 0}
+            next={loadNext}
+            loader={
+              <ul className="flex flex-col gap-5">
+                <li>
+                  <CardSkeleton />
+                </li>
+                <li>
+                  <CardSkeleton />
+                </li>
+              </ul>
+            }
+            hasMore={!isError || isEnd}
+            endMessage={
+              <p className="pt-5 font-semibold">No more data available</p>
+            }
+          ></InfiniteScroll>
+        </div>
+        {/* <div role="feed">
+          <InfiniteScroll
+            dataLength={data.length ?? 0}
+            next={nextFunction}
             hasMore={!isEnd}
             loader={
               <ul className="flex flex-col gap-5">
@@ -82,9 +84,9 @@ const Feed = ({ executable, header, setPage, feedType }: Props) => {
               <p className="pt-5 font-semibold">No more adlibs available</p>
             }
           >
-            <FeedList adlibs={adlibs ?? []} />
+            {listComponent}
           </InfiniteScroll>
-        </div>
+        </div> */}
       </div>
     </>
   );

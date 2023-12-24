@@ -1,33 +1,41 @@
-import { useParams, useSearchParams } from "react-router-dom";
 import Container from "../../../components/container/Container";
 import Layout from "../../../layout/Layout";
-import ButtonLight from "../../../components/button/button-light/ButtonLight";
-import { useState } from "react";
-import Feed from "../../../components/feed/Feed";
-import CategoryService from "../../../services/CategoryService";
 import NavbarItems from "../../../components/navbar/navbar-items/NavbarItems";
 import AdlibCategoriesSearchCard from "../../../components/adlib/adlib-categories/adlib-categories-search-card/AdlibCategoriesSearchCard";
-import FeedNav from "../../../components/feed/feed-nav/FeedNav";
+
+import Feed from "../../../components/feed/Feed";
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { FeedTypes } from "../../../components/feed/FeedTypes";
+import CategoryService from "../../../services/CategoryService";
+import { PaginationResponse } from "../../../models/PaginationResponse";
+import { ErrorModel } from "../../../models/ErrorModel";
+import { CategoryModel } from "../../../models/CategoryModel";
 
 const CategoriesPage = () => {
-  const [searchParmas] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const categoryName = searchParmas.get("q");
+  const category = searchParams.get("q");
 
-  const [timestamp] = useState<Date>(new Date());
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
-  const [page, setPage] = useState<number>(1);
-  const [size] = useState<number>(25);
+  const [error, setError] = useState<ErrorModel | null>(null);
 
-  const getCategories = () => {
-    return CategoryService.getCategories(
-      categoryName ?? "",
+  const getCategories = async (
+    page: number,
+    size: number,
+    timestamp: Date
+  ): Promise<PaginationResponse<CategoryModel> | null> => {
+    const { data, error } = await CategoryService.getCategories(
+      category ?? "",
       feedType,
-      timestamp,
       page,
-      size
+      size,
+      timestamp
     );
+    if (error) {
+      setError(error);
+    }
+    return data;
   };
 
   return (
@@ -38,7 +46,15 @@ const CategoriesPage = () => {
         </aside>
         <div className="flex flex-col gap-5">
           <AdlibCategoriesSearchCard />
-          <Feed
+          <Feed<CategoryModel>
+            executable={getCategories}
+            listComponent={
+              <ul>
+                <li>TEST</li>
+              </ul>
+            }
+          />
+          {/* <Feed
             executable={getCategories}
             setPage={setPage}
             feedType={categoryName ?? ""}
@@ -56,7 +72,7 @@ const CategoriesPage = () => {
                 />
               </header>
             }
-          />
+          /> */}
         </div>
         <div></div>
       </Container>

@@ -27,39 +27,41 @@ const CategoriesResultsPage = () => {
     );
   };
 
-  <Layout>
-    <Container>
-      <aside className="flex flex-col gap-5">
-        <NavbarItems />
-      </aside>
-      <div className="flex flex-col gap-5">
-        <Card>
-          <h2>Results for #{categoryName}</h2>
-          <p className="text-zinc-500">100 results</p>
-        </Card>
-        <Feed
-          executable={getAdlibs}
-          setPage={setPage}
-          feedType={categoryName + feedType}
-          header={
-            <header className="flex justify-between">
-              <h2 className="text-xl font-semibold">
-                {categoryName
-                  ? `Results for #${categoryName}`
-                  : `${feedType} categories`}
-              </h2>
-              <FeedNav
-                feedType={feedType}
-                setFeedType={setFeedType}
-                navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
-              />
-            </header>
-          }
-        />
-      </div>
-      <div></div>
-    </Container>
-  </Layout>;
+  return (
+    <Layout>
+      <Container>
+        <aside className="flex flex-col gap-5">
+          <NavbarItems />
+        </aside>
+        <div className="flex flex-col gap-5">
+          <Card>
+            <h2>Results for #{categoryName}</h2>
+            <p className="text-zinc-500">100 results</p>
+          </Card>
+          <Feed
+            executable={getAdlibs}
+            setPage={setPage}
+            feedType={categoryName + feedType}
+            header={
+              <header className="flex justify-between">
+                <h2 className="text-xl font-semibold">
+                  {categoryName
+                    ? `Results for #${categoryName}`
+                    : `${feedType} categories`}
+                </h2>
+                <FeedNav
+                  feedType={feedType}
+                  setFeedType={setFeedType}
+                  navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
+                />
+              </header>
+            }
+          />
+        </div>
+        <div></div>
+      </Container>
+    </Layout>
+  );
 };
 
 export default CategoriesResultsPage;
