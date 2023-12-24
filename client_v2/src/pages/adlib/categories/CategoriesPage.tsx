@@ -11,6 +11,7 @@ import CategoryService from "../../../services/CategoryService";
 import { PaginationResponse } from "../../../models/PaginationResponse";
 import { ErrorModel } from "../../../models/ErrorModel";
 import { CategoryModel } from "../../../models/CategoryModel";
+import CategoriesList from "../../../components/categories/categories-list/CategoriesList";
 
 const CategoriesPage = () => {
   const [searchParams] = useSearchParams();
@@ -24,7 +25,7 @@ const CategoriesPage = () => {
     page: number,
     size: number,
     timestamp: Date
-  ): Promise<PaginationResponse<CategoryModel> | null> => {
+  ): Promise<PaginationResponse<CategoryModel>> => {
     const { data, error } = await CategoryService.getCategories(
       category ?? "",
       feedType,
@@ -35,7 +36,15 @@ const CategoriesPage = () => {
     if (error) {
       setError(error);
     }
-    return data;
+    if (data) {
+      return data;
+    }
+    return {
+      results: [],
+      page,
+      size,
+      totalPages: 0,
+    };
   };
 
   return (
@@ -47,32 +56,9 @@ const CategoriesPage = () => {
         <div className="flex flex-col gap-5">
           <AdlibCategoriesSearchCard />
           <Feed<CategoryModel>
-            executable={getCategories}
-            listComponent={
-              <ul>
-                <li>TEST</li>
-              </ul>
-            }
+            executable={getCategories} // Corrected prop name
+            ListComponent={CategoriesList} // Corrected prop name
           />
-          {/* <Feed
-            executable={getCategories}
-            setPage={setPage}
-            feedType={categoryName ?? ""}
-            header={
-              <header className="flex justify-between">
-                <h2 className="text-xl font-semibold">
-                  {categoryName
-                    ? `Results for #${categoryName}`
-                    : `${feedType} categories`}
-                </h2>
-                <FeedNav
-                  feedType={feedType}
-                  setFeedType={setFeedType}
-                  navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
-                />
-              </header>
-            }
-          /> */}
         </div>
         <div></div>
       </Container>

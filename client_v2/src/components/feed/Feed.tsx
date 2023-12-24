@@ -1,27 +1,26 @@
-import { ReactNode, useState } from "react";
+import { ComponentType, ReactNode, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CardSkeleton from "../card/card-skeleton/CardSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import { PaginationResponse } from "../../models/PaginationResponse";
-import FeedList from "./feed-list/FeedList";
 
 type Props<T> = {
-  excecutable: (
+  executable: (
     page: number,
     size: number,
     timestamp: Date
-  ) => Promise<PaginationResponse<T>>;
-  listComponent: ReactNode;
+  ) => Promise<PaginationResponse<T>> | null;
+  ListComponent: React.ComponentType<{ data: T[] }>;
 };
 
-const Feed = <T extends {}>({ excecutable }: Props<T>) => {
+const Feed = <T extends object>({ executable, ListComponent }: Props<T>) => {
   const [page, setPage] = useState<number>(0);
   const [size] = useState<number>(25);
   const [timestamp] = useState<Date>(new Date());
   const [isEnd, setIsEnd] = useState<boolean>(false);
 
   const fetchData = async () => {
-    const { isEnd: hasNoMore } = await excecutable(
+    const { isEnd: hasNoMore } = await executable(
       page === 1 ? 1 : page + 1,
       size,
       timestamp
@@ -39,7 +38,7 @@ const Feed = <T extends {}>({ excecutable }: Props<T>) => {
     });
 
   const loadNext = () => {
-    excecutable(page + 1, size, timestamp);
+    executable(page + 1, size, timestamp);
   };
 
   return (
@@ -63,7 +62,9 @@ const Feed = <T extends {}>({ excecutable }: Props<T>) => {
             endMessage={
               <p className="pt-5 font-semibold">No more data available</p>
             }
-          ></InfiniteScroll>
+          >
+            <ListComponent data={data?.results ?? []} />
+          </InfiniteScroll>
         </div>
         {/* <div role="feed">
           <InfiniteScroll
