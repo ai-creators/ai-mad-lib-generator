@@ -1,4 +1,4 @@
-import { ComponentType, ReactNode, useState } from "react";
+import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CardSkeleton from "../card/card-skeleton/CardSkeleton";
 import { useQuery } from "@tanstack/react-query";

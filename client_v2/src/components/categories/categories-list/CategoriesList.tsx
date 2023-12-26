@@ -1,15 +1,21 @@
 import React from "react";
+import { CategoryModel } from "../../../models/CategoryModel";
+import CategoriesCard from "../categories-card/CategoriesCard";
 
-type Props<T> = {
-    data: 
+type Props = {
+  data: CategoryModel[];
 };
 
-const CategoriesList = <T extends object>({ data}: Props<T>) => {
+const CategoriesList = ({ data }: Props) => {
   return (
     <ul>
-        <li></li>
+      {data.map((category) => (
+        <li key={category.id}>
+          <CategoriesCard category={category} />
+        </li>
+      ))}
     </ul>
-  )
+  );
 };
 
 export default CategoriesList;

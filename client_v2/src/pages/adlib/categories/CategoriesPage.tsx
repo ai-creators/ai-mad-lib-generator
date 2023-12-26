@@ -18,6 +18,8 @@ const CategoriesPage = () => {
 
   const category = searchParams.get("q");
 
+  console.log("CATEGORY: ", category);
+
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
   const [error, setError] = useState<ErrorModel | null>(null);
 
