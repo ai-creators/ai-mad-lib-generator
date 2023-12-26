@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Category } from 'src/data-model';
+import { Adlib, Category } from 'src/data-model';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category])],
+  imports: [TypeOrmModule.forFeature([Category, Adlib])],
   controllers: [CategoryController],
   providers: [CategoryService],
 })

@@ -1,16 +1,15 @@
-import React from "react";
-import { AdlibModel } from "../../../../models/AdlibModel";
-import Card from "../../../card/Card";
-import ButtonPrimary from "../../../button/button-primary/ButtonPrimary";
-import ButtonLight from "../../../button/button-light/ButtonLight";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { AdlibModel } from "../../../models/AdlibModel";
+import ButtonLight from "../../button/button-light/ButtonLight";
+import ButtonPrimary from "../../button/button-primary/ButtonPrimary";
+import Card from "../../card/Card";
 
 type Props = {
   adlib: AdlibModel;
 };
 
-const FeedListCard = ({ adlib }: Props) => {
+const AdlibCard = ({ adlib }: Props) => {
   return (
     <Card className="flex flex-col gap-3">
       <div className="flex justify-between">
@@ -58,4 +57,4 @@ const FeedListCard = ({ adlib }: Props) => {
   );
 };
 
-export default FeedListCard;
+export default AdlibCard;

@@ -58,8 +58,9 @@ const CategoriesPage = () => {
         <div className="flex flex-col gap-5">
           <AdlibCategoriesSearchCard />
           <Feed<CategoryModel>
-            executable={getCategories} // Corrected prop name
-            ListComponent={CategoriesList} // Corrected prop name
+            executable={getCategories}
+            ListComponent={CategoriesList}
+            error={error}
           />
         </div>
         <div></div>

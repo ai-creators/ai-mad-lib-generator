@@ -9,12 +9,12 @@ import { CategoryModel } from "../models/CategoryModel";
 const getCategories = (
   category: string,
   feedType: FeedTypes,
-  timestamp: Date,
   page = 1,
-  size = 5
+  size = 5,
+  timestamp: Date
 ): Promise<ApiResponse<PaginationResponse<CategoryModel>>> => {
   const config: AxiosRequestConfig = {
-    url: "/api/v1/adlib/category",
+    url: "/api/v1/category",
     params: {
       timestamp: timestamp.toISOString(),
       feedType,
@@ -35,7 +35,7 @@ const getAdlibsByCategory = (
   timestamp: Date
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
   const config: AxiosRequestConfig = {
-    url: "/api/v1/adlib/category",
+    url: "/api/v1/category",
     params: {
       timestamp: timestamp.toISOString(),
       feedType,

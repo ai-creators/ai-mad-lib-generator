@@ -6,10 +6,10 @@ import { PaginationResponse } from "../models/PaginationResponse";
 import { FeedTypes } from "../components/feed/FeedTypes";
 
 const getAdlibs = (
-  timestamp: Date,
   type: FeedTypes,
   page = 1,
-  size = 5
+  size = 5,
+  timestamp: Date
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/adlib",
