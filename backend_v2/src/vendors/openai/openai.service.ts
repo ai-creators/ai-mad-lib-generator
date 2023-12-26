@@ -35,7 +35,7 @@ export class OpenaiService {
     adlib.body = parsedMessage?.madlib;
     adlib.title = parsedMessage?.title;
     adlib.categories = await this.mapCategories(parsedMessage.categories);
-
+    console.log(adlib, '<======');
     return adlib;
   }
 
@@ -52,6 +52,7 @@ export class OpenaiService {
 
       outputCategories.push(categoryToAdd);
     }
+    console.log('OUTPUT CATEGORIES: ', outputCategories);
     return outputCategories;
   }
 }

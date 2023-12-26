@@ -46,13 +46,15 @@ export class AdlibController {
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
     }
-    if (foundAdlib.createdBy) {
-      this.removePrivateProperties(foundAdlib.createdBy);
+    if (foundAdlib?.createdBy) {
+      this.removePrivateProperties(await foundAdlib.createdBy);
     }
     return foundAdlib;
   }
 
   private removePrivateProperties(account: Account): void {
-    account.sub = null;
+    if (account?.sub) {
+      account.sub = null;
+    }
   }
 }

@@ -22,6 +22,11 @@ export class GeneratorController {
     prompt.prompt = generateAdlibDto.prompt;
     try {
       const createdAdLib: Adlib = await this.openaiService.createAdlib(prompt);
+      console.log(
+        'HERE',
+        createdAdLib,
+        this.adlibValidator.isValidAdlib(createdAdLib.body),
+      );
       if (
         !createdAdLib ||
         !this.adlibValidator.isValidAdlib(createdAdLib.body)
@@ -32,7 +37,7 @@ export class GeneratorController {
       if (generateAdlibDto.userId) {
         const foundAccount = await this.findAccount(generateAdlibDto.userId);
         if (foundAccount) {
-          createdAdLib.createdBy = foundAccount;
+          createdAdLib.createdBy = Promise.resolve(foundAccount);
         }
       }
 

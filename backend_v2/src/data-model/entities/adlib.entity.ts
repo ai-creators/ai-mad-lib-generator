@@ -38,20 +38,20 @@ export class Adlib {
 
   @ManyToOne(() => Account, (account) => account.adlibs)
   @JoinTable()
-  createdBy: Account;
+  createdBy: Promise<Account>;
 
-  @ManyToMany(() => Category)
+  @ManyToMany(() => Category, { cascade: true, lazy: true })
   @JoinTable()
   categories: Category[];
 
   @OneToMany(() => AdlibResponse, (adlibResponse) => adlibResponse.adlib)
-  adlibResponses: AdlibResponse[];
+  adlibResponses: Promise<AdlibResponse[]>;
 
   @ManyToOne(() => Comment, (comment) => comment.adlib)
-  comments: Comment[];
+  comments: Promise<Comment[]>;
 
   @OneToMany(() => Reaction, (reaction) => reaction.adlib)
-  reactions: Reaction[];
+  reactions: Promise<Reaction[]>;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

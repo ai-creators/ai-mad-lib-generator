@@ -15,7 +15,7 @@ export class Category {
   @Column({ nullable: false, unique: true, length: 50 })
   name: string;
 
-  @ManyToMany(() => Adlib)
+  @ManyToMany(() => Adlib, (adlib) => adlib.categories)
   adlibs: Adlib[];
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
