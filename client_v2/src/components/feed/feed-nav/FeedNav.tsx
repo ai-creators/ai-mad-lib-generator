@@ -24,6 +24,7 @@ const FeedNav = ({
       setSearchParams(searchParams);
     }
   };
+
   return (
     <ul className={`flex gap-3 ${className}`}>
       {navItems.map((navItem) => (

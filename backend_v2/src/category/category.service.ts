@@ -25,8 +25,12 @@ export class CategoryService {
     };
 
     if (categoryPaginationDto.category) {
-      queryOptions.where['name'] = Like(`%${categoryPaginationDto.category}%`);
+      queryOptions.where['name'] = Like(
+        `%${categoryPaginationDto.category.toLowerCase()}%`,
+      );
     }
+
+    console.log('WHERE: ', queryOptions.where);
 
     return Pagination.paginate<Category>(
       this.categoryRepository,

@@ -59,7 +59,7 @@ const CategoriesPage = () => {
           <div className="flex justify-between items-center">
             <p className="text-lg font-semibold">
               {category
-                ? `Search results for "{category}"`
+                ? `Search results for "${category}"`
                 : `"${feedType}" categories`}
             </p>
             <FeedNav
@@ -67,7 +67,6 @@ const CategoriesPage = () => {
               setFeedType={setFeedType}
               navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
               className="ml-auto"
-              searchParams={searchParams}
             />
           </div>
           <Feed<CategoryModel>
