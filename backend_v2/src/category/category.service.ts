@@ -1,7 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/data-model';
-import { FindOptions, LessThan, Repository } from 'typeorm';
+import {
+  FindManyOptions,
+  FindOptions,
+  LessThan,
+  Like,
+  Repository,
+} from 'typeorm';
 import { CategoryPaginationDto } from './dto/category-pagination.dto';
 import { PaginationResponse } from 'src/adlib/dto/pagination-response';
 import { Pagination } from 'src/common/pagination/pagination';
@@ -17,15 +23,21 @@ export class CategoryService {
   findAllPageable(
     categoryPaginationDto: CategoryPaginationDto,
   ): Promise<PaginationResponse<Category>> {
+    const queryOptions: FindManyOptions<Category> = {
+      where: {
+        createdAt: LessThan(categoryPaginationDto.timestamp),
+      },
+      order: this.calculateOrder(categoryPaginationDto),
+    };
+
+    if (categoryPaginationDto.category) {
+      queryOptions.where['name'] = Like(`%${categoryPaginationDto.category}%`);
+    }
+
     return Pagination.paginate<Category>(
       this.categoryRepository,
       categoryPaginationDto,
-      {
-        where: {
-          createdAt: LessThan(categoryPaginationDto.timestamp),
-        },
-        order: this.calculateOrder(categoryPaginationDto),
-      },
+      queryOptions,
     );
   }
 

@@ -56,11 +56,20 @@ const CategoriesPage = () => {
         </aside>
         <div className="flex flex-col gap-5">
           <AdlibCategoriesSearchCard />
-          <FeedNav
-            feedType={feedType}
-            setFeedType={setFeedType}
-            navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
-          />
+          <div className="flex justify-between items-center">
+            <p className="text-lg font-semibold">
+              {category
+                ? `Search results for "{category}"`
+                : `"${feedType}" categories`}
+            </p>
+            <FeedNav
+              feedType={feedType}
+              setFeedType={setFeedType}
+              navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
+              className="ml-auto"
+              searchParams={searchParams}
+            />
+          </div>
           <Feed<CategoryModel>
             executable={getCategories}
             ListComponent={CategoriesList}
@@ -70,6 +79,7 @@ const CategoriesPage = () => {
               </p>
             }
             feedType={feedType}
+            searchParam={searchParams}
             error={error}
           />
         </div>

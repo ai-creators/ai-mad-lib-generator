@@ -15,7 +15,8 @@ type Props<T> = {
   ListComponent: React.ComponentType<{ data: T[] }>;
   error: ErrorModel | null;
   endMessage?: ReactNode;
-  feedType: FeedTypes;
+  feedType?: FeedTypes;
+  searchParam?: URLSearchParams;
 };
 
 const Feed = <T extends object>({
@@ -26,6 +27,7 @@ const Feed = <T extends object>({
   endMessage = (
     <p className="pt-5 px-4 font-semibold">No more data available</p>
   ),
+  searchParam,
 }: Props<T>) => {
   const [page, setPage] = useState<number>(0);
   const [size] = useState<number>(25);
@@ -55,7 +57,7 @@ const Feed = <T extends object>({
   useEffect(() => {
     setPage(0);
     refetch();
-  }, [feedType]);
+  }, [feedType, searchParam]);
 
   return (
     <>

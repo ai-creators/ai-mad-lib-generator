@@ -22,11 +22,6 @@ export class GeneratorController {
     prompt.prompt = generateAdlibDto.prompt;
     try {
       const createdAdLib: Adlib = await this.openaiService.createAdlib(prompt);
-      console.log(
-        'HERE',
-        createdAdLib,
-        this.adlibValidator.isValidAdlib(createdAdLib.body),
-      );
       if (
         !createdAdLib ||
         !this.adlibValidator.isValidAdlib(createdAdLib.body)

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Card from "../../../card/Card";
 
@@ -14,7 +14,7 @@ const AdlibCategoriesSearchCard = () => {
     setCategory(value);
   };
 
-  const submitCategory = (event) => {
+  const submitCategory = (event: FormEvent) => {
     event.preventDefault();
     if (searchQuery !== category) {
       setSearchParams({ q: category });
