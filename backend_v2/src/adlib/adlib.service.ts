@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { LessThan, Repository } from 'typeorm';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 import { FeedTypes } from 'src/models/feed-type';
+import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
 
 @Injectable()
 export class AdlibService {
@@ -16,17 +17,24 @@ export class AdlibService {
   ) {}
 
   findAllPageable(
-    paginationDto: PaginationDto,
+    adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
-    return Pagination.paginate<Adlib>(this.adlibRepository, paginationDto, {
-      where: {
-        createdAt: LessThan(paginationDto.timestamp),
+    console.log(
+      'ORDER: ',
+      adlibPaginationDto.feedType,
+      this.calculateOrder(adlibPaginationDto),
+    );
+    return Pagination.paginate<Adlib>(
+      this.adlibRepository,
+      adlibPaginationDto,
+      {
+        where: {
+          createdAt: LessThan(adlibPaginationDto.timestamp),
+        },
+        order: this.calculateOrder(adlibPaginationDto),
+        relations: ['categories'],
       },
-      order: {
-        createdAt: 'DESC',
-      },
-      relations: ['categories'],
-    });
+    );
   }
 
   async findAllByCategoriesPageable({
@@ -74,5 +82,19 @@ export class AdlibService {
       where: { id },
       relations: ['categories', 'createdBy', 'reactions'],
     });
+  }
+
+  private calculateOrder(adlibPaginationDto: AdlibPaginationDto): {
+    createdAt: 'DESC' | 'ASC';
+  } {
+    const createdAt =
+      adlibPaginationDto.feedType === FeedTypes.LATEST
+        ? 'DESC'
+        : adlibPaginationDto.feedType === FeedTypes.OLDEST
+        ? 'ASC'
+        : 'DESC';
+    return {
+      createdAt,
+    };
   }
 }

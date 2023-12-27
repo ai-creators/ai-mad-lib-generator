@@ -1,13 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/data-model';
-import {
-  FindManyOptions,
-  FindOptions,
-  LessThan,
-  Like,
-  Repository,
-} from 'typeorm';
+import { FindManyOptions, LessThan, Like, Repository } from 'typeorm';
 import { CategoryPaginationDto } from './dto/category-pagination.dto';
 import { PaginationResponse } from 'src/adlib/dto/pagination-response';
 import { Pagination } from 'src/common/pagination/pagination';

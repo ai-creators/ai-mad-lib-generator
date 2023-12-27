@@ -8,7 +8,6 @@ type Props = {
   setFeedType: React.Dispatch<React.SetStateAction<FeedTypes>>;
   navItems: FeedTypes[];
   className?: string;
-  searchParams: URLSearchParams;
 };
 
 const FeedNav = ({

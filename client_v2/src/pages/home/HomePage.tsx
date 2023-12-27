@@ -73,7 +73,11 @@ const HomePage = () => {
             <FeedNav
               feedType={feedType}
               setFeedType={setFeedType}
-              navItems={[FeedTypes.FEATURED, FeedTypes.LATEST]}
+              navItems={[
+                FeedTypes.FEATURED,
+                FeedTypes.LATEST,
+                FeedTypes.OLDEST,
+              ]}
             />
             <Feed<AdlibModel>
               executable={getAdlibs}
@@ -84,6 +88,7 @@ const HomePage = () => {
                   No more adlibs available
                 </p>
               }
+              feedType={feedType}
             />
           </div>
         </section>

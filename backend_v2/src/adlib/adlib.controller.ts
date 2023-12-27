@@ -5,14 +5,10 @@ import { Account, Adlib } from 'src/data-model';
 import { PaginationResponse } from './dto/pagination-response';
 import { AdlibNotFoundException } from './exceptions/adlib-not-found.exception';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
-import { CategoryService } from 'src/category/category.service';
 
 @Controller('v1/adlib')
 export class AdlibController {
-  constructor(
-    private readonly adlibService: AdlibService,
-    private readonly categoryService: CategoryService,
-  ) {}
+  constructor(private readonly adlibService: AdlibService) {}
 
   @Get()
   getAdlibs(

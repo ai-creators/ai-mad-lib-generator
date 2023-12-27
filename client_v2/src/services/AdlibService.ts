@@ -6,7 +6,7 @@ import { PaginationResponse } from "../models/PaginationResponse";
 import { FeedTypes } from "../components/feed/FeedTypes";
 
 const getAdlibs = (
-  type: FeedTypes,
+  feedType: FeedTypes,
   page = 1,
   size = 5,
   timestamp: Date
@@ -16,7 +16,7 @@ const getAdlibs = (
     method: "GET",
     params: {
       timestamp: timestamp.toISOString(),
-      type,
+      feedType,
       page,
       size,
     },
