@@ -25,6 +25,7 @@ export class AdlibService {
       order: {
         createdAt: 'DESC',
       },
+      relations: ['categories'],
     });
   }
 

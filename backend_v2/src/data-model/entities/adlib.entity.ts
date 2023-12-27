@@ -40,7 +40,7 @@ export class Adlib {
   @JoinTable()
   createdBy: Promise<Account>;
 
-  @ManyToMany(() => Category, { cascade: true, lazy: true })
+  @ManyToMany(() => Category, { cascade: true })
   @JoinTable()
   categories: Category[];
 

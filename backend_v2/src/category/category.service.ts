@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from 'src/data-model';
 import { LessThan, Repository } from 'typeorm';
@@ -18,6 +16,7 @@ export class CategoryService {
   findAllPageable(
     categoryPaginationDto: CategoryPaginationDto,
   ): Promise<PaginationResponse<Category>> {
+    console.log('IN HERE');
     return Pagination.paginate<Category>(
       this.categoryRepository,
       categoryPaginationDto,
