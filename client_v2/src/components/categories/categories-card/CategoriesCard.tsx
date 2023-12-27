@@ -12,21 +12,27 @@ const CategoriesCard = ({ category }: Props) => {
   return (
     <Card className="flex flex-col gap-3">
       <div>
-        <div>
+        <div className="flex justify-between">
           <Link to={`/adlib/category/${category.name}`}>
             <h6 className="text-xl font-semibold text-black capitalize">
-              {category.name}
+              #{category.name}
             </h6>
           </Link>
-          <p>{dayjs(category.createdAt).format("MMM, D")}</p>
+          <p className="text-zinc-500 text-sm">
+            {dayjs(category.createdAt).format("MMM, D")}
+          </p>
         </div>
 
-        {category.adlibs ? (
-          <p className="text-zinc-500">{category.adlibs.length} Adlibs</p>
-        ) : null}
+        {/* {category.adlibs ? (
+          <p className="text-zinc-500 text-sm">
+            {category.adlibs.length} Adlibs
+          </p>
+        ) : null} */}
       </div>
       <div className="flex">
-        <ButtonPrimary>Go To Category</ButtonPrimary>
+        <ButtonPrimary href={`/adlib/category/${category.name}`}>
+          Go To Category
+        </ButtonPrimary>
       </div>
     </Card>
   );

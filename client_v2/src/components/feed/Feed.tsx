@@ -1,9 +1,10 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CardSkeleton from "../card/card-skeleton/CardSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import { PaginationResponse } from "../../models/PaginationResponse";
 import { ErrorModel } from "../../models/ErrorModel";
+import { FeedTypes } from "./FeedTypes";
 
 type Props<T> = {
   executable: (
@@ -14,12 +15,14 @@ type Props<T> = {
   ListComponent: React.ComponentType<{ data: T[] }>;
   error: ErrorModel | null;
   endMessage?: ReactNode;
+  feedType: FeedTypes;
 };
 
 const Feed = <T extends object>({
   executable,
   ListComponent,
   error,
+  feedType,
   endMessage = (
     <p className="pt-5 px-4 font-semibold">No more data available</p>
   ),
@@ -28,8 +31,8 @@ const Feed = <T extends object>({
   const [size] = useState<number>(25);
   const [timestamp] = useState<Date>(new Date());
 
-  const { data } = useQuery({
-    queryKey: ["projects", page],
+  const { data, refetch } = useQuery({
+    queryKey: ["projects", page, feedType],
     queryFn: () => executable(page + 1, size, timestamp),
   });
 
@@ -48,6 +51,11 @@ const Feed = <T extends object>({
 
     return true;
   };
+
+  useEffect(() => {
+    setPage(0);
+    refetch();
+  }, [feedType]);
 
   return (
     <>

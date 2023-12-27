@@ -11,7 +11,6 @@ type Props = {
 
 const ProfileCard = ({ profile }: Props) => {
   const { account } = useAppSelector((state) => state.account);
-  console.log(account, profile);
   return (
     <Card className="relative overflow-hidden" padding="p-0">
       <div className="bg-black h-10"></div>

@@ -36,8 +36,6 @@ const AdlibPage = () => {
     queryFn: fetchAdlib,
   });
 
-  console.log(adlib, isLoading, error);
-
   return isLoading ? (
     <PageLoader />
   ) : (

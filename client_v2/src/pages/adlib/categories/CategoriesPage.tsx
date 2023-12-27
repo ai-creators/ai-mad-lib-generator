@@ -12,13 +12,12 @@ import { PaginationResponse } from "../../../models/PaginationResponse";
 import { ErrorModel } from "../../../models/ErrorModel";
 import { CategoryModel } from "../../../models/CategoryModel";
 import CategoriesList from "../../../components/categories/categories-list/CategoriesList";
+import FeedNav from "../../../components/feed/feed-nav/FeedNav";
 
 const CategoriesPage = () => {
   const [searchParams] = useSearchParams();
 
   const category = searchParams.get("q");
-
-  console.log("CATEGORY: ", category);
 
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
   const [error, setError] = useState<ErrorModel | null>(null);
@@ -57,9 +56,20 @@ const CategoriesPage = () => {
         </aside>
         <div className="flex flex-col gap-5">
           <AdlibCategoriesSearchCard />
+          <FeedNav
+            feedType={feedType}
+            setFeedType={setFeedType}
+            navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
+          />
           <Feed<CategoryModel>
             executable={getCategories}
             ListComponent={CategoriesList}
+            endMessage={
+              <p className="pt-5 px-4 font-semibold">
+                No more Categories available
+              </p>
+            }
+            feedType={feedType}
             error={error}
           />
         </div>
