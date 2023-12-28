@@ -15,7 +15,7 @@ export class AdlibValidator {
 
     // Check for minimum number of mad lib inputs
     const adlibInputs = adlibText.match(madLibInputRegex) || [];
-    if (adlibInputs.length < 5) {
+    if (adlibInputs.length < 4) {
       return false; // Not enough mad lib inputs
     }
 

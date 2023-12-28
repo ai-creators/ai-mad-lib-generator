@@ -2,7 +2,7 @@ import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
 import { AdlibService } from './adlib.service';
 import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto';
 import { Account, Adlib } from 'src/data-model';
-import { PaginationResponse } from './dto/pagination-response';
+import { PaginationResponse } from '../common/pagination/dtos/pagination-response.dto';
 import { AdlibNotFoundException } from './exceptions/adlib-not-found.exception';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 

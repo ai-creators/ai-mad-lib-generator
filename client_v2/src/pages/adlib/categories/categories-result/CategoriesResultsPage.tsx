@@ -8,54 +8,70 @@ import FeedNav from "../../../../components/feed/feed-nav/FeedNav";
 import Feed from "../../../../components/feed/Feed";
 import NavbarItems from "../../../../components/navbar/navbar-items/NavbarItems";
 import Card from "../../../../components/card/Card";
+import { ErrorModel } from "../../../../models/ErrorModel";
+import { CategoryModel } from "../../../../models/CategoryModel";
+import { AdlibModel } from "../../../../models/AdlibModel";
+import AdlibList from "../../../../components/adlib/adlib-list/AdlibList";
+import ErrorAlert from "../../../../components/errors/ErrorAlert";
 
 const CategoriesResultsPage = () => {
-  const { categoryName } = useParams();
-  const [timestamp] = useState<Date>(new Date());
+  const { categoryName: category } = useParams();
 
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
-  const [page, setPage] = useState<number>(1);
-  const [size] = useState<number>(25);
+  const [error, setError] = useState<ErrorModel | null>(null);
 
-  const getAdlibs = () => {
-    return CategoryService.getAdlibsByCategory(
-      categoryName ?? "",
+  const getAdlibs = async (page: number, size: number, timestamp: Date) => {
+    const { data, error } = await CategoryService.getAdlibsByCategory(
+      category ?? "",
       feedType,
-      timestamp,
       page,
-      size
+      size,
+      timestamp
     );
+    if (error) {
+      setError(error);
+    }
+    if (data) {
+      return data;
+    }
+    return {
+      results: [],
+      page,
+      size,
+      totalPages: 0,
+    };
   };
 
   return (
     <Layout>
-      <Container>
+      <Container className="grid-aside gap-5 my-5">
         <aside className="flex flex-col gap-5">
           <NavbarItems />
         </aside>
         <div className="flex flex-col gap-5">
+          <ErrorAlert error={error} />
           <Card>
-            <h2>Results for #{categoryName}</h2>
-            <p className="text-zinc-500">100 results</p>
+            <h1>{category}</h1>
           </Card>
-          <Feed
+
+          <div className="flex justify-between items-center">
+            <FeedNav
+              feedType={feedType}
+              setFeedType={setFeedType}
+              navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
+              className="ml-auto"
+            />
+          </div>
+          <Feed<AdlibModel>
             executable={getAdlibs}
-            setPage={setPage}
-            feedType={categoryName + feedType}
-            header={
-              <header className="flex justify-between">
-                <h2 className="text-xl font-semibold">
-                  {categoryName
-                    ? `Results for #${categoryName}`
-                    : `${feedType} categories`}
-                </h2>
-                <FeedNav
-                  feedType={feedType}
-                  setFeedType={setFeedType}
-                  navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
-                />
-              </header>
+            ListComponent={AdlibList}
+            endMessage={
+              <p className="pt-5 px-4 font-semibold">
+                No more Categories available
+              </p>
             }
+            feedType={feedType}
+            error={error}
           />
         </div>
         <div></div>

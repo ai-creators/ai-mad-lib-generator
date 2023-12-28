@@ -35,7 +35,7 @@ const getAdlibsByCategory = (
   timestamp: Date
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
   const config: AxiosRequestConfig = {
-    url: "/api/v1/category",
+    url: "/api/v1/category/adlib",
     params: {
       timestamp: timestamp.toISOString(),
       feedType,

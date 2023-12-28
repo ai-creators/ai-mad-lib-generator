@@ -30,6 +30,7 @@ export class OpenaiService {
   public async createAdlib(prompt: PromptDto): Promise<Adlib> {
     const response: ChatCompletion = await this.chat(prompt.buildPrompt());
     const parsedMessage: any = JSON.parse(response.choices[0].message.content);
+    console.log('ADLIB: ', parsedMessage);
     const adlib = new Adlib();
     adlib.prompt = prompt.prompt;
     adlib.body = parsedMessage?.madlib;

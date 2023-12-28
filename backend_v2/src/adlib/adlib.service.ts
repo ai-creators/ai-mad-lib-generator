@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto';
-import { PaginationResponse } from './dto/pagination-response';
+import { PaginationResponse } from '../common/pagination/dtos/pagination-response.dto';
 import { Adlib } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';

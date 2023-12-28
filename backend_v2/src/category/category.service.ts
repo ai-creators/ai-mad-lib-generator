@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from 'src/data-model';
-import { FindManyOptions, LessThan, Like, Repository } from 'typeorm';
+import { Adlib, Category } from 'src/data-model';
+import { Brackets, FindManyOptions, LessThan, Like, Repository } from 'typeorm';
 import { CategoryPaginationDto } from './dto/category-pagination.dto';
-import { PaginationResponse } from 'src/adlib/dto/pagination-response';
+import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Pagination } from 'src/common/pagination/pagination';
 import { FeedTypes } from 'src/models/feed-type';
 
@@ -29,8 +29,6 @@ export class CategoryService {
         `%${categoryPaginationDto.category.toLowerCase()}%`,
       );
     }
-
-    console.log('WHERE: ', queryOptions.where);
 
     return Pagination.paginate<Category>(
       this.categoryRepository,
@@ -59,5 +57,41 @@ export class CategoryService {
         name: categoryName,
       },
     });
+  }
+
+  async findAllPageableWithAdlibs(
+    categoryPaginationDto: CategoryPaginationDto,
+  ): Promise<PaginationResponse<Category>> {
+    const queryBuilder = this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoin('category.adlibs', 'adlib')
+      .select('category')
+      .addSelect((subQuery) => {
+        return subQuery
+          .select('COUNT(adlib.id)', 'adlibCount')
+          .from(Adlib, 'adlib')
+          .where('adlib.categoryId = category.id');
+      }, 'adlibCount')
+      .where('category.createdAt < :timestamp', {
+        timestamp: categoryPaginationDto.timestamp,
+      })
+      .orderBy(this.calculateOrder(categoryPaginationDto))
+      .take(categoryPaginationDto.size)
+      .skip((categoryPaginationDto.page - 1) * categoryPaginationDto.size);
+
+    if (categoryPaginationDto.category) {
+      queryBuilder.andWhere(
+        new Brackets((qb) => {
+          qb.where('LOWER(category.name) LIKE :name', {
+            name: `%${categoryPaginationDto.category.toLowerCase()}%`,
+          });
+        }),
+      );
+    }
+
+    return Pagination.paginateWithQueryBuilder(
+      queryBuilder,
+      categoryPaginationDto,
+    );
   }
 }

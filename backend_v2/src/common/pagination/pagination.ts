@@ -1,6 +1,12 @@
-import { FindOneOptions, Repository } from 'typeorm';
+import {
+  FindOneOptions,
+  QueryBuilder,
+  Repository,
+  SelectQueryBuilder,
+} from 'typeorm';
 import { PaginationDto } from './dtos/pagination-dto';
-import { PaginationResponse } from 'src/adlib/dto/pagination-response';
+import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
+import { Category } from 'src/data-model';
 
 export class Pagination {
   public static async paginate<T>(
@@ -18,9 +24,23 @@ export class Pagination {
 
     return {
       results: query,
-      page: page,
-      size: size,
+      page,
+      size,
       totalPages: Pagination.calculatePageTotal(size, count),
+    };
+  }
+
+  public static async paginateWithQueryBuilder<T>(
+    queryBuilder: SelectQueryBuilder<T>,
+    { page, size }: PaginationDto,
+  ): Promise<PaginationResponse<T>> {
+    const [results, totalPages] = await queryBuilder.getManyAndCount();
+
+    return {
+      results,
+      page,
+      size,
+      totalPages,
     };
   }
 
