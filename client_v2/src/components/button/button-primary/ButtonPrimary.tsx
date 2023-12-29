@@ -28,7 +28,7 @@ const ButtonPrimary = ({
   }
   return (
     <button
-      className={`${className} text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 duration-200 ease-out py-2 px-4 rounded disabled:bg-indigo-700 disabled:cursor-not-allowed`}
+      className={`${className} text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 duration-200 ease-out py-2 px-4 rounded disabled:bg-indigo-400 disabled:cursor-not-allowed`}
       onClick={onClick}
       disabled={disabled}
     >

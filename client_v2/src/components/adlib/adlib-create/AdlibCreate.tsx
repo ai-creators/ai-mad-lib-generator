@@ -31,19 +31,22 @@ const AdlibCreate = () => {
           <p className="text-zinc-500">Enter a prompt to generate an adlib.</p>
         </div>
         <form onSubmit={generate} className="flex flex-col gap-5">
+          <div className="flex flex-col gap-1">
+            <label
+              className="text-zinc-500 after:content-['*'] after:ml-1 after:text-red-700"
+              htmlFor="prompt"
+            >
+              Prompt
+            </label>
+            <input
+              id="prompt"
+              className="border border-zinc-300 p-3 rounded w-full focus:outline outline-2 outline-offset-2"
+              placeholder="The Rock fighting paper"
+              value={prompt}
+              onChange={changePrompt}
+            />
+          </div>
           <Accordion header="Adlib Options" className="flex flex-col gap-5">
-            <div className="flex flex-col gap-1">
-              <label className="text-zinc-500" htmlFor="prompt">
-                Prompt
-              </label>
-              <input
-                id="prompt"
-                className="border border-zinc-300 p-3 rounded w-full focus:outline outline-2 outline-offset-2"
-                placeholder="The Rock fighting paper"
-                value={prompt}
-                onChange={changePrompt}
-              />
-            </div>
             <div className="flex flex-col gap-2">
               <div className="flex gap-3">
                 <label className="text-zinc-500" htmlFor="temperature">
@@ -111,7 +114,7 @@ const AdlibCreate = () => {
           </Accordion>
           <div>
             <ButtonPrimary disabled={isLoading || !prompt.length}>
-              Generate Adlib
+              {isLoading ? "Loading..." : "Generate Adlib"}
             </ButtonPrimary>
           </div>
         </form>

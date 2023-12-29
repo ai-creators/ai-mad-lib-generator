@@ -36,6 +36,12 @@ export class Adlib {
   @Column({ default: false })
   isPg: boolean;
 
+  @Column({ nullable: true })
+  temperature: number;
+
+  @Column({ nullable: true })
+  topP: number;
+
   @ManyToOne(() => Account, (account) => account.adlibs)
   @JoinTable()
   createdBy: Promise<Account>;

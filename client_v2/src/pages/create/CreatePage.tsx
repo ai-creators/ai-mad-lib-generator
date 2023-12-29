@@ -7,7 +7,7 @@ const CreatePage = () => {
   return (
     <Layout>
       <Container className="grid-aside gap-5 my-5">
-        <aside className="flex flex-col gap-5">
+        <aside className="flex flex-col gap-5 hidden lg:block">
           <NavbarItems />
         </aside>
         <div className="flex flex-col gap-5">
