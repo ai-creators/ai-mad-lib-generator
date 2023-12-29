@@ -1,4 +1,5 @@
 import { AdlibLables } from "../../../labels/AdlibLabels";
+import Accordion from "../../accordion/Accordion";
 import ButtonPrimary from "../../button/button-primary/ButtonPrimary";
 import Card from "../../card/Card";
 import ErrorAlert from "../../errors/ErrorAlert";
@@ -30,82 +31,84 @@ const AdlibCreate = () => {
           <p className="text-zinc-500">Enter a prompt to generate an adlib.</p>
         </div>
         <form className="flex flex-col gap-5" onSubmit={generate}>
-          <div className="flex flex-col gap-1">
-            <label className="text-zinc-500" htmlFor="prompt">
-              Prompt
-            </label>
-            <input
-              id="prompt"
-              className="border border-zinc-300 p-3 rounded w-full focus:outline outline-2 outline-offset-2"
-              placeholder="The Rock fighting paper"
-              value={prompt}
-              onChange={changePrompt}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-3">
-              <label className="text-zinc-500" htmlFor="temperature">
-                Temperature
+          <Accordion header="Adlib Options">
+            <div className="flex flex-col gap-1">
+              <label className="text-zinc-500" htmlFor="prompt">
+                Prompt
               </label>
-              <Tooltip
-                id="temperautre-tooltip"
-                text={AdlibLables.TEMPERATURE_TOOLTIPS}
-                width="w-60"
+              <input
+                id="prompt"
+                className="border border-zinc-300 p-3 rounded w-full focus:outline outline-2 outline-offset-2"
+                placeholder="The Rock fighting paper"
+                value={prompt}
+                onChange={changePrompt}
               />
             </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-3">
+                <label className="text-zinc-500" htmlFor="temperature">
+                  Temperature
+                </label>
+                <Tooltip
+                  id="temperautre-tooltip"
+                  text={AdlibLables.TEMPERATURE_TOOLTIPS}
+                  width="w-60"
+                />
+              </div>
 
-            <p>{temperature}</p>
-            <input
-              id="temperature"
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={temperature}
-              className="my-2 w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer accent-indigo-700"
-              onChange={changeTemperature}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-3">
-              <label className="text-zinc-500" htmlFor="temperature">
-                Top P
-              </label>
-              <Tooltip
-                id="temperautre-tooltip"
-                text={AdlibLables.TEMPERATURE_TOOLTIPS}
-                width="w-60"
+              <p>{temperature}</p>
+              <input
+                id="temperature"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={temperature}
+                className="my-2 w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer accent-indigo-700"
+                onChange={changeTemperature}
               />
             </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-3">
+                <label className="text-zinc-500" htmlFor="temperature">
+                  Top P
+                </label>
+                <Tooltip
+                  id="temperautre-tooltip"
+                  text={AdlibLables.TEMPERATURE_TOOLTIPS}
+                  width="w-60"
+                />
+              </div>
 
-            <p>{topP}</p>
-            <input
-              id="temperature"
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={topP}
-              className="my-2 w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer accent-indigo-700"
-              onChange={changeTopP}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex gap-3">
-              <label className="text-zinc-500" htmlFor="temperature">
-                Length
-              </label>
+              <p>{topP}</p>
+              <input
+                id="temperature"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={topP}
+                className="my-2 w-full h-2 bg-zinc-300 rounded-lg appearance-none cursor-pointer accent-indigo-700"
+                onChange={changeTopP}
+              />
             </div>
-            <Tablist
-              options={[
-                AdlibLengths.SHORT,
-                AdlibLengths.MEDIUM,
-                AdlibLengths.LONG,
-              ]}
-              currentOption={length}
-              changeOption={changeLength}
-            />
-          </div>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-3">
+                <label className="text-zinc-500" htmlFor="temperature">
+                  Length
+                </label>
+              </div>
+              <Tablist
+                options={[
+                  AdlibLengths.SHORT,
+                  AdlibLengths.MEDIUM,
+                  AdlibLengths.LONG,
+                ]}
+                currentOption={length}
+                changeOption={changeLength}
+              />
+            </div>
+          </Accordion>
           <div>
             <ButtonPrimary disabled={isLoading || !prompt.length}>
               Generate Adlib

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
   children?: React.ReactNode;
   className?: string;
   href?: string;
-  onClick?: () => void;
+  onClick?: ((event: FormEvent<HTMLButtonElement>) => void) | (() => void);
   size?: string;
   hideUnerline?: boolean;
   spacing?: string;
