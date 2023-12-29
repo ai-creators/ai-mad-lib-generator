@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Query, ValidationPipe } from '@nestjs/common';
 import { GeneratorService } from './generator.service';
 import { GenerateAdlibDto } from './dtos/generate-adlib.dto';
 import { OpenaiService } from 'src/vendors/openai/openai.service';
@@ -7,6 +7,7 @@ import { ErrorCreatingAdlibException } from 'src/vendors/openai/exceptions/error
 import { PromptDto } from 'src/vendors/openai/dtos/prompt.dto';
 import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
 import { AdlibValidator } from 'src/common/validators/adlib-validator/adlib-validator';
+import { OpenaiConfigDto } from 'src/vendors/openai/dtos/openai-config.dto';
 
 @Controller('v1/generator')
 export class GeneratorController {
@@ -17,11 +18,25 @@ export class GeneratorController {
   ) {}
 
   @Post('/generate')
-  async create(@Body() generateAdlibDto: GenerateAdlibDto) {
+  async create(
+    @Body() generateAdlibDto: GenerateAdlibDto,
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    openaiConfig: OpenaiConfigDto,
+  ) {
     const prompt = new PromptDto();
     prompt.prompt = generateAdlibDto.prompt;
     try {
-      const createdAdLib: Adlib = await this.openaiService.createAdlib(prompt);
+      const createdAdLib: Adlib = await this.openaiService.createAdlib(
+        prompt,
+        openaiConfig,
+      );
+      console.log('CREATION', createdAdLib);
       if (
         !createdAdLib ||
         !this.adlibValidator.isValidAdlib(createdAdLib.body)

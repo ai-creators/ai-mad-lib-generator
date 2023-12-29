@@ -5,6 +5,7 @@ import { ChatCompletion } from 'openai/resources';
 import { Adlib, Category } from 'src/data-model';
 import { PromptDto } from './dtos/prompt.dto';
 import { OpenaiCrudService } from './openai-crud.service';
+import { OpenaiConfigDto } from './dtos/openai-config.dto';
 
 @Injectable()
 export class OpenaiService {
@@ -14,7 +15,11 @@ export class OpenaiService {
     private readonly openaiCrud: OpenaiCrudService,
   ) {}
 
-  private chat(prompt: string): Promise<ChatCompletion> {
+  private chat(
+    prompt: string,
+    config: OpenaiConfigDto,
+  ): Promise<ChatCompletion> {
+    console.log(config);
     return this.openai.chat.completions.create({
       messages: [
         {
@@ -23,12 +28,20 @@ export class OpenaiService {
         },
       ],
       model: this.model,
+      temperature: config.temperature || 0.7,
+      top_p: config.topP || 1,
       response_format: { type: 'json_object' },
     });
   }
 
-  public async createAdlib(prompt: PromptDto): Promise<Adlib> {
-    const response: ChatCompletion = await this.chat(prompt.buildPrompt());
+  public async createAdlib(
+    prompt: PromptDto,
+    openaiConfig: OpenaiConfigDto,
+  ): Promise<Adlib> {
+    const response: ChatCompletion = await this.chat(
+      prompt.buildPrompt(),
+      openaiConfig,
+    );
     const parsedMessage: any = JSON.parse(response.choices[0].message.content);
     console.log('ADLIB: ', parsedMessage);
     const adlib = new Adlib();

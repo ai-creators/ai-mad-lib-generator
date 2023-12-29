@@ -5,7 +5,9 @@ import api from "./Api";
 
 const generateAdlib = (
   prompt: string,
-  accountId?: number | null
+  accountId?: number | null,
+  temperature = 0.7,
+  topP = 1
 ): Promise<ApiResponse<AdlibModel>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/generator/generate",
@@ -13,6 +15,10 @@ const generateAdlib = (
     data: {
       prompt,
       userId: accountId,
+    },
+    params: {
+      temperature,
+      topP,
     },
     headers: {
       "Content-Type": "application/json",

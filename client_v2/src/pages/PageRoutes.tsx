@@ -11,6 +11,7 @@ import ViewPage from "./adlib/view/ViewPage";
 import AdlibPage from "./adlib/AdlibPage";
 import CategoriesPage from "./adlib/categories/CategoriesPage";
 import CategoriesResultsPage from "./adlib/categories/categories-result/CategoriesResultsPage";
+import CreatePage from "./create/CreatePage";
 
 const PageRoutes = () => {
   const { isLoading } = useAuth0();
@@ -33,6 +34,7 @@ const PageRoutes = () => {
         <Route path="play/:adlibId" element={<PlayPage />} />
         <Route path="view/:adlibResponseId" element={<ViewPage />} />
       </Route>
+      <Route path="create" element={<CreatePage />} />
       <Route path="profile/:username" element={<ProfilePage />} />
       <Route path="account">
         <Route path="setup" element={<AccountSetupPage />} />
