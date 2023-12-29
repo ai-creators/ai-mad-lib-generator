@@ -30,8 +30,8 @@ const AdlibCreate = () => {
           <h2 className="text-2xl font-semibold">Create an Adlib</h2>
           <p className="text-zinc-500">Enter a prompt to generate an adlib.</p>
         </div>
-        <form className="flex flex-col gap-5" onSubmit={generate}>
-          <Accordion header="Adlib Options">
+        <form onSubmit={generate} className="flex flex-col gap-5">
+          <Accordion header="Adlib Options" className="flex flex-col gap-5">
             <div className="flex flex-col gap-1">
               <label className="text-zinc-500" htmlFor="prompt">
                 Prompt

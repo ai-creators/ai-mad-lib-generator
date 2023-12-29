@@ -5,12 +5,13 @@ import { useAccordion } from "./Accordion.hooks";
 type Props = {
   children?: ReactNode;
   header: string;
+  className?: string;
 };
 
-const Accordion = ({ children, header }: Props) => {
+const Accordion = ({ children, header, className = "" }: Props) => {
   const { isOpen, toggleOpen } = useAccordion();
   return (
-    <div className="border-b border-zinc-300">
+    <div className={`border-b border-zinc-300 ${className}`}>
       <div className="flex py-2">
         <p className="font-semibold">{header}</p>
         <ButtonLight
