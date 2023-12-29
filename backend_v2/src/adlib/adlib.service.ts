@@ -19,11 +19,6 @@ export class AdlibService {
   findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
-    console.log(
-      'ORDER: ',
-      adlibPaginationDto.feedType,
-      this.calculateOrder(adlibPaginationDto),
-    );
     return Pagination.paginate<Adlib>(
       this.adlibRepository,
       adlibPaginationDto,
@@ -75,6 +70,26 @@ export class AdlibService {
       size,
       totalPages,
     };
+  }
+
+  findAllByAccountIdPageable(
+    accountId: number,
+    adlibPaginationDto: AdlibPaginationDto,
+  ): Promise<PaginationResponse<Adlib>> {
+    return Pagination.paginate<Adlib>(
+      this.adlibRepository,
+      adlibPaginationDto,
+      {
+        where: {
+          createdAt: LessThan(adlibPaginationDto.timestamp),
+          createdBy: {
+            id: accountId,
+          },
+        },
+        order: this.calculateOrder(adlibPaginationDto),
+        relations: ['categories'],
+      },
+    );
   }
 
   findOneById(id: number): Promise<Adlib> {

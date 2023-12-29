@@ -1,14 +1,20 @@
-import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Param, Query, ValidationPipe } from '@nestjs/common';
 import { AdlibService } from './adlib.service';
 import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto';
 import { Account, Adlib } from 'src/data-model';
 import { PaginationResponse } from '../common/pagination/dtos/pagination-response.dto';
 import { AdlibNotFoundException } from './exceptions/adlib-not-found.exception';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
+import { AccountService } from 'src/account/account.service';
+import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
+import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
 
 @Controller('v1/adlib')
 export class AdlibController {
-  constructor(private readonly adlibService: AdlibService) {}
+  constructor(
+    private readonly adlibService: AdlibService,
+    private readonly accountService: AccountService,
+  ) {}
 
   @Get()
   getAdlibs(
@@ -52,5 +58,27 @@ export class AdlibController {
     if (account?.sub) {
       account.sub = null;
     }
+  }
+
+  @Get('find/:accountId')
+  async findAdlibsByAccountId(
+    @Param('accountId') accountId: number,
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    adlibPaginationDto: AdlibPaginationDto,
+  ): Promise<PaginationResponse<Adlib>> {
+    const foundAccount = await this.accountService.findOneById(accountId);
+    if (!foundAccount) {
+      throw new AccountNotFoundException();
+    }
+    return this.adlibService.findAllByAccountIdPageable(
+      accountId,
+      adlibPaginationDto,
+    );
   }
 }
