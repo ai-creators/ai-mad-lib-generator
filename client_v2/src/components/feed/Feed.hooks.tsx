@@ -43,7 +43,6 @@ export const useFeed = <T extends object>(
   };
 
   const loadNext = async () => {
-    console.log("LOADING NEXT", `PAGE: {${page}}`);
     handleResponse(await executable(page + 1, size, timestamp));
   };
 
@@ -55,11 +54,9 @@ export const useFeed = <T extends object>(
   };
 
   useEffect(() => {
-    console.log("FEED TYPE: ", feedType, search);
     const abortController = new AbortController();
 
     (async () => {
-      console.log("IN HERE");
       setData([]);
       setIsEnd(false);
       setError(null);
@@ -67,12 +64,9 @@ export const useFeed = <T extends object>(
     })();
 
     return () => {
-      console.log("COMPONENT UNMOUNTS");
       abortController.abort();
     };
   }, [feedType, search]);
-
-  console.log("DATA: ", data);
 
   return {
     data,

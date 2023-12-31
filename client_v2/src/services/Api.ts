@@ -20,6 +20,12 @@ const callExternalApi = async <T>(options: {
     };
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      if (error.message === "Request aborted" || error.message === "canceled") {
+        return {
+          data: null,
+          error: null,
+        };
+      }
       const axiosError = error as AxiosError;
 
       const { response } = axiosError;
