@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToOne,
@@ -12,8 +13,8 @@ import { AdlibResponseQuestion } from './adlib-response-question.entity';
 
 @Entity()
 export class AdlibResponse {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: true, unique: true })
   oldAdlibResponseId: string;
@@ -33,4 +34,10 @@ export class AdlibResponse {
 
   @ManyToOne(() => Account, (account) => account.adlibResponses)
   createdBy: Account;
+
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
 }

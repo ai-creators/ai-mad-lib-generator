@@ -4,8 +4,8 @@ import { Comment } from './comment.entity';
 
 @Entity()
 export class Reaction {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ManyToOne(() => Adlib, (adlib) => adlib.reactions, { nullable: true })
   adlib: Adlib;

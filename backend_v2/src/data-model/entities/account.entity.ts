@@ -10,8 +10,8 @@ import { AdlibResponse } from './adlib-response.entity';
 
 @Entity()
 export class Account {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false })
   sub: string;

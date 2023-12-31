@@ -59,7 +59,7 @@ export class GeneratorController {
     }
   }
 
-  private async findAccount(userId: number): Promise<Account> {
+  private async findAccount(userId: string): Promise<Account> {
     const foundUser = await this.generatorService.findAccountById(userId);
     if (!foundUser) {
       throw new AccountNotFoundException();

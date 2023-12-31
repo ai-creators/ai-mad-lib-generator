@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto';
+
 import { PaginationResponse } from '../common/pagination/dtos/pagination-response.dto';
 import { Adlib } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
@@ -19,13 +19,19 @@ export class AdlibService {
   findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
+    const where = {
+      createdAt: LessThan(adlibPaginationDto.timestamp),
+    };
+
+    if (adlibPaginationDto.feedType === FeedTypes.FEATURED) {
+      where['isFeatured'] = true;
+    }
+
     return Pagination.paginate<Adlib>(
       this.adlibRepository,
       adlibPaginationDto,
       {
-        where: {
-          createdAt: LessThan(adlibPaginationDto.timestamp),
-        },
+        where,
         order: this.calculateOrder(adlibPaginationDto),
         relations: ['categories'],
       },
@@ -73,7 +79,7 @@ export class AdlibService {
   }
 
   findAllByAccountIdPageable(
-    accountId: number,
+    accountId: string,
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
     return Pagination.paginate<Adlib>(
@@ -92,7 +98,7 @@ export class AdlibService {
     );
   }
 
-  findOneById(id: number): Promise<Adlib> {
+  findOneById(id: string): Promise<Adlib> {
     return this.adlibRepository.findOne({
       where: { id },
       relations: ['categories', 'createdBy', 'reactions'],

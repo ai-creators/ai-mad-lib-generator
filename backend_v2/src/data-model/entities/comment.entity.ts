@@ -10,8 +10,8 @@ import { Reaction } from './reaction.entity';
 
 @Entity()
 export class Comment {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false, length: 280 })
   content: string;

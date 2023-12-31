@@ -43,7 +43,7 @@ export class AdlibResponseController {
   }
 
   @Get('find')
-  async findAdlibResponse(@Query('id') id: number) {
+  async findAdlibResponse(@Query('id') id: string) {
     if (!id) {
       throw new AdlibResponseNotFound();
     }

@@ -9,8 +9,8 @@ import { Adlib } from './adlib.entity';
 
 @Entity()
 export class Category {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false, unique: true, length: 50 })
   name: string;

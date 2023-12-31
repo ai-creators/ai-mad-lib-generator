@@ -3,8 +3,8 @@ import { AdlibResponse } from './adlib-response.entity';
 
 @Entity()
 export class AdlibResponseQuestion {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: false })
   question: string;

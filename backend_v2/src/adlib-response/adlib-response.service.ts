@@ -14,7 +14,7 @@ export class AdlibResponseService {
     return this.adlibResponseRepository.save(adlibResponse);
   }
 
-  findById(id: number) {
+  findById(id: string) {
     return this.adlibResponseRepository.findOne({
       where: {
         id,

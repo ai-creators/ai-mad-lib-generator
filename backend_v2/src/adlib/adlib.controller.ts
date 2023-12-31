@@ -25,13 +25,13 @@ export class AdlibController {
         forbidNonWhitelisted: true,
       }),
     )
-    paginationDto: PaginationDto,
+    adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
-    return this.adlibService.findAllPageable(paginationDto);
+    return this.adlibService.findAllPageable(adlibPaginationDto);
   }
 
   @Get('category')
-  async getAdlibsByCategory(
+  getAdlibsByCategory(
     @Query()
     categoryPaginationDto: CategoryPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
@@ -43,7 +43,7 @@ export class AdlibController {
   }
 
   @Get('find')
-  async findAdlibById(@Query('id') id: number): Promise<Adlib> {
+  async findAdlibById(@Query('id') id: string): Promise<Adlib> {
     const foundAdlib = await this.adlibService.findOneById(id);
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
@@ -62,7 +62,7 @@ export class AdlibController {
 
   @Get('find/:accountId')
   async findAdlibsByAccountId(
-    @Param('accountId') accountId: number,
+    @Param('accountId') accountId: string,
     @Query(
       new ValidationPipe({
         transform: true,

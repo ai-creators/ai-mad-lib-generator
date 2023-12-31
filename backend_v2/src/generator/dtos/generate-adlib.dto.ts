@@ -6,5 +6,5 @@ export class GenerateAdlibDto {
   @MaxLength(100)
   prompt: string;
 
-  userId: number | null;
+  userId: string | null;
 }

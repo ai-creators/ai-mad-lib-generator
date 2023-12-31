@@ -15,8 +15,8 @@ import { Comment } from './comment.entity';
 import { Reaction } from './reaction.entity';
 @Entity()
 export class Adlib {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ nullable: true, unique: true })
   oldAdlibId: string;
@@ -41,6 +41,9 @@ export class Adlib {
 
   @Column({ nullable: true })
   topP: number;
+
+  @Column({ default: false })
+  isFeatured: boolean;
 
   @ManyToOne(() => Account, (account) => account.adlibs)
   @JoinTable()

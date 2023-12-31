@@ -16,7 +16,7 @@ export class AccountService {
     });
   }
 
-  findOneById(id: number): Promise<Account | undefined> {
+  findOneById(id: string): Promise<Account | undefined> {
     return this.accountRepository.findOne({
       where: {
         id,

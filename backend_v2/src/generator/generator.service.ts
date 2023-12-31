@@ -16,7 +16,7 @@ export class GeneratorService {
     return this.adlibRepository.save(adlib);
   }
 
-  findAccountById(userId: number): Promise<Account> {
+  findAccountById(userId: string): Promise<Account> {
     return this.accountRepository.findOne({
       where: {
         id: userId,
