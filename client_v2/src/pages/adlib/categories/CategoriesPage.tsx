@@ -24,14 +24,16 @@ const CategoriesPage = () => {
   const getCategories = (
     page: number,
     size: number,
-    timestamp: Date
+    timestamp: Date,
+    abortController?: AbortController
   ): Promise<ApiResponse<PaginationResponse<CategoryModel>>> => {
     return CategoryService.getCategories(
       category ?? "",
       feedType,
       page,
       size,
-      timestamp
+      timestamp,
+      abortController
     );
   };
 

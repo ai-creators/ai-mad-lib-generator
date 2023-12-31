@@ -27,9 +27,16 @@ const HomePage = () => {
   const getAdlibs = async (
     page: number,
     size: number,
-    timestamp: Date
+    timestamp: Date,
+    abortController?: AbortController
   ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
-    return AdlibService.getAdlibs(feedType, page, size, timestamp);
+    return AdlibService.getAdlibs(
+      feedType,
+      page,
+      size,
+      timestamp,
+      abortController
+    );
   };
 
   return (
