@@ -8,38 +8,30 @@ import FeedNav from "../../../../components/feed/feed-nav/FeedNav";
 import Feed from "../../../../components/feed/Feed";
 import NavbarItems from "../../../../components/navbar/navbar-items/NavbarItems";
 import Card from "../../../../components/card/Card";
-import { ErrorModel } from "../../../../models/ErrorModel";
-import { CategoryModel } from "../../../../models/CategoryModel";
 import { AdlibModel } from "../../../../models/AdlibModel";
 import AdlibList from "../../../../components/adlib/adlib-list/AdlibList";
-import ErrorAlert from "../../../../components/errors/ErrorAlert";
+import { ApiResponse } from "../../../../models/ApiResponseModel";
+import { PaginationResponse } from "../../../../models/PaginationResponse";
 
 const CategoriesResultsPage = () => {
   const { categoryName: category } = useParams();
 
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
-  const [error, setError] = useState<ErrorModel | null>(null);
 
-  const getAdlibs = async (page: number, size: number, timestamp: Date) => {
-    const { data, error } = await CategoryService.getAdlibsByCategory(
+  const getAdlibs = (
+    page: number,
+    size: number,
+    timestamp: Date,
+    abortController?: AbortController
+  ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
+    return CategoryService.getAdlibsByCategory(
       category ?? "",
       feedType,
       page,
       size,
-      timestamp
+      timestamp,
+      abortController
     );
-    if (error) {
-      setError(error);
-    }
-    if (data) {
-      return data;
-    }
-    return {
-      results: [],
-      page,
-      size,
-      totalPages: 0,
-    };
   };
 
   return (
@@ -49,7 +41,6 @@ const CategoriesResultsPage = () => {
           <NavbarItems />
         </aside>
         <div className="flex flex-col gap-5">
-          <ErrorAlert error={error} />
           <Card>
             <h1>{category}</h1>
           </Card>
@@ -71,7 +62,6 @@ const CategoriesResultsPage = () => {
               </p>
             }
             feedType={feedType}
-            error={error}
           />
         </div>
         <div></div>

@@ -36,7 +36,6 @@ export class GeneratorController {
         prompt,
         openaiConfig,
       );
-      console.log('CREATION', createdAdLib);
       if (
         !createdAdLib ||
         !this.adlibValidator.isValidAdlib(createdAdLib.body)

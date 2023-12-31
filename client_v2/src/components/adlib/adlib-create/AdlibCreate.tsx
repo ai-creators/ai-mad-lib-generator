@@ -46,7 +46,7 @@ const AdlibCreate = () => {
               onChange={changePrompt}
             />
           </div>
-          <Accordion header="Adlib Options" className="flex flex-col gap-5">
+          <Accordion header="Adlib Options" className="flex flex-col gap-0">
             <div className="flex flex-col gap-2">
               <div className="flex gap-3">
                 <label className="text-zinc-500" htmlFor="temperature">

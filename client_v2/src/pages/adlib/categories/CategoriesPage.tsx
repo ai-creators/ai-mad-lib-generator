@@ -9,10 +9,10 @@ import { useSearchParams } from "react-router-dom";
 import { FeedTypes } from "../../../components/feed/FeedTypes";
 import CategoryService from "../../../services/CategoryService";
 import { PaginationResponse } from "../../../models/PaginationResponse";
-import { ErrorModel } from "../../../models/ErrorModel";
 import { CategoryModel } from "../../../models/CategoryModel";
 import CategoriesList from "../../../components/categories/categories-list/CategoriesList";
 import FeedNav from "../../../components/feed/feed-nav/FeedNav";
+import { ApiResponse } from "../../../models/ApiResponseModel";
 
 const CategoriesPage = () => {
   const [searchParams] = useSearchParams();
@@ -20,32 +20,19 @@ const CategoriesPage = () => {
   const category = searchParams.get("q");
 
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
-  const [error, setError] = useState<ErrorModel | null>(null);
 
-  const getCategories = async (
+  const getCategories = (
     page: number,
     size: number,
     timestamp: Date
-  ): Promise<PaginationResponse<CategoryModel>> => {
-    const { data, error } = await CategoryService.getCategories(
+  ): Promise<ApiResponse<PaginationResponse<CategoryModel>>> => {
+    return CategoryService.getCategories(
       category ?? "",
       feedType,
       page,
       size,
       timestamp
     );
-    if (error) {
-      setError(error);
-    }
-    if (data) {
-      return data;
-    }
-    return {
-      results: [],
-      page,
-      size,
-      totalPages: 0,
-    };
   };
 
   return (
@@ -78,8 +65,7 @@ const CategoriesPage = () => {
               </p>
             }
             feedType={feedType}
-            searchParam={searchParams}
-            error={error}
+            search={searchParams.get("q") ?? ""}
           />
         </div>
         <div></div>

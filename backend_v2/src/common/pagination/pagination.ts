@@ -1,12 +1,6 @@
-import {
-  FindOneOptions,
-  QueryBuilder,
-  Repository,
-  SelectQueryBuilder,
-} from 'typeorm';
+import { FindOneOptions, Repository, SelectQueryBuilder } from 'typeorm';
 import { PaginationDto } from './dtos/pagination-dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
-import { Category } from 'src/data-model';
 
 export class Pagination {
   public static async paginate<T>(

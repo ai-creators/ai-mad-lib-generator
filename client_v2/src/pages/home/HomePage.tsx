@@ -16,36 +16,20 @@ import { PaginationResponse } from "../../models/PaginationResponse";
 import { AdlibModel } from "../../models/AdlibModel";
 import AdlibList from "../../components/adlib/adlib-list/AdlibList";
 import ErrorAlert from "../../components/errors/ErrorAlert";
+import { ApiResponse } from "../../models/ApiResponseModel";
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth0();
 
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.FEATURED);
-  const [error, setError] = useState<ErrorModel | null>(null);
+  const [error] = useState<ErrorModel | null>(null);
 
   const getAdlibs = async (
     page: number,
     size: number,
     timestamp: Date
-  ): Promise<PaginationResponse<AdlibModel>> => {
-    const { data, error } = await AdlibService.getAdlibs(
-      feedType,
-      page,
-      size,
-      timestamp
-    );
-    if (error) {
-      setError(error);
-    }
-    if (data) {
-      return data;
-    }
-    return {
-      results: [],
-      page,
-      size,
-      totalPages: 0,
-    };
+  ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
+    return AdlibService.getAdlibs(feedType, page, size, timestamp);
   };
 
   return (
@@ -82,7 +66,6 @@ const HomePage = () => {
             <Feed<AdlibModel>
               executable={getAdlibs}
               ListComponent={AdlibList}
-              error={error}
               endMessage={
                 <p className="pt-5 px-4 font-semibold">
                   No more adlibs available

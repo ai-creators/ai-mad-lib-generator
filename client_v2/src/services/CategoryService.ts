@@ -32,7 +32,8 @@ const getAdlibsByCategory = (
   feedType: FeedTypes,
   page = 1,
   size = 5,
-  timestamp: Date
+  timestamp: Date,
+  abortController: AbortController | undefined
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/category/adlib",
@@ -43,6 +44,7 @@ const getAdlibsByCategory = (
       page,
       size,
     },
+    signal: abortController?.signal,
   };
 
   return api.callExternalApi<PaginationResponse<AdlibModel>>({ config });

@@ -5,7 +5,6 @@ import { useAccountExistence } from "../../hooks/useAccountExistence";
 const AccountDoesNotExistBanner = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isAccountSetup } = useAccountExistence();
-
   useEffect(() => {
     if (!isAccountSetup) {
       setIsOpen(true);

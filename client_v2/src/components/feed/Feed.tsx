@@ -1,48 +1,44 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CardSkeleton from "../card/card-skeleton/CardSkeleton";
-import { useQuery } from "@tanstack/react-query";
-import { PaginationResponse } from "../../models/PaginationResponse";
-import { ErrorModel } from "../../models/ErrorModel";
 import { FeedTypes } from "./FeedTypes";
 import { useFeed } from "./Feed.hooks";
+import { FeedExecutable } from "./FeedExecutable";
+import ErrorAlert from "../errors/ErrorAlert";
 
 type Props<T> = {
-  executable: (
-    page: number,
-    size: number,
-    timestamp: Date
-  ) => Promise<PaginationResponse<T>> | null;
+  executable: FeedExecutable<T>;
   ListComponent: React.ComponentType<{ data: T[] }>;
-  error: ErrorModel | null;
   endMessage?: ReactNode;
-  feedType?: FeedTypes;
-  searchParam?: URLSearchParams;
+  feedType?: FeedTypes | null;
+  search?: string;
 };
 
 const Feed = <T extends object>({
   executable,
   ListComponent,
-  error,
-  feedType,
+  feedType = null,
   endMessage = (
     <p className="pt-5 px-4 font-semibold">No more data available</p>
   ),
-  searchParam,
+  search = "",
 }: Props<T>) => {
-  const { data, loadNext, hasMore } = useFeed<T>(executable);
-
-  console.log("HAS MORE :", hasMore);
+  const { data, loadNext, hasMore, error } = useFeed<T>(
+    executable,
+    feedType,
+    search
+  );
 
   return (
     <>
       <div className="flex flex-col gap-3 p-0 md:p-3 lg:p-0">
+        <ErrorAlert error={error} />
         <div role="feed">
           <InfiniteScroll
             dataLength={data.length ?? 0}
             next={loadNext}
             loader={
-              <ul className="flex flex-col gap-5">
+              <ul className="flex flex-col gap-5 mt-5">
                 <li>
                   <CardSkeleton />
                 </li>
@@ -54,7 +50,7 @@ const Feed = <T extends object>({
             hasMore={hasMore()}
             endMessage={endMessage}
           >
-            <ListComponent data={data?.results ?? []} />
+            <ListComponent data={data ?? []} />
           </InfiniteScroll>
         </div>
       </div>
