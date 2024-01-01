@@ -13,6 +13,7 @@ const queryClient = new QueryClient();
 function App() {
   const { isAuthenticated, isLoading, user, getAccessTokenSilently } =
     useAuth0();
+
   const [isAccountLoading, setIsAccountLoading] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();

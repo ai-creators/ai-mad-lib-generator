@@ -5,9 +5,9 @@ import api from "./Api";
 import { AdlibResponseQuestionModel } from "../models/AdlibResponseQuestionModel";
 
 const createAdlibResponse = (
-  adlibId: number,
+  adlibId: string,
   questions: AdlibResponseQuestionModel[],
-  createdById: number | null
+  createdById: string | null
 ): Promise<ApiResponse<AdlibResponseModel>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/response",
@@ -25,7 +25,7 @@ const createAdlibResponse = (
   return api.callExternalApi<AdlibResponseModel>({ config });
 };
 
-const findById = (id: number): Promise<ApiResponse<AdlibResponseModel>> => {
+const findById = (id: string): Promise<ApiResponse<AdlibResponseModel>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/response/find",
     params: {

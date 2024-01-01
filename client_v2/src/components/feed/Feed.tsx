@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CardSkeleton from "../card/card-skeleton/CardSkeleton";
 import { FeedTypes } from "./FeedTypes";

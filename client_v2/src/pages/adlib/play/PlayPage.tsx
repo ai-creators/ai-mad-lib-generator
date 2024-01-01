@@ -24,7 +24,7 @@ const PlayPage = () => {
       }
       setIsLoading(true);
       setError(null);
-      const { data, error } = await AdlibService.findAdlibById(+adlibId);
+      const { data, error } = await AdlibService.findAdlibById(adlibId);
 
       if (data) {
         setAdlib(data);

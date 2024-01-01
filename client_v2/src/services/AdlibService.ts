@@ -10,7 +10,8 @@ const getAdlibs = (
   page = 1,
   size = 5,
   timestamp: Date,
-  abortController?: AbortController
+  abortController?: AbortController,
+  search?: string
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/adlib",
@@ -20,6 +21,7 @@ const getAdlibs = (
       feedType,
       page,
       size,
+      search,
     },
     signal: abortController?.signal,
     headers: {
@@ -30,7 +32,7 @@ const getAdlibs = (
   return api.callExternalApi<PaginationResponse<AdlibModel>>({ config });
 };
 
-const findAdlibById = (id: number): Promise<ApiResponse<AdlibModel>> => {
+const findAdlibById = (id: string): Promise<ApiResponse<AdlibModel>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/adlib/find",
     method: "GET",

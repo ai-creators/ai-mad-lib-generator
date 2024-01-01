@@ -4,7 +4,7 @@ import { PaginationResponse } from '../common/pagination/dtos/pagination-respons
 import { Adlib } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThan, Repository } from 'typeorm';
+import { ILike, LessThan, Repository } from 'typeorm';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 import { FeedTypes } from 'src/models/feed-type';
 import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
@@ -25,6 +25,12 @@ export class AdlibService {
 
     if (adlibPaginationDto.feedType === FeedTypes.FEATURED) {
       where['isFeatured'] = true;
+    }
+
+    if (adlibPaginationDto.search) {
+      const searchQuery = this.buildSearchQuery(adlibPaginationDto.search);
+      where['prompt'] = searchQuery.prompt;
+      where['title'] = searchQuery.title;
     }
 
     return Pagination.paginate<Adlib>(
@@ -117,5 +123,15 @@ export class AdlibService {
     return {
       createdAt,
     };
+  }
+
+  buildSearchQuery(search: string) {
+    if (search) {
+      return {
+        prompt: ILike(`%${search}%`),
+        title: ILike(`%${search}%`),
+      };
+    }
+    return {};
   }
 }

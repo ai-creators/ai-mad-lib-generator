@@ -18,7 +18,7 @@ const AdlibPage = () => {
     if (!adlibId) {
       throw new Error("No adlib id has been provided");
     }
-    const { data, error } = await AdlibService.findAdlibById(+adlibId);
+    const { data, error } = await AdlibService.findAdlibById(adlibId);
     if (error) {
       throw new Error(error.message);
     }
@@ -55,7 +55,9 @@ const AdlibPage = () => {
 
             <div className="flex justify-between items-center">
               <div className="flex gap-3">
-                <ButtonPrimary>Go to Adlib</ButtonPrimary>
+                <ButtonPrimary href={`/adlib/play/${adlib?.id}`}>
+                  Go to Adlib
+                </ButtonPrimary>
                 <ButtonLight>Go to Responses</ButtonLight>
               </div>
               <div className="flex items-center gap-1">
@@ -77,7 +79,7 @@ const AdlibPage = () => {
               </div>
             </div>
           </Card>
-          <AdlibComment />
+          {/*<AdlibComment />*/}
         </div>
       </Container>
     </Layout>

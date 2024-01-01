@@ -15,7 +15,7 @@ const ViewPage = () => {
   const fetchAdlibResponse = async () => {
     if (adlibResponseId) {
       const { data, error } = await AdlibResponseService.findById(
-        +adlibResponseId
+        adlibResponseId
       );
       if (data) {
         return data;
