@@ -1,15 +1,15 @@
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
-import { AdlibModel } from "../../../models/AdlibModel";
-import ButtonLight from "../../button/button-light/ButtonLight";
-import ButtonPrimary from "../../button/button-primary/ButtonPrimary";
-import Card from "../../card/Card";
+import { BookmarkModel } from "../../../../models/BookmarkModel";
+import ButtonLight from "../../../button/button-light/ButtonLight";
+import ButtonPrimary from "../../../button/button-primary/ButtonPrimary";
+import Card from "../../../card/Card";
 
 type Props = {
-  adlib: AdlibModel;
+  bookmark: BookmarkModel;
 };
 
-const AdlibCard = ({ adlib }: Props) => {
+const AdlibBookmarksCard = ({ bookmark: { adlib } }: Props) => {
   return (
     <Card className="flex flex-col gap-5">
       <div className="flex justify-between">
@@ -57,4 +57,4 @@ const AdlibCard = ({ adlib }: Props) => {
   );
 };
 
-export default AdlibCard;
+export default AdlibBookmarksCard;

@@ -1,17 +1,38 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
+  Query,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ReactionService } from './reaction.service';
 import { CreateBookmarkDto } from './dto/create-bookmark.dto';
 import { Bookmark } from 'src/data-model';
+import { ReactionPaginationDto } from './dto/reaction-pagination.dto';
+import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
+import { AuthorizationGuard } from 'src/authorization/authorization.guard';
 
 @Controller('v1/reaction')
 export class ReactionController {
   constructor(private readonly reactionService: ReactionService) {}
+
+  @Get('bookmark')
+  @UseGuards(AuthorizationGuard)
+  getBookmarks(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    reactionPaginationDto: ReactionPaginationDto,
+  ): Promise<PaginationResponse<Bookmark>> {
+    return this.reactionService.findBookmarksPageable(reactionPaginationDto);
+  }
 
   @UsePipes(new ValidationPipe({ transform: true }))
   @Post('bookmark')

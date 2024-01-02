@@ -13,6 +13,7 @@ import CategoriesPage from "./adlib/categories/CategoriesPage";
 import CategoriesResultsPage from "./adlib/categories/categories-result/CategoriesResultsPage";
 import CreatePage from "./create/CreatePage";
 import BrowsePage from "./browse/BrowsePage";
+import SavesPage from "./saves/SavesPage";
 
 const PageRoutes = () => {
   const { isLoading } = useAuth0();
@@ -38,6 +39,7 @@ const PageRoutes = () => {
       <Route path="browse" element={<BrowsePage />} />
       <Route path="create" element={<CreatePage />} />
       <Route path="profile/:username" element={<ProfilePage />} />
+      <Route path="saves" element={<SavesPage />} />
       <Route path="account">
         <Route path="setup" element={<AccountSetupPage />} />
       </Route>
