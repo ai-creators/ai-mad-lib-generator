@@ -1,4 +1,3 @@
-import React from "react";
 import { AdlibModel } from "../../../../models/AdlibModel";
 import Card from "../../../card/Card";
 import ButtonPrimary from "../../../button/button-primary/ButtonPrimary";

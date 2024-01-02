@@ -1,6 +1,4 @@
-import React, { useState } from "react";
 import { AdlibResponseModel } from "../../../models/AdlibResponseModel";
-import { ErrorModel } from "../../../models/ErrorModel";
 import Card from "../../card/Card";
 import { Link } from "react-router-dom";
 
@@ -9,7 +7,7 @@ type Props = {
 };
 
 const AdlibViewer = ({ response }: Props) => {
-  const [error, setError] = useState<ErrorModel | null>(null);
+  // const [error, setError] = useState<ErrorModel | null>(null);
 
   const regex = /\[(.*?)\]/g;
   let index = 0;

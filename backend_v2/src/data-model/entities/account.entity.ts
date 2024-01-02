@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Adlib } from './adlib.entity';
 import { AdlibResponse } from './adlib-response.entity';
+import { Bookmark } from './bookmark.entity';
 
 @Entity()
 export class Account {
@@ -27,6 +28,9 @@ export class Account {
 
   @OneToMany(() => AdlibResponse, (adlibResponse) => adlibResponse.createdBy)
   adlibResponses: AdlibResponse[];
+
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.account)
+  bookmarks: Promise<Bookmark[]>;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

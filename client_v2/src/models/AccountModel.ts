@@ -1,5 +1,5 @@
 export interface AccountModel {
-  id: number | null;
+  id: string | null;
   username: string;
   createdAt: Date;
   updatedAt: Date;

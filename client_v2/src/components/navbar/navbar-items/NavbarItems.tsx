@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import ButtonLight from "../../button/button-light/ButtonLight";
 
 type Props = {

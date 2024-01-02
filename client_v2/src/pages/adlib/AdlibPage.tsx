@@ -1,6 +1,3 @@
-import { useParams } from "react-router-dom";
-import AdlibService from "../../services/AdlibService";
-import { useQuery } from "@tanstack/react-query";
 import Layout from "../../layout/Layout";
 import ErrorAlert from "../../components/errors/ErrorAlert";
 import Card from "../../components/card/Card";
@@ -10,31 +7,20 @@ import ProfileCard from "../../components/profile-card/ProfileCard";
 import AdlibCategoriesCard from "../../components/adlib/adlib-categories/adlib-categories-card/AdlibCategoriesCard";
 import ButtonPrimary from "../../components/button/button-primary/ButtonPrimary";
 import ButtonLight from "../../components/button/button-light/ButtonLight";
-import AdlibComment from "../../components/adlib/adlib-comment/AdlibComment";
+import { useAdlibPage } from "./AdlibPage.hooks";
+import { useAccountCheck } from "../../hooks/useAccountCheck";
+import AccountSetupModal from "../../components/account/account-setup-modal/AccountSetupModal";
 
 const AdlibPage = () => {
-  const { adlibId } = useParams();
-  const fetchAdlib = async () => {
-    if (!adlibId) {
-      throw new Error("No adlib id has been provided");
-    }
-    const { data, error } = await AdlibService.findAdlibById(adlibId);
-    if (error) {
-      throw new Error(error.message);
-    }
-    if (data) {
-      return data;
-    }
-  };
+  const { adlib, isLoading, hasBookmarked, error, bookmarkAdlib } =
+    useAdlibPage();
 
-  const {
-    data: adlib,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["adlib"],
-    queryFn: fetchAdlib,
-  });
+  const { checkIfAccountExists, isModalOpen, closeModal } = useAccountCheck();
+
+  const confirmAcountSetup = () => {
+    console.log("CONFIRMING ACCOUNT SETUP");
+    checkIfAccountExists(bookmarkAdlib);
+  };
 
   return isLoading ? (
     <PageLoader />
@@ -46,7 +32,7 @@ const AdlibPage = () => {
           {adlib?.categories ? <AdlibCategoriesCard adlib={adlib} /> : null}
         </aside>
         <div className="flex flex-col gap-5">
-          {error && <ErrorAlert error={error} />}
+          {error ? <ErrorAlert error={error} /> : null}
           <Card className="flex flex-col gap-5">
             <header>
               <h2 className="text-xl font-semibold">{adlib?.title}</h2>
@@ -58,7 +44,7 @@ const AdlibPage = () => {
                 <ButtonPrimary href={`/adlib/play/${adlib?.id}`}>
                   Go to Adlib
                 </ButtonPrimary>
-                <ButtonLight>Go to Responses</ButtonLight>
+                {/* <ButtonLight>Go to Responses</ButtonLight> */}
               </div>
               <div className="flex items-center gap-1">
                 <div className="flex items-center gap-5">
@@ -73,9 +59,18 @@ const AdlibPage = () => {
                   size="w-10 h-10"
                   className="flex justify-center items-center"
                   hideUnerline
+                  onClick={confirmAcountSetup}
                 >
-                  <i className="fa-regular fa-bookmark"></i>
+                  <i
+                    className={`fa-${
+                      hasBookmarked ? "solid" : "regular"
+                    } fa-bookmark`}
+                  ></i>
                 </ButtonLight>
+                <AccountSetupModal
+                  isOpen={isModalOpen}
+                  closeModal={closeModal}
+                />
               </div>
             </div>
           </Card>

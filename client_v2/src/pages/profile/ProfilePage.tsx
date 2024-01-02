@@ -1,10 +1,7 @@
-import { useState } from "react";
-import { AccountModel } from "../../models/AccountModel";
 import Layout from "../../layout/Layout";
 import Container from "../../components/container/Container";
 import Card from "../../components/card/Card";
 import Avatar from "../../components/avatar/Avatar";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useQuery } from "@tanstack/react-query";
 import AccountService from "../../services/AccountService";
 import { useParams } from "react-router-dom";
@@ -14,7 +11,6 @@ import ErrorAlert from "../../components/errors/ErrorAlert";
 
 const ProfilePage = () => {
   const { username } = useParams();
-  const { user } = useAuth0();
 
   const fetchAccount = async () => {
     if (username) {

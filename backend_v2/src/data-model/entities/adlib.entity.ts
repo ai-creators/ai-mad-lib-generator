@@ -13,6 +13,7 @@ import { Category } from './category.entity';
 import { AdlibResponse } from './adlib-response.entity';
 import { Comment } from './comment.entity';
 import { Reaction } from './reaction.entity';
+import { Bookmark } from './bookmark.entity';
 @Entity()
 export class Adlib {
   @PrimaryGeneratedColumn('uuid')
@@ -61,6 +62,9 @@ export class Adlib {
 
   @OneToMany(() => Reaction, (reaction) => reaction.adlib)
   reactions: Promise<Reaction[]>;
+
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.adlib)
+  bookmarks: Promise<Bookmark[]>;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

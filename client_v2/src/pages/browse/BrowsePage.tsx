@@ -4,7 +4,6 @@ import ButtonSignup from "../../components/button/button-signup/ButtonSignup";
 import Card from "../../components/card/Card";
 import Container from "../../components/container/Container";
 import Layout from "../../layout/Layout";
-import ButtonLight from "../../components/button/button-light/ButtonLight";
 import NavbarItems from "../../components/navbar/navbar-items/NavbarItems";
 import AdlibSearch from "../../components/adlib/adlib-search/AdlibSearch";
 import FeedNav from "../../components/feed/feed-nav/FeedNav";

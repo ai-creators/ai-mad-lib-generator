@@ -5,7 +5,7 @@ import api from "./Api";
 
 const generateAdlib = (
   prompt: string,
-  accountId?: number | null,
+  accountId?: string | null,
   temperature = 0.7,
   topP = 1
 ): Promise<ApiResponse<AdlibModel>> => {

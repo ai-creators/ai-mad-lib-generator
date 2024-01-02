@@ -22,6 +22,8 @@ export class AuthorizationGuard implements CanActivate {
     const validateAccessToken = promisify(auth());
 
     try {
+      await validateAccessToken(request, response);
+
       return true;
     } catch (error) {
       if (error instanceof InvalidTokenError) {

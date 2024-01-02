@@ -1,15 +1,10 @@
-import React, { FormEvent } from "react";
-import { Link } from "react-router-dom";
+import Button, { ButtonProps } from "../Button";
 
-type Props = {
-  children?: React.ReactNode;
-  className?: string;
-  href?: string;
-  onClick?: ((event: FormEvent<HTMLButtonElement>) => void) | (() => void);
+interface Props extends ButtonProps {
   size?: string;
   hideUnerline?: boolean;
   spacing?: string;
-};
+}
 
 const ButtonLight = ({
   children,
@@ -20,27 +15,16 @@ const ButtonLight = ({
   hideUnerline = false,
   spacing = "py-2 px-4",
 }: Props) => {
-  if (href) {
-    return (
-      <Link
-        to={href}
-        className={`${className} ${size} text-black hover:text-indigo-800 ${
-          hideUnerline ? "" : "hover:underline underline-offset-2"
-        } hover:bg-indigo-100 active:bg-indigo-200 duration-200 ease-out ${spacing} rounded`}
-      >
-        {children}
-      </Link>
-    );
-  }
   return (
-    <button
-      className={`${className} ${size} text-black hover:text-indigo-800 hover:bg-indigo-100 ${
-        hideUnerline ? "" : "hover:underline underline-offset-2"
-      } active:bg-indigo-200 duration-200 ease-out ${spacing} rounded`}
+    <Button
+      href={href}
       onClick={onClick}
+      className={`${className} ${size} text-black hover:text-indigo-800 ${
+        hideUnerline ? "" : "hover:underline underline-offset-2"
+      } hover:bg-indigo-100 active:bg-indigo-200 duration-200 ease-out ${spacing} rounded`}
     >
       {children}
-    </button>
+    </Button>
   );
 };
 export default ButtonLight;

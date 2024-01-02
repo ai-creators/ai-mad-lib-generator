@@ -4,7 +4,7 @@ import { CommentModel } from "./CommentModel";
 import { ReactionModel } from "./ReactionModel";
 
 export interface AdlibModel {
-  id: number;
+  id: string;
   prompt: string;
   title: string;
   body: string;

@@ -1,8 +1,4 @@
-import React from "react";
-
-type Props = {};
-
-const Categories = (props: Props) => {
+const Categories = () => {
   return <div>Categories</div>;
 };
 

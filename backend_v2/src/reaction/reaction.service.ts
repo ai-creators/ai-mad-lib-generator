@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CreateReactionDto } from './dto/create-reaction.dto';
-import { UpdateReactionDto } from './dto/update-reaction.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Bookmark } from 'src/data-model';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReactionService {
-  create(createReactionDto: CreateReactionDto) {
-    return 'This action adds a new reaction';
+  constructor(
+    @InjectRepository(Bookmark)
+    private readonly bookmarkRepository: Repository<Bookmark>,
+  ) {}
+
+  findOne(adlibId: string, accountId: string): Promise<Bookmark> {
+    return this.bookmarkRepository.findOne({
+      where: {
+        adlibId,
+        accountId,
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all reaction`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} reaction`;
-  }
-
-  update(id: number, updateReactionDto: UpdateReactionDto) {
-    return `This action updates a #${id} reaction`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} reaction`;
+  saveBookmark(bookmark: Bookmark): Promise<Bookmark> {
+    return this.bookmarkRepository.save(bookmark);
   }
 }

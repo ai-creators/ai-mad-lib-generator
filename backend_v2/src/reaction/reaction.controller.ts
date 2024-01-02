@@ -1,34 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ReactionService } from './reaction.service';
-import { CreateReactionDto } from './dto/create-reaction.dto';
-import { UpdateReactionDto } from './dto/update-reaction.dto';
+import { CreateBookmarkDto } from './dto/create-bookmark.dto';
+import { Bookmark } from 'src/data-model';
 
-@Controller('reaction')
+@Controller('v1/reaction')
 export class ReactionController {
   constructor(private readonly reactionService: ReactionService) {}
 
-  @Post()
-  create(@Body() createReactionDto: CreateReactionDto) {
-    return this.reactionService.create(createReactionDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.reactionService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reactionService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReactionDto: UpdateReactionDto) {
-    return this.reactionService.update(+id, updateReactionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.reactionService.remove(+id);
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @Post('bookmark')
+  async bookmarkAdlib(@Body() createBookmarkDto: CreateBookmarkDto) {
+    const foundBookmark = await this.reactionService.findOne(
+      createBookmarkDto.adlibId,
+      createBookmarkDto.accountId,
+    );
+    if (foundBookmark) {
+      foundBookmark.hasBookmarked = !foundBookmark.hasBookmarked;
+      return this.reactionService.saveBookmark(foundBookmark);
+    }
+    const bookmarkToSave = new Bookmark();
+    bookmarkToSave.accountId = createBookmarkDto.accountId;
+    bookmarkToSave.adlibId = createBookmarkDto.adlibId;
+    bookmarkToSave.hasBookmarked = true;
+    return this.reactionService.saveBookmark(bookmarkToSave);
   }
 }

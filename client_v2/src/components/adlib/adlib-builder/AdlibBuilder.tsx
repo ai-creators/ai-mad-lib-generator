@@ -16,7 +16,8 @@ type Props = {
 const AdlibBuilder = ({ adlib }: Props) => {
   const [questions, setQuestions] = useState<AdlibResponseQuestionModel[]>([]);
   const [isBuilderDone, setIsBuilderDone] = useState<boolean>(false);
-  const [errors, setErrors] = useState<object>({});
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [errors, setErrors] = useState<any>({});
 
   const [apiError, setApiError] = useState<ErrorModel | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -57,6 +58,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
 
   const removeErrorOnBlur = (questionIndex: number) => {
     if (errors[questionIndex] && questions[questionIndex].answer) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorsCopy: any = { ...errors };
       delete errorsCopy[questionIndex];
       setErrors(errorsCopy);
