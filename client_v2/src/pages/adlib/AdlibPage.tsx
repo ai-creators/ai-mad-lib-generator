@@ -18,7 +18,6 @@ const AdlibPage = () => {
   const { checkIfAccountExists, isModalOpen, closeModal } = useAccountCheck();
 
   const confirmAcountSetup = () => {
-    console.log("CONFIRMING ACCOUNT SETUP");
     checkIfAccountExists(bookmarkAdlib);
   };
 
