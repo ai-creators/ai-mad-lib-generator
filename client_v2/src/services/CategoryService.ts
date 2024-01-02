@@ -10,7 +10,7 @@ const getCategories = (
   category: string,
   feedType: FeedTypes,
   page = 1,
-  size = 5,
+  size = 25,
   timestamp: Date,
   abortController?: AbortController
 ): Promise<ApiResponse<PaginationResponse<CategoryModel>>> => {
@@ -33,7 +33,7 @@ const getAdlibsByCategory = (
   category: string,
   feedType: FeedTypes,
   page = 1,
-  size = 5,
+  size = 25,
   timestamp: Date,
   abortController: AbortController | undefined
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {

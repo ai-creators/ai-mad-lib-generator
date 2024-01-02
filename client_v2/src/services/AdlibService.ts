@@ -8,7 +8,7 @@ import { FeedTypes } from "../components/feed/FeedTypes";
 const getAdlibs = (
   feedType: FeedTypes,
   page = 1,
-  size = 5,
+  size = 25,
   timestamp: Date,
   abortController?: AbortController,
   search?: string

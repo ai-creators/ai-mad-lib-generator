@@ -11,7 +11,7 @@ export const useFeed = <T extends object>(
   search: string
 ) => {
   const [page, setPage] = useState<number>(0);
-  const [size] = useState<number>(5);
+  const [size] = useState<number>(25);
   const [timestamp] = useState<Date>(new Date());
   const [isEnd, setIsEnd] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
