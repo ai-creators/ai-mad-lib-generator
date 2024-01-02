@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 import { AdlibModel } from "../../../models/AdlibModel";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "../../card/Card";
 import ButtonPrimary from "../../button/button-primary/ButtonPrimary";
 import AdlibResponseService from "../../../services/AdlibResponseService";
@@ -8,6 +8,7 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import { AdlibResponseQuestionModel } from "../../../models/AdlibResponseQuestionModel";
 import { ErrorModel } from "../../../models/ErrorModel";
 import ErrorAlertFixed from "../../errors/error-alert-fixed/ErrorAlertFixed";
+import { formatSnakeCase } from "../../../utils/formatSnakeCase";
 
 type Props = {
   adlib: AdlibModel;
@@ -89,7 +90,14 @@ const AdlibBuilder = ({ adlib }: Props) => {
         <ErrorAlertFixed error={apiError} setError={setApiError} />
       ) : null}
       <header className="flex flex-col">
-        <h2 className="text-xl font-semibold capitalize">{adlib.title}</h2>
+        <h2 className="text-xl font-semibold capitalize">
+          <Link
+            to={`/adlib/${adlib.id}`}
+            className="hover:underline underline-offset-2"
+          >
+            {adlib.title}
+          </Link>
+        </h2>
         <p className="text-zinc-500">{adlib.prompt}...</p>
       </header>
       <form className="flex flex-col gap-5" onSubmit={generateAdlibResponse}>
@@ -101,7 +109,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
               className="flex flex-col gap-3"
             >
               <label htmlFor={question.question + index}>
-                {question.question}
+                {formatSnakeCase(question.question)}
               </label>
               <input
                 id={question.question + index}
@@ -110,7 +118,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   changeAnswer(index, event);
                 }}
-                placeholder={question.question}
+                placeholder={formatSnakeCase(question.question)}
                 onBlur={() => removeErrorOnBlur(index)}
                 className={`${
                   error ? "border-red-400" : "border-zinc-300"
