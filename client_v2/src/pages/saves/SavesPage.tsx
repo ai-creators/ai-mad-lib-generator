@@ -27,7 +27,10 @@ const SavesPage = () => {
           <NavbarItems />
         </aside>
         <section className="flex flex-col gap-5">
-          <AdlibBookmarks />
+          <div className="flex flex-col gap-2">
+            <h3 className="text-2xl font-semibold">Saved Adlibs</h3>
+            <AdlibBookmarks />
+          </div>
         </section>
         <div></div>
       </Container>
