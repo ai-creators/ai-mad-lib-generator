@@ -1,5 +1,5 @@
 import { BookmarkModel } from "../../../../../models/BookmarkModel";
-import AdlibBookmarksLocalCard from "../adlib-bookmarks-local-card/AdlibBookmarksLocalCard";
+import AdlibBookmarksCard from "../../adlib-bookmarks-card/AdlibBookmarksCard";
 
 type Props = {
   bookmarks: BookmarkModel[];
@@ -10,7 +10,7 @@ const AdlibBookmarksLocalList = ({ bookmarks }: Props) => {
     <ul className="flex flex-col gap-2 lg:gap-5">
       {bookmarks.map((bookmark) => (
         <li key={bookmark.adlib.id}>
-          <AdlibBookmarksLocalCard bookmark={bookmark} />
+          <AdlibBookmarksCard bookmark={bookmark} />
         </li>
       ))}
     </ul>
