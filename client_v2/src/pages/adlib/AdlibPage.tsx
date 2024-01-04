@@ -8,17 +8,25 @@ import AdlibCategoriesCard from "../../components/adlib/adlib-categories/adlib-c
 import ButtonPrimary from "../../components/button/button-primary/ButtonPrimary";
 import ButtonLight from "../../components/button/button-light/ButtonLight";
 import { useAdlibPage } from "./AdlibPage.hooks";
-import { useAccountCheck } from "../../hooks/useAccountCheck";
-import AccountSetupModal from "../../components/account/account-setup-modal/AccountSetupModal";
+import { useAppSelector } from "../../hooks/useAppSelector";
 
 const AdlibPage = () => {
-  const { adlib, isLoading, hasBookmarked, error, bookmarkAdlib } =
-    useAdlibPage();
-
-  const { checkIfAccountExists, isModalOpen, closeModal } = useAccountCheck();
+  const { account } = useAppSelector((state) => state.account);
+  const {
+    adlib,
+    isLoading,
+    hasBookmarked,
+    error,
+    bookmarkAdlib,
+    bookmarkAdlibLocally,
+  } = useAdlibPage();
 
   const confirmAcountSetup = () => {
-    checkIfAccountExists(bookmarkAdlib);
+    if (account?.id) {
+      bookmarkAdlib();
+    } else {
+      bookmarkAdlibLocally();
+    }
   };
 
   return isLoading ? (
@@ -66,10 +74,6 @@ const AdlibPage = () => {
                     } fa-bookmark`}
                   ></i>
                 </ButtonLight>
-                <AccountSetupModal
-                  isOpen={isModalOpen}
-                  closeModal={closeModal}
-                />
               </div>
             </div>
           </Card>

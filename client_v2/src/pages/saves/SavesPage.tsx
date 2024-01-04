@@ -6,6 +6,7 @@ import Container from "../../components/container/Container";
 import NavbarItems from "../../components/navbar/navbar-items/NavbarItems";
 import Layout from "../../layout/Layout";
 import AdlibBookmarks from "../../components/adlib/adlib-bookmarks/AdlibBookmarks";
+import AdlibBookmarksLocal from "../../components/adlib/adlib-bookmarks/adlib-bookmarks-local/AdlibBookmarksLocal";
 
 const SavesPage = () => {
   const { isAuthenticated } = useAuth0();
@@ -27,10 +28,22 @@ const SavesPage = () => {
           <NavbarItems />
         </aside>
         <section className="flex flex-col gap-5">
-          <div className="flex flex-col gap-2">
-            <h3 className="text-2xl font-semibold">Saved Adlibs</h3>
-            <AdlibBookmarks />
-          </div>
+          {isAuthenticated ? (
+            <div className="flex flex-col gap-2">
+              <h3 className="text-2xl font-semibold">Saved Adlibs</h3>
+              <AdlibBookmarks />
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <div>
+                <h3 className="text-2xl font-semibold">Locally saved Adlibs</h3>
+                <p className="text-zinc-500">
+                  Adlibs saved locally to your computer.
+                </p>
+              </div>
+              <AdlibBookmarksLocal />
+            </div>
+          )}
         </section>
         <div></div>
       </Container>

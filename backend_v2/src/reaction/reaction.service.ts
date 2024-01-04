@@ -14,7 +14,7 @@ export class ReactionService {
     private readonly bookmarkRepository: Repository<Bookmark>,
   ) {}
 
-  findOne(adlibId: string, accountId: string): Promise<Bookmark> {
+  findBookmark(adlibId: string, accountId: string): Promise<Bookmark> {
     return this.bookmarkRepository.findOne({
       where: {
         adlibId,

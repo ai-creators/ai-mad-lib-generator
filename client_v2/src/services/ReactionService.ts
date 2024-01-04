@@ -4,7 +4,6 @@ import { BookmarkModel } from "../models/BookmarkModel";
 import api from "./Api";
 import { PaginationResponse } from "../models/PaginationResponse";
 import { FeedTypes } from "../components/feed/FeedTypes";
-
 const bookmarkAdlib = (
   adlibId: string,
   accountId: string | null,
@@ -29,8 +28,8 @@ const bookmarkAdlib = (
 const getBookmarks = (
   accountId: string,
   feedType: FeedTypes,
-  page = 1,
-  size = 25,
+  page: number,
+  size: number,
   timestamp: Date,
   accessToken: string,
   abortController?: AbortController
@@ -55,9 +54,31 @@ const getBookmarks = (
   return api.callExternalApi<PaginationResponse<BookmarkModel>>({ config });
 };
 
+const getBookmark = (
+  accountId: string,
+  adlibId: string,
+  accessToken: string
+): Promise<ApiResponse<BookmarkModel>> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/reaction/bookmark/find",
+    method: "GET",
+    params: {
+      accountId,
+      adlibId,
+    },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  return api.callExternalApi<BookmarkModel>({ config });
+};
+
 const ReactionService = {
   bookmarkAdlib,
   getBookmarks,
+  getBookmark,
 };
 
 Object.freeze(ReactionService);

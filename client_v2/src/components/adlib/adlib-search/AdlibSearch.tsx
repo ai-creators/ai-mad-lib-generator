@@ -25,7 +25,7 @@ const AdlibSearch = () => {
             onClick={submitSearch}
             disabled={!search.length}
           >
-            Generate
+            Search
           </button>
         </div>
       </form>

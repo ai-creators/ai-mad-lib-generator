@@ -4,8 +4,8 @@ import { useAppSelector } from "../../../hooks/useAppSelector";
 import { ApiResponse } from "../../../models/ApiResponseModel";
 import { BookmarkModel } from "../../../models/BookmarkModel";
 import { PaginationResponse } from "../../../models/PaginationResponse";
-import ReactionService from "../../../services/ReactionService";
 import { FeedTypes } from "../../feed/FeedTypes";
+import ReactionService from "../../../services/ReactionService";
 
 export const useAdlibBookmarks = () => {
   const { getAccessTokenSilently } = useAuth0();

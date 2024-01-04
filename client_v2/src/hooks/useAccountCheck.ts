@@ -6,7 +6,6 @@ export const useAccountCheck = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const checkIfAccountExists = (action: () => void) => {
-    console.log(account);
     if (account?.id) {
       action();
     } else {
