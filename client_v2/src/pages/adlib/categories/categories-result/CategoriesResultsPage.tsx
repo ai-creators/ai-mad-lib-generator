@@ -42,10 +42,11 @@ const CategoriesResultsPage = () => {
         </aside>
         <div className="flex flex-col gap-5">
           <Card>
-            <h1>{category}</h1>
+            <h1 className="text-xl font-semibold">#{category}</h1>
           </Card>
 
           <div className="flex justify-between items-center">
+            <p className="text-lg font-semibold">{`Search results for "${feedType}"`}</p>
             <FeedNav
               feedType={feedType}
               setFeedType={setFeedType}
