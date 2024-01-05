@@ -4,12 +4,20 @@ import { useAccountExistence } from "../../hooks/useAccountExistence";
 
 const AccountDoesNotExistBanner = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { isAccountSetup } = useAccountExistence();
+  const { getAccountStatus, AccountStatus } = useAccountExistence();
   useEffect(() => {
-    if (!isAccountSetup) {
+    const { status } = getAccountStatus();
+    if (
+      status !== AccountStatus.NOT_SIGNED_IN &&
+      status !== AccountStatus.ACCOUNT_SETUP
+    ) {
       setIsOpen(true);
     }
-  }, [isAccountSetup]);
+  }, [
+    AccountStatus.ACCOUNT_SETUP,
+    AccountStatus.NOT_SIGNED_IN,
+    getAccountStatus,
+  ]);
 
   return isOpen ? (
     <div className="flex justify-center  items-center gap-5 p-1 text-sm bg-indigo-800 text-white">

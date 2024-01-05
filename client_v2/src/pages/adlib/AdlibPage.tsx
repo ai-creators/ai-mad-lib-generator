@@ -51,7 +51,9 @@ const AdlibPage = () => {
                 <ButtonPrimary href={`/adlib/play/${adlib?.id}`}>
                   Go to Adlib
                 </ButtonPrimary>
-                {/* <ButtonLight>Go to Responses</ButtonLight> */}
+                <ButtonLight href={`/adlib/${adlib?.id}/responses`}>
+                  Go to Responses
+                </ButtonLight>
               </div>
               <div className="flex items-center gap-1">
                 <div className="flex items-center gap-5">

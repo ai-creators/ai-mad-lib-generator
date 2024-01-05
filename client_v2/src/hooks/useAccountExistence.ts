@@ -1,28 +1,30 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import AccountService from "../services/AccountService";
-import { useQuery } from "@tanstack/react-query";
+import { useAppSelector } from "./useAppSelector";
+
+enum AccountStatus {
+  NOT_SIGNED_IN,
+  ACCOUNT_NOT_SETUP,
+  ACCOUNT_SETUP,
+}
 
 export const useAccountExistence = () => {
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user } = useAuth0();
+  const { account } = useAppSelector((state) => state.account);
 
-  const fetchAccountSetupStatus = async () => {
-    if (user?.sub) {
-      const accessToken = await getAccessTokenSilently();
-      const { data } = await AccountService.isAccountSetup(
-        user?.sub,
-        accessToken
-      );
-      if (data === false) {
-        return false;
-      }
+  const getAccountStatus = () => {
+    if (!user) {
+      return {
+        status: AccountStatus.NOT_SIGNED_IN,
+      };
     }
-    return true;
+    if (!account) {
+      return {
+        status: AccountStatus.ACCOUNT_NOT_SETUP,
+      };
+    }
+    return {
+      status: AccountStatus.ACCOUNT_SETUP,
+    };
   };
-
-  const { data: isAccountSetup, isLoading } = useQuery({
-    queryKey: ["accountSetupStatus"],
-    queryFn: fetchAccountSetupStatus,
-  });
-
-  return { isAccountSetup, isLoading };
+  return { getAccountStatus, AccountStatus };
 };

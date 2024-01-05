@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-
+import { In } from 'typeorm';
 import { PaginationResponse } from '../common/pagination/dtos/pagination-response.dto';
-import { Adlib } from 'src/data-model';
+import { Adlib, Category } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, LessThan, Repository } from 'typeorm';
@@ -16,7 +16,7 @@ export class AdlibService {
     private readonly adlibRepository: Repository<Adlib>,
   ) {}
 
-  findAllPageable(
+  async findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
     const where = {
@@ -31,6 +31,7 @@ export class AdlibService {
       const searchQuery = this.buildSearchQuery(adlibPaginationDto.search);
       where['prompt'] = searchQuery.prompt;
       where['title'] = searchQuery.title;
+      // where['categories'] = searchQuery.category;
     }
 
     return Pagination.paginate<Adlib>(
@@ -39,7 +40,9 @@ export class AdlibService {
       {
         where,
         order: this.calculateOrder(adlibPaginationDto),
-        relations: ['categories'],
+        relations: {
+          categories: true,
+        },
       },
     );
   }
@@ -130,8 +133,21 @@ export class AdlibService {
       return {
         prompt: ILike(`%${search}%`),
         title: ILike(`%${search}%`),
+        categories: {
+          name: ILike(`%${search}%`),
+        },
       };
     }
     return {};
   }
+
+  // searchCategories(search: string): Promise<Category[]> {
+  //   if (!search) {
+  //     return Promise.resolve([]);
+  //   }
+
+  //   return this.categoryRepository.find({
+  //     where: { name: ILike(`%${search}%`) },
+  //   });
+  // }
 }

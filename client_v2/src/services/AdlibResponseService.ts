@@ -3,6 +3,8 @@ import { AdlibResponseModel } from "../models/AdlibResponseModel";
 import { ApiResponse } from "../models/ApiResponseModel";
 import api from "./Api";
 import { AdlibResponseQuestionModel } from "../models/AdlibResponseQuestionModel";
+import { AdlibModel } from "../models/AdlibModel";
+import { PaginationResponse } from "../models/PaginationResponse";
 
 const createAdlibResponse = (
   adlibId: string,
@@ -36,9 +38,45 @@ const findById = (id: string): Promise<ApiResponse<AdlibResponseModel>> => {
   return api.callExternalApi<AdlibResponseModel>({ config });
 };
 
+const findResponsesByAdlibId = (
+  id: string,
+  page: number,
+  size: number,
+  timestamp: Date,
+  abortController?: AbortController
+): Promise<
+  ApiResponse<{
+    adlib: AdlibModel;
+    results: PaginationResponse<AdlibResponseModel>;
+  }>
+> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/response/adlib/find",
+    method: "GET",
+    params: {
+      id,
+      page,
+      size,
+      timestamp,
+    },
+    signal: abortController?.signal,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return api.callExternalApi<{
+    adlib: AdlibModel;
+    results: PaginationResponse<AdlibResponseModel>;
+  }>({
+    config,
+  });
+};
+
 const AdlibResponseService = {
   createAdlibResponse,
   findById,
+  findResponsesByAdlibId,
 };
 
 Object.freeze(AdlibResponseService);

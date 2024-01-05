@@ -1,4 +1,11 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Query,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AdlibResponseService } from './adlib-response.service';
 import { AdlibService } from 'src/adlib/adlib.service';
 import { AdlibNotFoundException } from 'src/adlib/exceptions/adlib-not-found.exception';
@@ -8,6 +15,7 @@ import { AccountNotFoundException } from 'src/account/exceptions/account-not-fou
 import { AdlibResponseNotFound } from './exceptions/adlib-response-not-found.exception';
 import { CreateAdlibResponseDto } from './dto/create-adlib-response.dto';
 import { AdlibResponseQuestion } from 'src/data-model';
+import { AdlibResponsePaginationDto } from './dto/adlib-response-pagination.dto';
 
 @Controller('v1/response')
 export class AdlibResponseController {
@@ -66,6 +74,31 @@ export class AdlibResponseController {
       questionAsEntity.answer = question.answer;
       return questionAsEntity;
     });
+  }
+
+  @Get('adlib/find')
+  async findAdlibsByResponse(
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true },
+        forbidNonWhitelisted: true,
+      }),
+    )
+    adlibResponsePaginationDto: AdlibResponsePaginationDto,
+  ) {
+    const foundAdlib = await this.adlibService.findOneById(
+      adlibResponsePaginationDto.adlibId,
+    );
+    if (!foundAdlib) {
+      throw new AdlibNotFoundException();
+    }
+    return {
+      adlib: foundAdlib,
+      results: await this.adlibResponseService.findPageable(
+        adlibResponsePaginationDto,
+      ),
+    };
   }
 
   // private isValidQuestions(questions: AdlibResponseQuestion[]): boolean {}

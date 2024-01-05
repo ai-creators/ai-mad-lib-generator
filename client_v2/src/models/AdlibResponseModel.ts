@@ -8,4 +8,6 @@ export interface AdlibResponseModel {
   adlib: AdlibModel;
   questions: AdlibResponseQuestionModel[];
   createdBy?: AccountModel | null;
+  createdAt: Date;
+  updatedAt: Date;
 }

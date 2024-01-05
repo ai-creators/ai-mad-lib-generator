@@ -4,6 +4,7 @@ import api from "./Api";
 import { AdlibModel } from "../models/AdlibModel";
 import { PaginationResponse } from "../models/PaginationResponse";
 import { FeedTypes } from "../components/feed/FeedTypes";
+import { AdlibResponseModel } from "../models/AdlibResponseModel";
 
 const getAdlibs = (
   feedType: FeedTypes,

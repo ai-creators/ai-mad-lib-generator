@@ -4,12 +4,14 @@ import { AdlibModel } from "../../../models/AdlibModel";
 import ButtonLight from "../../button/button-light/ButtonLight";
 import ButtonPrimary from "../../button/button-primary/ButtonPrimary";
 import Card from "../../card/Card";
+import { HiddenButtonTypes } from "./AdlibHiddenButtonTypes";
 
 type Props = {
   adlib: AdlibModel;
+  hideButtons?: HiddenButtonTypes[];
 };
 
-const AdlibCard = ({ adlib }: Props) => {
+const AdlibCard = ({ adlib, hideButtons = [] }: Props) => {
   return (
     <Card className="flex flex-col gap-5">
       <div className="flex justify-between">
@@ -48,10 +50,16 @@ const AdlibCard = ({ adlib }: Props) => {
       </div>
 
       <div className="flex items-center gap-3">
-        <ButtonPrimary href={`/adlib/${adlib.id}`} className="block">
-          Go to adlib
-        </ButtonPrimary>
-        <ButtonLight>Go to responses</ButtonLight>
+        {hideButtons.includes(HiddenButtonTypes.ADLIB) ? null : (
+          <ButtonPrimary href={`/adlib/${adlib.id}`} className="block">
+            Go to adlib
+          </ButtonPrimary>
+        )}
+        {hideButtons.includes(HiddenButtonTypes.RESPONSE) ? null : (
+          <ButtonLight href={`/adlib/${adlib.id}/responses`}>
+            Go to responses
+          </ButtonLight>
+        )}
       </div>
     </Card>
   );

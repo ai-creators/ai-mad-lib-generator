@@ -14,6 +14,7 @@ import CategoriesResultsPage from "./adlib/categories/categories-result/Categori
 import CreatePage from "./create/CreatePage";
 import BrowsePage from "./browse/BrowsePage";
 import SavesPage from "./saves/SavesPage";
+import ResponsesPage from "./adlib/responses/ResponsesPage";
 
 const PageRoutes = () => {
   const { isLoading } = useAuth0();
@@ -28,6 +29,7 @@ const PageRoutes = () => {
       <Route index element={<HomePage />} />
       <Route path="adlib/:adlibId" element={<AdlibPage />} />
       <Route path="adlib">
+        <Route path=":adlibId/responses" element={<ResponsesPage />} />
         <Route
           path="category/:categoryName"
           element={<CategoriesResultsPage />}

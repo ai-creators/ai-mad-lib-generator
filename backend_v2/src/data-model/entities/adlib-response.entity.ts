@@ -32,6 +32,12 @@ export class AdlibResponse {
   )
   questions: AdlibResponseQuestion[];
 
+  @Column({ default: false })
+  isPrivate: boolean;
+
+  @Column({ default: false })
+  isHidden: boolean;
+
   @ManyToOne(() => Account, (account) => account.adlibResponses)
   createdBy: Account;
 
