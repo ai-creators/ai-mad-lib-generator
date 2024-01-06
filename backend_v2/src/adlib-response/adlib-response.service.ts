@@ -27,7 +27,7 @@ export class AdlibResponseService {
       {
         where: {
           adlib: {
-            id: adlibResponsePaginationDto.adlibId,
+            id: adlibResponsePaginationDto.id,
           },
         },
         order: this.calculateOrder(adlibResponsePaginationDto),

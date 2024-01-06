@@ -5,6 +5,8 @@ import {
   Get,
   Query,
   ValidationPipe,
+  Put,
+  UseGuards,
 } from '@nestjs/common';
 import { AdlibResponseService } from './adlib-response.service';
 import { AdlibService } from 'src/adlib/adlib.service';
@@ -16,6 +18,7 @@ import { AdlibResponseNotFound } from './exceptions/adlib-response-not-found.exc
 import { CreateAdlibResponseDto } from './dto/create-adlib-response.dto';
 import { AdlibResponseQuestion } from 'src/data-model';
 import { AdlibResponsePaginationDto } from './dto/adlib-response-pagination.dto';
+import { AuthorizationGuard } from 'src/authorization/authorization.guard';
 
 @Controller('v1/response')
 export class AdlibResponseController {
@@ -49,6 +52,10 @@ export class AdlibResponseController {
     );
     return this.adlibResponseService.create(adlibResponseToCreate);
   }
+
+  @Put(':repsonseId/permissions')
+  @UseGuards(AuthorizationGuard)
+  async updateResponsePermissions() {}
 
   @Get('find')
   async findAdlibResponse(@Query('id') id: string) {
@@ -88,7 +95,7 @@ export class AdlibResponseController {
     adlibResponsePaginationDto: AdlibResponsePaginationDto,
   ) {
     const foundAdlib = await this.adlibService.findOneById(
-      adlibResponsePaginationDto.adlibId,
+      adlibResponsePaginationDto.id,
     );
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
