@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Account } from '../data-model/entities/account.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import dataSource from 'db/data-source';
+import { Adlib } from 'src/data-model';
 
 @Injectable()
 export class AccountService {
@@ -34,5 +36,14 @@ export class AccountService {
 
   create(account: Account): Promise<Account> {
     return this.accountRepository.save(account);
+  }
+
+  countAdlibsByUsername(username: string): Promise<number> {
+    return dataSource
+      .getRepository(Adlib)
+      .createQueryBuilder('adlib')
+      .innerJoin('adlib.createdBy', 'account')
+      .where('account.username = :username', { username })
+      .getCount();
   }
 }

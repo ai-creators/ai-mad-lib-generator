@@ -62,10 +62,7 @@ const getAccountByUsername = (
   username: string
 ): Promise<ApiResponse<AccountModel>> => {
   const config: AxiosRequestConfig = {
-    url: "/api/v1/account/find",
-    params: {
-      username,
-    },
+    url: `/api/v1/account/find/username/${encodeURI(username)}`,
     headers: {
       "content-type": "application/json",
     },
