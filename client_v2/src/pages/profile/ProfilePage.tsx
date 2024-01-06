@@ -4,12 +4,13 @@ import Card from "../../components/card/Card";
 import Avatar from "../../components/avatar/Avatar";
 import { useQuery } from "@tanstack/react-query";
 import AccountService from "../../services/AccountService";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PageLoader from "../../components/loader/page-loader/PageLoader";
 import dayjs from "dayjs";
 import ErrorAlert from "../../components/errors/ErrorAlert";
 import ContainerSmall from "../../components/container/container-small/ContainerSmall";
 import ProfileAdlibs from "../../components/profile/profile-adlibs/ProfileAdlibs";
+import ButtonLight from "../../components/button/button-light/ButtonLight";
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -69,9 +70,17 @@ const ProfilePage = () => {
               <>
                 <div className="flex flex-col gap-3">
                   <h4 className="text-lg capitalize font-semibold mx-1">
-                    Adlibs
+                    Recent Adlibs
                   </h4>
                   <ProfileAdlibs username={username} />
+                  <div className="flex">
+                    <ButtonLight
+                      href={`/profile/${username}/adlibs`}
+                      className="ml-auto"
+                    >
+                      View more <i className="fa-solid fa-arrow-right"></i>
+                    </ButtonLight>
+                  </div>
                 </div>
               </>
             ) : null}
