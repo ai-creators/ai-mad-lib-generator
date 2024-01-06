@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './http-exception.filter';
+import { ValidationPipe } from '@nestjs/common';
 
 function checkEnvironment(configService: ConfigService) {
   const requiredEnvVars = [
@@ -34,6 +35,12 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    }),
+  );
   app.useGlobalFilters(new HttpExceptionFilter());
 
   app.use(nocache());

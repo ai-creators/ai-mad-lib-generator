@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { AccountModel } from "../../models/AccountModel";
-import Avatar from "../avatar/Avatar";
-import Card from "../card/Card";
-import ButtonPrimary from "../button/button-primary/ButtonPrimary";
-import { useAppSelector } from "../../hooks/useAppSelector";
+import { AccountModel } from "../../../models/AccountModel";
+import Avatar from "../../avatar/Avatar";
+import Card from "../../card/Card";
+import ButtonPrimary from "../../button/button-primary/ButtonPrimary";
+import { useAppSelector } from "../../../hooks/useAppSelector";
 
 type Props = {
   profile: AccountModel;

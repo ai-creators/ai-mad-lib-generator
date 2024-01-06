@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { In } from 'typeorm';
 import { PaginationResponse } from '../common/pagination/dtos/pagination-response.dto';
-import { Adlib, Category } from 'src/data-model';
+import { Adlib } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, LessThan, Repository } from 'typeorm';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 import { FeedTypes } from 'src/models/feed-type';
 import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
+import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto';
 
 @Injectable()
 export class AdlibService {
@@ -111,6 +111,21 @@ export class AdlibService {
     return this.adlibRepository.findOne({
       where: { id },
       relations: ['categories', 'createdBy', 'reactions'],
+    });
+  }
+
+  findByUsernamePageable(
+    username: string,
+    adlibPaginationDto: AdlibPaginationDto,
+  ): Promise<PaginationResponse<Adlib>> {
+    return Pagination.paginate(this.adlibRepository, adlibPaginationDto, {
+      where: {
+        createdBy: {
+          username,
+        },
+      },
+      order: this.calculateOrder(adlibPaginationDto),
+      relations: ['createdBy'],
     });
   }
 

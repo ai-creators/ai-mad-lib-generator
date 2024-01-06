@@ -48,9 +48,33 @@ const findAdlibById = (id: string): Promise<ApiResponse<AdlibModel>> => {
   return api.callExternalApi<AdlibModel>({ config });
 };
 
+const getAdlibsByUsername = (
+  username: string,
+  timestamp: Date,
+  abortController?: AbortController,
+  page = 1,
+  size = 5
+): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
+  const config: AxiosRequestConfig = {
+    url: `/api/v1/adlib/find/username/${encodeURI(username)}`,
+    params: {
+      page,
+      size,
+      timestamp,
+    },
+    signal: abortController?.signal,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return api.callExternalApi<PaginationResponse<AdlibModel>>({ config });
+};
+
 const AdlibService = {
   getAdlibs,
   findAdlibById,
+  getAdlibsByUsername,
 };
 
 Object.freeze(AdlibService);

@@ -7,6 +7,7 @@ import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 import { AccountService } from 'src/account/account.service';
 import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
 import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
+import { UsernameDto } from 'src/account/dto/username.dto';
 
 @Controller('v1/adlib')
 export class AdlibController {
@@ -17,13 +18,7 @@ export class AdlibController {
 
   @Get()
   getAdlibs(
-    @Query(
-      new ValidationPipe({
-        transform: true,
-        transformOptions: { enableImplicitConversion: true },
-        forbidNonWhitelisted: true,
-      }),
-    )
+    @Query()
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
     return this.adlibService.findAllPageable(adlibPaginationDto);
@@ -59,16 +54,27 @@ export class AdlibController {
     }
   }
 
+  @Get('find/username/:username')
+  async findUsersAdlibs(
+    @Param() usernameDto: UsernameDto,
+    @Query() adlibPaginationDto: AdlibPaginationDto,
+  ): Promise<PaginationResponse<Adlib>> {
+    const foundAccount = await this.accountService.findOneByUsername(
+      usernameDto.username,
+    );
+    if (!foundAccount) {
+      throw new AccountNotFoundException();
+    }
+    return this.adlibService.findByUsernamePageable(
+      usernameDto.username,
+      adlibPaginationDto,
+    );
+  }
+
   @Get('find/:accountId')
   async findAdlibsByAccountId(
     @Param('accountId') accountId: string,
-    @Query(
-      new ValidationPipe({
-        transform: true,
-        transformOptions: { enableImplicitConversion: true },
-        forbidNonWhitelisted: true,
-      }),
-    )
+    @Query()
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
     const foundAccount = await this.accountService.findOneById(accountId);

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { Account } from 'src/data-model';
@@ -15,7 +23,6 @@ export class AccountController {
     return (await this.accountService.findOneBySub(sub)) ? true : false;
   }
 
-  @UseGuards(AuthorizationGuard)
   @Get('find')
   async findAccount(@Query('sub') sub: string): Promise<Account> {
     const foundAccount = await this.accountService.findOneBySub(sub);
