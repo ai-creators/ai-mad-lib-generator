@@ -42,6 +42,7 @@ export const useSettingsPage = () => {
     if (data) {
       const { usePg } = data;
       dispatch(setAccount(data));
+      storage.set("isPg", usePg);
       setContentRating(usePg ? ContentRating.PG : ContentRating.NSFW);
     }
     if (error) {

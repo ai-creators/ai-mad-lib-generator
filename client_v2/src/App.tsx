@@ -8,6 +8,7 @@ import AccountDoesNotExistBanner from "./banners/account-does-not-exist-banner/A
 import PageRoutes from "./pages/PageRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import storage from "./utils/Storage";
+import { useAppSelector } from "./hooks/useAppSelector";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,8 @@ function App() {
     useAuth0();
 
   const [isAccountLoading, setIsAccountLoading] = useState<boolean>(false);
+
+  const { account } = useAppSelector((state) => state.account);
 
   const dispatch = useAppDispatch();
 

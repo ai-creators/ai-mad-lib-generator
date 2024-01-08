@@ -1,34 +1,36 @@
 import {
+  ValidatorConstraintInterface,
   ValidationArguments,
   ValidationOptions,
-  ValidatorConstraintInterface,
   registerDecorator,
 } from 'class-validator';
-import { FeedTypes } from 'src/models/feed-type';
+import { ContentRating } from 'src/data-model/models/ContentRating';
 
-export class IsFeedTypeConstraint implements ValidatorConstraintInterface {
+export class IsContentRatingTypeConstraint
+  implements ValidatorConstraintInterface
+{
   validate(feedType: any) {
-    const values = Object.values(FeedTypes);
+    const values = Object.values(ContentRating);
     return values.includes(feedType);
   }
 
   defaultMessage(validationArguments?: ValidationArguments): string {
     return `${
       validationArguments.property
-    } is not the allowed, the allowed feed types are: ${Object.values(
-      FeedTypes,
+    } is not the allowed, the allowed content rating types are: ${Object.values(
+      ContentRating,
     ).join(',')}`;
   }
 }
 
-export function IsFeedType(validationOptions?: ValidationOptions) {
+export function IsContentRatingType(validationOptions?: ValidationOptions) {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return function (object: Object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      validator: IsFeedTypeConstraint,
+      validator: IsContentRatingTypeConstraint,
     });
   };
 }

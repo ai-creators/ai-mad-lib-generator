@@ -7,6 +7,7 @@ import { Brackets, LessThan, Repository, SelectQueryBuilder } from 'typeorm';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 import { FeedTypes } from 'src/models/feed-type';
 import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
+import { ContentRating } from 'src/data-model/models/ContentRating';
 
 @Injectable()
 export class AdlibService {
@@ -26,7 +27,7 @@ export class AdlibService {
       queryBuilder.andWhere('Adlib.isFeatured = true');
     }
 
-    if (adlibPaginationDto.isPg) {
+    if (adlibPaginationDto?.contentRating === ContentRating.PG) {
       queryBuilder.andWhere('Adlib.isPg = :isPg', {
         isPg: true,
       });

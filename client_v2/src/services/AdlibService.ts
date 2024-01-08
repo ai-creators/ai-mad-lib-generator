@@ -5,6 +5,7 @@ import { AdlibModel } from "../models/AdlibModel";
 import { PaginationResponse } from "../models/PaginationResponse";
 import { FeedTypes } from "../components/feed/FeedTypes";
 import storage from "../utils/Storage";
+import { ContentRating } from "../models/ContentRating";
 
 const getAdlibs = (
   feedType: FeedTypes,
@@ -14,7 +15,10 @@ const getAdlibs = (
   abortController?: AbortController,
   search?: string
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
-  const isPg: boolean = storage.get("isPg");
+  const contentRating = storage.get("isPg")
+    ? ContentRating.PG
+    : ContentRating.NSFW;
+
   const config: AxiosRequestConfig = {
     url: "/api/v1/adlib",
     method: "GET",
@@ -24,7 +28,7 @@ const getAdlibs = (
       page,
       size,
       search,
-      isPg,
+      contentRating,
     },
     signal: abortController?.signal,
     headers: {
