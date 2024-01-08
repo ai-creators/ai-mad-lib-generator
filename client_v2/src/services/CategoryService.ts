@@ -24,6 +24,9 @@ const getCategories = (
       size,
     },
     signal: abortController?.signal,
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
 
   return api.callExternalApi<PaginationResponse<CategoryModel>>({ config });
@@ -47,14 +50,34 @@ const getAdlibsByCategory = (
       size,
     },
     signal: abortController?.signal,
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
 
   return api.callExternalApi<PaginationResponse<AdlibModel>>({ config });
 };
 
+const getMostPopularCategories = (
+  size: number
+): Promise<ApiResponse<CategoryModel[]>> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/category/most-popular",
+    params: {
+      size,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return api.callExternalApi<CategoryModel[]>({ config });
+};
+
 const CategoryService = {
   getAdlibsByCategory,
   getCategories,
+  getMostPopularCategories,
 };
 
 Object.freeze(CategoryService);

@@ -16,6 +16,7 @@ import { PaginationResponse } from "../../models/PaginationResponse";
 import AdlibService from "../../services/AdlibService";
 import { useSearchParams } from "react-router-dom";
 import AdlibList from "../../components/adlib/adlib-list/AdlibList";
+import CategoriesMostPopularCard from "../../components/categories/categories-most-popular-card/CategoriesMostPopularCard";
 
 const BrowsePage = () => {
   const { isAuthenticated } = useAuth0();
@@ -89,7 +90,9 @@ const BrowsePage = () => {
             />
           </div>
         </section>
-        <div></div>
+        <div>
+          <CategoriesMostPopularCard />
+        </div>
       </Container>
     </Layout>
   );

@@ -1,7 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Adlib, Category } from 'src/data-model';
-import { Brackets, FindManyOptions, LessThan, Like, Repository } from 'typeorm';
+import {
+  Brackets,
+  DataSource,
+  FindManyOptions,
+  LessThan,
+  Like,
+  Repository,
+} from 'typeorm';
 import { CategoryPaginationDto } from './dto/category-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Pagination } from 'src/common/pagination/pagination';
@@ -12,6 +19,7 @@ export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
+    private dataSource: DataSource,
   ) {}
 
   findAllPageable(
@@ -82,6 +90,24 @@ export class CategoryService {
         name: categoryName,
       },
     });
+  }
+
+  getMostPopular(size: number): Promise<Category[]> {
+    return this.dataSource
+      .getRepository(Category)
+      .createQueryBuilder('category')
+      .leftJoinAndSelect('category.adlibs', 'adlib')
+      .getRawMany();
+    // const queryBuilder = this.categoryRepository.createQueryBuilder('category');
+
+    // queryBuilder
+    //   .leftJoin('category.adlibs', 'adlib')
+    //   .groupBy('category.id')
+    //   .addSelect('COUNT(adlib.id)', 'adlibCount')
+    //   .orderBy('adlibCount', 'DESC')
+    //   .limit(size);
+
+    // return queryBuilder.getRawMany();
   }
 
   async findAllPageableWithAdlibs(

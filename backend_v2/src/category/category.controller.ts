@@ -38,4 +38,9 @@ export class CategoryController {
   ): Promise<PaginationResponse<Adlib>> {
     return this.adlibService.findAllByCategoriesPageable(categoryPaginationDto);
   }
+
+  @Get('most-popular')
+  getMostPopularCategories(@Query('size') size: number): Promise<Category[]> {
+    return this.categoryService.getMostPopular(size);
+  }
 }
