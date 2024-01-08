@@ -3,16 +3,7 @@ import { PaginationResponse } from '../common/pagination/dtos/pagination-respons
 import { Adlib } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  Any,
-  Brackets,
-  FindOptionsWhere,
-  ILike,
-  LessThan,
-  QueryBuilder,
-  Repository,
-  SelectQueryBuilder,
-} from 'typeorm';
+import { Brackets, LessThan, Repository, SelectQueryBuilder } from 'typeorm';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 import { FeedTypes } from 'src/models/feed-type';
 import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
@@ -27,7 +18,6 @@ export class AdlibService {
   async findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
-    console.log(adlibPaginationDto.search);
     const queryBuilder = this.adlibRepository
       .createQueryBuilder('Adlib')
       .leftJoinAndSelect('Adlib.categories', 'category');

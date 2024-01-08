@@ -69,11 +69,6 @@ export class AdlibController {
       usernameDto.username,
       adlibPaginationDto,
     );
-    console.log(
-      adlibs.results.map(async (adlib) => {
-        console.log(await adlib.createdBy);
-      }),
-    );
     return adlibs;
   }
 
