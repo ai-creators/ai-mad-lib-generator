@@ -65,10 +65,16 @@ export class AdlibController {
     if (!foundAccount) {
       throw new AccountNotFoundException();
     }
-    return this.adlibService.findByUsernamePageable(
+    const adlibs = await this.adlibService.findByUsernamePageable(
       usernameDto.username,
       adlibPaginationDto,
     );
+    console.log(
+      adlibs.results.map(async (adlib) => {
+        console.log(await adlib.createdBy);
+      }),
+    );
+    return adlibs;
   }
 
   @Get('find/:accountId')

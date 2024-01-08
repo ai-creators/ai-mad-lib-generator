@@ -3,11 +3,19 @@ import { PaginationResponse } from '../common/pagination/dtos/pagination-respons
 import { Adlib } from 'src/data-model';
 import { Pagination } from 'src/common/pagination/pagination';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, LessThan, Repository } from 'typeorm';
+import {
+  Any,
+  Brackets,
+  FindOptionsWhere,
+  ILike,
+  LessThan,
+  QueryBuilder,
+  Repository,
+  SelectQueryBuilder,
+} from 'typeorm';
 import { CategoryPaginationDto } from '../category/dto/category-pagination.dto';
 import { FeedTypes } from 'src/models/feed-type';
 import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
-import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto';
 
 @Injectable()
 export class AdlibService {
@@ -19,31 +27,25 @@ export class AdlibService {
   async findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
-    const where = {
-      createdAt: LessThan(adlibPaginationDto.timestamp),
-    };
+    console.log(adlibPaginationDto.search);
+    const queryBuilder = this.adlibRepository
+      .createQueryBuilder('Adlib')
+      .leftJoinAndSelect('Adlib.categories', 'category');
 
     if (adlibPaginationDto.feedType === FeedTypes.FEATURED) {
-      where['isFeatured'] = true;
+      queryBuilder.andWhere('Adlib.isFeatured = true');
     }
+
+    this.calculateOrder(queryBuilder, adlibPaginationDto.feedType);
 
     if (adlibPaginationDto.search) {
-      const searchQuery = this.buildSearchQuery(adlibPaginationDto.search);
-      where['prompt'] = searchQuery.prompt;
-      where['title'] = searchQuery.title;
-      // where['categories'] = searchQuery.category;
+      this.buildSearchQuery(adlibPaginationDto.search, queryBuilder);
     }
 
-    return Pagination.paginate<Adlib>(
-      this.adlibRepository,
+    return Pagination.paginateWithQueryBuilder<Adlib>(
+      queryBuilder,
       adlibPaginationDto,
-      {
-        where,
-        order: this.calculateOrder(adlibPaginationDto),
-        relations: {
-          categories: true,
-        },
-      },
+      'Adlib',
     );
   }
 
@@ -101,7 +103,7 @@ export class AdlibService {
             id: accountId,
           },
         },
-        order: this.calculateOrder(adlibPaginationDto),
+        order: this.calculateOrderFindOptions(adlibPaginationDto.feedType),
         relations: ['categories'],
       },
     );
@@ -124,45 +126,42 @@ export class AdlibService {
           username,
         },
       },
-      order: this.calculateOrder(adlibPaginationDto),
+      order: this.calculateOrderFindOptions(adlibPaginationDto.feedType),
       relations: ['createdBy'],
     });
   }
 
-  private calculateOrder(adlibPaginationDto: AdlibPaginationDto): {
+  private calculateOrderFindOptions(feedType: FeedTypes): {
     createdAt: 'DESC' | 'ASC';
   } {
-    const createdAt =
-      adlibPaginationDto.feedType === FeedTypes.LATEST
-        ? 'DESC'
-        : adlibPaginationDto.feedType === FeedTypes.OLDEST
-        ? 'ASC'
-        : 'DESC';
+    const createdAt = feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC';
+
     return {
       createdAt,
     };
   }
 
-  buildSearchQuery(search: string) {
-    if (search) {
-      return {
-        prompt: ILike(`%${search}%`),
-        title: ILike(`%${search}%`),
-        categories: {
-          name: ILike(`%${search}%`),
-        },
-      };
-    }
-    return {};
+  private calculateOrder(
+    queryBuilder: SelectQueryBuilder<Adlib>,
+    feedType: FeedTypes,
+  ) {
+    queryBuilder.orderBy(
+      'Adlib.createdAt',
+      feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC',
+    );
   }
 
-  // searchCategories(search: string): Promise<Category[]> {
-  //   if (!search) {
-  //     return Promise.resolve([]);
-  //   }
-
-  //   return this.categoryRepository.find({
-  //     where: { name: ILike(`%${search}%`) },
-  //   });
-  // }
+  buildSearchQuery(search: string, queryBuilder: SelectQueryBuilder<Adlib>) {
+    if (search) {
+      queryBuilder.andWhere(
+        new Brackets((qb) => {
+          qb.where('Adlib.prompt ILike :search', {
+            search: `%${search}%`,
+          })
+            .orWhere('Adlib.title ILike :search', { search: `%${search}%` })
+            .orWhere('Category.name ILike :search', { search: `%${search}%` });
+        }),
+      );
+    }
+  }
 }

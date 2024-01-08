@@ -13,7 +13,6 @@ import { Account } from 'src/data-model';
 import { AuthorizationGuard } from 'src/authorization/authorization.guard';
 import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
 import { UsernameDto } from './dto/username.dto';
-import { AdlibService } from 'src/adlib/adlib.service';
 
 @Controller('/v1/account')
 export class AccountController {

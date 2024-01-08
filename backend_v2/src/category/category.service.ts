@@ -37,6 +37,31 @@ export class CategoryService {
     );
   }
 
+  findAllPageableWithAdlibCount(categoryPaginationDto: CategoryPaginationDto) {
+    const queryBuilder = this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoinAndSelect('category.adlibs', 'adlib')
+      .loadRelationCountAndMap('category.adlibCount', 'category.adlibs')
+      .where('category.createdAt < :timestamp', {
+        timestamp: categoryPaginationDto.timestamp,
+      })
+      .orderBy(this.calculateOrder(categoryPaginationDto))
+      .take(categoryPaginationDto.size)
+      .skip((categoryPaginationDto.page - 1) * categoryPaginationDto.size);
+
+    if (categoryPaginationDto.category) {
+      queryBuilder.andWhere('LOWER(category.name) LIKE :name', {
+        name: `%${categoryPaginationDto.category.toLowerCase()}%`,
+      });
+    }
+
+    return Pagination.paginateWithQueryBuilder(
+      queryBuilder,
+      categoryPaginationDto,
+      'Category',
+    );
+  }
+
   private calculateOrder(categoryPaginationDto: CategoryPaginationDto): {
     createdAt: 'DESC' | 'ASC';
   } {
@@ -92,6 +117,7 @@ export class CategoryService {
     return Pagination.paginateWithQueryBuilder(
       queryBuilder,
       categoryPaginationDto,
+      'Category',
     );
   }
 }
