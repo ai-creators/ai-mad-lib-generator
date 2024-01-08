@@ -11,6 +11,7 @@ const initialState: AccountState = {
     username: "",
     createdAt: new Date(),
     updatedAt: new Date(),
+    usePg: true,
   },
 };
 

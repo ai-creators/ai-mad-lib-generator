@@ -7,6 +7,7 @@ import { useSettingsPage } from "./SettingsPage.hooks";
 import ContentRatingConfirmationModal from "../../components/content-rating/content-rating-confirmation-modal/ContentRatingConfirmationModal";
 import ErrorAlert from "../../components/errors/ErrorAlert";
 import LoaderCard from "../../components/loader/loader-card/LoaderCard";
+import Loader from "../../components/loader/Loader";
 
 const SettingsPage = () => {
   const {
@@ -40,15 +41,21 @@ const SettingsPage = () => {
               </p>
             </div>
             <form className="flex flex-col gap-3">
-              <div>
-                <label className="font-semibold">Content Rating</label>
-              </div>
-              <Tablist<ContentRating>
-                options={[ContentRating.PG, ContentRating.NSFW]}
-                currentOption={contentRating}
-                changeOption={changeContentRating}
-                isDisabled={isLoading}
-              />
+              {contentRating ? (
+                <>
+                  <div>
+                    <label className="font-semibold">Content Rating</label>
+                  </div>
+                  <Tablist<ContentRating>
+                    options={[ContentRating.PG, ContentRating.NSFW]}
+                    currentOption={contentRating}
+                    changeOption={changeContentRating}
+                    isDisabled={isLoading}
+                  />
+                </>
+              ) : (
+                <Loader />
+              )}
             </form>
           </Card>
         </ContainerSmall>

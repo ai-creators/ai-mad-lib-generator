@@ -1,31 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ContentRating } from "../../models/ContentRating";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import storage from "../../utils/Storage";
 import AccountService from "../../services/AccountService";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ErrorModel } from "../../models/ErrorModel";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { setAccount } from "../../slices/accountSlice";
 
 export const useSettingsPage = () => {
+  const dispatch = useAppDispatch();
   const { getAccessTokenSilently, user } = useAuth0();
   const { account } = useAppSelector((state) => state.account);
 
-  const getInitialContentRating = (): ContentRating => {
-    if (account?.id) {
-      if (account.usePg === false) {
-        return ContentRating.NSFW;
-      }
-    } else {
-      const isPg: boolean = storage.get("isPg");
-      if (isPg === false) {
-        return ContentRating.NSFW;
-      }
-    }
-    return ContentRating.PG;
-  };
-
-  const [contentRating, setContentRating] = useState<ContentRating>(
-    getInitialContentRating()
+  const [contentRating, setContentRating] = useState<ContentRating | null>(
+    null
   );
   const [isRatingConfirmationOpen, setIsRatingConfirmationOpen] =
     useState<boolean>(false);
@@ -52,7 +41,7 @@ export const useSettingsPage = () => {
     );
     if (data) {
       const { usePg } = data;
-      storage.set("isPg", usePg);
+      dispatch(setAccount(data));
       setContentRating(usePg ? ContentRating.PG : ContentRating.NSFW);
     }
     if (error) {
@@ -60,6 +49,20 @@ export const useSettingsPage = () => {
     }
 
     setIsLoading(false);
+  };
+
+  const getInitialContentRating = (): ContentRating => {
+    if (account?.id) {
+      if (account.usePg === false) {
+        return ContentRating.NSFW;
+      }
+    } else {
+      const isPg: boolean = storage.get("isPg");
+      if (isPg === false) {
+        return ContentRating.NSFW;
+      }
+    }
+    return ContentRating.PG;
   };
 
   const changeContentRating = (rating: ContentRating) => {
@@ -77,6 +80,12 @@ export const useSettingsPage = () => {
     }
     setContentRating(rating);
   };
+
+  useEffect(() => {
+    if (!contentRating) {
+      setContentRating(getInitialContentRating());
+    }
+  }, []);
 
   return {
     contentRating,
