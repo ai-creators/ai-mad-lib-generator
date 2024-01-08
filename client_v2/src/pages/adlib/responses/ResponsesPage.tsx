@@ -16,7 +16,6 @@ import AdlibCategoriesCard from "../../../components/adlib/adlib-categories/adli
 const ResponsesPage = () => {
   const { isAuthenticated } = useAuth0();
   const { adlib, getAdlibRespnses, feedType } = useResponsePage();
-  console.log(adlib);
   return (
     <Layout>
       <Container className="grid-aside py-5 gap-5">

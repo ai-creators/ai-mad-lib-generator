@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { Adlib, Bookmark } from 'src/data-model';
 import { AdlibResponse } from 'src/data-model/entities/adlib-response.entity';
+import { ContentRating } from 'src/data-model/models/ContentRating';
 
 @Injectable()
 export class AccountService {
@@ -36,6 +37,14 @@ export class AccountService {
   }
 
   create(account: Account): Promise<Account> {
+    return this.accountRepository.save(account);
+  }
+
+  updateContentRating(
+    account: Account,
+    contentRating: ContentRating,
+  ): Promise<Account> {
+    account.usePg = contentRating === ContentRating.PG;
     return this.accountRepository.save(account);
   }
 

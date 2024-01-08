@@ -11,7 +11,6 @@ const AdlibResponseCard = ({ response }: Props) => {
   const regex = /\[(.*?)\]/g;
   let index = 0;
 
-  console.log(response);
   return (
     <Card className="flex flex-col gap-3">
       <div className="flex items-center justify-between">

@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import { PaginationDto } from 'src/common/pagination/dtos/pagination-dto';
 import { IsFeedType } from 'src/common/validation/is-feed-type/is-feed-type-constraint';
@@ -14,5 +15,6 @@ export class AdlibPaginationDto extends PaginationDto {
 
   @IsOptional()
   @IsBoolean()
+  @Transform(({ value }) => value === 'true')
   isPg?: boolean;
 }

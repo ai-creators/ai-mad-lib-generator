@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import ButtonLightOutline from "../../button/button-light-outline/ButtonLightOutline";
 import ButtonLight from "../../button/button-light/ButtonLight";
 import Modal from "../../modal/Modal";
@@ -7,16 +6,16 @@ import { ContentRating } from "../../../models/ContentRating";
 type Props = {
   isOpen: boolean;
   closeModal: () => void;
-  setContentRating: Dispatch<SetStateAction<ContentRating>>;
+  changeContentRating: (contentRating: ContentRating) => void;
 };
 
 const ContentRatingConfirmationModal = ({
   isOpen,
   closeModal,
-  setContentRating,
+  changeContentRating,
 }: Props) => {
   const confirmContentChange = () => {
-    setContentRating(ContentRating.NSFW);
+    changeContentRating(ContentRating.NSFW);
     closeModal();
   };
 

@@ -6,7 +6,6 @@ type Props = {
 };
 
 const AdlibResponseList = ({ data }: Props) => {
-  console.log(data);
   return (
     <ul className="flex flex-col gap-5">
       {data.map((response) => (

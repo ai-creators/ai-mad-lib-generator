@@ -21,7 +21,6 @@ export class AdlibController {
     @Query()
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
-    console.log(adlibPaginationDto);
     return this.adlibService.findAllPageable(adlibPaginationDto);
   }
 

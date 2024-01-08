@@ -30,14 +30,11 @@ export const useResponsePage = () => {
       timestamp,
       abortController
     );
-    console.log(data);
     if (error) {
       throw new Error(error.message);
     }
-    console.log("DATA: ", data);
     if (data) {
       const { adlib: foundAdlib, results } = data;
-      console.log(results);
       if (!adlib) {
         setAdlib(foundAdlib);
       }

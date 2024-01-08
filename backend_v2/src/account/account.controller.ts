@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -13,13 +14,17 @@ import { Account } from 'src/data-model';
 import { AuthorizationGuard } from 'src/authorization/authorization.guard';
 import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
 import { UsernameDto } from './dto/username.dto';
+import { UpdateAccountDto } from './dto/update-account.dto';
+import { AccountIdDto } from './dto/account-id.dto';
+import { AccountSubDto } from './dto/account-sub.dto';
+import { IncorrectAccountOwnerException } from './exceptions/incorrect-account-owner.exception';
 
 @Controller('/v1/account')
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
-  @UseGuards(AuthorizationGuard)
   @Get('is-account-setup')
+  @UseGuards(AuthorizationGuard)
   async isAccountSetup(@Query('sub') sub: string): Promise<boolean> {
     return (await this.accountService.findOneBySub(sub)) ? true : false;
   }
@@ -83,5 +88,29 @@ export class AccountController {
 
   private removePrivateProperties(account: Account): void {
     account.sub = null;
+  }
+
+  @Put(':accountId/update/rating')
+  @UseGuards(AuthorizationGuard)
+  async updateAccountRating(
+    @Param() accountIdDto: AccountIdDto,
+    @Query() accountSubDto: AccountSubDto,
+    @Body() updateAccountDto: UpdateAccountDto,
+  ): Promise<Account> {
+    const foundAccount = await this.accountService.findOneById(
+      accountIdDto.accountId,
+    );
+    if (!foundAccount) {
+      throw new AccountNotFoundException();
+    }
+    if (foundAccount.sub !== accountSubDto.sub) {
+      throw new IncorrectAccountOwnerException();
+    }
+    const updatedAccount = await this.accountService.updateContentRating(
+      foundAccount,
+      updateAccountDto.contentRating,
+    );
+    this.removePrivateProperties(updatedAccount);
+    return updatedAccount;
   }
 }

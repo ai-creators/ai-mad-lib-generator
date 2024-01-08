@@ -5,20 +5,25 @@ import Tablist from "../../components/tablist/Tablist";
 import { ContentRating } from "../../models/ContentRating";
 import { useSettingsPage } from "./SettingsPage.hooks";
 import ContentRatingConfirmationModal from "../../components/content-rating/content-rating-confirmation-modal/ContentRatingConfirmationModal";
+import ErrorAlert from "../../components/errors/ErrorAlert";
+import LoaderCard from "../../components/loader/loader-card/LoaderCard";
 
 const SettingsPage = () => {
   const {
     contentRating,
-    setContentRating,
     changeContentRating,
     isRatingConfirmationOpen,
     closeRatingConfirmationModal,
+    error,
+    isLoading,
   } = useSettingsPage();
 
   return (
     <>
       <Layout>
         <ContainerSmall className="flex flex-col gap-5 py-5">
+          {error ? <ErrorAlert error={error} /> : null}
+          <LoaderCard isLoading={isLoading} />
           <Card>
             <h2 className="text-2xl font-semibold capitalize">
               Profile Settings
@@ -42,6 +47,7 @@ const SettingsPage = () => {
                 options={[ContentRating.PG, ContentRating.NSFW]}
                 currentOption={contentRating}
                 changeOption={changeContentRating}
+                isDisabled={isLoading}
               />
             </form>
           </Card>
@@ -50,7 +56,7 @@ const SettingsPage = () => {
       <ContentRatingConfirmationModal
         isOpen={isRatingConfirmationOpen}
         closeModal={closeRatingConfirmationModal}
-        setContentRating={setContentRating}
+        changeContentRating={changeContentRating}
       />
     </>
   );

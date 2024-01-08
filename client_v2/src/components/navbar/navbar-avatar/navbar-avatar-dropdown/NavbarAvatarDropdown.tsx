@@ -32,6 +32,12 @@ const NavbarAvatarDropdown = () => {
         >
           Saves
         </Link>
+        <Link
+          to="/settings"
+          className="px-3 w-full text-start block py-2 bg-white duration-200 ease-out hover:bg-indigo-200 hover:text-indigo-700 hover:underline underline-offset-2 rounded"
+        >
+          Settings
+        </Link>
       </div>
       <div className="py-2 block">
         <ButtonLogout />

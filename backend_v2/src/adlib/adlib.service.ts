@@ -26,7 +26,6 @@ export class AdlibService {
       queryBuilder.andWhere('Adlib.isFeatured = true');
     }
 
-    console.log(adlibPaginationDto.isPg);
     if (adlibPaginationDto.isPg) {
       queryBuilder.andWhere('Adlib.isPg = :isPg', {
         isPg: true,
