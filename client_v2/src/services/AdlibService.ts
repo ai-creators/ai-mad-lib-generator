@@ -4,7 +4,7 @@ import api from "./Api";
 import { AdlibModel } from "../models/AdlibModel";
 import { PaginationResponse } from "../models/PaginationResponse";
 import { FeedTypes } from "../components/feed/FeedTypes";
-import { AdlibResponseModel } from "../models/AdlibResponseModel";
+import storage from "../utils/Storage";
 
 const getAdlibs = (
   feedType: FeedTypes,
@@ -14,6 +14,7 @@ const getAdlibs = (
   abortController?: AbortController,
   search?: string
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
+  const isPg: boolean = storage.get("isPg");
   const config: AxiosRequestConfig = {
     url: "/api/v1/adlib",
     method: "GET",
@@ -23,6 +24,7 @@ const getAdlibs = (
       page,
       size,
       search,
+      isPg,
     },
     signal: abortController?.signal,
     headers: {

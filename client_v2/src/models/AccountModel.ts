@@ -3,4 +3,5 @@ export interface AccountModel {
   username: string;
   createdAt: Date;
   updatedAt: Date;
+  usePg: boolean;
 }

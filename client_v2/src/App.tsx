@@ -7,6 +7,7 @@ import PageLoader from "./components/loader/page-loader/PageLoader";
 import AccountDoesNotExistBanner from "./banners/account-does-not-exist-banner/AccountDoesNotExistBanner";
 import PageRoutes from "./pages/PageRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import storage from "./utils/Storage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ function App() {
         );
         if (data) {
           dispatch(setAccount(data));
+          storage.set("isPg", data.usePg);
         }
       }
       setIsAccountLoading(false);
