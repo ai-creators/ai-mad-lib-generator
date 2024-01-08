@@ -60,7 +60,14 @@ const setupAccount = (
 
 const getAccountByUsername = (
   username: string
-): Promise<ApiResponse<AccountModel>> => {
+): Promise<
+  ApiResponse<{
+    account: AccountModel;
+    adlibs: number;
+    responses: number;
+    bookmarks: number;
+  }>
+> => {
   const config: AxiosRequestConfig = {
     url: `/api/v1/account/find/username/${encodeURI(username)}`,
     headers: {
@@ -68,7 +75,12 @@ const getAccountByUsername = (
     },
   };
 
-  return api.callExternalApi<AccountModel>({ config });
+  return api.callExternalApi<{
+    account: AccountModel;
+    adlibs: number;
+    responses: number;
+    bookmarks: number;
+  }>({ config });
 };
 
 const AccountService = {

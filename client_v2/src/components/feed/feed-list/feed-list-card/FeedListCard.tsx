@@ -35,7 +35,7 @@ const FeedListCard = ({ adlib }: Props) => {
         <div className="flex flex-col items-end">
           {adlib?.createdBy ? (
             <Link
-              to={`/profile/${adlib.createdBy.id}`}
+              to={`/profile/${adlib.createdBy.username}`}
               className="text-sm font-semibold capitalize hover:underline underline-offset-2 active:underline hover:text-indigo-800 active:text-indigo-800"
             >
               {adlib.createdBy.username}

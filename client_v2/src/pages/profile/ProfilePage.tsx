@@ -1,38 +1,26 @@
 import Layout from "../../layout/Layout";
-import Container from "../../components/container/Container";
 import Card from "../../components/card/Card";
 import Avatar from "../../components/avatar/Avatar";
-import { useQuery } from "@tanstack/react-query";
-import AccountService from "../../services/AccountService";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PageLoader from "../../components/loader/page-loader/PageLoader";
 import dayjs from "dayjs";
 import ErrorAlert from "../../components/errors/ErrorAlert";
 import ContainerSmall from "../../components/container/container-small/ContainerSmall";
 import ProfileAdlibs from "../../components/profile/profile-adlibs/ProfileAdlibs";
 import ButtonLight from "../../components/button/button-light/ButtonLight";
+import { useProfilePage } from "./ProfilePage.hooks";
 
 const ProfilePage = () => {
   const { username } = useParams();
 
-  const fetchAccount = async () => {
-    if (username) {
-      const { data, error } = await AccountService.getAccountByUsername(
-        username
-      );
-      if (data) {
-        return data;
-      }
-      if (error) {
-        throw new Error(error.message ?? "Error getting profile information");
-      }
-    }
-  };
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["profile"],
-    queryFn: fetchAccount,
-  });
-  const account = data;
+  const {
+    account,
+    adlibTotal,
+    isLoading,
+    error,
+    responseTotal,
+    bookmarkTotal,
+  } = useProfilePage(username);
   return (
     <Layout mainClassName="relative">
       {isLoading ? <PageLoader /> : null}
@@ -40,7 +28,7 @@ const ProfilePage = () => {
       <div className="h-40 bg-indigo-900 mb-12"></div>
       <ContainerSmall className="absolute w-full top-10 left-1/2 -translate-x-1/2 flex flex-col gap-5">
         {error ? <ErrorAlert error={error} /> : null}
-        <Card borderRadius="" className="relative">
+        <Card className="relative">
           <div className="flex flex-col items-center justify-start">
             <Avatar
               className="absolute -top-14 border-4 border-black-700"
@@ -61,8 +49,36 @@ const ProfilePage = () => {
       <ContainerSmall className="py-5">
         <div className="grid grid-cols-12 gap-5">
           <div className="col-span-5">
-            <Card>
-              <h2>TEST</h2>
+            <Card padding="p-2">
+              <ul className="flex flex-col gap-1">
+                <li>
+                  <ButtonLight
+                    href={`/profile/${username}/adlibs`}
+                    className="block"
+                  >
+                    <i className="fa-regular fa-square-plus mr-3 fa-lg"></i>
+                    {adlibTotal} Adlibs Created
+                  </ButtonLight>
+                </li>
+                <li>
+                  <ButtonLight
+                    href={`/profile/${username}/responses`}
+                    className="block"
+                  >
+                    <i className="fa-regular fa-pen-to-square mr-3 fa-lg"></i>
+                    {responseTotal} Adlibs Responses
+                  </ButtonLight>
+                </li>
+                <li>
+                  <ButtonLight
+                    href={`/profile/${username}/bookmarks`}
+                    className="block"
+                  >
+                    <i className="fa-regular fa-heart mr-3 fa-lg"></i>
+                    {bookmarkTotal} Bookmarks
+                  </ButtonLight>
+                </li>
+              </ul>
             </Card>
           </div>
           <div className="col-span-7">

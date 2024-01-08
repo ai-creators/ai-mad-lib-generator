@@ -29,6 +29,7 @@ export class AccountController {
     account: Account;
     adlibs: number;
     responses: number;
+    bookmarks: number;
   }> {
     const foundAccount = await this.accountService.findOneByUsername(
       usernameDto.username,
@@ -40,13 +41,21 @@ export class AccountController {
       usernameDto.username,
     );
 
-    console.log(adlibCount);
+    const responseCount =
+      await this.accountService.countAdlibResponsesByUsername(
+        usernameDto.username,
+      );
+
+    const bookmarkCunt = await this.accountService.countBookmarksByUsername(
+      usernameDto.username,
+    );
 
     this.removePrivateProperties(foundAccount);
     return {
       account: foundAccount,
       adlibs: adlibCount,
-      responses: 0,
+      responses: responseCount,
+      bookmarks: bookmarkCunt,
     };
   }
 

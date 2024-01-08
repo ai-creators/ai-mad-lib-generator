@@ -17,7 +17,7 @@ const AdlibResponseCard = ({ response }: Props) => {
       <div className="flex items-center justify-between">
         {response?.createdBy ? (
           <Link
-            to={`/profile/${response.createdBy.id}`}
+            to={`/profile/${response.createdBy.username}`}
             className="text-sm font-semibold capitalize hover:underline underline-offset-2 active:underline hover:text-indigo-800 active:text-indigo-800"
           >
             {response.createdBy.username}
