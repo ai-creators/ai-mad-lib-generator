@@ -1,5 +1,3 @@
-import ButtonLightOutline from "../../button/button-light-outline/ButtonLightOutline";
-import ButtonLight from "../../button/button-light/ButtonLight";
 import ButtonLogin from "../../button/button-login/ButtonLogin";
 import ButtonSignup from "../../button/button-signup/ButtonSignup";
 import Modal from "../../modal/Modal";

@@ -15,6 +15,7 @@ import CreatePage from "./create/CreatePage";
 import BrowsePage from "./browse/BrowsePage";
 import SavesPage from "./saves/SavesPage";
 import ResponsesPage from "./adlib/responses/ResponsesPage";
+import SettingsPage from "./settings/SettingsPage";
 
 const PageRoutes = () => {
   const { isLoading } = useAuth0();
@@ -45,6 +46,7 @@ const PageRoutes = () => {
       <Route path="account">
         <Route path="setup" element={<AccountSetupPage />} />
       </Route>
+      <Route path="settings" element={<SettingsPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
