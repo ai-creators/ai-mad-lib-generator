@@ -29,6 +29,7 @@ function App() {
           accessToken
         );
         if (data) {
+          console.log(data);
           dispatch(setAccount(data));
           storage.set("isPg", data.usePg);
         }

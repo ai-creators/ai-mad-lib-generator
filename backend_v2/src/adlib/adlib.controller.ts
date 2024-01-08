@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AdlibService } from './adlib.service';
 import { Account, Adlib } from 'src/data-model';
 import { PaginationResponse } from '../common/pagination/dtos/pagination-response.dto';
@@ -21,6 +21,7 @@ export class AdlibController {
     @Query()
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
+    console.log(adlibPaginationDto);
     return this.adlibService.findAllPageable(adlibPaginationDto);
   }
 

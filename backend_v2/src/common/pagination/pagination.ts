@@ -32,14 +32,13 @@ export class Pagination {
     queryBuilder.andWhere(`${entity}.createdAt < :timestamp`, {
       timestamp,
     });
-
-    const [results, totalPages] = await queryBuilder.getManyAndCount();
+    const [results, count] = await queryBuilder.getManyAndCount();
 
     return {
       results,
       page,
       size,
-      totalPages,
+      totalPages: this.calculatePageTotal(size, count),
     };
   }
 
