@@ -27,7 +27,9 @@ export class AdlibService {
     }
 
     if (typeof adlibPaginationDto.isPg === 'boolean') {
-      queryBuilder.andWhere(`Adlib.isPg = ${adlibPaginationDto.isPg}`);
+      queryBuilder.andWhere('Adlib.isPg = :isPg', {
+        isPg: adlibPaginationDto.isPg,
+      });
     }
 
     this.calculateOrder(queryBuilder, adlibPaginationDto.feedType);

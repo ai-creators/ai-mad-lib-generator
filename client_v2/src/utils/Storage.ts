@@ -38,7 +38,7 @@ const get = (key: string) => {
  */
 const set = <T>(key: string, value: T) => {
   try {
-    if (value) {
+    if (value || typeof value === "boolean") {
       localStorage.setItem(key, encodeJson(value));
       return true;
     }
