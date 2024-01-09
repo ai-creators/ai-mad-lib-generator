@@ -12,6 +12,9 @@ export class AdlibResponseQuestion {
   @Column({ nullable: false })
   answer: string;
 
+  @Column({ nullable: false, type: 'int' })
+  order: number;
+
   @ManyToOne(() => AdlibResponse, (adlibResponse) => adlibResponse.questions)
   adlibResponse: AdlibResponse;
 }
