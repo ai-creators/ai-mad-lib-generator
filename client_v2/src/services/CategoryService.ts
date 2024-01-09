@@ -59,19 +59,23 @@ const getAdlibsByCategory = (
 };
 
 const getMostPopularCategories = (
-  size: number
-): Promise<ApiResponse<CategoryModel[]>> => {
+  page = 1,
+  size = 25,
+  timestamp: Date
+): Promise<ApiResponse<PaginationResponse<CategoryModel>>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/category/most-popular",
     params: {
+      page,
       size,
+      timestamp,
     },
     headers: {
       "Content-Type": "application/json",
     },
   };
 
-  return api.callExternalApi<CategoryModel[]>({ config });
+  return api.callExternalApi<PaginationResponse<CategoryModel>>({ config });
 };
 
 const CategoryService = {

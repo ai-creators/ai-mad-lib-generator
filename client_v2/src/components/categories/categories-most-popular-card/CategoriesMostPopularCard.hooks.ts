@@ -10,10 +10,16 @@ export const useCategoriesMostPopular = () => {
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const { data } = await CategoryService.getMostPopularCategories(size);
+      const page = 1;
+      const timestamp = new Date();
+      const { data } = await CategoryService.getMostPopularCategories(
+        page,
+        size,
+        timestamp
+      );
 
-      if (data) {
-        setCategories(data);
+      if (data?.results) {
+        setCategories(data.results);
       }
 
       setIsLoading(false);

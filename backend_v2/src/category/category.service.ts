@@ -6,6 +6,7 @@ import { CategoryPaginationDto } from './dto/category-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Pagination } from 'src/common/pagination/pagination';
 import { FeedTypes } from 'src/models/feed-type';
+import { PopularCategoryPaginationDto } from './dto/popular-category-pagination.dto';
 
 @Injectable()
 export class CategoryService {
@@ -20,10 +21,16 @@ export class CategoryService {
     const queryBuilder = this.categoryRepository
       .createQueryBuilder('Category')
       .leftJoin('Category.adlibs', 'adlibs')
-      .select('Category') // Explicitly select the Category fields
-      .addSelect('COUNT(adlibs.id)', 'adlibCount') // Count the adlibs per Category
-      .groupBy('Category.id') // Group by Category id
-      .orderBy('Category.createdAt', 'DESC');
+      .select('Category')
+      .addSelect('COUNT(adlibs.id)', 'adlibCount')
+      .groupBy('Category.id');
+
+    if (categoryPaginationDto.feedType) {
+      this.calculateOrder<Category>(
+        queryBuilder,
+        categoryPaginationDto.feedType,
+      );
+    }
 
     if (categoryPaginationDto.category) {
       queryBuilder.andWhere('LOWER(Category.name) LIKE :name', {
@@ -98,14 +105,15 @@ export class CategoryService {
     };
   }
 
-  private calculateOrder(
-    queryBuilder: SelectQueryBuilder<Adlib>,
+  private calculateOrder<T>(
+    queryBuilder: SelectQueryBuilder<T>,
     feedType: FeedTypes,
   ) {
-    queryBuilder.orderBy(
-      'Adlib.createdAt',
-      feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC',
-    );
+    if (feedType === FeedTypes.OLDEST) {
+      queryBuilder.orderBy('Category.createdAt', 'ASC');
+      return;
+    }
+    queryBuilder.orderBy('Category.createdAt', 'DESC');
   }
 
   findByName(categoryName: string): Promise<Category> {
@@ -116,15 +124,39 @@ export class CategoryService {
     });
   }
 
-  getMostPopular(size: number): Promise<Category[]> {
+  async getMostPopularPageable({
+    page,
+    size,
+  }: PopularCategoryPaginationDto): Promise<PaginationResponse<Category>> {
     const queryBuilder = this.categoryRepository
       .createQueryBuilder('category')
       .leftJoin('category.adlibs', 'adlib')
       .groupBy('category.id')
-      .select('category.id', 'id')
+      .select('category')
       .addSelect('category.name', 'name')
+      .addSelect('category.createdAt', 'createdAt')
+      .addSelect('category.updatedAt', 'updatedAt')
       .addSelect('COUNT(adlib.id)', 'adlibCount')
       .orderBy('COUNT(adlib.id)', 'DESC')
+      .limit(size);
+
+    return {
+      results: await queryBuilder.getRawMany(),
+      page,
+      size,
+      totalPages: 1,
+    };
+  }
+
+  getMostPopular(size: number): Promise<Category[]> {
+    const queryBuilder = this.categoryRepository
+      .createQueryBuilder('category')
+      .leftJoin('category.adlibs', 'adlibs')
+      .groupBy('category.id')
+      .select('category.id', 'id')
+      .addSelect('category.name', 'name')
+      .addSelect('COUNT(adlibs.id)', 'adlibCount')
+      .orderBy('COUNT(adlibs.id)', 'DESC')
       .limit(size);
 
     return queryBuilder.getRawMany();
@@ -134,16 +166,16 @@ export class CategoryService {
     categoryPaginationDto: CategoryPaginationDto,
   ): Promise<PaginationResponse<Category>> {
     const queryBuilder = this.categoryRepository
-      .createQueryBuilder('Category')
-      .leftJoin('Category.adlibs', 'adlib')
-      .select('Category')
+      .createQueryBuilder('category')
+      .leftJoin('category.adlibs', 'adlib')
+      .select('category')
       .addSelect((subQuery) => {
         return subQuery
           .select('COUNT(adlib.id)', 'adlibCount')
           .from(Adlib, 'adlib')
-          .where('adlib.CategoryId = Category.id');
+          .where('adlib.categoryId = category.id');
       }, 'adlibCount')
-      .where('Category.createdAt < :timestamp', {
+      .where('category.createdAt < :timestamp', {
         timestamp: categoryPaginationDto.timestamp,
       })
       .orderBy(this.calculateOrderFindOptions(categoryPaginationDto.feedType))
@@ -153,7 +185,7 @@ export class CategoryService {
     if (categoryPaginationDto.category) {
       queryBuilder.andWhere(
         new Brackets((qb) => {
-          qb.where('LOWER(Category.name) LIKE :name', {
+          qb.where('LOWER(category.name) LIKE :name', {
             name: `%${categoryPaginationDto.category.toLowerCase()}%`,
           });
         }),
@@ -163,7 +195,7 @@ export class CategoryService {
     return Pagination.paginateWithQueryBuilder(
       queryBuilder,
       categoryPaginationDto,
-      'Category',
+      'category',
     );
   }
 }

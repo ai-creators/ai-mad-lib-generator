@@ -54,11 +54,13 @@ export class OpenaiService {
   private async mapCategories(categories: string[]): Promise<Category[]> {
     const outputCategories = [];
     for (const category of categories) {
-      let categoryToAdd = await this.openaiCrud.findCategoryByName(category);
+      let categoryToAdd = await this.openaiCrud.findCategoryByName(
+        category.toLowerCase(),
+      );
 
       if (!categoryToAdd) {
         const newCategory = new Category();
-        newCategory.name = category;
+        newCategory.name = category.toLowerCase();
         categoryToAdd = await this.openaiCrud.saveCategory(newCategory);
       }
 

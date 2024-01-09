@@ -28,6 +28,9 @@ const CategoriesPage = () => {
     timestamp: Date,
     abortController?: AbortController
   ): Promise<ApiResponse<PaginationResponse<CategoryModel>>> => {
+    if (feedType === FeedTypes.POPULAR) {
+      return CategoryService.getMostPopularCategories(page, size, timestamp);
+    }
     return CategoryService.getCategories(
       category ?? "",
       feedType,
@@ -55,7 +58,7 @@ const CategoriesPage = () => {
             <FeedNav
               feedType={feedType}
               setFeedType={setFeedType}
-              navItems={[FeedTypes.LATEST, FeedTypes.OLDEST]}
+              navItems={[FeedTypes.POPULAR, FeedTypes.LATEST, FeedTypes.OLDEST]}
               className="ml-auto"
             />
           </div>

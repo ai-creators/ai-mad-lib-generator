@@ -4,6 +4,7 @@ import { PaginationResponse } from 'src/common/pagination/dtos/pagination-respon
 import { Adlib, Category } from 'src/data-model';
 import { CategoryPaginationDto } from './dto/category-pagination.dto';
 import { AdlibService } from 'src/adlib/adlib.service';
+import { PopularCategoryPaginationDto } from './dto/popular-category-pagination.dto';
 @Controller('v1/category')
 export class CategoryController {
   constructor(
@@ -40,7 +41,11 @@ export class CategoryController {
   }
 
   @Get('most-popular')
-  getMostPopularCategories(@Query('size') size: number): Promise<Category[]> {
-    return this.categoryService.getMostPopular(size);
+  getMostPopularCategories(
+    @Query() popularCategoryPaginationDto: PopularCategoryPaginationDto,
+  ): Promise<PaginationResponse<Category>> {
+    return this.categoryService.getMostPopularPageable(
+      popularCategoryPaginationDto,
+    );
   }
 }
