@@ -12,12 +12,13 @@ export const useAccountExistence = () => {
   const { account } = useAppSelector((state) => state.account);
 
   const getAccountStatus = () => {
+    console.log(user, account);
     if (!user) {
       return {
         status: AccountStatus.NOT_SIGNED_IN,
       };
     }
-    if (!account) {
+    if (!account?.id) {
       return {
         status: AccountStatus.ACCOUNT_NOT_SETUP,
       };
