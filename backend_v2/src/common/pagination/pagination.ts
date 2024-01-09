@@ -29,9 +29,13 @@ export class Pagination {
     { page, size, timestamp }: PaginationDto,
     entity: string,
   ): Promise<PaginationResponse<T>> {
-    queryBuilder.andWhere(`${entity}.createdAt < :timestamp`, {
-      timestamp,
-    });
+    queryBuilder
+      .andWhere(`${entity}.createdAt < :timestamp`, {
+        timestamp,
+      })
+      .take(size)
+      .skip((page - 1) * size);
+
     const [results, count] = await queryBuilder.getManyAndCount();
 
     return {

@@ -1,14 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Adlib, Category } from 'src/data-model';
-import {
-  Brackets,
-  DataSource,
-  FindManyOptions,
-  LessThan,
-  Like,
-  Repository,
-} from 'typeorm';
+import { Brackets, Repository, SelectQueryBuilder } from 'typeorm';
 import { CategoryPaginationDto } from './dto/category-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Pagination } from 'src/common/pagination/pagination';
@@ -21,43 +14,69 @@ export class CategoryService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  findAllPageable(
+  async findAllPageable(
     categoryPaginationDto: CategoryPaginationDto,
   ): Promise<PaginationResponse<Category>> {
-    const queryOptions: FindManyOptions<Category> = {
-      where: {
-        createdAt: LessThan(categoryPaginationDto.timestamp),
-      },
-      order: this.calculateOrder(categoryPaginationDto),
-    };
+    const queryBuilder = this.categoryRepository
+      .createQueryBuilder('Category')
+      .leftJoin('Category.adlibs', 'adlibs')
+      .select('Category') // Explicitly select the Category fields
+      .addSelect('COUNT(adlibs.id)', 'adlibCount') // Count the adlibs per Category
+      .groupBy('Category.id') // Group by Category id
+      .orderBy('Category.createdAt', 'DESC');
 
     if (categoryPaginationDto.category) {
-      queryOptions.where['name'] = Like(
-        `%${categoryPaginationDto.category.toLowerCase()}%`,
-      );
+      queryBuilder.andWhere('LOWER(Category.name) LIKE :name', {
+        name: `%${categoryPaginationDto.category.toLowerCase()}%`,
+      });
     }
 
-    return Pagination.paginate<Category>(
-      this.categoryRepository,
-      categoryPaginationDto,
-      queryOptions,
-    );
+    const result = await queryBuilder
+      .take(categoryPaginationDto.size)
+      .skip((categoryPaginationDto.page - 1) * categoryPaginationDto.size)
+      .getRawAndEntities();
+
+    const entities = result.entities;
+    const raw = result.raw;
+
+    const count = await queryBuilder.getCount();
+
+    // Merge raw data (for count) with entities
+    const mergedResults = entities.map((entity) => {
+      const rawResult = raw.find(
+        (r) => r[`${entity.constructor.name}_id`] === entity.id,
+      );
+      return {
+        ...entity,
+        adlibCount: rawResult ? parseInt(rawResult.adlibCount) : null,
+      };
+    });
+
+    return {
+      results: mergedResults,
+      page: categoryPaginationDto.page,
+      size: categoryPaginationDto.size,
+      totalPages: Pagination.calculatePageTotal(
+        categoryPaginationDto.size,
+        count,
+      ),
+    };
   }
 
   findAllPageableWithAdlibCount(categoryPaginationDto: CategoryPaginationDto) {
     const queryBuilder = this.categoryRepository
-      .createQueryBuilder('category')
-      .leftJoinAndSelect('category.adlibs', 'adlib')
-      .loadRelationCountAndMap('category.adlibCount', 'category.adlibs')
-      .where('category.createdAt < :timestamp', {
+      .createQueryBuilder('Category')
+      .leftJoinAndSelect('Category.adlibs', 'adlib')
+      .loadRelationCountAndMap('Category.adlibCount', 'Category.adlibs')
+      .where('Category.createdAt < :timestamp', {
         timestamp: categoryPaginationDto.timestamp,
       })
-      .orderBy(this.calculateOrder(categoryPaginationDto))
+      .orderBy(this.calculateOrderFindOptions(categoryPaginationDto.feedType))
       .take(categoryPaginationDto.size)
       .skip((categoryPaginationDto.page - 1) * categoryPaginationDto.size);
 
     if (categoryPaginationDto.category) {
-      queryBuilder.andWhere('LOWER(category.name) LIKE :name', {
+      queryBuilder.andWhere('LOWER(Category.name) LIKE :name', {
         name: `%${categoryPaginationDto.category.toLowerCase()}%`,
       });
     }
@@ -69,18 +88,24 @@ export class CategoryService {
     );
   }
 
-  private calculateOrder(categoryPaginationDto: CategoryPaginationDto): {
+  private calculateOrderFindOptions(feedType: FeedTypes): {
     createdAt: 'DESC' | 'ASC';
   } {
-    const createdAt =
-      categoryPaginationDto.feedType === FeedTypes.LATEST
-        ? 'DESC'
-        : categoryPaginationDto.feedType === FeedTypes.OLDEST
-        ? 'ASC'
-        : 'DESC';
+    const createdAt = feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC';
+
     return {
       createdAt,
     };
+  }
+
+  private calculateOrder(
+    queryBuilder: SelectQueryBuilder<Adlib>,
+    feedType: FeedTypes,
+  ) {
+    queryBuilder.orderBy(
+      'Adlib.createdAt',
+      feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC',
+    );
   }
 
   findByName(categoryName: string): Promise<Category> {
@@ -109,26 +134,26 @@ export class CategoryService {
     categoryPaginationDto: CategoryPaginationDto,
   ): Promise<PaginationResponse<Category>> {
     const queryBuilder = this.categoryRepository
-      .createQueryBuilder('category')
-      .leftJoin('category.adlibs', 'adlib')
-      .select('category')
+      .createQueryBuilder('Category')
+      .leftJoin('Category.adlibs', 'adlib')
+      .select('Category')
       .addSelect((subQuery) => {
         return subQuery
           .select('COUNT(adlib.id)', 'adlibCount')
           .from(Adlib, 'adlib')
-          .where('adlib.categoryId = category.id');
+          .where('adlib.CategoryId = Category.id');
       }, 'adlibCount')
-      .where('category.createdAt < :timestamp', {
+      .where('Category.createdAt < :timestamp', {
         timestamp: categoryPaginationDto.timestamp,
       })
-      .orderBy(this.calculateOrder(categoryPaginationDto))
+      .orderBy(this.calculateOrderFindOptions(categoryPaginationDto.feedType))
       .take(categoryPaginationDto.size)
       .skip((categoryPaginationDto.page - 1) * categoryPaginationDto.size);
 
     if (categoryPaginationDto.category) {
       queryBuilder.andWhere(
         new Brackets((qb) => {
-          qb.where('LOWER(category.name) LIKE :name', {
+          qb.where('LOWER(Category.name) LIKE :name', {
             name: `%${categoryPaginationDto.category.toLowerCase()}%`,
           });
         }),

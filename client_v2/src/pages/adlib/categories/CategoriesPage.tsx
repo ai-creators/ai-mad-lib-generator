@@ -13,6 +13,7 @@ import { CategoryModel } from "../../../models/CategoryModel";
 import CategoriesList from "../../../components/categories/categories-list/CategoriesList";
 import FeedNav from "../../../components/feed/feed-nav/FeedNav";
 import { ApiResponse } from "../../../models/ApiResponseModel";
+import CategoriesMostPopularCard from "../../../components/categories/categories-most-popular-card/CategoriesMostPopularCard";
 
 const CategoriesPage = () => {
   const [searchParams] = useSearchParams();
@@ -70,7 +71,9 @@ const CategoriesPage = () => {
             search={searchParams.get("q") ?? ""}
           />
         </div>
-        <div></div>
+        <div>
+          <CategoriesMostPopularCard />
+        </div>
       </Container>
     </Layout>
   );
