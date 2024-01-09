@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
 import Card from "../../card/Card";
 import { useCategoriesMostPopular } from "./CategoriesMostPopularCard.hooks";
+import ButtonLight from "../../button/button-light/ButtonLight";
 
 const CategoriesMostPopularCard = () => {
   const { categories, isLoading } = useCategoriesMostPopular();
   return (
-    <Card>
+    <Card padding="p-2">
       <div>
-        <h4>Most Popular</h4>
+        <h4 className="px-3 py-1 font-semibold">Most Popular</h4>
       </div>
       <ul className="flex flex-col gap-1">
         {isLoading ? (
@@ -17,9 +17,12 @@ const CategoriesMostPopularCard = () => {
         ) : (
           categories.map((category) => (
             <li key={category.id}>
-              <Link to={`/adlib/category/${category.name}`}>
-                #{category.name.toLowerCase()}
-              </Link>
+              <ButtonLight
+                href={`/adlib/category/${category.name}`}
+                className="block"
+              >
+                #{category?.name.toLowerCase()}
+              </ButtonLight>
             </li>
           ))
         )}

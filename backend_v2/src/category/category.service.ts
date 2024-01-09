@@ -19,7 +19,6 @@ export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
-    private dataSource: DataSource,
   ) {}
 
   findAllPageable(
@@ -93,21 +92,17 @@ export class CategoryService {
   }
 
   getMostPopular(size: number): Promise<Category[]> {
-    return this.dataSource
-      .getRepository(Category)
+    const queryBuilder = this.categoryRepository
       .createQueryBuilder('category')
-      .leftJoinAndSelect('category.adlibs', 'adlib')
-      .getRawMany();
-    // const queryBuilder = this.categoryRepository.createQueryBuilder('category');
+      .leftJoin('category.adlibs', 'adlib')
+      .groupBy('category.id')
+      .select('category.id', 'id')
+      .addSelect('category.name', 'name')
+      .addSelect('COUNT(adlib.id)', 'adlibCount')
+      .orderBy('COUNT(adlib.id)', 'DESC')
+      .limit(size);
 
-    // queryBuilder
-    //   .leftJoin('category.adlibs', 'adlib')
-    //   .groupBy('category.id')
-    //   .addSelect('COUNT(adlib.id)', 'adlibCount')
-    //   .orderBy('adlibCount', 'DESC')
-    //   .limit(size);
-
-    // return queryBuilder.getRawMany();
+    return queryBuilder.getRawMany();
   }
 
   async findAllPageableWithAdlibs(
