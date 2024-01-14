@@ -95,7 +95,7 @@ const AdlibCreate = () => {
                 onChange={changeTopP}
               />
             </div>
-            <div className="flex flex-col gap-2">
+            {/* <div className="flex flex-col gap-2">
               <div className="flex gap-3">
                 <label className="text-zinc-500" htmlFor="temperature">
                   Length
@@ -110,7 +110,7 @@ const AdlibCreate = () => {
                 currentOption={length}
                 changeOption={changeLength}
               />
-            </div>
+            </div> */}
           </Accordion>
           <div>
             <ButtonPrimary disabled={isLoading || !prompt.length}>
