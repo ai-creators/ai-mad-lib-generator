@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Adlib, Bookmark } from 'src/data-model';
+import { Bookmark } from 'src/data-model';
 import { LessThan, Repository } from 'typeorm';
 import { ReactionPaginationDto } from './dto/reaction-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
@@ -11,7 +11,7 @@ import { FeedTypes } from 'src/models/feed-type';
 export class ReactionService {
   constructor(
     @InjectRepository(Bookmark)
-    private readonly bookmarkRepository: Repository<Bookmark>,
+    private bookmarkRepository: Repository<Bookmark>,
   ) {}
 
   findBookmark(adlibId: string, accountId: string): Promise<Bookmark> {

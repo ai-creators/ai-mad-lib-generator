@@ -15,14 +15,14 @@ import { promisify } from 'util';
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
+  private validateAccessToken = promisify(auth());
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const response = context.switchToHttp().getResponse<Response>();
 
-    const validateAccessToken = promisify(auth());
-
     try {
-      await validateAccessToken(request, response);
+      await this.validateAccessToken(request, response);
 
       return true;
     } catch (error) {

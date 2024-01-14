@@ -14,29 +14,29 @@ function createPermissionsGuard(
 ): Type<CanActivate> {
   @Injectable()
   class PermissionsGuardImpl implements CanActivate {
+    private permissionCheck = promisify(
+      claimCheck((payload) => {
+        const permissionsJwtClaim = (payload.permissions as string[]) || [];
+
+        const hasRequiredRoutePermissions = requiredRoutePermissions.every(
+          (requiredRoutePermission) =>
+            permissionsJwtClaim.includes(requiredRoutePermission),
+        );
+
+        if (!hasRequiredRoutePermissions) {
+          throw new InsufficientScopeError();
+        }
+
+        return hasRequiredRoutePermissions;
+      }),
+    );
+
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const request = context.switchToHttp().getRequest<Request>();
       const response = context.switchToHttp().getResponse<Response>();
 
-      const permissionCheck = promisify(
-        claimCheck((payload) => {
-          const permissionsJwtClaim = (payload.permissions as string[]) || [];
-
-          const hasRequiredRoutePermissions = requiredRoutePermissions.every(
-            (requiredRoutePermission) =>
-              permissionsJwtClaim.includes(requiredRoutePermission),
-          );
-
-          if (!hasRequiredRoutePermissions) {
-            throw new InsufficientScopeError();
-          }
-
-          return hasRequiredRoutePermissions;
-        }),
-      );
-
       try {
-        await permissionCheck(request, response);
+        await this.permissionCheck(request, response);
 
         return true;
       } catch (error) {

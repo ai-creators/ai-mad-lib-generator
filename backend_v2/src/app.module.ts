@@ -29,6 +29,7 @@ import entities from './data-model';
         database: configService.get('POSTGRESQL_NAME'),
         synchronize: true,
         entities: entities,
+        logging: true,
       }),
       inject: [ConfigService],
     }),
