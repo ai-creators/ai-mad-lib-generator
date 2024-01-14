@@ -33,14 +33,14 @@ export class AdlibResponseController {
 
   @Post()
   async create(@Body() createAdlibResponseDto: CreateAdlibResponseDto) {
-    const adlibResponseToCreate = new AdlibResponse();
+    const adlibResponse = new AdlibResponse();
     const foundAdlib = await this.adlibService.findOneById(
       createAdlibResponseDto.adlibId,
     );
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
     }
-    adlibResponseToCreate.adlib = foundAdlib;
+    adlibResponse.adlib = foundAdlib;
     if (createAdlibResponseDto.createdById) {
       const foundAccount = await this.accountService.findOneById(
         createAdlibResponseDto.createdById,
@@ -48,12 +48,12 @@ export class AdlibResponseController {
       if (!foundAccount) {
         throw new AccountNotFoundException();
       }
-      adlibResponseToCreate.createdBy = foundAccount;
+      adlibResponse.createdBy = foundAccount;
     }
-    adlibResponseToCreate.questions = this.mapQuestions(
+    adlibResponse.questions = this.mapQuestions(
       createAdlibResponseDto.questions,
     );
-    return this.adlibResponseService.create(adlibResponseToCreate);
+    return this.adlibResponseService.create(adlibResponse);
   }
 
   @Put(':repsonseId/permissions')
@@ -79,21 +79,8 @@ export class AdlibResponseController {
     if (!foundAdlibResponse) {
       throw new AdlibResponseNotFound();
     }
+    foundAdlibResponse.sortQuestions();
     return foundAdlibResponse;
-  }
-
-  private mapQuestions(
-    questions: {
-      question: string;
-      answer: string;
-    }[],
-  ): AdlibResponseQuestion[] {
-    return questions.map((question) => {
-      const questionAsEntity = new AdlibResponseQuestion();
-      questionAsEntity.question = question.question;
-      questionAsEntity.answer = question.answer;
-      return questionAsEntity;
-    });
   }
 
   @Get('adlib/find')
@@ -113,13 +100,31 @@ export class AdlibResponseController {
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
     }
+    const results = await this.adlibResponseService.findPageable(
+      adlibResponsePaginationDto,
+    );
+    results.results.forEach((result) => result.sortQuestions());
     return {
       adlib: foundAdlib,
-      results: await this.adlibResponseService.findPageable(
-        adlibResponsePaginationDto,
-      ),
+      results,
     };
   }
 
-  // private isValidQuestions(questions: AdlibResponseQuestion[]): boolean {}
+  private mapQuestions(
+    questions: {
+      question: string;
+      answer: string;
+    }[],
+  ): AdlibResponseQuestion[] {
+    const output = [];
+    for (let i = 0; i < questions.length; i++) {
+      const question = questions[i];
+      const questionAsEntity = new AdlibResponseQuestion();
+      questionAsEntity.question = question.question;
+      questionAsEntity.answer = question.answer;
+      questionAsEntity.order = i;
+      output.push(questionAsEntity);
+    }
+    return output;
+  }
 }
