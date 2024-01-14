@@ -9,6 +9,7 @@ import ButtonPrimary from "../../components/button/button-primary/ButtonPrimary"
 import ButtonLight from "../../components/button/button-light/ButtonLight";
 import { useAdlibPage } from "./AdlibPage.hooks";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import NavbarItems from "../../components/navbar/navbar-items/NavbarItems";
 
 const AdlibPage = () => {
   const { account } = useAppSelector((state) => state.account);
@@ -35,8 +36,7 @@ const AdlibPage = () => {
     <Layout>
       <Container className="grid-aside py-5 gap-5">
         <aside className="flex flex-col gap-5">
-          {adlib?.createdBy ? <ProfileCard profile={adlib.createdBy} /> : null}
-          {adlib?.categories ? <AdlibCategoriesCard adlib={adlib} /> : null}
+          <NavbarItems />
         </aside>
         <div className="flex flex-col gap-5">
           {error ? <ErrorAlert error={error} /> : null}
@@ -80,6 +80,10 @@ const AdlibPage = () => {
             </div>
           </Card>
           {/*<AdlibComment />*/}
+        </div>
+        <div>
+          {adlib?.createdBy ? <ProfileCard profile={adlib.createdBy} /> : null}
+          {adlib?.categories ? <AdlibCategoriesCard adlib={adlib} /> : null}
         </div>
       </Container>
     </Layout>
