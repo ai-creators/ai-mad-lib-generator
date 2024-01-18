@@ -27,6 +27,7 @@ function App() {
       setIsAccountLoading(true);
       if (user?.sub) {
         const accessToken = await getAccessTokenSilently();
+        console.log("ACCESS TOKEN: ", accessToken);
         const { data } = await AccountService.getAccountBySub(
           user.sub,
           accessToken

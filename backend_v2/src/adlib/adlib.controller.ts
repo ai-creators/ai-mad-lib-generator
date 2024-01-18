@@ -48,9 +48,8 @@ export class AdlibController {
     if (foundAdlib?.reactions) {
       return {
         ...foundAdlib,
-        reactions: Promise.resolve(foundAdlib.reactions)
-      }
-      console.log(reactions);
+        reactions: Promise.resolve(foundAdlib.reactions),
+      };
     }
     return foundAdlib;
   }
