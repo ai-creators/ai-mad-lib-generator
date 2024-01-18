@@ -1,15 +1,44 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Adlib } from './adlib.entity';
-import { Comment } from './comment.entity';
+import { ReactionType } from 'src/reaction/reaction-type';
+import { Account } from './account.entity';
 
 @Entity()
 export class Reaction {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryColumn()
+  accountId: string;
 
-  @ManyToOne(() => Adlib, (adlib) => adlib.reactions, { nullable: true })
+  @PrimaryColumn()
+  adlibId: string;
+
+  @ManyToOne(() => Account, (account) => account.bookmarks)
+  @JoinColumn({ name: 'accountId' })
+  account: Account;
+
+  @ManyToOne(() => Adlib, (adlib) => adlib.bookmarks)
+  @JoinColumn({ name: 'adlibId' })
   adlib: Adlib;
 
-  @ManyToOne(() => Comment, (comment) => comment.reactions, { nullable: true })
-  comment: Comment;
+  @Column({
+    type: 'enum',
+    enum: ReactionType,
+    default: ReactionType.LIKE,
+  })
+  reactionType: ReactionType;
+
+  @Column({ default: false })
+  hasReacted: boolean;
+
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
 }

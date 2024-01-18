@@ -109,7 +109,16 @@ export class AdlibService {
   findOneById(id: string): Promise<Adlib> {
     return this.adlibRepository.findOne({
       where: { id },
-      relations: ['categories', 'createdBy', 'reactions'],
+    });
+  }
+
+  findOneByIdWithJoins(
+    id: string,
+    joins = ['categories', 'createdBy', 'reactions'],
+  ): Promise<Adlib> {
+    return this.adlibRepository.findOne({
+      where: { id },
+      relations: joins,
     });
   }
 

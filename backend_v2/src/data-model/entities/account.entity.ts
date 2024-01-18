@@ -8,6 +8,7 @@ import {
 import { Adlib } from './adlib.entity';
 import { AdlibResponse } from './adlib-response.entity';
 import { Bookmark } from './bookmark.entity';
+import { Notification } from './notification.entity';
 
 @Entity()
 export class Account {
@@ -31,6 +32,12 @@ export class Account {
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.account)
   bookmarks: Promise<Bookmark[]>;
+
+  @OneToMany(() => Notification, (notification) => notification.account)
+  notifications: Promise<Notification[]>;
+
+  @OneToMany(() => Notification, (notification) => notification.createdBy)
+  createdNotifications: Promise<Notification[]>;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

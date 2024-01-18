@@ -5,7 +5,7 @@ import { Adlib } from './entities/adlib.entity';
 import { Bookmark } from './entities/bookmark.entity';
 import { Category } from './entities/category.entity';
 import { Comment } from './entities/comment.entity';
-import { ReactionType } from './entities/reaction-type.entity';
+import { Notification } from './entities/notification.entity';
 import { Reaction } from './entities/reaction.entity';
 
 const entities = [
@@ -16,8 +16,8 @@ const entities = [
   AdlibResponseQuestion,
   Comment,
   Reaction,
-  ReactionType,
   Bookmark,
+  Notification,
 ];
 
 export {
@@ -27,7 +27,7 @@ export {
   AdlibResponseQuestion,
   Comment,
   Reaction,
-  ReactionType,
   Bookmark,
+  Notification,
 };
 export default entities;

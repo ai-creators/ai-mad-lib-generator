@@ -11,6 +11,7 @@ import { AdlibResponseModule } from './adlib-response/adlib-response.module';
 import { CommentModule } from './comment/comment.module';
 import { ReactionModule } from './reaction/reaction.module';
 import { CategoryModule } from './category/category.module';
+import { NotificationModule } from './notification/notification.module';
 import entities from './data-model';
 
 @Module({
@@ -29,7 +30,6 @@ import entities from './data-model';
         database: configService.get('POSTGRESQL_NAME'),
         synchronize: true,
         entities: entities,
-        logging: true,
       }),
       inject: [ConfigService],
     }),
@@ -43,6 +43,7 @@ import entities from './data-model';
     CommentModule,
     ReactionModule,
     CategoryModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [],

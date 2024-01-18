@@ -13,6 +13,9 @@ export const useAdlibPage = () => {
   const { adlibId } = useParams();
   const { getAccessTokenSilently } = useAuth0();
   const { account } = useAppSelector((state) => state.account);
+
+  const [likeOffsetCount, setLikeOffsetCount] = useState<number>(0);
+  const [hasLiked, setHasLiked] = useState<boolean>(false);
   const [hasBookmarked, setHasBookmarked] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
 
@@ -34,11 +37,31 @@ export const useAdlibPage = () => {
     queryFn: fetchAdlib,
   });
 
+  const likeAdlib = async () => {
+    if (adlib?.id && account?.id) {
+      const accessToken = await getAccessTokenSilently();
+      const { data, error: apiError } = await ReactionService.likeAdlib(
+        adlib.id,
+        account.id,
+        accessToken
+      );
+      if (data) {
+        setHasLiked(data.hasReacted);
+        setLikeOffsetCount(data.hasReacted ? 1 : 0);
+      }
+      if (apiError) {
+        setError(apiError);
+      }
+    }
+  };
+
   const bookmarkAdlib = async () => {
-    if (adlib?.id) {
+    if (adlib?.id && account?.id) {
+      const accessToken = await getAccessTokenSilently();
       const { data, error: apiError } = await ReactionService.bookmarkAdlib(
         adlib.id,
-        account?.id
+        account.id,
+        accessToken
       );
       if (data) {
         setHasBookmarked(data.hasBookmarked);
@@ -93,19 +116,33 @@ export const useAdlibPage = () => {
     }
   };
 
+  const getLike = async () => {
+    if (account?.id && adlibId) {
+      const accessToken = await getAccessTokenSilently();
+      const { data: like, error: apiError } = await ReactionService.likeAdlib(
+        adlibId,
+        account.id,
+        accessToken
+      );
+      if (like) {
+        setHasLiked(like.hasReacted);
+      }
+      if (apiError) {
+        setError(apiError);
+      }
+    }
+  };
+
   const getBookmark = async () => {
     if (account?.id && adlibId) {
       const accessToken = await getAccessTokenSilently();
-      const { data: bookmark, error } = await ReactionService.getBookmark(
-        account.id,
-        adlibId,
-        accessToken
-      );
+      const { data: bookmark, error: apiError } =
+        await ReactionService.getBookmark(adlibId, account.id, accessToken);
       if (bookmark) {
         setHasBookmarked(bookmark.hasBookmarked);
       }
-      if (error) {
-        setError(error);
+      if (apiError) {
+        setError(apiError);
       }
     }
   };
@@ -127,6 +164,7 @@ export const useAdlibPage = () => {
       } else {
         // get bookmark from account
         getBookmark();
+        getLike();
       }
     })();
   }, [account, adlib, adlibId]);
@@ -139,5 +177,8 @@ export const useAdlibPage = () => {
     bookmarkAdlib,
     bookmarkAdlibLocally,
     isBookmarkedLocally,
+    hasLiked,
+    likeAdlib,
+    likeOffsetCount,
   };
 };

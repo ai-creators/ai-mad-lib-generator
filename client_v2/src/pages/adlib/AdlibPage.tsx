@@ -20,6 +20,9 @@ const AdlibPage = () => {
     error,
     bookmarkAdlib,
     bookmarkAdlibLocally,
+    hasLiked,
+    likeAdlib,
+    likeOffsetCount,
   } = useAdlibPage();
 
   const confirmAcountSetup = () => {
@@ -57,10 +60,20 @@ const AdlibPage = () => {
               </div>
               <div className="flex items-center gap-1">
                 <div className="flex items-center gap-5">
-                  <ButtonLight className="flex gap-2 items-center" hideUnerline>
-                    <i className="fa-regular fa-heart"></i>{" "}
+                  <ButtonLight
+                    className="flex gap-2 items-center"
+                    hideUnerline
+                    onClick={likeAdlib}
+                  >
+                    <i
+                      className={`fa-${
+                        hasLiked ? "solid" : "regular"
+                      } fa-heart`}
+                    ></i>{" "}
                     <span>
-                      {adlib?.reactions ? adlib.reactions.length : 0} reactions
+                      {(adlib?.reactions ? adlib.reactions.length : 0) +
+                        likeOffsetCount}{" "}
+                      Likes
                     </span>
                   </ButtonLight>
                 </div>

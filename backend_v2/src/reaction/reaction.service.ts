@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Bookmark } from 'src/data-model';
-import { LessThan, Repository } from 'typeorm';
+import { Bookmark, Reaction } from 'src/data-model';
+import { DataSource, LessThan, Repository } from 'typeorm';
 import { ReactionPaginationDto } from './dto/reaction-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Pagination } from 'src/common/pagination/pagination';
@@ -10,11 +10,27 @@ import { FeedTypes } from 'src/models/feed-type';
 @Injectable()
 export class ReactionService {
   constructor(
+    @InjectRepository(Reaction)
+    private reactionRepository: Repository<Reaction>,
     @InjectRepository(Bookmark)
     private bookmarkRepository: Repository<Bookmark>,
   ) {}
 
+  findLike(adlibId: string, accountId: string): Promise<Reaction> {
+    return this.reactionRepository.findOne({
+      where: {
+        adlibId,
+        accountId,
+      },
+    });
+  }
+
+  saveReaction(reaction: Reaction): Promise<Reaction> {
+    return this.reactionRepository.save(reaction);
+  }
+
   findBookmark(adlibId: string, accountId: string): Promise<Bookmark> {
+    console.log(adlibId, accountId);
     return this.bookmarkRepository.findOne({
       where: {
         adlibId,

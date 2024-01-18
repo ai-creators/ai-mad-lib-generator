@@ -38,12 +38,19 @@ export class AdlibController {
 
   @Get('find')
   async findAdlibById(@Query('id') id: string): Promise<Adlib> {
-    const foundAdlib = await this.adlibService.findOneById(id);
+    const foundAdlib = await this.adlibService.findOneByIdWithJoins(id);
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
     }
     if (foundAdlib?.createdBy) {
       this.removePrivateProperties(await foundAdlib.createdBy);
+    }
+    if (foundAdlib?.reactions) {
+      return {
+        ...foundAdlib,
+        reactions: Promise.resolve(foundAdlib.reactions)
+      }
+      console.log(reactions);
     }
     return foundAdlib;
   }
