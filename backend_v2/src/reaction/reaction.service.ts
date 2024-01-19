@@ -6,6 +6,7 @@ import { ReactionPaginationDto } from './dto/reaction-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Pagination } from 'src/common/pagination/pagination';
 import { FeedTypes } from 'src/models/feed-type';
+import { ReactionType } from './reaction-type';
 
 @Injectable()
 export class ReactionService {
@@ -67,6 +68,22 @@ export class ReactionService {
     return this.bookmarkRepository.save(bookmark);
   }
 
+  async findReactionsFromAdlib(
+    adlibId: string,
+  ): Promise<{ reactionType: ReactionType; count: number }[]> {
+    const reactionCounts = await this.reactionRepository
+      .createQueryBuilder('reaction')
+      .select('reaction.reactionType', 'reactionType')
+      .addSelect('COUNT(reaction.reactionType)', 'count')
+      .where('reaction.adlibId = :adlibId', { adlibId })
+      .groupBy('reaction.reactionType')
+      .getRawMany();
+
+    return reactionCounts.map((row) => ({
+      reactionType: row.reactionType,
+      count: parseInt(row.count, 10),
+    }));
+  }
   private calculateOrder(reactionPaginationDto: ReactionPaginationDto): {
     createdAt: 'DESC' | 'ASC';
   } {

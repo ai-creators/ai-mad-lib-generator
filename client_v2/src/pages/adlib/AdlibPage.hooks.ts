@@ -15,6 +15,7 @@ export const useAdlibPage = () => {
   const { account } = useAppSelector((state) => state.account);
 
   const [likeOffsetCount, setLikeOffsetCount] = useState<number>(0);
+  const [initiallyLiked, setInitiallyLiked] = useState<boolean>(false);
   const [hasLiked, setHasLiked] = useState<boolean>(false);
   const [hasBookmarked, setHasBookmarked] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
@@ -47,7 +48,8 @@ export const useAdlibPage = () => {
       );
       if (data) {
         setHasLiked(data.hasReacted);
-        setLikeOffsetCount(data.hasReacted ? 1 : 0);
+        const likeOffsetCount = initiallyLiked ? -1 : 1;
+        setLikeOffsetCount(data.hasReacted ? likeOffsetCount : 0);
       }
       if (apiError) {
         setError(apiError);
@@ -124,8 +126,10 @@ export const useAdlibPage = () => {
         account.id,
         accessToken
       );
+      console.log("INITIAL: ", like);
       if (like) {
         setHasLiked(like.hasReacted);
+        setInitiallyLiked(true);
       }
       if (apiError) {
         setError(apiError);
@@ -168,6 +172,8 @@ export const useAdlibPage = () => {
       }
     })();
   }, [account, adlib, adlibId]);
+
+  console.log("INITIAL ADLIB: ", adlib);
 
   return {
     adlib,

@@ -10,6 +10,7 @@ import ButtonLight from "../../components/button/button-light/ButtonLight";
 import { useAdlibPage } from "./AdlibPage.hooks";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import NavbarItems from "../../components/navbar/navbar-items/NavbarItems";
+import AdlibReactions from "../../components/adlib/adlib-reactions/AdlibReactions";
 
 const AdlibPage = () => {
   const { account } = useAppSelector((state) => state.account);
@@ -59,7 +60,8 @@ const AdlibPage = () => {
                 </ButtonLight>
               </div>
               <div className="flex items-center gap-1">
-                <div className="flex items-center gap-5">
+                <AdlibReactions />
+                {/* <div className="flex items-center gap-5">
                   <ButtonLight
                     className="flex gap-2 items-center"
                     hideUnerline
@@ -76,7 +78,7 @@ const AdlibPage = () => {
                       Likes
                     </span>
                   </ButtonLight>
-                </div>
+                </div> */}
                 <ButtonLight
                   size="w-10 h-10"
                   className="flex justify-center items-center"
@@ -94,7 +96,7 @@ const AdlibPage = () => {
           </Card>
           {/*<AdlibComment />*/}
         </div>
-        <div>
+        <div className="flex flex-col gap-5">
           {adlib?.createdBy ? <ProfileCard profile={adlib.createdBy} /> : null}
           {adlib?.categories ? <AdlibCategoriesCard adlib={adlib} /> : null}
         </div>

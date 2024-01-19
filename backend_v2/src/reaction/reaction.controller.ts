@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Query,
+  Req,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -18,27 +19,64 @@ import { BookmarkDto } from './dto/bookmark.dto';
 import { CreateReactionDto } from './dto/create-reaction.dto';
 import { ReactionType } from './reaction-type';
 import { LikeDto } from './dto/like.dto';
+import { AdlibReactionDto } from './dto/adlib-reaction.dto';
+import { Request } from 'express';
+import { AccountService } from 'src/account/account.service';
+import { AccountNotFoundException } from 'src/account/exceptions/account-not-found.exception';
 
 @Controller('v1/reaction')
 export class ReactionController {
-  constructor(private readonly reactionService: ReactionService) {}
+  constructor(
+    private readonly reactionService: ReactionService,
+    private readonly accountService: AccountService,
+  ) {}
 
   @Get('bookmark/find')
   @UseGuards(AuthorizationGuard)
   findBookmark(
-    @Query(
-      new ValidationPipe({
-        transform: true,
-        transformOptions: { enableImplicitConversion: true },
-        forbidNonWhitelisted: true,
-      }),
-    )
+    @Query()
     bookmarkDto: BookmarkDto,
   ): Promise<Bookmark> {
     return this.reactionService.findBookmark(
       bookmarkDto.adlibId,
       bookmarkDto.accountId,
     );
+  }
+
+  @Get('adlib/reactions')
+  async findReactionsFromAdlib(
+    @Req() request: Request,
+    @Query() adlibReactionDto: AdlibReactionDto,
+  ) {
+    const {
+      payload: { sub },
+    } = request.auth;
+
+    let accountWithReactions = null;
+
+    if (sub) {
+      const foundAccount = await this.accountService.findOneBySub(sub);
+      if (!foundAccount) {
+        throw new AccountNotFoundException();
+      }
+      const foundReactions = await this.reactionService.findLike(
+        adlibReactionDto.adlibId,
+        foundAccount.id,
+      );
+      accountWithReactions = {
+        currentUser: foundAccount.id,
+        reactions: foundReactions,
+      };
+    }
+    const foundReactionCount =
+      await this.reactionService.findReactionsFromAdlib(
+        adlibReactionDto.adlibId,
+      );
+    return {
+      currentUser: accountWithReactions?.currentUser ?? null,
+      reactions: accountWithReactions?.reaction ?? null,
+      adlibReactions: foundReactionCount,
+    };
   }
 
   @Get('like/find')

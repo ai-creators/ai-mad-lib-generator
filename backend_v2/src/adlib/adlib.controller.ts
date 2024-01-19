@@ -37,7 +37,7 @@ export class AdlibController {
   }
 
   @Get('find')
-  async findAdlibById(@Query('id') id: string): Promise<Adlib> {
+  async findAdlibById(@Query('id') id: string) {
     const foundAdlib = await this.adlibService.findOneByIdWithJoins(id);
     if (!foundAdlib) {
       throw new AdlibNotFoundException();
@@ -45,13 +45,20 @@ export class AdlibController {
     if (foundAdlib?.createdBy) {
       this.removePrivateProperties(await foundAdlib.createdBy);
     }
-    if (foundAdlib?.reactions) {
-      return {
-        ...foundAdlib,
-        reactions: Promise.resolve(foundAdlib.reactions),
-      };
-    }
-    return foundAdlib;
+
+    return {
+      id: foundAdlib.id,
+      prompt: foundAdlib.prompt,
+      title: foundAdlib.title,
+      body: foundAdlib.body,
+      isPg: foundAdlib.isPg,
+      isHidden: foundAdlib.isHidden,
+      createdAt: foundAdlib.createdAt,
+      updatedAt: foundAdlib.updatedAt,
+      categories: foundAdlib.categories,
+      createdBy: foundAdlib.createdBy,
+      reactions: await Promise.resolve(foundAdlib.reactions),
+    };
   }
 
   private removePrivateProperties(account: Account): void {
