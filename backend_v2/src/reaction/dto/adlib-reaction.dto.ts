@@ -4,4 +4,7 @@ export class AdlibReactionDto {
   @IsString()
   @IsNotEmpty()
   adlibId: string;
+
+  @IsString()
+  accountId: string;
 }

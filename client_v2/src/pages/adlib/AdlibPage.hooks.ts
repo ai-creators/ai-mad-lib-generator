@@ -126,7 +126,7 @@ export const useAdlibPage = () => {
         account.id,
         accessToken
       );
-      console.log("INITIAL: ", like);
+
       if (like) {
         setHasLiked(like.hasReacted);
         setInitiallyLiked(true);
@@ -173,8 +173,6 @@ export const useAdlibPage = () => {
     })();
   }, [account, adlib, adlibId]);
 
-  console.log("INITIAL ADLIB: ", adlib);
-
   return {
     adlib,
     isLoading,
@@ -186,5 +184,6 @@ export const useAdlibPage = () => {
     hasLiked,
     likeAdlib,
     likeOffsetCount,
+    adlibId,
   };
 };

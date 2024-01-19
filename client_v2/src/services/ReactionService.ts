@@ -5,6 +5,8 @@ import api from "./Api";
 import { PaginationResponse } from "../models/PaginationResponse";
 import { FeedTypes } from "../components/feed/FeedTypes";
 import { ReactionModel } from "../models/ReactionModel";
+import { AccountModel } from "../models/AccountModel";
+import { ReactionTypeModel } from "../models/ReactionTypeModel";
 
 const likeAdlib = (
   adlibId: string,
@@ -123,12 +125,45 @@ const getBookmark = (
   return api.callExternalApi<BookmarkModel>({ config });
 };
 
+const getReactionsFromAdlib = (
+  adlibId: string,
+  accountId: string | null
+): Promise<
+  ApiResponse<{
+    currentUser: AccountModel | null;
+    reactions: null;
+    adlibReactions: { reactionType: ReactionTypeModel; count: number }[];
+  }>
+> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/reaction/adlib/reactions",
+    method: "GET",
+    params: {
+      adlibId,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (accountId) {
+    config.params.accountId = accountId;
+  }
+
+  return api.callExternalApi<{
+    currentUser: AccountModel | null;
+    reactions: null;
+    adlibReactions: { reactionType: ReactionTypeModel; count: number }[];
+  }>({ config });
+};
+
 const ReactionService = {
   bookmarkAdlib,
   getBookmarks,
   getBookmark,
   likeAdlib,
   getLike,
+  getReactionsFromAdlib,
 };
 
 Object.freeze(ReactionService);

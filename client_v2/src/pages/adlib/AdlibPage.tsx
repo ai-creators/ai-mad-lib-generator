@@ -15,15 +15,13 @@ import AdlibReactions from "../../components/adlib/adlib-reactions/AdlibReaction
 const AdlibPage = () => {
   const { account } = useAppSelector((state) => state.account);
   const {
+    adlibId,
     adlib,
     isLoading,
     hasBookmarked,
     error,
     bookmarkAdlib,
     bookmarkAdlibLocally,
-    hasLiked,
-    likeAdlib,
-    likeOffsetCount,
   } = useAdlibPage();
 
   const confirmAcountSetup = () => {
@@ -60,7 +58,7 @@ const AdlibPage = () => {
                 </ButtonLight>
               </div>
               <div className="flex items-center gap-1">
-                <AdlibReactions />
+                <AdlibReactions adlibId={adlibId} />
                 {/* <div className="flex items-center gap-5">
                   <ButtonLight
                     className="flex gap-2 items-center"

@@ -44,22 +44,17 @@ export class ReactionController {
   }
 
   @Get('adlib/reactions')
-  async findReactionsFromAdlib(
-    @Req() request: Request,
-    @Query() adlibReactionDto: AdlibReactionDto,
-  ) {
-    const {
-      payload: { sub },
-    } = request.auth;
-
+  async findReactionsFromAdlib(@Query() adlibReactionDto: AdlibReactionDto) {
     let accountWithReactions = null;
 
-    if (sub) {
-      const foundAccount = await this.accountService.findOneBySub(sub);
+    if (adlibReactionDto.accountId) {
+      const foundAccount = await this.accountService.findOneById(
+        adlibReactionDto.accountId,
+      );
       if (!foundAccount) {
         throw new AccountNotFoundException();
       }
-      const foundReactions = await this.reactionService.findLike(
+      const foundReactions = await this.reactionService.findReactions(
         adlibReactionDto.adlibId,
         foundAccount.id,
       );
@@ -72,9 +67,10 @@ export class ReactionController {
       await this.reactionService.findReactionsFromAdlib(
         adlibReactionDto.adlibId,
       );
+
     return {
       currentUser: accountWithReactions?.currentUser ?? null,
-      reactions: accountWithReactions?.reaction ?? null,
+      reactions: accountWithReactions?.reactions ?? null,
       adlibReactions: foundReactionCount,
     };
   }

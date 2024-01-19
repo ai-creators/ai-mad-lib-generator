@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Bookmark, Reaction } from 'src/data-model';
-import { DataSource, LessThan, Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { ReactionPaginationDto } from './dto/reaction-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Pagination } from 'src/common/pagination/pagination';
@@ -26,12 +26,21 @@ export class ReactionService {
     });
   }
 
+  findReactions(adlibId: string, accountId: string): Promise<Reaction[]> {
+    return this.reactionRepository.find({
+      where: {
+        adlibId,
+        accountId,
+        hasReacted: true,
+      },
+    });
+  }
+
   saveReaction(reaction: Reaction): Promise<Reaction> {
     return this.reactionRepository.save(reaction);
   }
 
   findBookmark(adlibId: string, accountId: string): Promise<Bookmark> {
-    console.log(adlibId, accountId);
     return this.bookmarkRepository.findOne({
       where: {
         adlibId,
@@ -76,6 +85,7 @@ export class ReactionService {
       .select('reaction.reactionType', 'reactionType')
       .addSelect('COUNT(reaction.reactionType)', 'count')
       .where('reaction.adlibId = :adlibId', { adlibId })
+      .andWhere('reaction.hasReacted = true')
       .groupBy('reaction.reactionType')
       .getRawMany();
 
