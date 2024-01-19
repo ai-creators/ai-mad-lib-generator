@@ -22,22 +22,24 @@ export const useAdlibReactions = (adlibId?: string) => {
 
   const getReactions = async () => {
     if (adlibId) {
+      setIsLoading(true);
       const { data, error: apiError } =
         await ReactionService.getReactionsFromAdlib(adlibId, account?.id);
 
       if (data) {
         setReactions(data.adlibReactions);
-
         setUserReactions(data?.reactions ?? []);
       }
 
       if (apiError) {
         setError(apiError);
       }
+      setIsLoading(false);
     }
   };
 
   const reactAdlib = async () => {
+    console.log("REACTING");
     if (account?.id && adlibId) {
       setIsLoading(true);
       const accessToken = await getAccessTokenSilently();
@@ -48,9 +50,7 @@ export const useAdlibReactions = (adlibId?: string) => {
       );
 
       if (data) {
-        if (data.hasReacted) {
-          setUserReactions([data]);
-        }
+        setUserReactions(data.hasReacted ? [data] : []);
         getReactions();
       }
 

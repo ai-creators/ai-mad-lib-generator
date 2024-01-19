@@ -59,24 +59,6 @@ const AdlibPage = () => {
               </div>
               <div className="flex items-center gap-1">
                 <AdlibReactions adlibId={adlibId} />
-                {/* <div className="flex items-center gap-5">
-                  <ButtonLight
-                    className="flex gap-2 items-center"
-                    hideUnerline
-                    onClick={likeAdlib}
-                  >
-                    <i
-                      className={`fa-${
-                        hasLiked ? "solid" : "regular"
-                      } fa-heart`}
-                    ></i>{" "}
-                    <span>
-                      {(adlib?.reactions ? adlib.reactions.length : 0) +
-                        likeOffsetCount}{" "}
-                      Likes
-                    </span>
-                  </ButtonLight>
-                </div> */}
                 <ButtonLight
                   size="w-10 h-10"
                   className="flex justify-center items-center"

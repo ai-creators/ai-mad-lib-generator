@@ -14,9 +14,6 @@ export const useAdlibPage = () => {
   const { getAccessTokenSilently } = useAuth0();
   const { account } = useAppSelector((state) => state.account);
 
-  const [likeOffsetCount, setLikeOffsetCount] = useState<number>(0);
-  const [initiallyLiked, setInitiallyLiked] = useState<boolean>(false);
-  const [hasLiked, setHasLiked] = useState<boolean>(false);
   const [hasBookmarked, setHasBookmarked] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
 
@@ -37,25 +34,6 @@ export const useAdlibPage = () => {
     queryKey: ["adlib"],
     queryFn: fetchAdlib,
   });
-
-  const likeAdlib = async () => {
-    if (adlib?.id && account?.id) {
-      const accessToken = await getAccessTokenSilently();
-      const { data, error: apiError } = await ReactionService.likeAdlib(
-        adlib.id,
-        account.id,
-        accessToken
-      );
-      if (data) {
-        setHasLiked(data.hasReacted);
-        const likeOffsetCount = initiallyLiked ? -1 : 1;
-        setLikeOffsetCount(data.hasReacted ? likeOffsetCount : 0);
-      }
-      if (apiError) {
-        setError(apiError);
-      }
-    }
-  };
 
   const bookmarkAdlib = async () => {
     if (adlib?.id && account?.id) {
@@ -118,25 +96,6 @@ export const useAdlibPage = () => {
     }
   };
 
-  const getLike = async () => {
-    if (account?.id && adlibId) {
-      const accessToken = await getAccessTokenSilently();
-      const { data: like, error: apiError } = await ReactionService.likeAdlib(
-        adlibId,
-        account.id,
-        accessToken
-      );
-
-      if (like) {
-        setHasLiked(like.hasReacted);
-        setInitiallyLiked(true);
-      }
-      if (apiError) {
-        setError(apiError);
-      }
-    }
-  };
-
   const getBookmark = async () => {
     if (account?.id && adlibId) {
       const accessToken = await getAccessTokenSilently();
@@ -168,7 +127,6 @@ export const useAdlibPage = () => {
       } else {
         // get bookmark from account
         getBookmark();
-        getLike();
       }
     })();
   }, [account, adlib, adlibId]);
@@ -181,9 +139,6 @@ export const useAdlibPage = () => {
     bookmarkAdlib,
     bookmarkAdlibLocally,
     isBookmarkedLocally,
-    hasLiked,
-    likeAdlib,
-    likeOffsetCount,
     adlibId,
   };
 };
