@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     (async () => {
       setIsAccountLoading(true);
-      if (user?.sub) {
+      if (isAuthenticated && user?.sub) {
         const accessToken = await getAccessTokenSilently();
         const { data } = await AccountService.getAccountBySub(
           user.sub,
@@ -38,6 +38,8 @@ function App() {
       }
       setIsAccountLoading(false);
     })();
+
+    (async () => {})();
   }, [user?.sub]);
 
   if (isLoading || isAccountLoading) {
