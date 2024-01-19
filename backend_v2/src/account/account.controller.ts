@@ -35,6 +35,7 @@ export class AccountController {
     adlibs: number;
     responses: number;
     bookmarks: number;
+    reactions: number;
   }> {
     const foundAccount = await this.accountService.findOneByUsername(
       usernameDto.username,
@@ -51,7 +52,11 @@ export class AccountController {
         usernameDto.username,
       );
 
-    const bookmarkCunt = await this.accountService.countBookmarksByUsername(
+    const bookmarkCount = await this.accountService.countBookmarksByUsername(
+      usernameDto.username,
+    );
+
+    const reactionsCount = await this.accountService.countReactionsByUsername(
       usernameDto.username,
     );
 
@@ -60,7 +65,8 @@ export class AccountController {
       account: foundAccount,
       adlibs: adlibCount,
       responses: responseCount,
-      bookmarks: bookmarkCunt,
+      bookmarks: bookmarkCount,
+      reactions: reactionsCount,
     };
   }
 

@@ -9,6 +9,7 @@ export const useProfilePage = (username: string | undefined) => {
   const [adlibTotal, setAdlibTotal] = useState<number>(0);
   const [responseTotal, setResponseTotal] = useState<number>(0);
   const [bookmarkTotal, setBookmarkTotal] = useState<number>(0);
+  const [reactionTotal, setReactionTotal] = useState<number>(0);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
@@ -24,7 +25,13 @@ export const useProfilePage = (username: string | undefined) => {
         username
       );
       if (data) {
-        const { account, adlibs, responses, bookmarks } = data;
+        const {
+          account,
+          adlibs,
+          responses,
+          bookmarks,
+          reactions: apiReactions,
+        } = data;
         if (account) {
           setAccount(account);
         }
@@ -36,6 +43,9 @@ export const useProfilePage = (username: string | undefined) => {
         }
         if (bookmarks) {
           setBookmarkTotal(bookmarks);
+        }
+        if (apiReactions) {
+          setReactionTotal(apiReactions);
         }
       }
 
@@ -53,5 +63,6 @@ export const useProfilePage = (username: string | undefined) => {
     error,
     responseTotal,
     bookmarkTotal,
+    reactionTotal,
   };
 };

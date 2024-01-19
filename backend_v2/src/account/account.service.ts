@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Account } from '../data-model/entities/account.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
-import { Adlib, Bookmark } from 'src/data-model';
+import { Adlib, Bookmark, Reaction } from 'src/data-model';
 import { AdlibResponse } from 'src/data-model/entities/adlib-response.entity';
 import { ContentRating } from 'src/data-model/models/ContentRating';
 
@@ -70,6 +70,16 @@ export class AccountService {
 
   countBookmarksByUsername(username: string): Promise<number> {
     return this.dataSource.getRepository(Bookmark).count({
+      where: {
+        account: {
+          username,
+        },
+      },
+    });
+  }
+
+  countReactionsByUsername(username: string): Promise<number> {
+    return this.dataSource.getRepository(Reaction).count({
       where: {
         account: {
           username,

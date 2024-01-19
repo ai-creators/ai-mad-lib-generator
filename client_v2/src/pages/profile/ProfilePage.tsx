@@ -20,6 +20,7 @@ const ProfilePage = () => {
     error,
     responseTotal,
     bookmarkTotal,
+    reactionTotal,
   } = useProfilePage(username);
   return (
     <Layout mainClassName="relative">
@@ -51,7 +52,7 @@ const ProfilePage = () => {
           <div className="col-span-5">
             <Card padding="p-2">
               <ul className="flex flex-col gap-1">
-                <li>
+                <li className="border-b border-zinc-200 pb-1">
                   <ButtonLight
                     href={`/profile/${username}/adlibs`}
                     className="block"
@@ -60,7 +61,7 @@ const ProfilePage = () => {
                     {adlibTotal} Adlibs Created
                   </ButtonLight>
                 </li>
-                <li>
+                <li className="border-b border-zinc-200 pb-1">
                   <ButtonLight
                     href={`/profile/${username}/responses`}
                     className="block"
@@ -69,12 +70,21 @@ const ProfilePage = () => {
                     {responseTotal} Adlibs Responses
                   </ButtonLight>
                 </li>
-                <li>
+                <li className="border-b border-zinc-200 pb-1">
+                  <ButtonLight
+                    href={`/profile/${username}/reactions`}
+                    className="block"
+                  >
+                    <i className="fa-regular fa-heart mr-3 fa-lg"></i>
+                    {reactionTotal} Reactions
+                  </ButtonLight>
+                </li>
+                <li className="pb-1">
                   <ButtonLight
                     href={`/profile/${username}/bookmarks`}
                     className="block"
                   >
-                    <i className="fa-regular fa-heart mr-3 fa-lg"></i>
+                    <i className="fa-regular fa-bookmark mr-3 fa-lg"></i>
                     {bookmarkTotal} Bookmarks
                   </ButtonLight>
                 </li>

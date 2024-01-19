@@ -67,6 +67,7 @@ const getAccountByUsername = (
     adlibs: number;
     responses: number;
     bookmarks: number;
+    reactions: number;
   }>
 > => {
   const config: AxiosRequestConfig = {
@@ -81,6 +82,7 @@ const getAccountByUsername = (
     adlibs: number;
     responses: number;
     bookmarks: number;
+    reactions: number;
   }>({ config });
 };
 
