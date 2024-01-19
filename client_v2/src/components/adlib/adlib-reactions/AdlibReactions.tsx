@@ -1,4 +1,5 @@
 import ButtonLight from "../../button/button-light/ButtonLight";
+import Loader from "../../loader/Loader";
 import { useAdlibReactions } from "./AdlibReactions.hooks";
 
 type Props = {
@@ -6,7 +7,8 @@ type Props = {
 };
 
 const AdlibReactions = ({ adlibId }: Props) => {
-  const { reactions, reactAdlib, userReactions } = useAdlibReactions(adlibId);
+  const { reactions, reactAdlib, userReactions, isLoading } =
+    useAdlibReactions(adlibId);
   return (
     <ul>
       <li>
@@ -15,11 +17,15 @@ const AdlibReactions = ({ adlibId }: Props) => {
           hideUnerline
           onClick={reactAdlib}
         >
-          <i
-            className={`fa-${
-              userReactions.length ? "solid" : "regular"
-            } fa-heart`}
-          ></i>{" "}
+          {isLoading ? (
+            <Loader size="w-4 h-4" border="border-2" />
+          ) : (
+            <i
+              className={`fa-${
+                userReactions.length ? "solid" : "regular"
+              } fa-heart`}
+            ></i>
+          )}{" "}
           <span>{reactions.length ? reactions[0].count : 0} Likes</span>
         </ButtonLight>
       </li>

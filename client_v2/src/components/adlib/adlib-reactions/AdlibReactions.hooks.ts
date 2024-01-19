@@ -17,6 +17,7 @@ export const useAdlibReactions = (adlibId?: string) => {
     }[]
   >([]);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
 
   const getReactions = async () => {
@@ -38,6 +39,7 @@ export const useAdlibReactions = (adlibId?: string) => {
 
   const reactAdlib = async () => {
     if (account?.id && adlibId) {
+      setIsLoading(true);
       const accessToken = await getAccessTokenSilently();
       const { data, error: apiError } = await ReactionService.likeAdlib(
         adlibId,
@@ -56,11 +58,12 @@ export const useAdlibReactions = (adlibId?: string) => {
         setError(apiError);
       }
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     getReactions();
   }, [adlibId, getAccessTokenSilently]);
 
-  return { userReactions, reactions, error, reactAdlib };
+  return { userReactions, reactions, error, reactAdlib, isLoading };
 };
