@@ -26,7 +26,7 @@ jobs:
 
       - name: Clean install dependencies
         run: npm ci
-        working-directory: ./backend_v1
+        working-directory: ./backend_v2
 
       - name: Run tests
         env:
@@ -34,4 +34,4 @@ jobs:
           DATABASE_URL_TEST: ${{ secrets.DATABASE_URL_TEST }}
           NODE_ENV: ${{ secrets.NODE_ENV }}
         run: npm test
-        working-directory: ./backend_v1
+        working-directory: ./backend_v2
