@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
-import { render } from "@testing-library/react";
 import App from "./App";
+import { renderWithRouter } from "./test/testUtils";
 
 describe("App", () => {
   test("DUMMY TEST", () => {
@@ -8,6 +8,6 @@ describe("App", () => {
   });
 
   test("Should render app component", () => {
-    render(<App />);
+    renderWithRouter(<App />);
   });
 });

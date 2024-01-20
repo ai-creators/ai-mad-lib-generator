@@ -1,9 +1,7 @@
+import PageRoutes from "./page/PageRoutes";
+
 function App() {
-  return (
-    <>
-      <h1>TEST</h1>
-    </>
-  );
+  return <PageRoutes />;
 }
 
 export default App;
