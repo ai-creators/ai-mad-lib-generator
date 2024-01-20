@@ -3,7 +3,7 @@ import Layout from "../../layout/Layout";
 const Home = () => {
   return (
     <Layout>
-      <div>BOI</div>
+      <div data-testid="home">BOI</div>
     </Layout>
   );
 };
