@@ -10,7 +10,7 @@ type Props = {
 
 const Layout = ({
   children,
-  bgColor = "bg-zinc-950 text-white",
+  bgColor = "dark:bg-zinc-950 dark:text-white",
   mainClassName = "",
 }: Props) => {
   return (

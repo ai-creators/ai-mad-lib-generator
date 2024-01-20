@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import Container from "../container/Container";
+import ThemeToggle from "@/components/button/ThemeToggle";
 
 const Navbar = () => {
   return (
-    <nav className="border-b border-zinc-600">
+    <nav className="border-b shadow-sm dark:border-zinc-600">
       <Container className="p-2 flex justify-between items-center relative">
         <ul className="flex items-center gap-1 sm:gap-2 md:gap-3">
           <li>
@@ -32,6 +33,9 @@ const Navbar = () => {
             <Link to="/" className="py-2 px-2 block">
               Settings
             </Link>
+          </li>
+          <li>
+            <ThemeToggle />
           </li>
         </ul>
       </Container>

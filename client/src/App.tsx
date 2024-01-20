@@ -1,7 +1,14 @@
+import { ThemeProvider } from "./context/themeProvider";
 import PageRoutes from "./page/PageRoutes";
 
 function App() {
-  return <PageRoutes />;
+  return (
+    <>
+      <ThemeProvider>
+        <PageRoutes />
+      </ThemeProvider>
+    </>
+  );
 }
 
 export default App;
