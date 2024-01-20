@@ -16,3 +16,11 @@ jobs:
       - name: Run tests
         run: npm run test
         working-directory: ./client
+
+      - name: Run test coverage
+        run: npm run test:coverage
+        working-directory: ./client
+
+      - name: Check test coverage
+        run: npx nyc check-coverage --lines 75 --functions 75 --branches 75
+        working-directory: ./client
