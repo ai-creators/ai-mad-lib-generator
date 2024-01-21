@@ -4,7 +4,7 @@ import ThemeToggle from "@/components/button/ThemeToggle";
 
 const Navbar = () => {
   return (
-    <nav className="border-b shadow-sm dark:border-zinc-600">
+    <nav className="fixed top-0 w-full border-b shadow-sm dark:border-border/40 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <Container className="p-2 flex justify-between items-center relative">
         <ul className="flex items-center gap-1 sm:gap-2 md:gap-3">
           <li>
