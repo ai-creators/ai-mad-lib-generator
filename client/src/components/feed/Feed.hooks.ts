@@ -19,7 +19,11 @@ export const useFeed = <T extends object>(
   const [error, setError] = useState<ErrorModel | null>(null);
 
   const generateMore = async () => {
-    const [dataResponse, apiError] = await executable(page, size, timestamp);
+    const [dataResponse, apiError] = await executable(
+      page + 1,
+      size,
+      timestamp
+    );
     if (dataResponse) {
       setPage(dataResponse.page);
       setData((curr) => [...curr, ...dataResponse.results]);
