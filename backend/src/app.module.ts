@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AdlibModule } from './adlib/adlib.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { MongooseModule } from '@nestjs/mongoose';
         uri: config.get<string>('MONGODB_URI'), // Loaded from .ENV
       }),
     }),
+    AdlibModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [],
