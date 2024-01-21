@@ -12,12 +12,11 @@ type Props = {
 const Layout = ({
   children,
   bgColor = "dark:bg-zinc-950 dark:text-white",
-  headerColor = "",
   mainClassName = "",
 }: Props) => {
   return (
     <div className="flex flex-col min-h-screen relative">
-      <header className="py-9">
+      <header className={`py-9 ${bgColor}`}>
         <Navbar />
       </header>
 
