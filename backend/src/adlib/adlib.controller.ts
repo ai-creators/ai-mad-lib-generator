@@ -4,7 +4,7 @@ import { AdlibPaginationDto } from './dto/adlib-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Adlib } from 'src/data-model/entities/adlib.schema';
 
-@Controller('adlib')
+@Controller('api/v1/adlib')
 export class AdlibController {
   constructor(private readonly adlibService: AdlibService) {}
 

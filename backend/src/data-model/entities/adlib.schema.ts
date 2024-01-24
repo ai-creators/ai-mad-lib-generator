@@ -17,6 +17,12 @@ export class Adlib {
   @Prop({ default: true })
   isPg: boolean;
 
+  @Prop({ default: 0.5, max: 1, min: 0 })
+  topP: number;
+
+  @Prop({ default: 0.5, max: 1, min: 0 })
+  temperature: number;
+
   @Prop()
   createdAt: Date;
 

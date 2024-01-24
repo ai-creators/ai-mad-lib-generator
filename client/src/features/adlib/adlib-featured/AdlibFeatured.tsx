@@ -4,7 +4,7 @@ import { useAdlibFeatured } from "./AdlibFeatured.hooks";
 import AdlibFeaturedList from "./adlib-featured-list/AdlibFeaturedList";
 
 const AdlibFeatured = () => {
-  const { executable } = useAdlibFeatured();
+  const { getAdlibs } = useAdlibFeatured();
   return (
     <Card className="p-5">
       <div>
@@ -14,7 +14,7 @@ const AdlibFeatured = () => {
         </p>
       </div>
       <Feed
-        executable={executable}
+        executable={getAdlibs}
         ListComponent={AdlibFeaturedList}
         endMessage={
           <p className="pt-5 px-4 font-semibold">No more data available</p>

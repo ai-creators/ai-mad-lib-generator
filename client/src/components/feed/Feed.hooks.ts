@@ -34,7 +34,7 @@ export const useFeed = <T extends object>(
   };
 
   const hasMore = (): boolean => {
-    return true;
+    return !error;
   };
 
   useEffect(() => {
