@@ -18,7 +18,6 @@ import {
 import { AdlibLables } from "../../adlib-labels/AdlibLabels";
 import { Info } from "lucide-react";
 import { useAdlibCreateCard } from "./AdlibCreateCard.hooks";
-import { ChangeEvent } from "react";
 
 const AdlibCreateCard = () => {
   const {
@@ -115,7 +114,7 @@ const AdlibCreateCard = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-5">
             <Button>Generate</Button>
             <Button variant="secondary">Generate Random</Button>
           </div>
