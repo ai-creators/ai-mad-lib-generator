@@ -10,7 +10,7 @@ import {
 @ValidatorConstraint()
 export class IsBeforeNowConstraint implements ValidatorConstraintInterface {
   validate(date: Date) {
-    console.log(Date.now(), date);
+    console.log(Date.now(), date.getTime());
     return Date.now() > date.getTime();
   }
 
