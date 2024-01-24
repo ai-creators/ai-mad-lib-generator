@@ -6,7 +6,7 @@ import AdlibFeaturedList from "./adlib-featured-list/AdlibFeaturedList";
 const AdlibFeatured = () => {
   const { getAdlibs } = useAdlibFeatured();
   return (
-    <Card className="p-5">
+    <Card className="p-5 flex flex-col gap-3">
       <div>
         <h3 className="text-2xl font-semibold">Featured Adlibs</h3>
         <p className="text-zinc-600 dark:text-zinc-400">
@@ -17,7 +17,7 @@ const AdlibFeatured = () => {
         executable={getAdlibs}
         ListComponent={AdlibFeaturedList}
         endMessage={
-          <p className="pt-5 px-4 font-semibold">No more data available</p>
+          <p className="pt-1 px-1 font-semibold">No more data available</p>
         }
       />
     </Card>

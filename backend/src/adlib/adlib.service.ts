@@ -10,18 +10,17 @@ import { Pagination } from 'src/common/pagination/pagination';
 export class AdlibService {
   constructor(@InjectModel(Adlib.name) private adlibModel: Model<Adlib>) {}
 
-  async findAllPageable(
+  findAllPageable(
     adlibPagination: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
-    try {
-      const response = await Pagination.paginate(
-        this.adlibModel,
-        adlibPagination,
-      );
-      console.log('RESPONSE: ', response);
-      return response;
-    } catch (error) {
-      console.log('ERROR: ', error);
-    }
+    return Pagination.paginate(this.adlibModel, adlibPagination);
+  }
+
+  findFeaturedPageable(
+    adlibPagination: AdlibPaginationDto,
+  ): Promise<PaginationResponse<Adlib>> {
+    return Pagination.paginate(this.adlibModel, adlibPagination, {
+      isFeatured: true,
+    });
   }
 }

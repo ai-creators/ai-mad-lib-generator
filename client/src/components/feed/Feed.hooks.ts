@@ -17,6 +17,7 @@ export const useFeed = <T extends object>(
   const [size] = useState<number>(25);
   const [timestamp] = useState<Date>(new Date());
   const [error, setError] = useState<ErrorModel | null>(null);
+  const [isEnd, setIsEnd] = useState<boolean>(false);
 
   const generateMore = async () => {
     const [dataResponse, apiError] = await executable(
@@ -27,6 +28,9 @@ export const useFeed = <T extends object>(
     if (dataResponse) {
       setPage(dataResponse.page);
       setData((curr) => [...curr, ...dataResponse.results]);
+      if (dataResponse.totalPages === 0) {
+        setIsEnd(true);
+      }
     }
     if (apiError) {
       setError(apiError);
@@ -34,7 +38,7 @@ export const useFeed = <T extends object>(
   };
 
   const hasMore = (): boolean => {
-    return !error;
+    return !error && !isEnd;
   };
 
   useEffect(() => {
