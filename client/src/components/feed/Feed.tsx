@@ -11,7 +11,7 @@ type Props<T> = {
     page: number,
     size: number,
     timestamp: Date
-  ) => Promise<[PaginationResponse<T>, ErrorModel | null]>;
+  ) => Promise<[PaginationResponse<T> | null, ErrorModel | null]>;
   ListComponent: React.ComponentType<{ data: T[] }>;
   endMessage?: ReactNode;
   feedType?: FeedTypes | null;

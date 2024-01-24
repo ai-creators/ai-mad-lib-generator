@@ -20,15 +20,7 @@ import { Info } from "lucide-react";
 import { useAdlibCreateCard } from "./AdlibCreateCard.hooks";
 
 const AdlibCreateCard = () => {
-  const {
-    prompt,
-    config,
-    isLoading,
-    error,
-    changePrompt,
-    changeConfig,
-    generate,
-  } = useAdlibCreateCard();
+  const { config, changeConfig } = useAdlibCreateCard();
 
   return (
     <Card className="p-5">

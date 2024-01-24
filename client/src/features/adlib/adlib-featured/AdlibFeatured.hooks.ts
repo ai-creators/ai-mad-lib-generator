@@ -6,13 +6,13 @@ import AdlibService from "@/services/AdlibService";
 import { useState } from "react";
 
 export const useAdlibFeatured = () => {
-  const [adlibs, setAdlibs] = useState<AdlibModel[]>([]);
+  const [adlibs] = useState<AdlibModel[]>([]);
 
   const getAdlibs = (
     page: number,
     size: number,
     timestamp: Date
-  ): Promise<[PaginationResponse<AdlibModel>, ErrorModel | null]> => {
+  ): Promise<[PaginationResponse<AdlibModel> | null, ErrorModel | null]> => {
     return AdlibService.getAdlibs(page, size, timestamp, FeedTypes.FEATURED);
   };
   return { adlibs, getAdlibs };

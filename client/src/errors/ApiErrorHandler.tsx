@@ -1,5 +1,5 @@
+import { ErrorModel } from "@/models/ErrorModel";
 import { AxiosError } from "axios";
-import { ErrorModel } from "../../models/ErrorModel";
 
 const handleRequestResponse = (error: AxiosError<ErrorModel>) => {
   if (error?.response?.data) {

@@ -8,7 +8,7 @@ export const useFeed = <T extends object>(
     page: number,
     size: number,
     timestamp: Date
-  ) => Promise<[PaginationResponse<T>, ErrorModel | null]>,
+  ) => Promise<[PaginationResponse<T> | null, ErrorModel | null]>,
   feedType: FeedTypes | null,
   search?: string
 ) => {
