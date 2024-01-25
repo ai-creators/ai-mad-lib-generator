@@ -22,8 +22,15 @@ import ErrorAlert from "@/errors/ErrorAlert";
 import LoaderAlert from "@/components/loader/loader-alert/LoaderAlert";
 
 const AdlibCreateCard = () => {
-  const { config, changeConfig, generate, error, isLoading } =
-    useAdlibCreateCard();
+  const {
+    config,
+    changeConfig,
+    generate,
+    error,
+    isLoading,
+    prompt,
+    changePrompt,
+  } = useAdlibCreateCard();
 
   return (
     <>
@@ -42,6 +49,8 @@ const AdlibCreateCard = () => {
               type="text"
               id="adlib"
               placeholder="The Rock fighting Kevin Hart..."
+              value={prompt}
+              onChange={changePrompt}
             />
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">

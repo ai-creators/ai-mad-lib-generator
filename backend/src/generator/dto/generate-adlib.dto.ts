@@ -5,7 +5,4 @@ export class GenerateAdlibDto {
   @IsNotEmpty()
   @MaxLength(100)
   prompt: string;
-
-  @IsString()
-  userId: string | null;
 }
