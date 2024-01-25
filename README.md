@@ -17,16 +17,6 @@
 
 - [aiadlibs](https://aiadlibs.com/)
 
-## Screenshots
-
-<div align="center">
- <p>Desktop View</p>
- <img src="client/public/home-desktop.png" alt="Home desktop screenshot">
- <img src="client/public/browse-desktop.png" alt="Browse desktop screenshot">
- <p>Mobile View</p>
- <img src="client/public/browse-mobile.png" alt="Browse mobile screenshot">
-</div>
-
 ## Authors
 
 - Anthony Mclamb
