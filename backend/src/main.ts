@@ -7,7 +7,7 @@ import { HttpExceptionFilter } from './http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 
 function checkEnvironment(configService: ConfigService) {
-  const requiredEnvVars = ['PORT', 'MONGODB_URI'];
+  const requiredEnvVars = ['PORT', 'MONGODB_URI', 'OPENAI_API_KEY'];
 
   requiredEnvVars.forEach((envVar) => {
     if (!configService.get<string>(envVar)) {
