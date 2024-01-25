@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { OpenaiService } from './openai.service';
 import { OpenaiModelTypes } from './openai-model-types';
 import OpenAI from 'openai';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Adlib } from 'src/data-model/entities/adlib.schema';
+import { Adlib, AdlibSchema } from 'src/data-model/entities/adlib.schema';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Adlib])],
+  imports: [
+    MongooseModule.forFeature([{ name: Adlib.name, schema: AdlibSchema }]),
+  ],
   providers: [
     {
       provide: OpenaiService,
