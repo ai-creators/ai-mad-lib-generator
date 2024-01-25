@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdlibModule } from './adlib/adlib.module';
 import { CommonModule } from './common/common.module';
+import { GeneratorModule } from './generator/generator.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CommonModule } from './common/common.module';
       }),
     }),
     AdlibModule,
+    GeneratorModule,
     CommonModule,
   ],
   controllers: [],

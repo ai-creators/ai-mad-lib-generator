@@ -1,6 +1,8 @@
 import { ErrorModel } from "@/models/ErrorModel";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { AdlibConfig } from "../../adlibConfig";
+import GeneratorService from "@/services/GeneratorService";
+import { useNavigate } from "react-router-dom";
 
 export const useAdlibCreateCard = () => {
   const [prompt, setPrompt] = useState<string>("");
@@ -11,6 +13,8 @@ export const useAdlibCreateCard = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
+
+  const navigate = useNavigate();
 
   const changePrompt = ({
     target: { value },
@@ -27,6 +31,19 @@ export const useAdlibCreateCard = () => {
     setIsLoading(true);
     setError(null);
 
+    const [data, apiError] = await GeneratorService.generateAdlib(
+      prompt,
+      config.temperature,
+      config.topP
+    );
+
+    if (data) {
+      navigate(`/adlib/${encodeURIComponent(data.id)}/play`);
+    }
+
+    if (apiError) {
+      setError(apiError);
+    }
     setIsLoading(false);
   };
 
