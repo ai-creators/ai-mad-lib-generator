@@ -15,6 +15,24 @@ export class AdlibService {
     private readonly adlibRepository: Repository<Adlib>,
   ) {}
 
+  findOneById(adlibId: number, relations: string[]): Promise<Adlib | null> {
+    if (!adlibId) {
+      return null;
+    }
+    const entityName = 'Adlib';
+    const queryBuilder = this.adlibRepository.createQueryBuilder(entityName);
+
+    if (relations.includes('category')) {
+      queryBuilder.leftJoinAndSelect(`${entityName}.categories`, 'category');
+    }
+
+    queryBuilder.where(`${entityName}.id = :adlibId`, {
+      adlibId,
+    });
+
+    return queryBuilder.getOne();
+  }
+
   findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {

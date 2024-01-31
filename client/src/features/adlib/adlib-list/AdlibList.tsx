@@ -1,8 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AdlibModel } from "@/models/AdlibModel";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 type Props = {
   data: AdlibModel[];
@@ -39,7 +40,12 @@ const AdlibList = ({ data }: Props) => {
             </div>
 
             <div>
-              <Button>Go to adlib</Button>
+              <Link
+                to={`/adlib/${adlib.id}`}
+                className={buttonVariants({ variant: "default" })}
+              >
+                Go to adlib
+              </Link>
             </div>
           </Card>
         </li>
