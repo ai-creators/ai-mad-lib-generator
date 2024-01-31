@@ -19,9 +19,9 @@ export const useFeed = <T extends object>(
   const [error, setError] = useState<ErrorModel | null>(null);
   const [isEnd, setIsEnd] = useState<boolean>(false);
 
-  const generateMore = async () => {
+  const generateMore = async (currentPage = page) => {
     const [dataResponse, apiError] = await executable(
-      page + 1,
+      currentPage === 1 ? currentPage : currentPage + 1,
       size,
       timestamp
     );
@@ -42,7 +42,7 @@ export const useFeed = <T extends object>(
   };
 
   useEffect(() => {
-    generateMore();
+    generateMore(1);
   }, [feedType, search]);
 
   return { data, error, hasMore, generateMore };

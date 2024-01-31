@@ -1,9 +1,11 @@
 import { Card } from "@/components/ui/card";
 import { useAdlibBrowse } from "./AdlibBrowse.hooks";
 import AdlibBrowseNav from "./adlib-browse-nav/AdlibBrowseNav";
+import Feed from "@/components/feed/Feed";
+import AdlibList from "../adlib-list/AdlibList";
 
 const AdlibBrowse = () => {
-  const { feedType, changeFeedType } = useAdlibBrowse();
+  const { feedType, changeFeedType, getAdlibs } = useAdlibBrowse();
   return (
     <Card className="p-5 flex flex-col gap-3">
       <div className="flex justify-between items-start">
@@ -15,6 +17,14 @@ const AdlibBrowse = () => {
         </div>
         <AdlibBrowseNav changeFeedType={changeFeedType} />
       </div>
+      <Feed
+        feedType={feedType}
+        ListComponent={AdlibList}
+        executable={getAdlibs}
+        endMessage={
+          <p className="pt-5 px-0 font-semibold">No more adlibs available</p>
+        }
+      />
     </Card>
   );
 };

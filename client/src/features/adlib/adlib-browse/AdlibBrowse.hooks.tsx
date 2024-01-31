@@ -1,4 +1,8 @@
+import { AdlibModel } from "@/models/AdlibModel";
+import { ErrorModel } from "@/models/ErrorModel";
 import { FeedTypes } from "@/models/FeedTypes";
+import { PaginationResponse } from "@/models/PaginationResponse";
+import AdlibService from "@/services/AdlibService";
 import { useState } from "react";
 
 export const useAdlibBrowse = () => {
@@ -8,5 +12,13 @@ export const useAdlibBrowse = () => {
     setFeedType(newFeedType);
   };
 
-  return { feedType, changeFeedType };
+  const getAdlibs = (
+    page: number,
+    size: number,
+    timestamp: Date
+  ): Promise<[PaginationResponse<AdlibModel> | null, ErrorModel | null]> => {
+    return AdlibService.getAdlibs(page, size, timestamp, FeedTypes.FEATURED);
+  };
+
+  return { feedType, changeFeedType, getAdlibs };
 };
