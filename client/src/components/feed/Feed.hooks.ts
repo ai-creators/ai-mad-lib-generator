@@ -27,8 +27,16 @@ export const useFeed = <T extends object>(
     );
     if (dataResponse) {
       setPage(dataResponse.page);
-      setData((curr) => [...curr, ...dataResponse.results]);
-      if (dataResponse.totalPages === 0) {
+      if (dataResponse.page === 1) {
+        setData(dataResponse.results);
+      } else {
+        setData((curr) => [...curr, ...dataResponse.results]);
+      }
+
+      if (
+        dataResponse.totalPages === 0 ||
+        dataResponse.page === dataResponse.totalPages
+      ) {
         setIsEnd(true);
       }
     }
@@ -42,6 +50,8 @@ export const useFeed = <T extends object>(
   };
 
   useEffect(() => {
+    setData([]);
+    setPage(1);
     generateMore(1);
   }, [feedType, search]);
 

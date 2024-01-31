@@ -15,14 +15,15 @@ export class Pagination {
       });
     }
 
-    queryBuilder.orderBy(
-      `${entityName}.createdAt`,
-      feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC',
-    );
+    queryBuilder
+      .orderBy(
+        `${entityName}.createdAt`,
+        feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC',
+      )
+      .take(size)
+      .skip((page - 1) * size);
 
     const [results, count] = await queryBuilder.getManyAndCount();
-
-    console.log(results, count);
 
     return {
       results,

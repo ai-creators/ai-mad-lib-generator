@@ -18,7 +18,6 @@ export class AdlibService {
   findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
-    console.log(adlibPaginationDto);
     const entityName = 'Adlib';
     const queryBuilder = this.adlibRepository
       .createQueryBuilder(entityName)

@@ -17,7 +17,7 @@ const AdlibFeatured = () => {
         executable={getAdlibs}
         ListComponent={AdlibFeaturedList}
         endMessage={
-          <p className="pt-1 px-1 font-semibold">No more data available</p>
+          <p className="pt-5 px-1 font-semibold">No more data available</p>
         }
       />
     </Card>

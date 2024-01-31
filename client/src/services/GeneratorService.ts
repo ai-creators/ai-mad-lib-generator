@@ -11,6 +11,7 @@ const generateAdlib = (
   const config: AxiosRequestConfig = {
     url: "/api/v1/generator/generate",
     method: "POST",
+    timeout: 20_000,
     data: {
       prompt,
     },

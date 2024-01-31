@@ -4,6 +4,7 @@ import { AdlibModule } from './adlib/adlib.module';
 import { CommonModule } from './common/common.module';
 import { GeneratorModule } from './generator/generator.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AdlibResponseModule } from './adlib-response/adlib-response.module';
 import entities from './data-model/entities';
 
 @Module({
@@ -28,6 +29,7 @@ import entities from './data-model/entities';
     AdlibModule,
     GeneratorModule,
     CommonModule,
+    AdlibResponseModule,
   ],
   controllers: [],
   providers: [],
