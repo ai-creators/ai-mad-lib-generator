@@ -6,6 +6,11 @@ html {
   overflow-y: scroll;
 }
 
+/* Fix for bug with radix ui */
+body[style] {
+  margin: 0 !important;
+}
+
 *,
 *::before,
 *::after {
