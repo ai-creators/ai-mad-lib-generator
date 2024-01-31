@@ -17,7 +17,7 @@ export const useAdlibBrowse = () => {
     size: number,
     timestamp: Date
   ): Promise<[PaginationResponse<AdlibModel> | null, ErrorModel | null]> => {
-    return AdlibService.getAdlibs(page, size, timestamp, FeedTypes.FEATURED);
+    return AdlibService.getAdlibs(page, size, timestamp, feedType);
   };
 
   return { feedType, changeFeedType, getAdlibs };

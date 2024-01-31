@@ -18,6 +18,7 @@ export class AdlibService {
   findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {
+    console.log(adlibPaginationDto);
     const entityName = 'Adlib';
     const queryBuilder = this.adlibRepository
       .createQueryBuilder(entityName)
@@ -41,22 +42,10 @@ export class AdlibService {
       );
     }
 
-    this.calculateOrder(queryBuilder, adlibPaginationDto.feedType);
-
     return Pagination.paginate<Adlib>(
       queryBuilder,
       adlibPaginationDto,
       'Adlib',
-    );
-  }
-
-  private calculateOrder(
-    queryBuilder: SelectQueryBuilder<Adlib>,
-    feedType: FeedTypes,
-  ) {
-    queryBuilder.orderBy(
-      'Adlib.createdAt',
-      feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC',
     );
   }
 
