@@ -2,6 +2,7 @@ import { ErrorModel } from "@/models/ErrorModel";
 import { PaginationResponse } from "@/models/PaginationResponse";
 import { useEffect, useState } from "react";
 import { FeedTypes } from "./FeedTypes";
+import { useSearchParams } from "react-router-dom";
 
 export const useFeed = <T extends object>(
   executable: (
@@ -12,6 +13,7 @@ export const useFeed = <T extends object>(
   feedType: FeedTypes | null,
   search?: string
 ) => {
+  const [searchParams] = useSearchParams();
   const [data, setData] = useState<T[]>([]);
   const [page, setPage] = useState<number>(1);
   const [size] = useState<number>(25);
@@ -53,7 +55,7 @@ export const useFeed = <T extends object>(
     setData([]);
     setPage(1);
     generateMore(1);
-  }, [feedType, search]);
+  }, [feedType, search, searchParams.get("q")]);
 
   return { data, error, hasMore, generateMore };
 };

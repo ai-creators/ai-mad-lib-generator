@@ -45,6 +45,7 @@ export class OpenaiService {
     const adlib = new Adlib();
     adlib.prompt = prompt.prompt;
     adlib.text = parsedMessage?.madlib;
+    adlib.title = parsedMessage?.title;
     adlib.isPg = parsedMessage?.isPg;
     adlib.categories = await this.mapCategories(parsedMessage.categories);
     return adlib;

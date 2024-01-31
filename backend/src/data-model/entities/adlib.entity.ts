@@ -16,7 +16,10 @@ export class Adlib {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, length: 200 })
+  title: string;
+
+  @Column({ nullable: false, length: 100 })
   prompt: string;
 
   @Column({ nullable: false })

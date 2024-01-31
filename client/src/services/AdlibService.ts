@@ -9,7 +9,8 @@ const getAdlibs = (
   page: number,
   size: number,
   timestamp: Date,
-  feedType: FeedTypes = FeedTypes.LATEST
+  feedType: FeedTypes = FeedTypes.LATEST,
+  search?: string | undefined
 ): Promise<ApiResponse<PaginationResponse<AdlibModel>>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/adlib",
@@ -20,6 +21,10 @@ const getAdlibs = (
       feedType,
     },
   };
+
+  if (search) {
+    config.params.search = search;
+  }
 
   return api.callExternalApi<PaginationResponse<AdlibModel>>({ config });
 };

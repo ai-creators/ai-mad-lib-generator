@@ -4,9 +4,11 @@ import { FeedTypes } from "@/models/FeedTypes";
 import { PaginationResponse } from "@/models/PaginationResponse";
 import AdlibService from "@/services/AdlibService";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export const useAdlibBrowse = () => {
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.FEATURED);
+  const [searchParams] = useSearchParams();
 
   const changeFeedType = (newFeedType: FeedTypes) => {
     setFeedType(newFeedType);
@@ -17,7 +19,13 @@ export const useAdlibBrowse = () => {
     size: number,
     timestamp: Date
   ): Promise<[PaginationResponse<AdlibModel> | null, ErrorModel | null]> => {
-    return AdlibService.getAdlibs(page, size, timestamp, feedType);
+    return AdlibService.getAdlibs(
+      page,
+      size,
+      timestamp,
+      feedType,
+      searchParams.get("q")
+    );
   };
 
   return { feedType, changeFeedType, getAdlibs };
