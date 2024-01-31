@@ -1,15 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AdlibService } from './adlib.service';
 import { AdlibController } from './adlib.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Adlib, AdlibSchema } from 'src/data-model/entities/adlib.schema';
 import { AdlibValidator } from './adlib-validator/adlib-validator';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Adlib } from 'src/data-model/entities';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Adlib.name, schema: AdlibSchema }]),
-    AdlibValidator,
-  ],
+  imports: [TypeOrmModule.forFeature([Adlib]), AdlibValidator],
   controllers: [AdlibController],
   providers: [AdlibService],
 })

@@ -1,34 +1,26 @@
 import { PaginationDto } from './dtos/pagination-dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
-import { FilterQuery, Model } from 'mongoose';
-
-interface WithCreatedAt {
-  createdAt?: Date;
-}
+import { SelectQueryBuilder } from 'typeorm';
 
 export class Pagination {
-  public static async paginate<T extends WithCreatedAt>(
-    model: Model<T>,
+  public static async paginate<T>(
+    queryBuilder: SelectQueryBuilder<T>,
     { page, size, timestamp }: PaginationDto,
-    query: FilterQuery<T> = {},
+    entityName: string,
   ): Promise<PaginationResponse<T>> {
     if (timestamp) {
-      query.createdAt = { $lt: timestamp };
+      queryBuilder.andWhere(`${entityName}.createdAt < :timestamp`, {
+        timestamp,
+      });
     }
 
-    const total = await model.countDocuments(query);
-    const totalPages = Pagination.calculatePageTotal(size, total);
-    const data = await model
-      .find(query)
-      .skip((page - 1) * size)
-      .limit(size)
-      .exec();
+    const [results, count] = await queryBuilder.getManyAndCount();
 
     return {
-      results: data,
+      results,
       page,
       size,
-      totalPages,
+      totalPages: Pagination.calculatePageTotal(size, count),
     };
   }
 
@@ -37,7 +29,6 @@ export class Pagination {
       return 0;
     }
 
-    console.log(size, total);
     return Math.ceil(total / size);
   }
 }

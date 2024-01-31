@@ -41,7 +41,7 @@ const AdlibCreateCard = () => {
         <ErrorAlert error={error} className="mb-3" />
         <div className="flex flex-col gap-2">
           <h2 className="text-2xl font-semibold">Generate an Adlib</h2>
-          <form className="flex flex-col gap-3" onClick={generate}>
+          <form className="flex flex-col gap-3">
             <Label htmlFor="adlib" className="text-zinc-600 dark:text-zinc-400">
               Enter a prompt to generate an adlib
             </Label>
@@ -124,7 +124,7 @@ const AdlibCreateCard = () => {
               </AccordionItem>
             </Accordion>
             <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isLoading} onClick={generate}>
                 {isLoading ? "Loading..." : "Generate"}
               </Button>
               <Button variant="secondary" disabled={isLoading}>

@@ -4,13 +4,15 @@ import { OpenaiModelTypes } from './openai-model-types';
 import { ChatCompletion } from 'openai/resources';
 import { PromptDto } from './dtos/prompt.dto';
 import { OpenaiConfigDto } from './dtos/openai-config.dto';
-import { Adlib } from 'src/data-model/entities/adlib.schema';
+import { Adlib, Category } from 'src/data-model/entities';
+import { CategoryService } from 'src/category/category.service';
 
 @Injectable()
 export class OpenaiService {
   constructor(
     private openai: OpenAI,
     private model: OpenaiModelTypes,
+    private readonly categoryService: CategoryService,
   ) {}
 
   private chat(
@@ -42,8 +44,27 @@ export class OpenaiService {
     const parsedMessage: any = JSON.parse(response.choices[0].message.content);
     const adlib = new Adlib();
     adlib.prompt = prompt.prompt;
-    adlib.body = parsedMessage?.madlib;
+    adlib.text = parsedMessage?.madlib;
     adlib.isPg = parsedMessage?.isPg;
+    adlib.categories = await this.mapCategories(parsedMessage.categories);
     return adlib;
+  }
+
+  private async mapCategories(categories: string[]): Promise<Category[]> {
+    const outputCategories = [];
+    for (const category of categories) {
+      let categoryToAdd = await this.categoryService.findCategoryByName(
+        category.toLowerCase(),
+      );
+
+      if (!categoryToAdd) {
+        const newCategory = new Category();
+        newCategory.name = category.toLowerCase();
+        categoryToAdd = await this.categoryService.saveCategory(newCategory);
+      }
+
+      outputCategories.push(categoryToAdd);
+    }
+    return outputCategories;
   }
 }

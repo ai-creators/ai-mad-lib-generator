@@ -3,7 +3,7 @@ import { GeneratorService } from './generator.service';
 import { GenerateAdlibDto } from './dto/generate-adlib.dto';
 import { OpenaiConfigDto } from 'src/vendors/openai/dtos/openai-config.dto';
 import { PromptDto } from 'src/vendors/openai/dtos/prompt.dto';
-import { Adlib } from 'src/data-model/entities/adlib.schema';
+import { Adlib } from 'src/data-model/entities';
 import { ErrorCreatingAdlibException } from 'src/vendors/openai/exceptions/error-creating-adlib.exception';
 import { OpenaiService } from 'src/vendors/openai/openai.service';
 import { AdlibValidator } from 'src/adlib/adlib-validator/adlib-validator';
@@ -21,7 +21,6 @@ export class GeneratorController {
     @Body() generateAdlibDto: GenerateAdlibDto,
     @Query() openaiConfig: OpenaiConfigDto,
   ) {
-    console.log('HERE');
     const prompt = new PromptDto();
     prompt.prompt = generateAdlibDto.prompt;
     try {
@@ -31,7 +30,7 @@ export class GeneratorController {
       );
       if (
         !createdAdLib ||
-        !this.adlibValidator.isValidAdlib(createdAdLib.body)
+        !this.adlibValidator.isValidAdlib(createdAdLib.text)
       ) {
         throw new ErrorCreatingAdlibException();
       }

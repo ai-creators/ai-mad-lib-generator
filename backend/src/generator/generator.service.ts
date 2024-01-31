@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Adlib } from 'src/data-model/entities/adlib.schema';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Adlib } from 'src/data-model/entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class GeneratorService {
-  constructor(@InjectModel(Adlib.name) private adlibModel: Model<Adlib>) {}
+  constructor(
+    @InjectRepository(Adlib)
+    private readonly adlibRepository: Repository<Adlib>,
+  ) {}
 
   saveAdlib(adlib: Adlib): Promise<Adlib> {
-    const createdAdlib = new this.adlibModel(adlib);
-    return createdAdlib.save();
+    return this.adlibRepository.save(adlib);
   }
 }
