@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 export const useAdlibSearch = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [search, setSearch] = useState<string>(searchParams.get("q") ?? "");
+  const [search, setSearch] = useState<string>("");
 
   const changeSearch = ({
     target: { value },
@@ -13,8 +13,10 @@ export const useAdlibSearch = () => {
 
   const submitSearch = (event: FormEvent) => {
     event.preventDefault();
-    setSearchParams({ q: search });
-    setSearch("");
+    if (searchParams.get("q") !== search) {
+      setSearchParams({ q: search });
+      setSearch("");
+    }
   };
 
   return { search, changeSearch, submitSearch };
