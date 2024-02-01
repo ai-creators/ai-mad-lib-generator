@@ -37,8 +37,6 @@ export const useAdlibCreateCard = () => {
       config.topP
     );
 
-    console.log(data);
-
     if (data) {
       navigate(`/adlib/${encodeURIComponent(data.id)}/play`);
     }

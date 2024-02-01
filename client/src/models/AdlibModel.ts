@@ -7,7 +7,7 @@ export interface AdlibModel {
   id: number;
   prompt: string;
   title: string;
-  body: string;
+  text: string;
   isHidden: boolean;
   isPg: boolean;
   createdBy?: AccountModel;

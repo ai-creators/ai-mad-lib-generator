@@ -7,7 +7,6 @@ import AdlibBuilder from "@/features/adlib/adlib-builder/AdlibBuilder";
 
 const AdlibPlay = () => {
   const { adlib, isLoading, error } = useAdlibPlay();
-
   if (isLoading) {
     return <PageLoader />;
   }

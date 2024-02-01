@@ -8,6 +8,7 @@ import { formatSnakeCase } from "../../../utils/formatSnakeCase";
 import { Card } from "@/components/ui/card";
 import ErrorAlertFixed from "@/errors/error-alert-fixed/ErrorAlertFixed";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Props = {
   adlib: AdlibModel;
@@ -26,7 +27,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
 
   useMemo(() => {
     setQuestions([]);
-    const adlibText = adlib.body;
+    const adlibText = adlib.text;
     const placeHolders = adlibText.match(/\[(.*?)\]/g);
     if (placeHolders) {
       placeHolders.forEach((placeHolder) => {
@@ -82,7 +83,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
   };
 
   return isBuilderDone ? (
-    <Card className="flex flex-col gap-5">
+    <Card className="flex flex-col gap-5 p-5">
       {apiError ? (
         <ErrorAlertFixed error={apiError} setError={setApiError} />
       ) : null}
@@ -108,18 +109,17 @@ const AdlibBuilder = ({ adlib }: Props) => {
               <label htmlFor={question.question + index}>
                 {formatSnakeCase(question.question)}
               </label>
-              <input
+              <Input
                 id={question.question + index}
                 type="text"
                 value={question.answer}
                 onChange={(event: ChangeEvent<HTMLInputElement>) => {
                   changeAnswer(index, event);
                 }}
-                placeholder={formatSnakeCase(question.question)}
                 onBlur={() => removeErrorOnBlur(index)}
                 className={`${
-                  error ? "border-red-400" : "border-zinc-300"
-                } border rounded p-3`}
+                  error ? "border-red-400 dark:border-red-400" : ""
+                }`}
               />
             </div>
           );
