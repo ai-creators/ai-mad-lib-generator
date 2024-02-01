@@ -33,4 +33,10 @@ export class AdlibResponse {
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  public sortQuestions(): void {
+    this.questions.sort((a, b) => {
+      return a.order - b.order;
+    });
+  }
 }

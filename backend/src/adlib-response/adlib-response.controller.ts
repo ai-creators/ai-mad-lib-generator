@@ -1,9 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AdlibResponseService } from './adlib-response.service';
 import { CreateAdlibResponseDto } from './dto/create-adlib-response.dto';
 import { AdlibResponse, AdlibResponseQuestion } from 'src/data-model/entities';
 import { AdlibService } from 'src/adlib/adlib.service';
 import { AdlibNotFoundException } from 'src/adlib/exceptions/adlib-not-found.exception';
+import { AdlibResponseNotFound } from './exceptions/adlib-response-not-found.exception';
 
 @Controller('/v1/response')
 export class AdlibResponseController {
@@ -46,5 +47,21 @@ export class AdlibResponseController {
       output.push(questionAsEntity);
     }
     return output;
+  }
+
+  @Get('find')
+  async findAdlibResponse(@Query('id') id: number) {
+    if (!id) {
+      throw new AdlibResponseNotFound();
+    }
+    const foundAdlibResponse = await this.adlibResponseService.findById(id, [
+      'adlib',
+      'questions',
+    ]);
+    if (!foundAdlibResponse) {
+      throw new AdlibResponseNotFound();
+    }
+    foundAdlibResponse.sortQuestions();
+    return foundAdlibResponse;
   }
 }

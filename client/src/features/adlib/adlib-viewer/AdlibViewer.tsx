@@ -1,5 +1,6 @@
+import { Card } from "@/components/ui/card";
 import { AdlibResponseModel } from "../../../models/AdlibResponseModel";
-import Card from "../../card/Card";
+
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -14,7 +15,7 @@ const AdlibViewer = ({ response }: Props) => {
 
   return response ? (
     <>
-      <Card className="flex flex-col gap-5">
+      <Card className="flex flex-col gap-5 p-5">
         <header className="flex flex-col">
           <Link
             to={`/adlib/${response.adlib.id}`}
@@ -29,7 +30,7 @@ const AdlibViewer = ({ response }: Props) => {
         </header>
         <div>
           <p className="text-lg">
-            {response.adlib.body.split(" ").map((word, i) => {
+            {response.adlib.text.split(" ").map((word, i) => {
               if (word.includes("[") && word.includes("]")) {
                 const replaced = word.replace(
                   regex,
