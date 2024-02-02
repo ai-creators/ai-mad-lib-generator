@@ -34,7 +34,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="hidden md:block">
-            <Link to="/" className="py-2 px-2 block">
+            <Link to="/settings" className="py-2 px-2 block">
               Settings
             </Link>
           </li>

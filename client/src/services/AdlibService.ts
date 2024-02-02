@@ -4,6 +4,10 @@ import { PaginationResponse } from "@/models/PaginationResponse";
 import { AxiosRequestConfig } from "axios";
 import api from "./Api";
 import { FeedTypes } from "@/models/FeedTypes";
+import storage from "@/utils/Storage";
+import { ContentRating } from "@/models/ContentRating";
+
+const contentRating = storage.get("content-rating") ?? ContentRating.PG;
 
 const getAdlibs = (
   page: number,
@@ -19,6 +23,7 @@ const getAdlibs = (
       page,
       size,
       feedType,
+      contentRating,
     },
   };
 

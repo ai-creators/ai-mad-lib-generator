@@ -44,7 +44,7 @@ const NavbarMobile = ({ className = "" }: Props) => {
                 </Link>
               </li>
               <li>
-                <Link to="/" className="py-2 pl-0 pr-2 block">
+                <Link to="/settings" className="py-2 pl-0 pr-2 block">
                   Settings
                 </Link>
               </li>
