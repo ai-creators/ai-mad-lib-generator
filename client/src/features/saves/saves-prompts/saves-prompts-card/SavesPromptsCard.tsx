@@ -37,10 +37,6 @@ const SavesPromptsCard = ({ adlib, deleteAdlib }: Props) => {
               </Button>
             </PopoverContent>
           </Popover>
-          {/* <Button
-            variant="ghost"
-            className="px-2 py-0 flex justify-center items-center text-zinc-600 dark:text-zinc-400"
-          ></Button> */}
         </div>
       </div>
       <div>

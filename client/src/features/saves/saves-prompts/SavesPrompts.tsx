@@ -20,7 +20,7 @@ const SavesPrompts = () => {
             </li>
           ))
         ) : (
-          <p>No Adlib Prompts Available</p>
+          <p className="font-semibold">No Adlib Prompts Available</p>
         )}
       </ul>
     </Card>

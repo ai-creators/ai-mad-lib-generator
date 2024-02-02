@@ -1,6 +1,9 @@
 import { Card } from "@/components/ui/card";
+import SavesResponsesCard from "./saves-responses-card/SavesResponsesCard";
+import { useSavesResponses } from "./SavesResponses.hooks";
 
 const SavesResponses = () => {
+  const { responses, deleteResponse } = useSavesResponses();
   return (
     <Card className="p-5 flex flex-col gap-5">
       <div>
@@ -9,6 +12,20 @@ const SavesResponses = () => {
           View your saved adlib responses
         </p>
       </div>
+      <ul className="flex flex-col gap-5">
+        {responses.length ? (
+          responses.map((response) => (
+            <li key={response.id}>
+              <SavesResponsesCard
+                response={response}
+                deleteResponse={deleteResponse}
+              />
+            </li>
+          ))
+        ) : (
+          <p className="font-semibold">No Adlib Responses Available</p>
+        )}
+      </ul>
     </Card>
   );
 };

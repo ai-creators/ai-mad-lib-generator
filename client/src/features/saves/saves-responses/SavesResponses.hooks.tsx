@@ -13,5 +13,14 @@ export const useSavesResponses = () => {
     }
   }, []);
 
-  return { responses };
+  const deleteResponse = (response: AdlibResponseModel) => {
+    let responses = storage.get("adlib-responses") ?? [];
+    responses = responses.filter(
+      (r: AdlibResponseModel) => r.id !== response.id
+    );
+    storage.set("adlib-responses", responses);
+    setResponses(responses);
+  };
+
+  return { responses, deleteResponse };
 };
