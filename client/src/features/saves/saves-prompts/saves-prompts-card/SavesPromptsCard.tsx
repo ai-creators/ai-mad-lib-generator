@@ -1,26 +1,46 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { AdlibModel } from "@/models/AdlibModel";
-import dayjs from "dayjs";
 import { MoreHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type Props = {
   adlib: AdlibModel;
+  deleteAdlib: (adlib: AdlibModel) => void;
 };
 
-const SavesPromptsCard = ({ adlib }: Props) => {
+const SavesPromptsCard = ({ adlib, deleteAdlib }: Props) => {
   return (
     <Card className="flex flex-col gap-5 p-5">
       <div className="flex items-start">
         <h4 className="text-xl font-semibold">{adlib.title}</h4>
         <div className="ml-auto flex items-start gap-2">
-          <Button
+          <Popover>
+            <PopoverTrigger>
+              <MoreHorizontal
+                size={24}
+                className="text-zinc-600 dark:text-zinc-400"
+              />
+            </PopoverTrigger>
+            <PopoverContent className="w-[10rem] p-1">
+              <Button
+                variant={"ghost"}
+                className="flex justify-start w-full"
+                onClick={() => deleteAdlib(adlib)}
+              >
+                Delete
+              </Button>
+            </PopoverContent>
+          </Popover>
+          {/* <Button
             variant="ghost"
             className="px-2 py-0 flex justify-center items-center text-zinc-600 dark:text-zinc-400"
-          >
-            <MoreHorizontal size={24} />
-          </Button>
+          ></Button> */}
         </div>
       </div>
       <div>

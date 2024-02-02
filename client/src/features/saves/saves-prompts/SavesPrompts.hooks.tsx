@@ -13,5 +13,12 @@ export const useSavesPrompts = () => {
     }
   }, []);
 
-  return { adlibs };
+  const deleteAdlib = (adlib: AdlibModel) => {
+    let adlibs = storage.get("bookmarks") ?? [];
+    adlibs = adlibs.filter((a: AdlibModel) => a.id !== adlib.id);
+    storage.set("bookmarks", adlibs);
+    setAdlibs(adlibs);
+  };
+
+  return { adlibs, deleteAdlib };
 };

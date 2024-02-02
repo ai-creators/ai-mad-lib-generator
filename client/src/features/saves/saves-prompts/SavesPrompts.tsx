@@ -3,7 +3,7 @@ import { useSavesPrompts } from "./SavesPrompts.hooks";
 import SavesPromptsCard from "./saves-prompts-card/SavesPromptsCard";
 
 const SavesPrompts = () => {
-  const { adlibs } = useSavesPrompts();
+  const { adlibs, deleteAdlib } = useSavesPrompts();
   return (
     <Card className="p-5 flex flex-col gap-5">
       <div>
@@ -16,7 +16,7 @@ const SavesPrompts = () => {
         {adlibs.length ? (
           adlibs.map((adlib) => (
             <li key={adlib.id}>
-              <SavesPromptsCard adlib={adlib} />
+              <SavesPromptsCard adlib={adlib} deleteAdlib={deleteAdlib} />
             </li>
           ))
         ) : (
