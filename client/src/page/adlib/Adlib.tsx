@@ -3,12 +3,13 @@ import Layout from "@/layout/Layout";
 import Container from "@/layout/container/Container";
 import { useAdlib } from "./Adlib.hooks";
 import { Link } from "react-router-dom";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import ErrorAlert from "@/errors/ErrorAlert";
 import PageLoader from "@/components/loader/page-loader/PageLoader";
+import { Bookmark } from "lucide-react";
 
 const Adlib = () => {
-  const { adlib, error, isLoading } = useAdlib();
+  const { adlib, error, isLoading, hasSaved, saveAdlib } = useAdlib();
 
   if (isLoading) {
     return <PageLoader />;
@@ -35,6 +36,13 @@ const Adlib = () => {
                     Play adlib
                   </Link>
                 </div>
+                <Button variant="ghost" onClick={saveAdlib}>
+                  {hasSaved ? (
+                    <i className="fa-solid fa-bookmark fa-lg"></i>
+                  ) : (
+                    <i className="fa-regular fa-bookmark fa-lg"></i>
+                  )}
+                </Button>
               </div>
             </Card>
           </section>
