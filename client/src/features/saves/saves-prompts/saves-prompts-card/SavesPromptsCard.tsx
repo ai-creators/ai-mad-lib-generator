@@ -18,7 +18,21 @@ const SavesPromptsCard = ({ adlib, deleteAdlib }: Props) => {
   return (
     <Card className="flex flex-col gap-5 p-5">
       <div className="flex items-start">
-        <h4 className="text-xl font-semibold">{adlib.title}</h4>
+        <div>
+          <h4 className="text-xl font-semibold">{adlib.title}</h4>
+          {adlib?.categories ? (
+            <ul className="flex gap-3 items-center">
+              {adlib.categories.map((category) => (
+                <li key={adlib.id + category.id}>
+                  <p className="text-zinc-600 dark:text-zinc-400">
+                    #{category.name}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+
         <div className="ml-auto flex items-start gap-2">
           <Popover>
             <PopoverTrigger>
@@ -42,7 +56,7 @@ const SavesPromptsCard = ({ adlib, deleteAdlib }: Props) => {
       <div>
         <Link
           to={`adlib/${adlib.id}`}
-          className={buttonVariants({ variant: "default" })}
+          className={`${buttonVariants({ variant: "default" })} w-32`}
         >
           Go to adlib
         </Link>

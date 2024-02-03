@@ -18,7 +18,21 @@ const SavesResponsesCard = ({ response, deleteResponse }: Props) => {
   return (
     <Card className="flex flex-col gap-5 p-5">
       <div className="flex items-start">
-        <h4 className="text-xl font-semibold">{response.adlib.title}</h4>
+        <div>
+          <h4 className="text-xl font-semibold">{response.adlib.title}</h4>
+          {response?.adlib?.categories ? (
+            <ul className="flex gap-3 items-center">
+              {response.adlib.categories.map((category) => (
+                <li key={response.adlib.id + category.id}>
+                  <p className="text-zinc-600 dark:text-zinc-400">
+                    #{category.name}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+
         <div className="ml-auto flex items-start gap-2">
           <Popover>
             <PopoverTrigger>
@@ -39,10 +53,16 @@ const SavesResponsesCard = ({ response, deleteResponse }: Props) => {
           </Popover>
         </div>
       </div>
-      <div>
+      <div className="flex items-center gap-3">
         <Link
-          to={`adlib/view/${response.id}`}
-          className={buttonVariants({ variant: "default" })}
+          to={`/adlib/view/${response.id}`}
+          className={`${buttonVariants({ variant: "default" })} w-32`}
+        >
+          Got to Response
+        </Link>
+        <Link
+          to={`/adlib/${response.id}`}
+          className={`${buttonVariants({ variant: "secondary" })} w-32`}
         >
           Go to adlib
         </Link>

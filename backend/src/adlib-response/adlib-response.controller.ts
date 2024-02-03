@@ -57,6 +57,7 @@ export class AdlibResponseController {
     const foundAdlibResponse = await this.adlibResponseService.findById(id, [
       'adlib',
       'questions',
+      'adlib.categories',
     ]);
     if (!foundAdlibResponse) {
       throw new AdlibResponseNotFound();
