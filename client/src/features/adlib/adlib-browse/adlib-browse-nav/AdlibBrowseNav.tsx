@@ -24,6 +24,13 @@ const AdlibBrowseNav = ({ changeFeedType, feedType }: Props) => {
         >
           {FeedTypes.LATEST}
         </TabsTrigger>
+        <TabsTrigger
+          value={FeedTypes.OLDEST}
+          onClick={() => changeFeedType(FeedTypes.OLDEST)}
+          className="w-20"
+        >
+          {FeedTypes.OLDEST}
+        </TabsTrigger>
       </TabsList>
     </Tabs>
   );
