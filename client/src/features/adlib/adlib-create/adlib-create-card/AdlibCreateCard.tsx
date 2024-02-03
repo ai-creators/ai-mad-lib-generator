@@ -19,7 +19,7 @@ import { AdlibLables } from "../../adlib-labels/AdlibLabels";
 import { Info } from "lucide-react";
 import { useAdlibCreateCard } from "./AdlibCreateCard.hooks";
 import ErrorAlert from "@/errors/ErrorAlert";
-import LoaderAlert from "@/components/loader/loader-alert/LoaderAlert";
+import LoaderAlertRandom from "@/components/loader/loader-alert-random/LoaderAlertRandom";
 
 const AdlibCreateCard = () => {
   const {
@@ -35,9 +35,7 @@ const AdlibCreateCard = () => {
 
   return (
     <>
-      {isLoading ? (
-        <LoaderAlert title="Loading" description="Keep them doggies loading" />
-      ) : null}
+      {isLoading ? <LoaderAlertRandom /> : null}
       <Card className="p-5">
         <ErrorAlert error={error} className="mb-3" />
         <div className="flex flex-col gap-2">

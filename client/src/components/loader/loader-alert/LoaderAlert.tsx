@@ -11,7 +11,7 @@ const LoaderAlert = ({ title, description, className = "" }: Props) => {
     <Alert
       className={`fixed z-[100] top-10 left-1/2 -translate-x-1/2 max-w-fit ${className}`}
     >
-      <AlertTitle>{title}</AlertTitle>
+      <AlertTitle className="font-semibold">{title}</AlertTitle>
       <AlertDescription>{description}</AlertDescription>
     </Alert>
   );
