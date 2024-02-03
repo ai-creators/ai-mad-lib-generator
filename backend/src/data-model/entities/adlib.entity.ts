@@ -16,6 +16,9 @@ export class Adlib {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
+  @Column({ nullable: true, unique: true, length: 24 })
+  oldId: string;
+
   @Column({ nullable: false, length: 200 })
   title: string;
 
