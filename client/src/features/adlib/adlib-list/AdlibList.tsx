@@ -18,8 +18,8 @@ const AdlibList = ({ data }: Props) => {
             <div className="flex flex-col gap-3">
               <div className="flex justify-between items-center gap-3">
                 <div>
-                  <h6 className="font-semibold truncate">{adlib.title}</h6>
-                  <p className="text-zinc-600 dark:text-zinc-400 truncate text-sm">
+                  <h6 className="font-semibold  line-clamp-1">{adlib.title}</h6>
+                  <p className="text-zinc-600 dark:text-zinc-400  line-clamp-1 text-sm">
                     Prompt: {adlib.prompt}
                   </p>
                 </div>
