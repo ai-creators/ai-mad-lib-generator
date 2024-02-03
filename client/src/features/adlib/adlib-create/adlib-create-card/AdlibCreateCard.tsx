@@ -30,6 +30,7 @@ const AdlibCreateCard = () => {
     isLoading,
     prompt,
     changePrompt,
+    generateRandom,
   } = useAdlibCreateCard();
 
   return (
@@ -127,7 +128,11 @@ const AdlibCreateCard = () => {
               <Button type="submit" disabled={isLoading} onClick={generate}>
                 {isLoading ? "Loading..." : "Generate"}
               </Button>
-              <Button variant="secondary" disabled={isLoading}>
+              <Button
+                variant="secondary"
+                disabled={isLoading}
+                onClick={generateRandom}
+              >
                 {isLoading ? "Loading..." : "Generate Random"}
               </Button>
             </div>

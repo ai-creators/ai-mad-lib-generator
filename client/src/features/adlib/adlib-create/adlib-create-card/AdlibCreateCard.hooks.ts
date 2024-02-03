@@ -47,6 +47,26 @@ export const useAdlibCreateCard = () => {
     setIsLoading(false);
   };
 
+  const generateRandom = async (event: FormEvent) => {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    const [data, apiError] = await GeneratorService.generateRandomAdlib(
+      config.temperature,
+      config.topP
+    );
+
+    if (data) {
+      navigate(`/adlib/${encodeURIComponent(data.id)}/play`);
+    }
+
+    if (apiError) {
+      setError(apiError);
+    }
+    setIsLoading(false);
+  };
+
   return {
     prompt,
     config,
@@ -55,5 +75,6 @@ export const useAdlibCreateCard = () => {
     changePrompt,
     changeConfig,
     generate,
+    generateRandom,
   };
 };

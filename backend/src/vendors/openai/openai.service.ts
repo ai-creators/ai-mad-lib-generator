@@ -33,6 +33,18 @@ export class OpenaiService {
     });
   }
 
+  public async createRandomPrompt(
+    openaiConfig: OpenaiConfigDto,
+  ): Promise<string> {
+    const response: ChatCompletion = await this.chat(
+      'Create a short prompt for a random short story. It should be completely random, I dont want the prompt to repeat. The response should be a json object with the key of prompt for the prompt. Keep it under 5 words.',
+      openaiConfig,
+    );
+    const parsedMessage: any = JSON.parse(response.choices[0].message.content);
+    console.log(parsedMessage);
+    return parsedMessage?.prompt;
+  }
+
   public async createAdlib(
     prompt: PromptDto,
     openaiConfig: OpenaiConfigDto,
@@ -43,7 +55,6 @@ export class OpenaiService {
     );
     console.log(response);
     const parsedMessage: any = JSON.parse(response.choices[0].message.content);
-    console.log(parsedMessage);
     const adlib = new Adlib();
     adlib.prompt = prompt.prompt;
     adlib.text = parsedMessage?.madlib;
