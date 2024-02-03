@@ -33,8 +33,6 @@ export class AdlibResponseController {
       throw new AdlibResponseNotFound();
     }
 
-    console.log(response.questions);
-
     return this.adlibResponseService.create(response);
   }
 

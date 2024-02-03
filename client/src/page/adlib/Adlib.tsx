@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { Button, buttonVariants } from "@/components/ui/button";
 import ErrorAlert from "@/errors/ErrorAlert";
 import PageLoader from "@/components/loader/page-loader/PageLoader";
-import { Bookmark } from "lucide-react";
 
 const Adlib = () => {
   const { adlib, error, isLoading, hasSaved, saveAdlib } = useAdlib();
@@ -17,8 +16,11 @@ const Adlib = () => {
   return (
     <Layout>
       <div data-testid="home">
-        <Container className="px-3 lg:px-0 py-5 grid-cols-9 grid gap-5">
-          <section className="col-span-9 lg:col-span-6 flex flex-col gap-5">
+        <Container
+          className="px-3 lg:px-0 py-5 grid-cols-9 grid gap-5"
+          width="max-w-3xl"
+        >
+          <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
             <ErrorAlert error={error} />
             <Card className="p-5 flex flex-col gap-5">
               <header>
@@ -46,7 +48,7 @@ const Adlib = () => {
               </div>
             </Card>
           </section>
-          <aside className="col-span-3 "></aside>
+          {/* <aside className="col-span-3 "></aside> */}
         </Container>
       </div>
     </Layout>

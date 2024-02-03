@@ -13,7 +13,7 @@ const AdlibPlay = () => {
   return (
     <Layout>
       <div data-testid="home">
-        <Container className="px-3 lg:px-0 py-5">
+        <Container className="px-3 lg:px-0 py-5" width="max-w-3xl">
           <section className="flex flex-col gap-5">
             <ErrorAlert error={error} />
             {adlib ? <AdlibBuilder adlib={adlib} /> : null}

@@ -132,6 +132,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
                 className={`${
                   error ? "border-red-400 dark:border-red-400" : ""
                 }`}
+                placeholder={`${formatSnakeCase(question.question)}...`}
               />
             </div>
           );

@@ -8,7 +8,7 @@ const AdlibBrowse = () => {
   const { feedType, changeFeedType, getAdlibs, search } = useAdlibBrowse();
   return (
     <Card className="p-5 flex flex-col gap-3">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-3">
         <div>
           <h4 className="text-2xl font-semibold capitalize">
             {search ? search : feedType}...

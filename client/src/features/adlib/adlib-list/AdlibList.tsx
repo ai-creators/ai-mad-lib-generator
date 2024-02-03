@@ -13,9 +13,9 @@ const AdlibList = ({ data }: Props) => {
     <ul className="flex flex-col gap-5">
       {data.map((adlib) => (
         <li key={adlib.id}>
-          <Card className="p-5 flex flex-col gap-5">
+          <Card className="p-5 flex flex-col gap-5 overflow-hidden">
             <div className="flex flex-col gap-3">
-              <div className="flex justify-between items-center gap-3">
+              <div className="flex max-[500px]:flex-col-reverse max-[500px]:items-start justify-between items-center gap-3">
                 <div>
                   <h6 className="font-semibold  line-clamp-1">{adlib.title}</h6>
                   <p className="text-zinc-600 dark:text-zinc-400  line-clamp-1 text-sm">
@@ -23,7 +23,7 @@ const AdlibList = ({ data }: Props) => {
                   </p>
                 </div>
 
-                <p className="text-zinc-500 dark:text-zinc-400 text-sm whitespace-nowrap">
+                <p className="text-zinc-500 dark:text-zinc-400 text-sm whitespace-nowrap max-[500px]:ml-auto">
                   {formatDate(adlib.createdAt)}
                 </p>
               </div>

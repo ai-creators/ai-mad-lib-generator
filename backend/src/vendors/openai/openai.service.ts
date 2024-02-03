@@ -41,7 +41,6 @@ export class OpenaiService {
       openaiConfig,
     );
     const parsedMessage: any = JSON.parse(response.choices[0].message.content);
-    console.log(parsedMessage);
     return parsedMessage?.prompt;
   }
 
@@ -53,7 +52,6 @@ export class OpenaiService {
       prompt.buildPrompt(),
       openaiConfig,
     );
-    console.log(response);
     const parsedMessage: any = JSON.parse(response.choices[0].message.content);
     const adlib = new Adlib();
     adlib.prompt = prompt.prompt;

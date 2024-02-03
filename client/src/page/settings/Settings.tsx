@@ -17,8 +17,11 @@ const Settings = () => {
   return (
     <Layout>
       <div data-testid="home">
-        <Container className="px-3 lg:px-0 py-5 grid-cols-9 grid gap-5">
-          <section className="col-span-9 lg:col-span-6 flex flex-col gap-5">
+        <Container
+          className="px-3 lg:px-0 py-5 grid-cols-9 grid gap-5"
+          width="max-w-3xl"
+        >
+          <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
             <Card className="p-5">
               <h2 className="text-2xl font-semibold">Profile Settings</h2>
               <p className="text-zinc-600 dark:text-zinc-400">
@@ -57,7 +60,7 @@ const Settings = () => {
               </form>
             </Card>
           </section>
-          <aside className="col-span-3 "></aside>
+          {/* <aside className="col-span-3 "></aside> */}
         </Container>
       </div>
     </Layout>
