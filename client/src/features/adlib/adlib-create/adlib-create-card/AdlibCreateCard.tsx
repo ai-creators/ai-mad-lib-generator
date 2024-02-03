@@ -47,7 +47,7 @@ const AdlibCreateCard = () => {
             <Input
               type="text"
               id="adlib"
-              placeholder="The Rock fighting Kevin Hart..."
+              placeholder="Mystery at the Manor..."
               value={prompt}
               onChange={changePrompt}
             />
