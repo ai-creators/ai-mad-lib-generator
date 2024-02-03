@@ -1,5 +1,5 @@
 import { IsDate, IsInt, IsOptional, Max, Min } from 'class-validator';
-import { IsBeforeNow } from 'src/common/validation/is-before-now-constraint/is-before-now-constraint';
+// import { IsBeforeNow } from 'src/common/validation/is-before-now-constraint/is-before-now-constraint';
 import { PaginationLabel } from '../labels/pagination.label';
 import { IsFeedType } from 'src/common/validation/is-feed-type/is-feed-type-constraint';
 import { FeedTypes } from 'src/data-model/models/feed-type';
