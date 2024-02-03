@@ -28,6 +28,10 @@ export class AdlibResponseService {
 
     if (relations.includes('adlib')) {
       queryBuilder.leftJoinAndSelect(`${entityName}.adlib`, 'adlib');
+
+      if (relations.includes('adlib.categories')) {
+        queryBuilder.leftJoinAndSelect('adlib.categories', 'category');
+      }
     }
 
     queryBuilder.where(`${entityName}.id = :id`, {
