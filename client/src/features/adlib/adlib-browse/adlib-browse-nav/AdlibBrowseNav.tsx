@@ -3,11 +3,12 @@ import { FeedTypes } from "@/models/FeedTypes";
 
 type Props = {
   changeFeedType: (newFeedType: FeedTypes) => void;
+  feedType: FeedTypes;
 };
 
-const AdlibBrowseNav = ({ changeFeedType }: Props) => {
+const AdlibBrowseNav = ({ changeFeedType, feedType }: Props) => {
   return (
-    <Tabs defaultValue={FeedTypes.FEATURED}>
+    <Tabs value={feedType}>
       <TabsList>
         <TabsTrigger
           value={FeedTypes.FEATURED}

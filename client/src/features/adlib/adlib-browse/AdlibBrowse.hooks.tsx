@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { AdlibModel } from "@/models/AdlibModel";
 import { ErrorModel } from "@/models/ErrorModel";
 import { FeedTypes } from "@/models/FeedTypes";
@@ -8,7 +9,9 @@ import { useSearchParams } from "react-router-dom";
 
 export const useAdlibBrowse = () => {
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.FEATURED);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const search = searchParams.get("q") ?? "";
 
   const changeFeedType = (newFeedType: FeedTypes) => {
     setFeedType(newFeedType);
@@ -19,14 +22,25 @@ export const useAdlibBrowse = () => {
     size: number,
     timestamp: Date
   ): Promise<[PaginationResponse<AdlibModel> | null, ErrorModel | null]> => {
-    return AdlibService.getAdlibs(
-      page,
-      size,
-      timestamp,
-      feedType,
-      searchParams.get("q")
-    );
+    return AdlibService.getAdlibs(page, size, timestamp, feedType, search);
   };
 
-  return { feedType, changeFeedType, getAdlibs };
+  useEffect(() => {
+    if (search) {
+      setFeedType(FeedTypes.LATEST);
+    }
+  }, [search]);
+
+  useEffect(() => {
+    if (feedType == FeedTypes.FEATURED) {
+      if (search) {
+        searchParams.delete("q");
+        setSearchParams(searchParams);
+      }
+    }
+  }, [feedType]);
+
+  console.log("FEED TYPE: ", feedType);
+
+  return { feedType, changeFeedType, getAdlibs, search };
 };
