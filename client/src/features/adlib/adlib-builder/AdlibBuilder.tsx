@@ -39,7 +39,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
       });
     }
     setIsBuilderDone(true);
-  }, [adlib.body]);
+  }, [adlib.text]);
 
   const changeAnswer = (
     questionIndex: number,

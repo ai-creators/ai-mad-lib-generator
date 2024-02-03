@@ -35,7 +35,7 @@ export const useAdlib = () => {
     fetchAdlib();
   }, [adlibId]);
 
-  const checkIfAdlibIsSaved = (id) => {
+  const checkIfAdlibIsSaved = (id: number) => {
     const foundAdlibs = storage.get("bookmarks") ?? [];
     const isSaved = foundAdlibs.some((adlib: AdlibModel) => adlib.id === id);
     setHasSaved(isSaved);
