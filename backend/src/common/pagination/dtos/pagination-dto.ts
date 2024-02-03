@@ -15,7 +15,7 @@ export class PaginationDto {
   size: number;
 
   @IsDate({ message: PaginationLabel.TIMESTAMP_MUST_BE_DATE })
-  @IsBeforeNow({ message: PaginationLabel.TIMESTAMP_MUST_BE_BEFORE_NOW })
+  // @IsBeforeNow({ message: PaginationLabel.TIMESTAMP_MUST_BE_BEFORE_NOW })
   timestamp: Date;
 
   @IsOptional()
