@@ -1,7 +1,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AdlibModel } from "@/models/AdlibModel";
-import dayjs from "dayjs";
+import { formatDate } from "@/utils/formatDate";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -24,7 +24,7 @@ const AdlibList = ({ data }: Props) => {
                 </div>
 
                 <p className="text-zinc-500 dark:text-zinc-400 text-sm whitespace-nowrap">
-                  {dayjs(adlib.createdAt).format("MMM, D")}
+                  {formatDate(adlib.createdAt)}
                 </p>
               </div>
               {adlib?.categories ? (
