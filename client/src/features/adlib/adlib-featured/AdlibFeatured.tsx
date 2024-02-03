@@ -1,7 +1,7 @@
 import Feed from "@/components/feed/Feed";
 import { Card } from "@/components/ui/card";
 import { useAdlibFeatured } from "./AdlibFeatured.hooks";
-import AdlibFeaturedList from "./adlib-featured-list/AdlibFeaturedList";
+import AdlibList from "../adlib-list/AdlibList";
 
 const AdlibFeatured = () => {
   const { getAdlibs } = useAdlibFeatured();
@@ -15,7 +15,7 @@ const AdlibFeatured = () => {
       </div>
       <Feed
         executable={getAdlibs}
-        ListComponent={AdlibFeaturedList}
+        ListComponent={AdlibList}
         endMessage={
           <p className="pt-5 px-1 font-semibold">No more data available</p>
         }

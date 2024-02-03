@@ -69,15 +69,26 @@ const AdlibBuilder = ({ adlib }: Props) => {
     event.preventDefault();
     setApiError(null);
     setIsLoading(true);
-    const [data, error] = await adlibResponseService.createResponse(
-      adlib.id,
-      questions
-    );
-    if (data) {
-      navigate(`/adlib/view/${data.id}`);
-    }
-    if (error) {
-      setApiError(error);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const newErrors: any = {};
+    questions.forEach((question, index) => {
+      if (question.answer.trim() === "") {
+        newErrors[index] = "Please provide an answer";
+      }
+    });
+    if (Object.keys(newErrors).length === 0) {
+      const [data, error] = await adlibResponseService.createResponse(
+        adlib.id,
+        questions
+      );
+      if (data) {
+        navigate(`/adlib/view/${data.id}`);
+      }
+      if (error) {
+        setApiError(error);
+      }
+    } else {
+      setErrors(newErrors);
     }
     setIsLoading(false);
   };
@@ -109,6 +120,7 @@ const AdlibBuilder = ({ adlib }: Props) => {
               <label htmlFor={question.question + index}>
                 {formatSnakeCase(question.question)}
               </label>
+              {error ? <p className="text-red-500 text-sm">Required</p> : null}
               <Input
                 id={question.question + index}
                 type="text"

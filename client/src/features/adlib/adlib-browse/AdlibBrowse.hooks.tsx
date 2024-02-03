@@ -40,7 +40,5 @@ export const useAdlibBrowse = () => {
     }
   }, [feedType]);
 
-  console.log("FEED TYPE: ", feedType);
-
   return { feedType, changeFeedType, getAdlibs, search };
 };

@@ -32,6 +32,7 @@ const Feed = <T extends object>({
     feedType,
     search
   );
+
   return (
     <div className="flex flex-col gap-3 p-0 md:p-3 lg:p-0">
       <ErrorAlert error={error} />

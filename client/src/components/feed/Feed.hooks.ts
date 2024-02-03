@@ -21,12 +21,13 @@ export const useFeed = <T extends object>(
   const [error, setError] = useState<ErrorModel | null>(null);
   const [isEnd, setIsEnd] = useState<boolean>(false);
 
-  const generateMore = async (currentPage = page) => {
+  const generateMore = async (isStart = false) => {
     const [dataResponse, apiError] = await executable(
-      currentPage === 1 ? currentPage : currentPage + 1,
+      isStart ? 1 : page + 1,
       size,
       timestamp
     );
+
     if (dataResponse) {
       setPage(dataResponse.page);
       if (dataResponse.page === 1) {
@@ -54,7 +55,8 @@ export const useFeed = <T extends object>(
   useEffect(() => {
     setData([]);
     setPage(1);
-    generateMore(1);
+    setIsEnd(false);
+    generateMore(true);
   }, [feedType, search, searchParams.get("q")]);
 
   return { data, error, hasMore, generateMore };

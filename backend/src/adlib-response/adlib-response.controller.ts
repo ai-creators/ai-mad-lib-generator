@@ -5,6 +5,7 @@ import { AdlibResponse, AdlibResponseQuestion } from 'src/data-model/entities';
 import { AdlibService } from 'src/adlib/adlib.service';
 import { AdlibNotFoundException } from 'src/adlib/exceptions/adlib-not-found.exception';
 import { AdlibResponseNotFound } from './exceptions/adlib-response-not-found.exception';
+import { AdlibResponseValidator } from './validators/adlib-response.validator';
 
 @Controller('/v1/response')
 export class AdlibResponseController {
@@ -27,6 +28,12 @@ export class AdlibResponseController {
     response.adlib = foundAdlib;
 
     response.questions = this.mapQuestions(createAdlibResponseDto.questions);
+
+    if (!AdlibResponseValidator.validateQuestions(response.questions)) {
+      throw new AdlibResponseNotFound();
+    }
+
+    console.log(response.questions);
 
     return this.adlibResponseService.create(response);
   }
