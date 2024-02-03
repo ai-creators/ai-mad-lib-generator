@@ -12,12 +12,14 @@ const AdlibBrowseNav = ({ changeFeedType }: Props) => {
         <TabsTrigger
           value={FeedTypes.FEATURED}
           onClick={() => changeFeedType(FeedTypes.FEATURED)}
+          className="w-20"
         >
           {FeedTypes.FEATURED}
         </TabsTrigger>
         <TabsTrigger
           value={FeedTypes.LATEST}
           onClick={() => changeFeedType(FeedTypes.LATEST)}
+          className="w-20"
         >
           {FeedTypes.LATEST}
         </TabsTrigger>
