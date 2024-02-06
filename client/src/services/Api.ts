@@ -4,7 +4,7 @@ import { ErrorModel } from "../models/ErrorModel";
 
 const axiosApi = axios.create({
   baseURL: import.meta.env.VITE_API_SERVER_URL ?? "",
-  timeout: 10_000,
+  timeout: 30_000,
 });
 
 const callExternalApi = async <T>(options: {
