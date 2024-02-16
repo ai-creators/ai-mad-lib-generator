@@ -50,6 +50,10 @@ export class Pagination {
       queryBuilder.andWhere(`${entityName}.createdAt < :timestamp`, {
         timestamp,
       });
+      queryBuilder.orderBy(
+        `${entityName}.createdAt`,
+        feedType === FeedTypes.OLDEST ? 'ASC' : 'DESC',
+      );
     }
 
     const result = await queryBuilder

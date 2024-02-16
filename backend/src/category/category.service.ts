@@ -64,10 +64,10 @@ export class CategoryService {
     const dataQuery = baseQuery
       .clone()
       .select([
-        `${entityName}.id`,
-        `${entityName}.name`,
-        `${entityName}.createdAt`,
-        `${entityName}.updatedAt`,
+        `${entityName}.id AS id`,
+        `${entityName}.name AS name`,
+        `${entityName}.createdAt AS createdAt`,
+        `${entityName}.updatedAt AS updatedAt`,
       ])
       .addSelect('COUNT(adlib.id)', 'adlibCount')
       .limit(categoryPagination.size)
