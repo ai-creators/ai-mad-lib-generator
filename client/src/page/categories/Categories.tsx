@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import CategoriesSearch from "@/features/categories/categories-search/CategoriesSearch";
+import CategoryBrowse from "@/features/categories/category-browse/CategoryBrowse";
 import Layout from "@/layout/Layout";
 import Container from "@/layout/container/Container";
 import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
@@ -16,6 +17,7 @@ const Categories = () => {
           </aside>
           <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
             <CategoriesSearch />
+            <CategoryBrowse />
           </section>
           {/* <aside className="col-span-3 "></aside> */}
         </Container>

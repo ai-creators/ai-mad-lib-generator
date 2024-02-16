@@ -14,25 +14,24 @@ export class CategoryService {
   ) {}
 
   findAllPageable(
-    categoryPagination: CategoryPaginationDto
-  ): Promise<PaginationResponse<Category> {
+    categoryPagination: CategoryPaginationDto,
+  ): Promise<PaginationResponse<Category>> {
     const entityName = 'Category';
-    const queryBuilder = this.categoryRepository
-      .createQueryBuilder(entityName);
-    
+    const queryBuilder = this.categoryRepository.createQueryBuilder(entityName);
+
     if (categoryPagination.search) {
       this.buildSearchQuery(
         categoryPagination.search,
         queryBuilder,
-        entityName
+        entityName,
       );
     }
 
     return Pagination.paginate<Category>(
       queryBuilder,
       categoryPagination,
-      entityName
-    )
+      entityName,
+    );
   }
 
   findCategoryByName(name: string): Promise<Category> {
@@ -61,7 +60,7 @@ export class CategoryService {
         new Brackets((qb) => {
           qb.where(`${entityName}.name ILike :search`, {
             search: `%${search}%`,
-          })
+          });
         }),
       );
     }
