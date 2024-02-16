@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdlibResponseModule } from './adlib-response/adlib-response.module';
 import entities from './data-model/entities';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     }),
     AdlibModule,
     GeneratorModule,
+    CategoryModule,
     CommonModule,
     AdlibResponseModule,
   ],
