@@ -27,8 +27,22 @@ const getCategories = (
   });
 };
 
+const findCategoryByName = (
+  name: string
+): Promise<ApiResponse<CategoryModel>> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/category/find",
+    params: {
+      name,
+    },
+  };
+
+  return api.callExternalApi<CategoryModel>({ config });
+};
+
 const categoryService = {
   getCategories,
+  findCategoryByName,
 };
 
 Object.freeze(categoryService);

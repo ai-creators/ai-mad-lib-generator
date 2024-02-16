@@ -23,7 +23,7 @@ const CategoryListCard = ({ category }: Props) => {
       </div>
       <div>
         <Link
-          to={`/category/${category.name}`}
+          to={`/categories/${category.name}`}
           className={buttonVariants({ variant: "default" })}
         >
           Go to category

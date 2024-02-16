@@ -4,6 +4,7 @@ import { CategoryPaginationDto } from './dto/category-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Category } from 'src/data-model/entities';
 import { FeedTypes } from 'src/data-model/models/feed-type';
+import { CategoryNotFoundException } from './exceptions/category-not-found.exception';
 
 @Controller('v1/category')
 export class CategoryController {
@@ -18,5 +19,22 @@ export class CategoryController {
       return this.categoryService.findPopularPageable(categoryPagination);
     }
     return this.categoryService.findAllPageable(categoryPagination);
+  }
+
+  @Get('find')
+  async findCategoryByName(
+    @Query()
+    { name },
+  ): Promise<Category> {
+    if (!name) {
+      throw new CategoryNotFoundException();
+    }
+    const foundCategory = await this.categoryService.findCategoryByName(name);
+
+    if (!foundCategory) {
+      throw new CategoryNotFoundException();
+    }
+
+    return foundCategory;
   }
 }
