@@ -1,8 +1,9 @@
 import { CategoryModel } from "@/models/CategoryModel";
 import CategoryListCard from "./category-list-card/CategoryListCard";
+import { CategoryAggregateModel } from "@/models/CategoryAggregateModel";
 
 type Props = {
-  data: CategoryModel[];
+  data: CategoryModel[] | CategoryAggregateModel[];
 };
 
 const CategoryList = ({ data }: Props) => {

@@ -54,6 +54,7 @@ export const useFeed = <T extends object>(
 
   useEffect(() => {
     setData([]);
+    setError(null);
     setPage(1);
     setIsEnd(false);
     generateMore(true);

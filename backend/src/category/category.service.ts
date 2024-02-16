@@ -5,6 +5,7 @@ import { Brackets, Repository, SelectQueryBuilder } from 'typeorm';
 import { CategoryPaginationDto } from './dto/category-pagination.dto';
 import { PaginationResponse } from 'src/common/pagination/dtos/pagination-response.dto';
 import { Pagination } from 'src/common/pagination/pagination';
+import { FeedTypes } from 'src/data-model/models/feed-type';
 
 @Injectable()
 export class CategoryService {
@@ -17,7 +18,12 @@ export class CategoryService {
     categoryPagination: CategoryPaginationDto,
   ): Promise<PaginationResponse<Category>> {
     const entityName = 'Category';
-    const queryBuilder = this.categoryRepository.createQueryBuilder(entityName);
+    const queryBuilder = this.categoryRepository
+      .createQueryBuilder(entityName)
+      .leftJoin(`${entityName}.adlibs`, 'adlibs')
+      .select(`${entityName}`)
+      .addSelect('COUNT(adlibs.id)', 'adlibCount')
+      .groupBy(`${entityName}.id`);
 
     if (categoryPagination.search) {
       this.buildSearchQuery(
@@ -27,11 +33,56 @@ export class CategoryService {
       );
     }
 
-    return Pagination.paginate<Category>(
+    return Pagination.paginateRawAndCount<Category>(
       queryBuilder,
       categoryPagination,
       entityName,
     );
+  }
+
+  async findPopularPageable(
+    categoryPagination: CategoryPaginationDto,
+  ): Promise<PaginationResponse<Category>> {
+    const entityName = 'category';
+
+    // Step 1: Create a base query for counting and fetching data
+    const baseQuery = this.categoryRepository
+      .createQueryBuilder(entityName)
+      .leftJoin(`${entityName}.adlibs`, 'adlib')
+      .groupBy(`${entityName}.id`)
+      .orderBy('COUNT(adlib.id)', 'DESC');
+
+    // Count query for total categories matching the criteria
+    const countQuery = baseQuery
+      .clone()
+      .select(`COUNT(DISTINCT ${entityName}.id)`, 'count');
+
+    const totalResult = await countQuery.getRawOne();
+    const totalCategories = parseInt(totalResult.count, 10);
+
+    // Data query for fetching paginated categories
+    const dataQuery = baseQuery
+      .clone()
+      .select([
+        `${entityName}.id`,
+        `${entityName}.name`,
+        `${entityName}.createdAt`,
+        `${entityName}.updatedAt`,
+      ])
+      .addSelect('COUNT(adlib.id)', 'adlibCount')
+      .limit(categoryPagination.size)
+      .offset((categoryPagination.page - 1) * categoryPagination.size);
+
+    const categories = await dataQuery.getRawMany();
+
+    // Calculate total pages
+
+    return {
+      results: categories,
+      page: categoryPagination.page,
+      size: categoryPagination.size,
+      totalPages: (await this.findAllPageable(categoryPagination)).totalPages,
+    };
   }
 
   findCategoryByName(name: string): Promise<Category> {

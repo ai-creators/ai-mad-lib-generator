@@ -5,7 +5,7 @@ import { PaginationResponse } from "@/models/PaginationResponse";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { categoryService } from "@/services/CategoryService";
-import { CategoryModel } from "@/models/CategoryModel";
+import { CategoryAggregateModel } from "@/models/CategoryAggregateModel";
 
 export const useCategoryBrowse = () => {
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
@@ -21,7 +21,9 @@ export const useCategoryBrowse = () => {
     page: number,
     size: number,
     timestamp: Date
-  ): Promise<[PaginationResponse<CategoryModel> | null, ErrorModel | null]> => {
+  ): Promise<
+    [PaginationResponse<CategoryAggregateModel> | null, ErrorModel | null]
+  > => {
     return categoryService.getCategories(
       page,
       size,

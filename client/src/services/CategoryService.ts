@@ -4,6 +4,7 @@ import { FeedTypes } from "@/models/FeedTypes";
 import { PaginationResponse } from "@/models/PaginationResponse";
 import { AxiosRequestConfig } from "axios";
 import api from "./Api";
+import { CategoryAggregateModel } from "@/models/CategoryAggregateModel";
 
 const getCategories = (
   page: number,
@@ -11,7 +12,7 @@ const getCategories = (
   timestamp: Date,
   feedType: FeedTypes,
   search?: string | undefined
-): Promise<ApiResponse<PaginationResponse<CategoryModel>>> => {
+): Promise<ApiResponse<PaginationResponse<CategoryAggregateModel>>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/category",
     params: { timestamp: timestamp.toISOString(), page, size, feedType },
@@ -21,7 +22,9 @@ const getCategories = (
     config.params.search = search;
   }
 
-  return api.callExternalApi<PaginationResponse<CategoryModel>>({ config });
+  return api.callExternalApi<PaginationResponse<CategoryAggregateModel>>({
+    config,
+  });
 };
 
 const categoryService = {

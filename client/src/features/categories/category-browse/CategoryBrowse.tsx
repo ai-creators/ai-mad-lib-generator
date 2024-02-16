@@ -23,7 +23,7 @@ const CategoryBrowse = () => {
         <CategoryBrowseNav
           changeFeedType={changeFeedType}
           feedType={feedType}
-          feeds={[FeedTypes.LATEST, FeedTypes.OLDEST]}
+          feeds={[FeedTypes.POPULAR, FeedTypes.LATEST, FeedTypes.OLDEST]}
         />
       </div>
       <Feed<CategoryModel>
