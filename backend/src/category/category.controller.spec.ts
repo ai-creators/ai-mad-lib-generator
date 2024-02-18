@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CategoryController } from './category.controller';
 import { CategoryService } from './category.service';
 import { mockCategoryService } from './mocks/category.mock';
+import { AdlibService } from 'src/adlib/adlib.service';
+import { mockAdlibService } from 'src/adlib/mocks/adlib.mock';
 
 describe('CategoryController', () => {
   let controller: CategoryController;
@@ -13,6 +15,10 @@ describe('CategoryController', () => {
         {
           provide: CategoryService,
           useValue: mockCategoryService(),
+        },
+        {
+          provide: AdlibService,
+          useValue: mockAdlibService(),
         },
       ],
     }).compile();

@@ -52,7 +52,6 @@ export class CategoryService {
       .groupBy(`${entityName}.id`)
       .orderBy('COUNT(adlib.id)', 'DESC');
 
-    // Count query for total categories matching the criteria
     const countQuery = baseQuery
       .clone()
       .select(`COUNT(DISTINCT ${entityName}.id)`, 'count');
@@ -60,7 +59,6 @@ export class CategoryService {
     const totalResult = await countQuery.getRawOne();
     const totalCategories = parseInt(totalResult.count, 10);
 
-    // Data query for fetching paginated categories
     const dataQuery = baseQuery
       .clone()
       .select([
@@ -74,8 +72,6 @@ export class CategoryService {
       .offset((categoryPagination.page - 1) * categoryPagination.size);
 
     const categories = await dataQuery.getRawMany();
-
-    // Calculate total pages
 
     return {
       results: categories,
