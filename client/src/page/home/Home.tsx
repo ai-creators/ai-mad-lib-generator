@@ -18,6 +18,7 @@ const Home = () => {
           <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
             <AdlibCreateCard />
             <AdlibFeatured />
+            <h1>TEST</h1>
           </section>
           {/* <aside className="col-span-3 "></aside> */}
         </Container>
