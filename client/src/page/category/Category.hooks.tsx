@@ -1,5 +1,7 @@
+import { AdlibModel } from "@/models/AdlibModel";
 import { CategoryModel } from "@/models/CategoryModel";
 import { ErrorModel } from "@/models/ErrorModel";
+import { PaginationResponse } from "@/models/PaginationResponse";
 import { categoryService } from "@/services/CategoryService";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -30,5 +32,18 @@ export const useCategory = () => {
     };
   }, [categoryName]);
 
-  return { categoryName, category, error };
+  const getAdlibs = (
+    page: number,
+    size: number,
+    timestamp: Date
+  ): Promise<[PaginationResponse<AdlibModel> | null, ErrorModel | null]> => {
+    return categoryService.getAdlibsByCategoryName(
+      categoryName ?? "",
+      page,
+      size,
+      timestamp
+    );
+  };
+
+  return { categoryName, category, error, getAdlibs };
 };
