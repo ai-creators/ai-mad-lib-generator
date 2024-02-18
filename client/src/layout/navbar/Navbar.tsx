@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Container from "../container/Container";
 import ThemeToggle from "@/components/button/ThemeToggle";
 import NavbarMobile from "./navbar-mobile/NavbarMobile";
+import SearchBar from "@/features/search/search-bar/SearchBar";
 
 const Navbar = () => {
   return (
@@ -19,24 +20,7 @@ const Navbar = () => {
         </ul>
         <ul className="items-center flex gap-5">
           <li className="hidden md:block">
-            <Link to="/" className="py-2 px-2 block">
-              Home
-            </Link>
-          </li>
-          <li className="hidden md:block">
-            <Link to="/browse" className="py-2 px-2 block">
-              Browse
-            </Link>
-          </li>
-          <li className="hidden md:block">
-            <Link to="/saves" className="py-2 px-2 block">
-              Saves
-            </Link>
-          </li>
-          <li className="hidden md:block">
-            <Link to="/settings" className="py-2 px-2 block">
-              Settings
-            </Link>
+            <SearchBar width="w-80" />
           </li>
           <li>
             <ThemeToggle />
