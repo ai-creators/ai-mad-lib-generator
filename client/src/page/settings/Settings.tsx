@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Layout from "@/layout/Layout";
 import Container from "@/layout/container/Container";
+import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
 import { ContentRating } from "@/models/ContentRating";
 import storage from "@/utils/Storage";
 import { useState } from "react";
@@ -17,10 +18,12 @@ const Settings = () => {
   return (
     <Layout>
       <div data-testid="home">
-        <Container
-          className="px-3 lg:px-0 py-5 grid-cols-9 grid gap-5"
-          width="max-w-3xl"
-        >
+        <Container className="px-3 lg:px-0 py-5 grid-cols-12 grid gap-5">
+          <aside className="hidden lg:flex flex-col gap-5 col-span-3">
+            <Card className="p-2">
+              <NavbarSidebar />
+            </Card>
+          </aside>
           <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
             <Card className="p-5">
               <h2 className="text-2xl font-semibold">Profile Settings</h2>
