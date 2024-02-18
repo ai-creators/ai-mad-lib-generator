@@ -1,4 +1,4 @@
-import { Heart, Home, Search, Settings, Tags } from "lucide-react";
+import { Heart, Home, PlusSquare, Search, Settings, Tags } from "lucide-react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
@@ -12,6 +12,11 @@ const NavbarSidebar = ({
       url: "/",
       icon: <Home />,
       text: "Home",
+    },
+    {
+      url: "/create",
+      icon: <PlusSquare />,
+      text: "Create",
     },
     {
       url: "/browse",
