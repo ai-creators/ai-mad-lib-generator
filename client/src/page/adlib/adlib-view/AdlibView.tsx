@@ -5,6 +5,8 @@ import Container from "@/layout/container/Container";
 import AdlibViewer from "@/features/adlib/adlib-viewer/AdlibViewer";
 import ErrorAlert from "@/errors/ErrorAlert";
 import { Button } from "@/components/ui/button";
+import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
+import { Card } from "@/components/ui/card";
 
 const AdlibView = () => {
   const { response, isLoading, error, isSaved, toggleSaveResponse } =
@@ -16,10 +18,12 @@ const AdlibView = () => {
 
   return (
     <Layout>
-      <Container
-        className="px-3 lg:px-0 py-5 grid-cols-9 grid gap-5"
-        width="max-w-3xl"
-      >
+      <Container className="px-3 lg:px-0 py-5 grid-cols-12 grid gap-5">
+        <aside className="hidden lg:flex flex-col gap-5 col-span-3">
+          <Card className="p-2">
+            <NavbarSidebar />
+          </Card>
+        </aside>
         <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
           <ErrorAlert error={error} />
           {response ? <AdlibViewer response={response} /> : null}
