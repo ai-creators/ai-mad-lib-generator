@@ -9,4 +9,20 @@ export class AccountService {
     @InjectRepository(Account)
     private readonly accountRepository: Repository<Account>,
   ) {}
+
+  async findAccountByUsername(username: string) {
+    if (!username) {
+      return null;
+    }
+    const foundAccount: Account = await this.accountRepository.findOneByOrFail({
+      username,
+    });
+    return this.filterSecureProperties(foundAccount);
+  }
+
+  filterSecureProperties(account: Account): Account {
+    account.id = null;
+    account.sub = null;
+    return account;
+  }
 }
