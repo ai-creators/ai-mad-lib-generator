@@ -4,6 +4,8 @@ import AdlibCreateCard from "@/features/adlib/adlib-create/adlib-create-card/Adl
 import AdlibFeatured from "@/features/adlib/adlib-featured/AdlibFeatured";
 import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
 import { Card } from "@/components/ui/card";
+import LoginButton from "@/components/button/auth/LoginButton";
+import SignupButton from "@/components/button/auth/SignupButton";
 
 const Home = () => {
   return (

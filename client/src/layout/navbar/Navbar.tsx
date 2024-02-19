@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import Container from "../container/Container";
-import ThemeToggle from "@/components/button/ThemeToggle";
 import NavbarMobile from "./navbar-mobile/NavbarMobile";
 import SearchBar from "@/features/search/search-bar/SearchBar";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { useAuth0 } from "@auth0/auth0-react";
+import NavbarNotSignedIn from "./navbar-not-signed-in/NavbarNotSignedIn";
+import NavbarSignedIn from "./navbar-signed-in/NavbarSignedIn";
 
 const Navbar = () => {
+  const { isAuthenticated } = useAuth0();
   return (
     <nav className="fixed top-0 w-full border-b shadow-sm z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <Container className="p-2 flex justify-between items-center relative">
@@ -23,24 +24,7 @@ const Navbar = () => {
             <SearchBar width="w-80" />
           </li>
         </ul>
-        <ul className="items-center flex gap-5">
-          <li className="hidden">
-            <Button className={buttonVariants({ variant: "ghost" })}>
-              <Search />
-            </Button>
-          </li>
-          <li>
-            <Link
-              to="/create"
-              className={buttonVariants({ variant: "default" })}
-            >
-              Create Adlib
-            </Link>
-          </li>
-          <li>
-            <ThemeToggle />
-          </li>
-        </ul>
+        {isAuthenticated ? <NavbarSignedIn /> : <NavbarNotSignedIn />}
       </Container>
     </nav>
   );
