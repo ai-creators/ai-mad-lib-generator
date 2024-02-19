@@ -55,7 +55,7 @@ const SavesPromptsCard = ({ adlib, deleteAdlib }: Props) => {
       </div>
       <div>
         <Link
-          to={`adlib/${adlib.id}`}
+          to={`/adlib/${adlib.id}`}
           className={`${buttonVariants({ variant: "default" })} w-32`}
         >
           Go to adlib
