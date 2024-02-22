@@ -20,7 +20,7 @@ const AdlibPlay = () => {
             <NavbarSidebar />
           </Card>
         </aside>
-        <section className="flex flex-col gap-5 col-span-9">
+        <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
           <ErrorAlert error={error} />
           {adlib ? <AdlibBuilder adlib={adlib} /> : null}
         </section>
