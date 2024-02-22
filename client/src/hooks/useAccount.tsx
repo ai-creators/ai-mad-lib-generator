@@ -7,30 +7,42 @@ import { setAccount } from "@/slices/accountSlice";
 import { ErrorModel } from "@/models/ErrorModel";
 
 export const useAccount = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
-  const { getAccessTokenSilently, isAuthenticated, user, isLoading } =
-    useAuth0();
+  const {
+    getAccessTokenSilently,
+    isAuthenticated,
+    user,
+    isLoading: isAuthLoading,
+  } = useAuth0();
   const { account } = useAppSelector((state) => state.account);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    let isComponentMounted = true;
     (async () => {
-      if (!isLoading && isAuthenticated && user?.sub && !account.username) {
+      setIsLoading(true);
+      if (!isAuthLoading && isAuthenticated && user?.sub && !account.username) {
         const [foundAccount, apiError] = await accountService.getAccountBySub(
           user.sub,
           await getAccessTokenSilently()
         );
 
-        if (apiError) {
+        if (apiError && isComponentMounted) {
           setError(apiError);
         }
 
-        if (foundAccount) {
+        if (foundAccount && isComponentMounted) {
           dispatch(setAccount(foundAccount));
         }
       }
+      setIsLoading(false);
     })();
-  }, []);
 
-  return { error };
+    return () => {
+      isComponentMounted = false;
+    };
+  }, [isAuthenticated]);
+
+  return { error, isLoading };
 };

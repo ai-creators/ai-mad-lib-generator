@@ -10,10 +10,12 @@ import Settings from "./settings/Settings";
 import Categories from "./categories/Categories";
 import Category from "./category/Category";
 import Create from "./create/Create";
+import AccountSetup from "./account/setup/AccountSetup";
 
 const PageRoutes = () => {
   return (
     <Routes>
+      <Route path="account/setup" element={<AccountSetup />} />
       <Route path="settings" element={<Settings />} />
       <Route path="saves" element={<Saves />} />
       <Route path="create" element={<Create />} />

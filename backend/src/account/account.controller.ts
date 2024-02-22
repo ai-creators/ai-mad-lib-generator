@@ -19,4 +19,16 @@ export class AccountController {
     }
     return foundAccount;
   }
+
+  @Get('find/sub')
+  async findBySub(
+    @Query()
+    { sub },
+  ): Promise<Account> {
+    const foundAccount = await this.accountService.findAccountBySub(sub);
+    if (!foundAccount) {
+      throw new AccountNotFoundException();
+    }
+    return foundAccount;
+  }
 }

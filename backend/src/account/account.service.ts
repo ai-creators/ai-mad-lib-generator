@@ -14,10 +14,20 @@ export class AccountService {
     if (!username) {
       return null;
     }
-    const foundAccount: Account = await this.accountRepository.findOneByOrFail({
+    const foundAccount: Account = await this.accountRepository.findOneBy({
       username,
     });
-    return this.filterSecureProperties(foundAccount);
+    return foundAccount ? this.filterSecureProperties(foundAccount) : null;
+  }
+
+  async findAccountBySub(sub: string) {
+    if (!sub) {
+      return null;
+    }
+    const foundAccount: Account = await this.accountRepository.findOneBy({
+      sub,
+    });
+    return foundAccount ? this.filterSecureProperties(foundAccount) : null;
   }
 
   filterSecureProperties(account: Account): Account {

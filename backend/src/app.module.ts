@@ -8,6 +8,7 @@ import { AdlibResponseModule } from './adlib-response/adlib-response.module';
 import entities from './data-model/entities';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CategoryModule } from './category/category.module';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { CategoryModule } from './category/category.module';
       inject: [ConfigService],
     }),
     AdlibModule,
+    AccountModule,
     GeneratorModule,
     CategoryModule,
     CommonModule,
