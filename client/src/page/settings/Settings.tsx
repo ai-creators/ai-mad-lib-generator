@@ -24,7 +24,7 @@ const Settings = () => {
               <NavbarSidebar />
             </Card>
           </aside>
-          <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
+          <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
             <Card className="p-5">
               <h2 className="text-2xl font-semibold">Profile Settings</h2>
               <p className="text-zinc-600 dark:text-zinc-400">
