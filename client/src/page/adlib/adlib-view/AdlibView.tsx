@@ -34,7 +34,7 @@ const AdlibView = () => {
             <NavbarSidebar />
           </Card>
         </aside>
-        <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
+        <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
           <ErrorAlert error={error} />
           {response ? <AdlibViewer response={response} /> : null}
           <ul className="flex flex-col sm:flex-row gap-3">
