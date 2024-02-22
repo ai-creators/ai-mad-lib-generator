@@ -14,7 +14,7 @@ const Saves = () => {
             <NavbarSidebar />
           </Card>
         </aside>
-        <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
+        <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
           <SavesPrompts />
           <SavesResponses />
         </section>
