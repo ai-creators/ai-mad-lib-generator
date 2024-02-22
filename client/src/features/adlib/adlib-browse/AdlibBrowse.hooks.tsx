@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 export const useAdlibBrowse = () => {
-  const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.FEATURED);
+  const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const search = searchParams.get("q") ?? "";

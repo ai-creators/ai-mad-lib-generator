@@ -5,6 +5,7 @@ import { ErrorModel } from "@/models/ErrorModel";
 import ErrorAlert from "@/errors/ErrorAlert";
 import { ReactNode } from "react";
 import { FeedTypes } from "./FeedTypes";
+import ScrollTopButton from "../button/scroll-top-button/ScrollTopButton";
 
 type Props<T> = {
   executable: (
@@ -51,6 +52,10 @@ const Feed = <T extends object>({
           <ListComponent data={data ?? []} />
         </InfiniteScroll>
       </div>
+      <ScrollTopButton
+        className="hidden lg:flex justify-center items-center"
+        hasAnimation={!hasMore()}
+      />
     </div>
   );
 };

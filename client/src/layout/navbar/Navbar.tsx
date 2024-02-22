@@ -2,6 +2,9 @@ import { Link } from "react-router-dom";
 import Container from "../container/Container";
 import ThemeToggle from "@/components/button/ThemeToggle";
 import NavbarMobile from "./navbar-mobile/NavbarMobile";
+import SearchBar from "@/features/search/search-bar/SearchBar";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -16,26 +19,22 @@ const Navbar = () => {
               <h1 className="text-lg font-semibold py-2">Ai Adlibs</h1>
             </Link>
           </li>
+          <li className="hidden md:block ml-3">
+            <SearchBar width="w-80" />
+          </li>
         </ul>
         <ul className="items-center flex gap-5">
-          <li className="hidden md:block">
-            <Link to="/" className="py-2 px-2 block">
-              Home
-            </Link>
+          <li className="hidden">
+            <Button className={buttonVariants({ variant: "ghost" })}>
+              <Search />
+            </Button>
           </li>
-          <li className="hidden md:block">
-            <Link to="/browse" className="py-2 px-2 block">
-              Browse
-            </Link>
-          </li>
-          <li className="hidden md:block">
-            <Link to="/saves" className="py-2 px-2 block">
-              Saves
-            </Link>
-          </li>
-          <li className="hidden md:block">
-            <Link to="/settings" className="py-2 px-2 block">
-              Settings
+          <li>
+            <Link
+              to="/create"
+              className={buttonVariants({ variant: "default" })}
+            >
+              Create Adlib
             </Link>
           </li>
           <li>
