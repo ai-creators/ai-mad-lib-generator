@@ -11,6 +11,9 @@ export const useAdlibView = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<ErrorModel | null>(null);
   const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [isAdlibCopied, setIsAdlibCopied] = useState<boolean>(false);
+  const [isAdlibResponseCopied, setIsAdlibResponseCopied] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const fetchResponse = async () => {
@@ -63,5 +66,41 @@ export const useAdlibView = () => {
     storage.set("adlib-responses", savedResponses);
   };
 
-  return { response, isLoading, error, isSaved, toggleSaveResponse };
+  const copyAdlibLink = async () => {
+    try {
+      const url = `${import.meta.env.VITE_CLIENT_URL}/adlib/${
+        response?.adlib.id
+      }`;
+      await navigator.clipboard.writeText(url);
+      setIsAdlibCopied(true);
+      setTimeout(() => setIsAdlibCopied(false), 2_000);
+    } catch (error) {
+      console.error("Failed to copy: ", error);
+    }
+  };
+
+  const copyAdlibResponseLink = async () => {
+    try {
+      const url = `${import.meta.env.VITE_CLIENT_URL}/adlib/view/${
+        response?.id
+      }`;
+      await navigator.clipboard.writeText(url);
+      setIsAdlibResponseCopied(true);
+      setTimeout(() => setIsAdlibResponseCopied(false), 2_000);
+    } catch (error) {
+      console.error("Failed to copy: ", error);
+    }
+  };
+
+  return {
+    response,
+    isLoading,
+    error,
+    isSaved,
+    toggleSaveResponse,
+    copyAdlibLink,
+    copyAdlibResponseLink,
+    isAdlibCopied,
+    isAdlibResponseCopied,
+  };
 };
