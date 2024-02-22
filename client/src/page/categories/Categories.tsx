@@ -1,11 +1,11 @@
 import { Card } from "@/components/ui/card";
-import SavesPrompts from "@/features/saves/saves-prompts/SavesPrompts";
-import SavesResponses from "@/features/saves/saves-responses/SavesResponses";
+import CategoriesSearch from "@/features/categories/categories-search/CategoriesSearch";
+import CategoryBrowse from "@/features/categories/category-browse/CategoryBrowse";
 import Layout from "@/layout/Layout";
 import Container from "@/layout/container/Container";
 import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
 
-const Saves = () => {
+const Categories = () => {
   return (
     <Layout>
       <Container className="px-3 lg:px-0 py-5 grid-cols-12 grid gap-5">
@@ -14,9 +14,9 @@ const Saves = () => {
             <NavbarSidebar />
           </Card>
         </aside>
-        <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
-          <SavesPrompts />
-          <SavesResponses />
+        <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
+          <CategoriesSearch />
+          <CategoryBrowse />
         </section>
         {/* <aside className="col-span-3 "></aside> */}
       </Container>
@@ -24,4 +24,4 @@ const Saves = () => {
   );
 };
 
-export default Saves;
+export default Categories;

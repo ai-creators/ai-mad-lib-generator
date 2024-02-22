@@ -33,6 +33,41 @@ export class AdlibService {
     return queryBuilder.getOne();
   }
 
+  async findAllByCategoryNamePageable(
+    categoryName: string,
+    adlibPaginationDto: AdlibPaginationDto,
+  ): Promise<PaginationResponse<Adlib>> {
+    const entityName = 'Adlib';
+    const queryBuilder = this.adlibRepository
+      .createQueryBuilder(entityName)
+      .leftJoinAndSelect(`${entityName}.categories`, 'category')
+      .where('category.name = :categoryName', { categoryName });
+
+    if (adlibPaginationDto.feedType === FeedTypes.FEATURED) {
+      queryBuilder.andWhere(`${entityName}.isFeatured = true`);
+    }
+
+    if (adlibPaginationDto.contentRating === ContentRating.PG) {
+      queryBuilder.andWhere(`${entityName}.isPg = :isPg`, {
+        isPg: true,
+      });
+    }
+
+    if (adlibPaginationDto.search) {
+      this.buildSearchQuery(
+        adlibPaginationDto.search,
+        queryBuilder,
+        entityName,
+      );
+    }
+
+    return Pagination.paginate<Adlib>(
+      queryBuilder,
+      adlibPaginationDto,
+      entityName,
+    );
+  }
+
   findAllPageable(
     adlibPaginationDto: AdlibPaginationDto,
   ): Promise<PaginationResponse<Adlib>> {

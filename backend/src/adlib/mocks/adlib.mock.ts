@@ -24,6 +24,20 @@ export function mockAdlibService(adlibs: Adlib[] = []) {
         return Promise.resolve(foundAdlib);
       },
     ),
+    findAllByCategoryNamePageable: jest.fn(
+      (
+        categoryName: string,
+        adlibPaginationDto: AdlibPaginationDto,
+      ): Promise<PaginationResponse<Adlib>> => {
+        const mockAdlibs: Adlib[] = adlibs;
+        return Promise.resolve({
+          results: mockAdlibs,
+          page: 1,
+          size: mockAdlibs.length,
+          totalPages: 1,
+        });
+      },
+    ),
   };
 }
 

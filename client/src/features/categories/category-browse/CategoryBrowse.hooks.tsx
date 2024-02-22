@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { AdlibModel } from "@/models/AdlibModel";
 import { ErrorModel } from "@/models/ErrorModel";
 import { FeedTypes } from "@/models/FeedTypes";
 import { PaginationResponse } from "@/models/PaginationResponse";
-import AdlibService from "@/services/AdlibService";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { categoryService } from "@/services/CategoryService";
+import { CategoryAggregateModel } from "@/models/CategoryAggregateModel";
 
-export const useAdlibBrowse = () => {
+export const useCategoryBrowse = () => {
   const [feedType, setFeedType] = useState<FeedTypes>(FeedTypes.LATEST);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -17,12 +17,20 @@ export const useAdlibBrowse = () => {
     setFeedType(newFeedType);
   };
 
-  const getAdlibs = (
+  const getCategories = (
     page: number,
     size: number,
     timestamp: Date
-  ): Promise<[PaginationResponse<AdlibModel> | null, ErrorModel | null]> => {
-    return AdlibService.getAdlibs(page, size, timestamp, feedType, search);
+  ): Promise<
+    [PaginationResponse<CategoryAggregateModel> | null, ErrorModel | null]
+  > => {
+    return categoryService.getCategories(
+      page,
+      size,
+      timestamp,
+      feedType,
+      search
+    );
   };
 
   useEffect(() => {
@@ -40,5 +48,5 @@ export const useAdlibBrowse = () => {
     }
   }, [feedType]);
 
-  return { feedType, changeFeedType, getAdlibs, search };
+  return { feedType, changeFeedType, getCategories, search };
 };
