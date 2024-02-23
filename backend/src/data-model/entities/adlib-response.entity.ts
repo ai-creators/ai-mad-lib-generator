@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Adlib } from './adlib.entity';
 import { AdlibResponseQuestion } from './adlib-response-question.entity';
+import { Submission } from './multiplayer/submission.entity';
 
 @Entity()
 export class AdlibResponse {
@@ -27,6 +28,9 @@ export class AdlibResponse {
     },
   )
   questions: AdlibResponseQuestion[];
+
+  @ManyToOne(() => Submission, (submission) => submission.response)
+  submissions: Promise<Submission>;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

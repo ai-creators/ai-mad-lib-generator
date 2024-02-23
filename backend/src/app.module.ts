@@ -8,6 +8,9 @@ import { AdlibResponseModule } from './adlib-response/adlib-response.module';
 import entities from './data-model/entities';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CategoryModule } from './category/category.module';
+import { GameModule } from './game/game.module';
+import { LobbyModule } from './lobby/lobby.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -50,6 +53,9 @@ import { CategoryModule } from './category/category.module';
     CategoryModule,
     CommonModule,
     AdlibResponseModule,
+    GameModule,
+    LobbyModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

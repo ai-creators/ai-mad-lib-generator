@@ -4,12 +4,14 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { AdlibResponse } from './adlib-response.entity';
+import { Round } from './multiplayer/round.entity';
 
 @Entity()
 export class Adlib {
@@ -49,6 +51,9 @@ export class Adlib {
 
   @OneToMany(() => AdlibResponse, (AdlibResponse) => AdlibResponse.adlib)
   adlibResponses: Promise<AdlibResponse[]>;
+
+  @ManyToOne(() => Round, (round) => round.adlib)
+  rounds: Promise<Round>;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
