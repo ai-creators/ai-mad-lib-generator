@@ -1,7 +1,7 @@
 export class AdlibValidator {
   public isValidAdlib(adlibText: string): boolean {
     // Regular expression to match mad lib inputs (e.g., [noun], [adjective])
-    const madLibInputRegex = /\[([a-zA-Z_]+)\]/g;
+    const madLibInputRegex = /\[([a-zA-Z0-9_]+)\]/g;
 
     const sentenceSplitRegex = /[.!?]/;
 

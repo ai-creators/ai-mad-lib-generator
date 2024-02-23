@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Button, buttonVariants } from "@/components/ui/button";
 import ErrorAlert from "@/errors/ErrorAlert";
 import PageLoader from "@/components/loader/page-loader/PageLoader";
+import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
 
 const Adlib = () => {
   const { adlib, error, isLoading, hasSaved, saveAdlib } = useAdlib();
@@ -16,11 +17,13 @@ const Adlib = () => {
   return (
     <Layout>
       <div data-testid="home">
-        <Container
-          className="px-3 lg:px-0 py-5 grid-cols-9 grid gap-5"
-          width="max-w-3xl"
-        >
-          <section className="col-span-9 lg:col-span-9 flex flex-col gap-5">
+        <Container className="px-3 lg:px-0 py-5 grid-cols-12 grid gap-5">
+          <aside className="hidden lg:flex flex-col gap-5 col-span-3">
+            <Card className="p-2">
+              <NavbarSidebar />
+            </Card>
+          </aside>
+          <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
             <ErrorAlert error={error} />
             <Card className="p-5 flex flex-col gap-5">
               <header>

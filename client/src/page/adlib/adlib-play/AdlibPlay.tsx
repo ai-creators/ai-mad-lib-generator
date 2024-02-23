@@ -4,6 +4,8 @@ import Container from "@/layout/container/Container";
 import { useAdlibPlay } from "./AdlibPlay.hooks";
 import PageLoader from "@/components/loader/page-loader/PageLoader";
 import AdlibBuilder from "@/features/adlib/adlib-builder/AdlibBuilder";
+import { Card } from "@/components/ui/card";
+import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
 
 const AdlibPlay = () => {
   const { adlib, isLoading, error } = useAdlibPlay();
@@ -12,14 +14,17 @@ const AdlibPlay = () => {
   }
   return (
     <Layout>
-      <div data-testid="home">
-        <Container className="px-3 lg:px-0 py-5" width="max-w-3xl">
-          <section className="flex flex-col gap-5">
-            <ErrorAlert error={error} />
-            {adlib ? <AdlibBuilder adlib={adlib} /> : null}
-          </section>
-        </Container>
-      </div>
+      <Container className="px-3 lg:px-0 py-5 grid-cols-12 grid gap-5">
+        <aside className="hidden lg:flex flex-col gap-5 col-span-3">
+          <Card className="p-2">
+            <NavbarSidebar />
+          </Card>
+        </aside>
+        <section className="col-span-12 lg:col-span-9 flex flex-col gap-5">
+          <ErrorAlert error={error} />
+          {adlib ? <AdlibBuilder adlib={adlib} /> : null}
+        </section>
+      </Container>
     </Layout>
   );
 };

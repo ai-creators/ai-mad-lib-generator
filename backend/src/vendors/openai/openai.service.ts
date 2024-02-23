@@ -11,7 +11,6 @@ import { CategoryService } from 'src/category/category.service';
 export class OpenaiService {
   constructor(
     private openai: OpenAI,
-    private model: OpenaiModelTypes,
     private readonly categoryService: CategoryService,
   ) {}
 
@@ -26,7 +25,7 @@ export class OpenaiService {
           content: prompt,
         },
       ],
-      model: this.model,
+      model: OpenaiModelTypes.GPT_3_TURBO,
       temperature: config.temperature || 0.7,
       top_p: config.topP || 1,
       response_format: { type: 'json_object' },

@@ -1,4 +1,4 @@
-import { ThemeProviderState, Theme } from "@/features/theme/ThemeTypes";
+import { Theme, ThemeProviderState } from "@/context/themeProvider";
 import { createContext, ReactNode, useState, useContext } from "react";
 
 const MockThemeContext = createContext<ThemeProviderState | undefined>(
