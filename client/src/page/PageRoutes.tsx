@@ -10,10 +10,12 @@ import Settings from "./settings/Settings";
 import Categories from "./categories/Categories";
 import Category from "./category/Category";
 import Create from "./create/Create";
+import Multiplayer from "./multiplayer/Multiplayer";
 
 const PageRoutes = () => {
   return (
     <Routes>
+      <Route path="multiplayer" element={<Multiplayer />} />
       <Route path="settings" element={<Settings />} />
       <Route path="saves" element={<Saves />} />
       <Route path="create" element={<Create />} />

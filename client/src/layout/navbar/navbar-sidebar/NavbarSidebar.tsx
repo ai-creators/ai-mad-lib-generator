@@ -1,4 +1,13 @@
-import { Heart, Home, PlusSquare, Search, Settings, Tags } from "lucide-react";
+import {
+  Gamepad2,
+  Heart,
+  Home,
+  PlusSquare,
+  Search,
+  Settings,
+  Tags,
+  Users,
+} from "lucide-react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
@@ -17,6 +26,11 @@ const NavbarSidebar = ({
       url: "/create",
       icon: <PlusSquare />,
       text: "Create",
+    },
+    {
+      url: "/multiplayer",
+      icon: <Gamepad2 />,
+      text: "Multiplayer",
     },
     {
       url: "/browse",
