@@ -15,8 +15,20 @@ const createLobby = (userId: string): Promise<ApiResponse<LobbyModel>> => {
   return api.callExternalApi<LobbyModel>({ config });
 };
 
+const findByRoomCode = (roomCode: string): Promise<ApiResponse<LobbyModel>> => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/lobby/find/room-code",
+    params: {
+      roomCode,
+    },
+  };
+
+  return api.callExternalApi<LobbyModel>({ config });
+};
+
 const lobbyService = {
   createLobby,
+  findByRoomCode,
 };
 
 Object.freeze(lobbyService);

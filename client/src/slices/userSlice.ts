@@ -17,6 +17,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserModel>) => {
+      storage.set("userId", action.payload.id ?? null);
       state.user = action.payload;
     },
   },

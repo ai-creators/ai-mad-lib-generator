@@ -7,8 +7,10 @@
     "npm": "9.5.0",
     "node": "18.14.2"
   },
-  "devDependencies": {},
   "scripts": {},
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "socket.io-client": "^4.7.4"
+  }
 }

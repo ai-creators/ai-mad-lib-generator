@@ -11,10 +11,12 @@ import Categories from "./categories/Categories";
 import Category from "./category/Category";
 import Create from "./create/Create";
 import Multiplayer from "./multiplayer/Multiplayer";
+import Lobby from "./lobby/Lobby";
 
 const PageRoutes = () => {
   return (
     <Routes>
+      <Route path="evil-adlibs/lobby/:roomCode" element={<Lobby />} />
       <Route path="evil-adlibs" element={<Multiplayer />} />
       <Route path="settings" element={<Settings />} />
       <Route path="saves" element={<Saves />} />
