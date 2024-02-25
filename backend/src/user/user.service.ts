@@ -24,6 +24,7 @@ export class UserService {
   }
 
   async findUserById(id: number): Promise<User> {
+    console.log(id);
     const user = await this.userRepository.findOneBy({ id });
     if (!id || !user) {
       throw new NotFoundException(`User with ID ${id} not found`);
@@ -43,6 +44,26 @@ export class UserService {
         HttpStatus.CONFLICT,
       );
     }
+    user.guestName = guestName;
+    return this.userRepository.save(user);
+  }
+
+  async upsertUser(id: number, guestName) {
+    let user = new User();
+    if (id) {
+      const foundUser = await this.userRepository.findOneBy({ id });
+      if (!foundUser) {
+        throw new UserNotFoundException();
+      }
+      user = foundUser;
+    }
+    if (!guestName.length) {
+      throw new HttpException(
+        'Guest name requires the be at least 1 character',
+        HttpStatus.CONFLICT,
+      );
+    }
+
     user.guestName = guestName;
     return this.userRepository.save(user);
   }

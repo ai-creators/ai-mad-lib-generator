@@ -7,7 +7,7 @@ const createLobby = (userId: string): Promise<ApiResponse<LobbyModel>> => {
   const config: AxiosRequestConfig = {
     url: "/api/v1/lobby",
     method: "POST",
-    params: {
+    data: {
       userId,
     },
   };

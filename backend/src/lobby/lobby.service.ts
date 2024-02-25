@@ -15,8 +15,9 @@ export class LobbyService {
   ) {}
 
   async createLobby(creatorId: number, roomCode: string): Promise<Lobby> {
+    console.log('CREATOR ID: ', creatorId);
     const creator = await this.userRepository.findOneBy({ id: creatorId });
-    if (!creator) {
+    if (!creator || !creatorId) {
       throw new NotFoundException(`Creator with ID ${creatorId} not found`);
     }
 
@@ -41,6 +42,11 @@ export class LobbyService {
     }
 
     lobby.players.push(user);
+    return this.lobbyRepository.save(lobby);
+  }
+
+  async removePlayerFromLobby(lobby: Lobby, user: User) {
+    lobby.players = lobby.players.filter((player) => player.id! !== user.id);
     return this.lobbyRepository.save(lobby);
   }
 

@@ -9,7 +9,8 @@ type Props = {
 };
 
 const MultiplayerLobbyPlayersCard = ({ player }: Props) => {
-  const { isUser } = useMultiplayerLobbyPlayersCard(player);
+  const { isUser, submitLeaveLobby, submitKickPlayer, isCreator } =
+    useMultiplayerLobbyPlayersCard(player);
   const { lobby } = useMultiplayerLobby();
   return (
     <Card className="p-5">
@@ -20,7 +21,16 @@ const MultiplayerLobbyPlayersCard = ({ player }: Props) => {
           ) : null}
           {player?.guestName ?? "Guest User"}
         </h5>
-        {isUser ? <Button variant="destructive">Leave Lobby</Button> : null}
+        {isUser ? (
+          <Button variant="destructive" onClick={submitLeaveLobby}>
+            Leave Lobby
+          </Button>
+        ) : null}
+        {isCreator && !isUser ? (
+          <Button variant="destructive" onClick={submitKickPlayer}>
+            Kick Player
+          </Button>
+        ) : null}
       </div>
     </Card>
   );

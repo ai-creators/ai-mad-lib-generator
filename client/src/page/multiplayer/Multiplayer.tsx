@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import MultiplayerLobbyCreator from "@/features/multiplayer/multiplayer-lobby/multiplayer-lobby-creator/MultiplayerLobbyCreator";
+import MultiplayerLobbyJoin from "@/features/multiplayer/multiplayer-lobby/multiplayer-lobby-join/MultiplayerLobbyJoin";
 import Layout from "@/layout/Layout";
 import Container from "@/layout/container/Container";
 import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
@@ -25,6 +26,7 @@ const Multiplayer = () => {
               <MultiplayerLobbyCreator />
             </div>
           </Card>
+          <MultiplayerLobbyJoin />
         </section>
       </Container>
     </Layout>

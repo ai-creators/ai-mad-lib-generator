@@ -39,4 +39,16 @@ export class UserController {
       updateUserDto.guestName,
     );
   }
+
+  @Put('/upsert')
+  upsertUser(
+    @Body()
+    body: {
+      guestName: string;
+      userId?: number;
+    },
+  ): Promise<User> {
+    const { guestName, userId } = body;
+    return this.userService.upsertUser(userId, guestName);
+  }
 }

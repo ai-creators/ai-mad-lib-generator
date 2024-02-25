@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
 import useSocket from "@/hooks/useSocket";
-import { ErrorModel } from "@/models/ErrorModel";
 import { UserModel } from "@/models/UserModel";
 import { LobbyModel } from "@/models/mutliplayer/LobbyModel";
 import { lobbyService } from "@/services/LobbyService";
@@ -20,6 +20,7 @@ interface LobbyContextType {
   players: UserModel[];
   joinLobby: (userId: number) => void;
   leaveLobby: (userId: number) => void;
+  kickPlayer: (userId: number) => void;
   isLoading: boolean;
 }
 
@@ -29,6 +30,7 @@ const MultiplayerLobbyContext = createContext<LobbyContextType>({
   joinLobby: () => {},
   isLoading: false,
   leaveLobby: () => {},
+  kickPlayer: () => {},
 });
 
 export const useMultiplayerLobby = () => {
@@ -53,6 +55,7 @@ export const MultiplayerLobbyProvider: React.FC<{ children: ReactNode }> = ({
     [roomCode]
   );
   const socket = useSocket(queryOptions);
+  const { user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     setIsLoading(true);
@@ -103,6 +106,7 @@ export const MultiplayerLobbyProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const leaveLobby = (userId: number) => {
+    console.log("USERID: ", userId);
     setIsLoading(true);
     if (socket) {
       socket.emit("leaveLobby", { roomCode, userId });
@@ -110,9 +114,18 @@ export const MultiplayerLobbyProvider: React.FC<{ children: ReactNode }> = ({
     setIsLoading(false);
   };
 
+  const kickPlayer = (userId: number) => {
+    setIsLoading(true);
+    if (socket) {
+      socket.emit("kickPlayer", { userId, creatorId: user.id, roomCode });
+    }
+
+    setIsLoading(false);
+  };
+
   return (
     <MultiplayerLobbyContext.Provider
-      value={{ lobby, players, joinLobby, leaveLobby, isLoading }}
+      value={{ lobby, players, joinLobby, leaveLobby, isLoading, kickPlayer }}
     >
       {children}
     </MultiplayerLobbyContext.Provider>
