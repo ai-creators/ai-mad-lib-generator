@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -22,13 +23,17 @@ export class Lobby {
   @ManyToOne(() => User)
   creator: User;
 
-  @ManyToOne(() => User)
+  @ManyToMany(() => User, {
+    cascade: ['update', 'insert'],
+  })
   @JoinTable()
   players: User[];
 
   @Column({ default: 10 })
   maxPlayers: number = 10;
 
-  @OneToMany(() => GameSession, (gameSession) => gameSession.lobby)
+  @OneToMany(() => GameSession, (gameSession) => gameSession.lobby, {
+    cascade: true,
+  })
   gameSessions: GameSession[];
 }

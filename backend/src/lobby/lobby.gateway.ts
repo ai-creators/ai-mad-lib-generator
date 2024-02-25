@@ -41,7 +41,6 @@ export class LobbyGateway {
     const foundLobby = await this.lobbyService.findOneByRoomCode(roomCode, [
       'players',
     ]);
-    console.log(foundLobby);
     if (!foundLobby) {
       throw new LobbyNotFoundException();
     }
@@ -51,7 +50,6 @@ export class LobbyGateway {
     const lobby = await this.lobbyService.findOneByRoomCode(roomCode, [
       'players',
     ]);
-    console.log('RESPONSE FINAL: ', lobby);
     this.server.to(roomCode).emit('playersUpdate', lobby.players ?? []);
   }
 }

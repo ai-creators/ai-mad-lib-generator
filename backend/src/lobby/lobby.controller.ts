@@ -28,7 +28,10 @@ export class LobbyController {
       throw new LobbyNotFoundException();
     }
 
-    const foundLobby = await this.lobbyService.findOneByRoomCode(roomCode);
+    const foundLobby = await this.lobbyService.findOneByRoomCode(roomCode, [
+      'players',
+      'creator',
+    ]);
 
     if (!foundLobby) {
       throw new LobbyNotFoundException();

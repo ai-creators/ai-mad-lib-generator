@@ -21,4 +21,10 @@ export class User {
 
   @OneToMany(() => Submission, (submission) => submission.creator)
   submissions: Promise<Submission[]>;
+
+  public asObject() {
+    return {
+      guestName: this.guestName,
+    };
+  }
 }

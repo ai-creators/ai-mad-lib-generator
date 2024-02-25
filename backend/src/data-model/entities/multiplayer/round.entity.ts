@@ -22,10 +22,12 @@ export class Round {
   @OneToMany(() => User, (user) => user.judgeRounds)
   judge: User;
 
-  @OneToMany(() => Submission, (submission) => submission.round)
+  @OneToMany(() => Submission, (submission) => submission.round, {
+    cascade: true,
+  })
   submissions: Submission[];
 
-  @OneToOne(() => Submission, { nullable: true })
+  @OneToOne(() => Submission, { nullable: true, cascade: true })
   @JoinColumn()
   winningSubmission: Submission | null;
 

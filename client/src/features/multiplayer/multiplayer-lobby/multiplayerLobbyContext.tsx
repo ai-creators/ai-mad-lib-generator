@@ -19,6 +19,7 @@ interface LobbyContextType {
   lobby: LobbyModel | null;
   players: UserModel[];
   joinLobby: (userId: number) => void;
+  leaveLobby: (userId: number) => void;
   isLoading: boolean;
 }
 
@@ -27,6 +28,7 @@ const MultiplayerLobbyContext = createContext<LobbyContextType>({
   players: [],
   joinLobby: () => {},
   isLoading: false,
+  leaveLobby: () => {},
 });
 
 export const useMultiplayerLobby = () => {
@@ -58,9 +60,9 @@ export const MultiplayerLobbyProvider: React.FC<{ children: ReactNode }> = ({
     if (roomCode) {
       (async () => {
         const [data, apiError] = await lobbyService.findByRoomCode(roomCode);
-
         if (data && !ignore) {
           setLobby(data);
+          setPlayers(data.players);
         }
 
         if (apiError && !ignore) {
@@ -73,7 +75,7 @@ export const MultiplayerLobbyProvider: React.FC<{ children: ReactNode }> = ({
     return () => {
       ignore = true;
     };
-  }, [roomCode]);
+  }, [dispatch, roomCode]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -93,7 +95,6 @@ export const MultiplayerLobbyProvider: React.FC<{ children: ReactNode }> = ({
   }, [socket, roomCode]);
 
   const joinLobby = (userId: number) => {
-    console.log("JOINING LOBBY: ", userId, roomCode);
     setIsLoading(true);
     if (socket) {
       socket.emit("joinLobby", { roomCode, userId });
@@ -101,9 +102,17 @@ export const MultiplayerLobbyProvider: React.FC<{ children: ReactNode }> = ({
     setIsLoading(false);
   };
 
+  const leaveLobby = (userId: number) => {
+    setIsLoading(true);
+    if (socket) {
+      socket.emit("leaveLobby", { roomCode, userId });
+    }
+    setIsLoading(false);
+  };
+
   return (
     <MultiplayerLobbyContext.Provider
-      value={{ lobby, players, joinLobby, isLoading }}
+      value={{ lobby, players, joinLobby, leaveLobby, isLoading }}
     >
       {children}
     </MultiplayerLobbyContext.Provider>

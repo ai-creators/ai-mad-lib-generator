@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { UserModel } from "@/models/UserModel";
 import { LobbyModel } from "@/models/mutliplayer/LobbyModel";
+import MultiplayerLobbyPlayersCard from "./multiplayer-lobby-players-card/MultiplayerLobbyPlayersCard";
 
 type Props = {
   lobby: LobbyModel;
@@ -17,7 +18,9 @@ const MultiplayerLobbyPlayers = ({ lobby, players }: Props) => {
       </div>
       <ul className="flex flex-col gap-3">
         {players.map((player) => (
-          <li key={player.id}>{player?.guestName ?? "Guest User"}</li>
+          <li key={player.id}>
+            <MultiplayerLobbyPlayersCard player={player} />
+          </li>
         ))}
       </ul>
     </Card>

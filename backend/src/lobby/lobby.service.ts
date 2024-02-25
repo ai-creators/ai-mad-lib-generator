@@ -19,6 +19,7 @@ export class LobbyService {
     if (!creator) {
       throw new NotFoundException(`Creator with ID ${creatorId} not found`);
     }
+
     const lobby = this.lobbyRepository.create({
       creator,
       roomCode: roomCode.toUpperCase(),
@@ -40,8 +41,7 @@ export class LobbyService {
     }
 
     lobby.players.push(user);
-    console.log(user, lobby);
-    return this.lobbyRepository.save(user);
+    return this.lobbyRepository.save(lobby);
   }
 
   findOneByRoomCode(roomCode: string, relations: string[] = []) {

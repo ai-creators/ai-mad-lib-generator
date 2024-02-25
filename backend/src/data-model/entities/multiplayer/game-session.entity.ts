@@ -10,6 +10,8 @@ export class GameSession {
   @ManyToOne(() => Lobby, (lobby) => lobby.gameSessions)
   lobby: Lobby;
 
-  @OneToMany(() => Round, (round) => round.gameSession)
+  @OneToMany(() => Round, (round) => round.gameSession, {
+    cascade: true,
+  })
   rounds: Round[];
 }

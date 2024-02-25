@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "./useAppDispatch";
 import { useAppSelector } from "./useAppSelector";
 import { userService } from "@/services/UserService";
-import { setUser } from "@/slices/userSlice";
+import { setUser, voidUser } from "@/slices/userSlice";
 import { setGlobalError } from "@/slices/globalErrorSlice";
 
 export const useUser = () => {
@@ -23,6 +23,9 @@ export const useUser = () => {
         }
 
         if (error && !ignore) {
+          if (error.message.includes("not found")) {
+            dispatch(voidUser());
+          }
           dispatch(setGlobalError(error));
         }
       })();
@@ -32,7 +35,7 @@ export const useUser = () => {
     return () => {
       ignore = true;
     };
-  }, [dispatch, user.id]);
+  }, [dispatch, user?.id]);
 
   return { isLoading };
 };

@@ -3,7 +3,7 @@ import { storage } from "@/utils/Storage";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface UserState {
-  user: UserModel;
+  user: UserModel | null;
 }
 
 const initialState: UserState = {
@@ -17,12 +17,16 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserModel>) => {
-      storage.set("userId", action.payload.id ?? null);
+      storage.set("userId", action.payload?.id ?? null);
       state.user = action.payload;
+    },
+    voidUser: (state) => {
+      storage.remove("userId");
+      state.user = null;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, voidUser } = userSlice.actions;
 
 export default userSlice.reducer;
