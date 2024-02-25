@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach } from "vitest";
-import storage from "./Storage";
+import { storage } from "./Storage";
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};

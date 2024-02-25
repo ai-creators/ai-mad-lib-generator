@@ -6,7 +6,6 @@ import {
   Search,
   Settings,
   Tags,
-  Users,
 } from "lucide-react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
@@ -19,18 +18,18 @@ const NavbarSidebar = ({
   links = [
     {
       url: "/",
-      icon: <Home />,
+      icon: <i className="text-lg">🏠</i>,
       text: "Home",
     },
     {
       url: "/create",
-      icon: <PlusSquare />,
+      icon: <i className="text-lg">➕</i>,
       text: "Create",
     },
     {
-      url: "/multiplayer",
-      icon: <Gamepad2 />,
-      text: "Multiplayer",
+      url: "/evil-adlibs",
+      icon: <i className="text-lg">😈</i>,
+      text: "Evil Adlibs",
     },
     {
       url: "/browse",
@@ -39,12 +38,12 @@ const NavbarSidebar = ({
     },
     {
       url: "/categories",
-      icon: <Tags />,
+      icon: <i className="text-lg">🏷️</i>,
       text: "Tags",
     },
     {
       url: "/saves",
-      icon: <Heart />,
+      icon: <i className="text-lg">💖</i>,
       text: "Saves",
     },
     {

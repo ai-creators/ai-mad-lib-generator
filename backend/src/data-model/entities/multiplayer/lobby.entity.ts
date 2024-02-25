@@ -5,17 +5,19 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { GameSession } from './game-session.entity';
 import { User } from './user.entity';
 
 @Entity()
+@Unique(['roomCode'])
 export class Lobby {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false, length: 100 })
-  name: string;
+  @Column({ nullable: false, unique: true, length: 6 })
+  roomCode: string;
 
   @ManyToOne(() => User)
   creator: User;

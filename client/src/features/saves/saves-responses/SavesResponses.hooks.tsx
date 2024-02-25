@@ -1,5 +1,5 @@
 import { AdlibResponseModel } from "@/models/AdlibResponseModel";
-import storage from "@/utils/Storage";
+import { storage } from "@/utils/Storage";
 import { useEffect, useState } from "react";
 
 export const useSavesResponses = () => {

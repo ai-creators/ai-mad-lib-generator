@@ -1,10 +1,7 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional } from 'class-validator';
 
 export class CreateLobbyDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
   @IsNumber()
+  @IsOptional()
   userId: number;
 }

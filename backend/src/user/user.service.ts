@@ -10,7 +10,7 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  createUser(guestName: string): Promise<User> {
+  createUser(guestName?: string): Promise<User> {
     const user = this.userRepository.create({
       guestName,
     });

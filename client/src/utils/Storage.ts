@@ -84,4 +84,4 @@ const storage = {
 };
 
 Object.freeze(storage);
-export default storage;
+export { storage };

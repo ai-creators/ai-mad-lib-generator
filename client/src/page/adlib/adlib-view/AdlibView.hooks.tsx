@@ -1,7 +1,7 @@
 import { AdlibResponseModel } from "@/models/AdlibResponseModel";
 import { ErrorModel } from "@/models/ErrorModel";
 import { adlibResponseService } from "@/services/AdlibResponseService";
-import storage from "@/utils/Storage";
+import { storage } from "@/utils/Storage";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 

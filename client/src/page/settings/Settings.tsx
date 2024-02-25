@@ -4,7 +4,7 @@ import Layout from "@/layout/Layout";
 import Container from "@/layout/container/Container";
 import NavbarSidebar from "@/layout/navbar/navbar-sidebar/NavbarSidebar";
 import { ContentRating } from "@/models/ContentRating";
-import storage from "@/utils/Storage";
+import {storage} from "@/utils/Storage";
 import { useState } from "react";
 
 const Settings = () => {

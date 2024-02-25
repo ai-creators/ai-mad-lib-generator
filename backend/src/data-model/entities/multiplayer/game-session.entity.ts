@@ -1,5 +1,6 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Lobby } from './lobby.entity';
+import { Round } from './round.entity';
 
 @Entity()
 export class GameSession {
@@ -8,4 +9,7 @@ export class GameSession {
 
   @ManyToOne(() => Lobby, (lobby) => lobby.gameSessions)
   lobby: Lobby;
+
+  @OneToMany(() => Round, (round) => round.gameSession)
+  rounds: Round[];
 }

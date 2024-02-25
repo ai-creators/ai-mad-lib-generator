@@ -1,5 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Round } from './round.entity';
+import { Submission } from './submission.entity';
 
 @Entity()
 export class User {
@@ -11,4 +18,7 @@ export class User {
 
   @ManyToOne(() => Round, (round) => round.judge)
   judgeRounds: Promise<Round>;
+
+  @OneToMany(() => Submission, (submission) => submission.creator)
+  submissions: Promise<Submission[]>;
 }

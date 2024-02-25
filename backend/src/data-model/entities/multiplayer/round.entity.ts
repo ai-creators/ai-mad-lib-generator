@@ -1,6 +1,7 @@
 import {
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -8,6 +9,7 @@ import {
 import { Adlib } from '../adlib.entity';
 import { User } from './user.entity';
 import { Submission } from './submission.entity';
+import { GameSession } from './game-session.entity';
 
 @Entity()
 export class Round {
@@ -26,4 +28,7 @@ export class Round {
   @OneToOne(() => Submission, { nullable: true })
   @JoinColumn()
   winningSubmission: Submission | null;
+
+  @ManyToOne(() => GameSession, (gameSession) => gameSession.rounds)
+  gameSession: Promise<GameSession>;
 }
