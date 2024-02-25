@@ -15,7 +15,12 @@ const MultiplayerLobby = () => {
       <Card className="p-5 flex flex-col gap-5">
         <div className="flex justify-between gap-3">
           <div>
-            <h2 className="text-2xl font-semibold">Evil Adlibs</h2>
+            <h2 className="text-2xl font-semibold">
+              {lobby?.creator?.guestName
+                ? `${lobby?.creator?.guestName}'s`
+                : "Guest"}{" "}
+              Lobby
+            </h2>
             <p className="text-stone-600 dark:text-stone-400">Public Lobby</p>
           </div>
 
