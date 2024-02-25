@@ -14,8 +14,34 @@ const createUser = (guestName?: string) => {
   return api.callExternalApi<UserModel>({ config });
 };
 
+const updateUser = (user: UserModel) => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/user",
+    method: "PUT",
+    data: {
+      userId: user.id,
+      guestName: user.guestName,
+    },
+  };
+
+  return api.callExternalApi<UserModel>({ config });
+};
+
+const findUserById = (id: number) => {
+  const config: AxiosRequestConfig = {
+    url: "/api/v1/user/find",
+    params: {
+      userId: id,
+    },
+  };
+
+  return api.callExternalApi<UserModel>({ config });
+};
+
 const userService = {
   createUser,
+  updateUser,
+  findUserById,
 };
 
 Object.freeze(userService);

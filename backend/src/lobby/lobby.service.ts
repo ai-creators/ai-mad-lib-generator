@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lobby, User } from 'src/data-model/entities';
 import { Repository } from 'typeorm';
+import { PlayersExceedLobbyCountException } from './exceptions/players-exceed-lobby-count.exception';
+import { PlayerAlreadyInLobbyException } from './exceptions/player-already-in-lobby.exception';
 
 @Injectable()
 export class LobbyService {
@@ -24,13 +26,34 @@ export class LobbyService {
     return this.lobbyRepository.save(lobby);
   }
 
-  findOneByRoomCode(roomCode: string) {
+  async addPlayerToLobby(lobby: Lobby, user: User) {
+    if (!lobby.players) {
+      lobby.players = [];
+    }
+
+    if (lobby.players.length === lobby.maxPlayers) {
+      throw new PlayersExceedLobbyCountException();
+    }
+
+    if (lobby.players.find((player) => player.id === user.id)) {
+      throw new PlayerAlreadyInLobbyException();
+    }
+
+    lobby.players.push(user);
+    console.log(user, lobby);
+    return this.lobbyRepository.save(user);
+  }
+
+  findOneByRoomCode(roomCode: string, relations: string[] = []) {
     if (!roomCode) {
       return null;
     }
 
-    return this.lobbyRepository.findOneBy({
-      roomCode: roomCode.toUpperCase(),
+    return this.lobbyRepository.findOne({
+      where: {
+        roomCode: roomCode.toUpperCase(),
+      },
+      relations,
     });
   }
 }
