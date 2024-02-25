@@ -31,7 +31,7 @@ const MultiplayerLobbyPlayerJoin = () => {
           className="min-w-24"
           disabled={!guestName || isLoading}
         >
-          Join
+          {isLoading ? "Loading" : "Join"}
         </Button>
       </div>
     </Card>

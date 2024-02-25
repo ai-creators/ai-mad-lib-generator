@@ -17,10 +17,6 @@ export const useMultiplayerLobbyPlayerJoin = () => {
     setGuestName(user.guestName);
   }, [user.guestName]);
 
-  useEffect(() => {
-    setGuestName(user?.username);
-  }, [user?.username]);
-
   const changeGuestName = (value: string) => {
     setGuestName(value);
   };
