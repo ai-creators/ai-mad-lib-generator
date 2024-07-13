@@ -25,7 +25,7 @@ export class OpenaiService {
           content: prompt,
         },
       ],
-      model: OpenaiModelTypes.GPT_3_TURBO,
+      model: OpenaiModelTypes.GPT_4O,
       temperature: config.temperature || 0.7,
       top_p: config.topP || 1,
       response_format: { type: 'json_object' },
