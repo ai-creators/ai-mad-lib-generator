@@ -8,7 +8,7 @@
  - Generate Mad Libs based on user-defined prompts
  - Generate random prompts for Mad Libs
  - Save generated Mad Libs for later use
- - Utilizes OpenAI's GPT-3 for AI-powered Mad Lib generation
+ - Utilizes OpenAI's GPT-4 for AI-powered Mad Lib generation
 
 - Part of Ai-wranglers Hackathon.
 
