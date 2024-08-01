@@ -47,20 +47,30 @@ export class OpenaiService {
     prompt: PromptDto,
     openaiConfig: OpenaiConfigDto,
   ): Promise<Adlib> {
-    const response: ChatCompletion = await this.chat(
-      prompt.buildPrompt(),
-      openaiConfig,
-    );
-    const parsedMessage: any = JSON.parse(response.choices[0].message.content);
-    const adlib = new Adlib();
-    adlib.prompt = prompt.prompt;
-    adlib.text = parsedMessage?.madlib;
-    adlib.title = parsedMessage?.title;
-    adlib.isPg = parsedMessage?.isPg;
-    adlib.temperature = openaiConfig.temperature;
-    adlib.topP = openaiConfig.topP;
-    adlib.categories = await this.mapCategories(parsedMessage.categories);
-    return adlib;
+    try {
+      const response: ChatCompletion = await this.chat(
+        prompt.buildPrompt(),
+        openaiConfig,
+      );
+      console.log(response);
+      response.choices.forEach((element) => {
+        console.log(element);
+      });
+      const parsedMessage: any = JSON.parse(
+        response.choices[0].message.content,
+      );
+      const adlib = new Adlib();
+      adlib.prompt = prompt.prompt;
+      adlib.text = parsedMessage?.madlib;
+      adlib.title = parsedMessage?.title;
+      adlib.isPg = parsedMessage?.isPg;
+      adlib.temperature = openaiConfig.temperature;
+      adlib.topP = openaiConfig.topP;
+      adlib.categories = await this.mapCategories(parsedMessage.categories);
+      return adlib;
+    } catch (err: unknown) {
+      console.log(err);
+    }
   }
 
   private async mapCategories(categories: string[]): Promise<Category[]> {
