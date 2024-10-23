@@ -7,22 +7,22 @@ export type TemperatureEssentialProperties = Readonly<
 export type TemperatureProperties = TemperatureEssentialProperties;
 
 export interface Temperature {
-  getTemperature(): number;
-  setTemperature(temp: number): void;
+  toNumber(): number;
+  set(temp: number): void;
 }
 
 export class TemperatureImplementation implements Temperature {
   private temperature: number;
 
   constructor(properties: TemperatureProperties) {
-    this.setTemperature(properties.temperature);
+    this.set(properties.temperature);
   }
 
-  getTemperature(): number {
+  toNumber(): number {
     return this.temperature;
   }
 
-  setTemperature(temp: number) {
+  set(temp: number) {
     if (temp < 0 || temp > 1) {
       throw new Error('Temperature must beteween the values of 0 and 1');
     }

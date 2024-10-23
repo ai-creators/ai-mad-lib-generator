@@ -7,22 +7,22 @@ export type TopPEssentialProperties = Readonly<
 export type TopPProperties = TopPEssentialProperties;
 
 export interface TopP {
-  getTopP(): number;
-  setTopP(topP: number): void;
+  toNumber(): number;
+  set(topP: number): void;
 }
 
 export class TopPImplementation implements TopP {
   private topP: number;
 
   constructor(properties: TopPProperties) {
-    this.setTopP(properties.topP);
+    this.set(properties.topP);
   }
 
-  getTopP(): number {
+  toNumber(): number {
     return this.topP;
   }
 
-  setTopP(topP: number) {
+  set(topP: number) {
     if (topP < 0 || topP > 1) {
       throw new Error('topP must beteween the values of 0 and 1');
     }
