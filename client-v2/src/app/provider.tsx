@@ -26,14 +26,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
         </div>
       }
     >
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        {children}
-      </ThemeProvider>
+      {children}
     </Suspense>
   );
 };

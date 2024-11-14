@@ -15,7 +15,9 @@ const LandingLayout = ({ children, className }: LandingLayoutProps) => {
       <div
         className={cn("flex flex-col min-h-screen bg-background", className)}
       >
-        <header>{/* <Navbar /> */}</header>
+        <header>
+          <Navbar />
+        </header>
         <main className="grow">{children}</main>
         <Footer />
       </div>

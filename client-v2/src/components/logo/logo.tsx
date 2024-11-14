@@ -19,7 +19,12 @@ export const Logo = ({ imgClassName, className, width, height }: LogoProps) => {
         height={height}
         width={width}
       /> */}
-      <h1 className="text-xl font-semibold">Algowars</h1>
+      <h1 className="text-xl font-semibold flex items-center gap-2">
+        <span className="h-8 w-8 flex justify-center items-center p-0 text-background rounded bg-yellow-500 dark:bg-yellow-500">
+          AI
+        </span>{" "}
+        Adlibs
+      </h1>
     </span>
   );
 };

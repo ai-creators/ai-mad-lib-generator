@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
   return (
@@ -20,7 +22,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="bg-background flex justify-center items-center w-8 h-8 rounded-full text-primary"
               >
-                <i className="fa-brands fa-github"></i>
+                <FontAwesomeIcon icon={faGithub} />
               </a>
             </li>
             <li>
@@ -30,7 +32,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="bg-background flex justify-center items-center w-8 h-8 rounded-full text-primary"
               >
-                <i className="fa-brands fa-linkedin-in"></i>
+                <FontAwesomeIcon icon={faLinkedinIn} />
               </a>
             </li>
           </ul>
@@ -75,7 +77,7 @@ const Footer = () => {
           </p>
           <Input
             placeholder="Enter your email address"
-            className="border-muted-foreground"
+            className="border-muted-foreground/40 bg-foreground"
           />
           <div>
             <Button variant={"secondary"} className="w-28">
@@ -84,9 +86,11 @@ const Footer = () => {
           </div>
         </div>
       </Container>
-      <div className="border-t border-muted-foreground">
+      <div className="border-t border-muted-foreground/40">
         <Container className="py-5 flex items-center gap-5">
-          <p className="text-muted text-sm font-semibold">&copy; Algowars</p>
+          <p className="text-muted text-sm font-semibold">
+            &copy; 2024 Algowars
+          </p>
           <a
             href="https://github.com/algowars/algowars"
             target="_blank"
