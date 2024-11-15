@@ -3,37 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/features/theme/theme-toggle";
 import Link from "next/link";
 import React from "react";
+import { navLinks } from "../navbar/navbar";
 
-export interface NavLink {
-  href: string;
-  title: string;
-  hidden?: boolean;
-}
-
-export const navLinks: NavLink[] = [
-  {
-    href: "/",
-    title: "Landing Page",
-    hidden: true,
-  },
-  {
-    href: "/dashboard",
-    title: "Home",
-  },
-  {
-    href: "/create",
-    title: "Create",
-  },
-  {
-    href: "/browse",
-    title: "Browse",
-  },
-  {
-    href: "/tags",
-    title: "Tags",
-  },
-];
-const Navbar = () => {
+const LandingNavbar = () => {
   return (
     <nav className="fixed top-0 w-full border-b shadow-sm z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto grid grid-cols-3 py-3">
@@ -82,4 +54,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default LandingNavbar;

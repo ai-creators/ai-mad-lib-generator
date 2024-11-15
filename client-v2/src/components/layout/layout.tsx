@@ -1,21 +1,21 @@
 import { cn } from "@/lib/utils";
 import React, { ReactNode } from "react";
-import Footer from "../footer/footer";
-import LandingNavbar from "../landing-navbar/landing-navbar";
+import Footer from "./footer/footer";
+import Navbar from "./navbar/navbar";
 
-export type LandingLayoutProps = {
+export type LayoutProps = {
   children?: ReactNode;
   className?: string;
 };
 
-const LandingLayout = ({ children, className }: LandingLayoutProps) => {
+const Layout = ({ children, className }: LayoutProps) => {
   return (
     <>
       <div
         className={cn("flex flex-col min-h-screen bg-background", className)}
       >
         <header>
-          <LandingNavbar />
+          <Navbar />
         </header>
         <main className="grow">{children}</main>
         <Footer />
@@ -23,4 +23,5 @@ const LandingLayout = ({ children, className }: LandingLayoutProps) => {
     </>
   );
 };
-export default LandingLayout;
+
+export default Layout;
