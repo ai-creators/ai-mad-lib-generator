@@ -17,6 +17,7 @@ function checkEnvironment(configService: ConfigService) {
     'CLIENT_ORIGIN_URLS',
     'ISSUER_BASE_URL',
     'AUDIENCE',
+    'OPENAI_API_KEY',
   ];
 
   requiredEnvVars.forEach((envVar) => {

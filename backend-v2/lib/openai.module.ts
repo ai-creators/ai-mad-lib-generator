@@ -51,10 +51,7 @@ export class OpenaiService {
     });
   }
 
-  public async createAdlib(
-    prompt: Prompt,
-    config: AdlibConfig,
-  ): Promise<Adlib> {
+  public async createAdlib(prompt: Prompt, config: AdlibConfig): Promise<void> {
     const response: ChatCompletion = await this.chat(prompt.getValue(), {
       ...config,
       responseFormat: MadlibEvent,
