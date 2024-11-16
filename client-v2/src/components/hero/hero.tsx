@@ -9,7 +9,7 @@ const Hero = () => {
   return (
     <div className="h-[40rem] w-full flex md:items-center md:justify-center antialiased relative overflow-hidden">
       <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
-        <div className=" p-4 max-w-7xl  mx-auto relative z-10  w-full pt-20 md:pt-0">
+        <div className=" p-4 max-w-6xl  mx-auto relative z-10  w-full pt-20 md:pt-0">
           <h1 className="text-4xl md:text-7xl font-bold text-center bg-clip-text text-foreground-muted bg-gradient-to-b from-foreground to-foreground bg-opacity-50">
             Create Madlibs <br /> using AI.
           </h1>

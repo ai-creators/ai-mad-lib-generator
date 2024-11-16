@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/features/theme/theme-toggle";
 import Link from "next/link";
 import React from "react";
 import { navLinks } from "../navbar/navbar";
+import { Container } from "@/components/container/container";
 
 const LandingNavbar = () => {
   const links = [
@@ -14,7 +15,7 @@ const LandingNavbar = () => {
   ];
   return (
     <nav className="fixed top-0 w-full border-b shadow-sm z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto grid grid-cols-3 py-3">
+      <Container className="grid grid-cols-3 py-3">
         <ul className="flex justify-start items-center">
           <li>
             <Link href="/">
@@ -53,7 +54,7 @@ const LandingNavbar = () => {
             <Button>Create Adlib</Button>
           </li>
         </ul>
-      </div>
+      </Container>
     </nav>
   );
 };

@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import React, { ReactNode } from "react";
+import { Container } from "@/components/container/container";
 
 export interface NavLink {
   href: string;
@@ -60,7 +61,7 @@ export const navLinks: Record<string, NavLink> = {
 const Navbar = () => {
   return (
     <nav className="border-b shadow-sm z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto grid grid-cols-3 py-3">
+      <Container className="grid grid-cols-3 py-3">
         <ul className="flex justify-start items-center gap-5">
           <li>
             <Link href="/">
@@ -89,7 +90,7 @@ const Navbar = () => {
             <Button>Create Adlib</Button>
           </li>
         </ul>
-      </div>
+      </Container>
     </nav>
   );
 };
