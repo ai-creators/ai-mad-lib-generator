@@ -17,6 +17,6 @@ export class BaseEntity {
   @DeleteDateColumn({ type: 'timestamptz' })
   readonly deletedAt: Date | null;
 
-  @VersionColumn()
+  @VersionColumn({ default: 1 })
   version: number;
 }

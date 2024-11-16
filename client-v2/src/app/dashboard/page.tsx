@@ -1,7 +1,7 @@
-import Hero from "@/components/hero/hero";
 import AsideNavbar from "@/components/layout/aside-navbar/aside-navbar";
 import Layout from "@/components/layout/layout";
 import { Card } from "@/components/ui/card";
+import AdlibFeatured from "@/features/adlib/adlib-featured/adlib-featured";
 import React from "react";
 
 const DashboardPage = () => {
@@ -13,10 +13,7 @@ const DashboardPage = () => {
         </Card>
       </aside>
       <section className="col-span-8">
-        <Hero />
-        <Hero />
-        <Hero />
-        <Hero />
+        <AdlibFeatured />
       </section>
       <aside className="col-span-2"></aside>
     </Layout>
