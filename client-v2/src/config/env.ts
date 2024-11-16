@@ -15,6 +15,7 @@ const createEnv = () => {
     AUTH_CALLBACK_URL: z.string(),
     AUTH_AUDIENCE: z.string(),
     AUTH_NAMESPACE: z.string(),
+    GA_ID: z.string(),
   });
 
   const envVars = {
@@ -27,6 +28,7 @@ const createEnv = () => {
     AUTH_CALLBACK_URL: process.env.NEXT_PUBLIC_AUTH_CALLBACK_URL,
     AUTH_AUDIENCE: process.env.NEXT_PUBLIC_AUTH_AUDIENCE,
     AUTH_NAMESPACE: process.env.NEXT_PUBLIC_AUTH_NAMESPACE,
+    GA_ID: process.env.NEXT_PUBLIC_GA_ID,
   };
 
   const parsedEnv = EnvSchema.safeParse(envVars);

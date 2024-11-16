@@ -9,6 +9,7 @@ config.autoAddCss = false;
 
 import AppProvider from "./provider";
 import { ThemeProvider } from "@/features/theme/theme-provider";
+import { env } from "@/config/env";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,8 +33,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID ?? "";
-
   return (
     <html lang="en">
       <body
@@ -48,7 +47,7 @@ export default function RootLayout({
           <AppProvider>{children}</AppProvider>
         </ThemeProvider>
       </body>
-      <GoogleAnalytics gaId={gaId} />
+      <GoogleAnalytics gaId={env.GA_ID} />
     </html>
   );
 }
