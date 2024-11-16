@@ -20,7 +20,7 @@ export const Logo = ({ imgClassName, className, width, height }: LogoProps) => {
         width={width}
       /> */}
       <h1 className="text-xl font-semibold flex items-center gap-2">
-        <span className="h-8 w-8 flex justify-center items-center p-0 text-background rounded bg-yellow-500 dark:bg-yellow-500">
+        <span className="h-8 w-8 flex justify-center items-center p-0 text-background rounded bg-green-500 dark:bg-green-500">
           AI
         </span>{" "}
         Adlibs

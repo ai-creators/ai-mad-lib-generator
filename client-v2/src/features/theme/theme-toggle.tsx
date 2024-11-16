@@ -17,9 +17,8 @@ type ThemeToggleProps = {
 };
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { setTheme, theme } = useTheme();
+  const { setTheme } = useTheme();
 
-  console.log(theme);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

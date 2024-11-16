@@ -6,6 +6,12 @@ import React from "react";
 import { navLinks } from "../navbar/navbar";
 
 const LandingNavbar = () => {
+  const links = [
+    navLinks.dashboard,
+    navLinks.create,
+    navLinks.browse,
+    navLinks.tags,
+  ];
   return (
     <nav className="fixed top-0 w-full border-b shadow-sm z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto grid grid-cols-3 py-3">
@@ -18,18 +24,16 @@ const LandingNavbar = () => {
         </ul>
         <ul className="flex justify-center items-center gap-4">
           <ul className="flex justify-center items-center gap-4">
-            {navLinks.map((link) =>
-              link.hidden ? null : (
-                <li key={link.title}>
-                  <Link
-                    href={link.href}
-                    className="transition-colors hover:text-foreground/80 text-foreground"
-                  >
-                    {link.title}
-                  </Link>
-                </li>
-              )
-            )}
+            {links.map((link) => (
+              <li key={link.title}>
+                <Link
+                  href={link.href}
+                  className="transition-colors hover:text-foreground/80 text-foreground"
+                >
+                  {link.title}
+                </Link>
+              </li>
+            ))}
           </ul>
         </ul>
 
