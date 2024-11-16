@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import React, { ReactNode } from "react";
 import { Container } from "@/components/container/container";
+import NavbarMobile from "./navbar-mobile";
 
 export interface NavLink {
   href: string;
@@ -61,14 +62,17 @@ export const navLinks: Record<string, NavLink> = {
 const Navbar = () => {
   return (
     <nav className="border-b shadow-sm z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <Container className="grid grid-cols-3 py-3">
+      <Container className="grid grid-cols-3 py-3 px-3 xl:px-0">
         <ul className="flex justify-start items-center gap-5">
+          <li className="lg:hidden flex justify-center items-center">
+            <NavbarMobile />
+          </li>
           <li>
             <Link href="/">
               <Logo width={20} height={20} />
             </Link>
           </li>
-          <li>
+          <li className="hidden lg:block w-80">
             <NavbarSearch />
           </li>
         </ul>
@@ -78,7 +82,7 @@ const Navbar = () => {
           <li>
             <ThemeToggle className="border-none" />
           </li>
-          <li>
+          <li className="hidden lg:block">
             <Link
               href="/login"
               className="transition-colors hover:text-foreground/80 text-foreground"

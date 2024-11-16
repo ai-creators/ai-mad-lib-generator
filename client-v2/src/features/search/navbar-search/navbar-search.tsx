@@ -21,7 +21,7 @@ const NavbarSearch = () => {
   };
 
   return (
-    <form className="relative w-80" onSubmit={onSubmit}>
+    <form className="relative w-full" onSubmit={onSubmit}>
       <Input
         placeholder="Search..."
         value={search}

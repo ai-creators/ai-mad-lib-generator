@@ -18,7 +18,7 @@ const AdlibFeatured = () => {
   });
 
   return (
-    <Card className="pb-5">
+    <Card className="pb-5 rounded-none md:rounded-lg">
       <header className="p-5">
         <h3 className="text-2xl font-semibold">Featured Adlibs</h3>
         <p className="text-muted-foreground">

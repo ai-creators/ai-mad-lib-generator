@@ -9,16 +9,16 @@ import React from "react";
 const DashboardPage = () => {
   return (
     <Layout>
-      <Container className="grid grid-cols-12 py-8 gap-8">
-        <aside className="col-span-3 sticky top-0">
+      <Container className="grid grid-cols-12 py-0 md:py-8 gap-3 lg:gap-8 px-0 md:px-3 lg:px-0">
+        <aside className="col-span-3 sticky top-0 hidden md:block">
           <Card className="p-3">
             <AsideNavbar />
           </Card>
         </aside>
-        <section className="col-span-6">
+        <section className="col-span-12 md:col-span-9 lg:col-span-6">
           <AdlibFeatured />
         </section>
-        <aside className="col-span-3">
+        <aside className="col-span-3 hidden lg:block">
           <AdsCard />
         </aside>
       </Container>

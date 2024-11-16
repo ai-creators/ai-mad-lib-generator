@@ -5,8 +5,8 @@ import Image from "next/image";
 export type LogoProps = {
   imgClassName?: string;
   className?: string;
-  height: number;
-  width: number;
+  height?: number;
+  width?: number;
 };
 
 export const Logo = ({ imgClassName, className, width, height }: LogoProps) => {
