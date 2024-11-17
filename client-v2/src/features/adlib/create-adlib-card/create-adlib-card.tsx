@@ -17,19 +17,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { AdlibLables } from "../adlib-labels/adlib-labels";
 import { Slider } from "@/components/ui/slider";
 
 type CreateAdlibConfig = {
-  topP: number;
   temperature: number;
 };
 
 const CreateAdlibCard = () => {
   const [prompt, setPrompt] = useState<string>("");
   const [config, setConfig] = useState<CreateAdlibConfig>({
-    topP: 1,
     temperature: 0.7,
   });
 
@@ -37,10 +35,14 @@ const CreateAdlibCard = () => {
     setConfig((curr) => ({ ...curr, [key]: value }));
   };
 
+  const createAdlib = (e: FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <Card className="rounded-none md:rounded-lg p-5">
       <h3 className="text-2xl font-semibold mb-3">Generate an Adlib</h3>
-      <form className="flex flex-col gap-5">
+      <form className="flex flex-col gap-5" onSubmit={createAdlib}>
         <div className="flex flex-col gap-3">
           <Label
             htmlFor="prompt"
@@ -71,7 +73,7 @@ const CreateAdlibCard = () => {
                     </Label>
                     <TooltipProvider delayDuration={100}>
                       <Tooltip>
-                        <TooltipTrigger asChild>
+                        <TooltipTrigger asChild type="button">
                           <Info size={16} />
                         </TooltipTrigger>
                         <TooltipContent className="max-w-lg">
@@ -83,41 +85,11 @@ const CreateAdlibCard = () => {
                   <p className="mb-3">{config.temperature}</p>
                   <Slider
                     defaultValue={[config.temperature]}
-                    max={1}
+                    max={2}
                     step={0.1}
                     value={[config.temperature]}
                     onValueChange={(value: number[]) =>
                       onChangeConfig("temperature", value[0])
-                    }
-                  />
-                </li>
-                <li>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Label
-                      htmlFor="temperature"
-                      className="text-muted-foreground"
-                    >
-                      TopP
-                    </Label>
-                    <TooltipProvider delayDuration={100}>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Info size={16} />
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-lg">
-                          <p>{AdlibLables.TOP_P_TOOLTIPS}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                  <p className="mb-3">{config.topP}</p>
-                  <Slider
-                    defaultValue={[config.topP]}
-                    max={1}
-                    step={0.1}
-                    value={[config.topP]}
-                    onValueChange={(value: number[]) =>
-                      onChangeConfig("topP", value[0])
                     }
                   />
                 </li>
@@ -128,10 +100,12 @@ const CreateAdlibCard = () => {
 
         <ul className="flex items-center gap-3">
           <li>
-            <Button>Generate</Button>
+            <Button type="submit">Generate</Button>
           </li>
           <li>
-            <Button variant="secondary">Generate Random</Button>
+            <Button variant="secondary" type="submit">
+              Generate Random
+            </Button>
           </li>
         </ul>
       </form>

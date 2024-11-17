@@ -26,7 +26,7 @@ const Hero = () => {
               Create Adlib
             </Link>
             <Link
-              href="/signup"
+              href="/dashboard"
               className={cn(buttonVariants({ variant: "outline" }), "w-32")}
             >
               Get Started

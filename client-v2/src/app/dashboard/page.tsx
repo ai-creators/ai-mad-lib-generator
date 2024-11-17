@@ -11,7 +11,7 @@ const DashboardPage = () => {
   return (
     <Layout>
       <Container className="grid grid-cols-12 py-0 md:py-8 gap-3 lg:gap-8 px-0 md:px-3 lg:px-0">
-        <aside className="col-span-3 sticky top-0 hidden md:block">
+        <aside className="col-span-3 hidden md:block">
           <Card className="p-3">
             <AsideNavbar />
           </Card>

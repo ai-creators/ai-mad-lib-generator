@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import AdlibFeaturedList from "./adlib-featured-list/adlib-featured-list";
 import Loader from "@/components/loader/loader";
+import ScrollTopButton from "@/components/scroll-top-button/scroll-top-button";
 
 const AdlibFeatured = () => {
   const [page] = useState<number>(1);
@@ -30,6 +31,10 @@ const AdlibFeatured = () => {
       ) : (
         <AdlibFeaturedList adlibs={adlibsFeaturedQuery.data?.results ?? []} />
       )}
+      <ScrollTopButton
+        className="hidden lg:flex justify-center items-center"
+        hasAnimation={true}
+      />
     </Card>
   );
 };
