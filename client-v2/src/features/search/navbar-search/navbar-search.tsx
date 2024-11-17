@@ -23,6 +23,8 @@ const NavbarSearch = () => {
   return (
     <form className="relative w-full" onSubmit={onSubmit}>
       <Input
+        id="search"
+        name="search"
         placeholder="Search..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}

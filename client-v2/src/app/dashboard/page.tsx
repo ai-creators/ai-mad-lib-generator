@@ -3,6 +3,7 @@ import AsideNavbar from "@/components/layout/aside-navbar/aside-navbar";
 import Layout from "@/components/layout/layout";
 import { Card } from "@/components/ui/card";
 import AdlibFeatured from "@/features/adlib/adlib-featured/adlib-featured";
+import CreateAdlibCard from "@/features/adlib/create-adlib-card/create-adlib-card";
 import AdsCard from "@/features/ads/ads-card/ads-card";
 import React from "react";
 
@@ -15,7 +16,8 @@ const DashboardPage = () => {
             <AsideNavbar />
           </Card>
         </aside>
-        <section className="col-span-12 md:col-span-9 lg:col-span-6">
+        <section className="col-span-12 md:col-span-9 lg:col-span-6 flex flex-col gap-3 lg:gap-8">
+          <CreateAdlibCard />
           <AdlibFeatured />
         </section>
         <aside className="col-span-3 hidden lg:block">
