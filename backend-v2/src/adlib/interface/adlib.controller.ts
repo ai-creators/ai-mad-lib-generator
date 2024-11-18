@@ -5,6 +5,8 @@ import { GetFeaturedAdlibsQuery } from '../application/queries/get-featured-adli
 import { CreateAdlibRequest } from './dto/request/create-adlib-request.dto';
 import { PageResult } from 'src/common/pagination/page-result';
 import { GetFeaturedAdlibsResult } from '../application/queries/get-featured-adlibs/get-featured-adlibs.result';
+import { CreateAdlibCommand } from '../application/commands/create-adlib/create-adlib.command';
+import { Id } from 'src/common/domain/id';
 
 @Controller('v1/adlib')
 export class AdlibController {
@@ -23,5 +25,16 @@ export class AdlibController {
   }
 
   @Post()
-  createAdlib(@Body() createAdlibRequest: CreateAdlibRequest) {}
+  async createAdlib(
+    @Body() createAdlibRequest: CreateAdlibRequest,
+  ): Promise<number> {
+    const id = await this.commandBus.execute<CreateAdlibCommand, Id>(
+      new CreateAdlibCommand(
+        createAdlibRequest.prompt,
+        createAdlibRequest.temperature,
+      ),
+    );
+
+    return id.toNumber();
+  }
 }

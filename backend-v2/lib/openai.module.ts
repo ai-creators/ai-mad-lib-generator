@@ -4,9 +4,8 @@ import { zodResponseFormat } from 'openai/helpers/zod';
 import { z } from 'zod';
 import { ChatCompletion } from 'openai/resources';
 import { Temperature } from 'src/adlib/domain/temperature';
-import { TopP } from 'src/adlib/domain/top-p';
 import { Prompt } from 'src/adlib/domain/prompt';
-import { Adlib } from 'src/adlib/domain/adlib';
+import { ConfigService } from '@nestjs/config';
 
 export enum OpenAIModel {
   GPT_4O = 'gpt-4o',
@@ -14,14 +13,12 @@ export enum OpenAIModel {
 
 export interface OpenAIConfig {
   temperature: Temperature;
-  topP: TopP;
   model: OpenAIModel;
   responseFormat: z.ZodObject<any>;
 }
 
 export interface AdlibConfig {
   temperature: Temperature;
-  topP: TopP;
   model: OpenAIModel;
 }
 
@@ -37,6 +34,7 @@ export class OpenaiService {
   constructor(private readonly openai: OpenAI) {}
 
   private chat(prompt: string, config: OpenAIConfig): Promise<ChatCompletion> {
+    console.log('PROMPT: ', prompt, config);
     return this.openai.beta.chat.completions.parse({
       model: config.model,
       messages: [
@@ -46,18 +44,61 @@ export class OpenaiService {
         },
       ],
       temperature: config.temperature.toNumber(),
-      topP: config.topP.toNumber(),
       response_format: zodResponseFormat(config.responseFormat, 'event'),
     });
   }
 
-  public async createAdlib(prompt: Prompt, config: AdlibConfig): Promise<void> {
+  public async createAdlib(
+    prompt: Prompt,
+    config: AdlibConfig,
+  ): Promise<{
+    role: string;
+    content: string | null;
+    refusal: string | null;
+    tool_calls: [];
+    parsed: z.infer<typeof MadlibEvent>;
+    categories: string[];
+  }> {
+    console.log(prompt);
     const response: ChatCompletion = await this.chat(prompt.getValue(), {
       ...config,
       responseFormat: MadlibEvent,
     });
+
+    const message = response.choices[0].message;
+
+    let parsed: z.infer<typeof MadlibEvent>;
+
+    try {
+      const contentObject = JSON.parse(message.content || '{}');
+      parsed = MadlibEvent.parse(contentObject);
+    } catch (error) {
+      console.error('Error parsing message content:', error);
+      throw new Error('Invalid response format from OpenAI');
+    }
+
+    return {
+      role: message.role,
+      content: message.content,
+      refusal: message.refusal,
+      tool_calls: [],
+      categories: parsed.categories ?? [],
+      parsed,
+    };
   }
 }
 
-@Module({})
+@Module({
+  providers: [
+    {
+      provide: OpenAI,
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return new OpenAI({ apiKey: configService.get('OPENAI_API_KEY') });
+      },
+    },
+    OpenaiService,
+  ],
+  exports: [OpenaiService],
+})
 export class OpenaiModule {}

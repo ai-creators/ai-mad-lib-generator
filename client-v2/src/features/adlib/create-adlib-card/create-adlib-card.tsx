@@ -20,6 +20,9 @@ import { Info } from "lucide-react";
 import React, { FormEvent, useState } from "react";
 import { AdlibLables } from "../adlib-labels/adlib-labels";
 import { Slider } from "@/components/ui/slider";
+import { useCreateAdlib } from "../api/create-adlib";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type CreateAdlibConfig = {
   temperature: number;
@@ -31,12 +34,31 @@ const CreateAdlibCard = () => {
     temperature: 0.7,
   });
 
+  const router = useRouter();
+
   const onChangeConfig = (key: keyof CreateAdlibConfig, value: number) => {
     setConfig((curr) => ({ ...curr, [key]: value }));
   };
 
+  const createAdlibMutation = useCreateAdlib({
+    mutationConfig: {
+      onSuccess: (data) => {
+        const adlibId = data?.id;
+        if (adlibId) {
+          toast("Adlib Created");
+          router.push(`/adlib/${adlibId}`);
+        } else {
+          toast.error("Failed to retrieve Adlib ID.");
+        }
+      },
+    },
+  });
+
   const createAdlib = (e: FormEvent) => {
     e.preventDefault();
+    createAdlibMutation.mutate({
+      data: { prompt, temperature: config.temperature },
+    });
   };
 
   return (

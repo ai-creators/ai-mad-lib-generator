@@ -5,7 +5,6 @@ import {
 } from 'src/common/entities/base-domain';
 import { Prompt } from './prompt';
 import { Temperature } from './temperature';
-import { TopP } from './top-p';
 import { Category } from './category';
 
 export type AdlibEssentialProperties = Readonly<
@@ -14,7 +13,6 @@ export type AdlibEssentialProperties = Readonly<
     prompt: string;
     text: string;
     temperature: number;
-    topP: number;
   }>
 >;
 
@@ -24,6 +22,7 @@ export type AdlibOptionalProperties = Readonly<
     isHidden: boolean;
     isPg: boolean;
     isFeatured: boolean;
+    categories: Category[];
   }>
 >;
 
@@ -36,7 +35,6 @@ export interface Adlib extends BaseDomainAggregateRoot {
   getPrompt(): Prompt;
   getText(): string;
   getTemperature(): Temperature;
-  getTopP(): TopP;
   getOldId(): string;
   getIsHidden(): boolean;
   getIsPg(): boolean;
@@ -56,8 +54,12 @@ export class AdlibImplementation
   private readonly isPg: boolean;
   private readonly isFeatured: boolean;
   private readonly temperature: Temperature;
-  private readonly topP: TopP;
   private readonly categories: Category[];
+
+  constructor(properties: AdlibProperties) {
+    super(properties);
+    Object.assign(this, properties);
+  }
 
   getOldId(): string {
     return this.oldId;
@@ -89,10 +91,6 @@ export class AdlibImplementation
 
   getTemperature(): Temperature {
     return this.temperature;
-  }
-
-  getTopP(): TopP {
-    return this.topP;
   }
 
   getCategories(): Category[] {

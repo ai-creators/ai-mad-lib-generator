@@ -38,9 +38,6 @@ export class AdlibEntity extends BaseEntity {
   @Column({ type: 'numeric', precision: 10, scale: 2, default: 0.7 })
   temperature: number;
 
-  @Column({ type: 'numeric', precision: 10, scale: 2, default: 1 })
-  topP: number;
-
   @ManyToMany(() => CategoryEntity, (category) => category.adlibs)
   @JoinTable()
   categories: CategoryEntity[];
