@@ -12,6 +12,7 @@ const AdlibFeatured = () => {
   const [page] = useState<number>(1);
   const [size] = useState<number>(25);
   const [timestamp] = useState<Date>(new Date());
+
   const adlibsFeaturedQuery = useAdlibsFeatured({
     page,
     size,
