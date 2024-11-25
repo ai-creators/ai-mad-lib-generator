@@ -3,6 +3,7 @@ import AsideNavbar from "@/components/layout/aside-navbar/aside-navbar";
 import Layout from "@/components/layout/layout";
 import { Card } from "@/components/ui/card";
 import AdsCard from "@/features/ads/ads-card/ads-card";
+import BrowseCard from "@/features/browse/browse-card/browse-card";
 
 const BrowsePage = () => {
   return (
@@ -13,7 +14,9 @@ const BrowsePage = () => {
             <AsideNavbar />
           </Card>
         </aside>
-        <section className="col-span-12 md:col-span-9 lg:col-span-6 flex flex-col gap-3 lg:gap-8"></section>
+        <section className="col-span-12 md:col-span-9 lg:col-span-6 flex flex-col gap-3 lg:gap-8">
+          <BrowseCard />
+        </section>
         <aside className="col-span-3 hidden lg:block">
           <AdsCard />
         </aside>
