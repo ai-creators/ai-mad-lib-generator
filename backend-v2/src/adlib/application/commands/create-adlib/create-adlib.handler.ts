@@ -41,24 +41,28 @@ export class CreateAdlibHandler
       model: OpenAIModel.GPT_4O,
     });
 
-    const adlib = adlibEvent.parsed;
+    const parsedAdlib = adlibEvent.parsed;
 
-    const createdAtlib = this.adlibFactory.create({
-      id: (await this.adlibRepository.newId()).toNumber(),
-      title: adlib.title,
+    const savedCategories = await this.categoryRepository.saveOrGet(
+      parsedAdlib.categories,
+    );
+
+    const adlib = this.adlibFactory.create({
+      id: await this.adlibRepository.newId(),
+      title: parsedAdlib.title,
       prompt: prompt.getOriginalPrompt(),
-      text: adlib.madlib,
+      text: parsedAdlib.madlib,
       isHidden: false,
-      isPg: adlib.isPg,
+      isPg: parsedAdlib.isPg,
       isFeatured: false,
       temperature: command.temperature,
-      categories: adlib.categories?.map((category) =>
-        this.categoryFactory.create({ name: category }),
+      categories: savedCategories.map((category) =>
+        this.categoryFactory.createFromEntity(category),
       ),
     });
 
-    console.log('ADLIB EVENT: ', adlibEvent);
+    await this.adlibRepository.save(adlib);
 
-    return new IdImplementation(1);
+    return adlib.getId();
   }
 }

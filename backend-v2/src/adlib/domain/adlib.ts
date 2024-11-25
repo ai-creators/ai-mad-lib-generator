@@ -6,6 +6,7 @@ import {
 import { Prompt } from './prompt';
 import { Temperature } from './temperature';
 import { Category } from './category';
+import { Id } from 'src/common/domain/id';
 
 export type AdlibEssentialProperties = Readonly<
   Required<{
@@ -18,7 +19,7 @@ export type AdlibEssentialProperties = Readonly<
 
 export type AdlibOptionalProperties = Readonly<
   Partial<{
-    oldId: string;
+    oldId: number;
     isHidden: boolean;
     isPg: boolean;
     isFeatured: boolean;
@@ -35,7 +36,7 @@ export interface Adlib extends BaseDomainAggregateRoot {
   getPrompt(): Prompt;
   getText(): string;
   getTemperature(): Temperature;
-  getOldId(): string;
+  getOldId(): Id;
   getIsHidden(): boolean;
   getIsPg(): boolean;
   getIsFeatured(): boolean;
@@ -46,7 +47,7 @@ export class AdlibImplementation
   extends BaseDomainAggregateRootImplementation
   implements Adlib
 {
-  private readonly oldId: string;
+  private readonly oldId: Id;
   private readonly title: string;
   private readonly prompt: Prompt;
   private readonly text: string;
@@ -61,7 +62,7 @@ export class AdlibImplementation
     Object.assign(this, properties);
   }
 
-  getOldId(): string {
+  getOldId(): Id {
     return this.oldId;
   }
 

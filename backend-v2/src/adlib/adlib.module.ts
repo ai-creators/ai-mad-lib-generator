@@ -9,6 +9,7 @@ import { AdlibFactory } from './domain/adlib-factory';
 import { CategoryFactory } from './domain/category-factory';
 import { AdlibRepositoryImplementation } from './infrastructure/repositories/adlib-repository-implementation';
 import { OpenaiModule } from 'lib/openai.module';
+import { CategoryRepositoryImplementation } from './infrastructure/repositories/category-repository-implementation';
 
 export const infrastructure: Provider[] = [
   {
@@ -18,6 +19,10 @@ export const infrastructure: Provider[] = [
   {
     provide: InjectionToken.ADLIB_REPOSITORY,
     useClass: AdlibRepositoryImplementation,
+  },
+  {
+    provide: InjectionToken.CATEGORY_REPOSITORY,
+    useClass: CategoryRepositoryImplementation,
   },
 ];
 

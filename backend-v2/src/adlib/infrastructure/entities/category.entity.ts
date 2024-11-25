@@ -11,5 +11,5 @@ export class CategoryEntity extends BaseEntity {
   name: string;
 
   @ManyToMany(() => AdlibEntity, (adlib) => adlib.categories)
-  adlibs: AdlibEntity[];
+  adlibs?: AdlibEntity[];
 }

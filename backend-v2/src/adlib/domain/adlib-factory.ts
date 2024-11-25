@@ -7,11 +7,12 @@ import { IdImplementation } from 'src/common/domain/id';
 import { AdlibEntity } from '../infrastructure/entities/adlib.entity';
 
 export type CreateAdlibOptions = Readonly<{
-  id: number;
+  id: string;
+  oldId?: number;
   prompt: string;
   title: string;
   text: string;
-  isHidden: boolean;
+  isHidden?: boolean;
   isPg?: boolean;
   isFeatured?: boolean;
   temperature: number;

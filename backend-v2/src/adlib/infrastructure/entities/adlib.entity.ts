@@ -1,4 +1,3 @@
-import { Id } from 'src/common/domain/id';
 import { BaseEntity } from 'src/common/entities/base-entity';
 import {
   Column,
@@ -11,11 +10,11 @@ import { CategoryEntity } from './category.entity';
 
 @Entity('adlib')
 export class AdlibEntity extends BaseEntity {
-  @PrimaryGeneratedColumn('identity')
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column({ nullable: true, unique: true, length: 24 })
-  oldId: string;
+  @Column({ nullable: true })
+  oldId?: number;
 
   @Column({ nullable: false, length: 200 })
   title: string;
@@ -26,14 +25,14 @@ export class AdlibEntity extends BaseEntity {
   @Column({ nullable: false })
   text: string;
 
-  @Column({ nullable: false, default: false })
-  isHidden: boolean;
+  @Column({ nullable: true, default: false })
+  isHidden?: boolean;
 
-  @Column({ nullable: false, default: false })
-  isPg: boolean;
+  @Column({ nullable: true, default: false })
+  isPg?: boolean;
 
-  @Column({ nullable: false, default: false })
-  isFeatured: boolean;
+  @Column({ nullable: true, default: false })
+  isFeatured?: boolean;
 
   @Column({ type: 'numeric', precision: 10, scale: 2, default: 0.7 })
   temperature: number;

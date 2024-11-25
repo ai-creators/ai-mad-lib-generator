@@ -8,7 +8,7 @@ type AdlibFeaturedListProps = {
 
 const AdlibFeaturedList = ({ adlibs }: AdlibFeaturedListProps) => {
   if (!adlibs.length) {
-    return <p>No Adlibs available</p>;
+    return <p className="px-5 font-semibold">No Adlibs available</p>;
   }
   return (
     <ul className="flex flex-col gap-5 px-5">

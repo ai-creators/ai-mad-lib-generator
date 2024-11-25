@@ -3,7 +3,7 @@ import { Category, CategoryImplementation } from './category';
 import { CategoryEntity } from '../infrastructure/entities/category.entity';
 
 export type CreateCategoryOptions = Readonly<{
-  id: number;
+  id?: number;
   name: string;
   createdAt?: Date;
   updatedAt?: Date;

@@ -20,7 +20,11 @@ export class IdImplementation implements Id {
     return `${this.value}`;
   }
 
-  toNumber(): number {
+  toNumber(): number | null {
+    if (this.value !== 0 && !this.value) {
+      return null;
+    }
+
     const numValue = Number(this.value);
     if (isNaN(numValue)) {
       throw new Error(

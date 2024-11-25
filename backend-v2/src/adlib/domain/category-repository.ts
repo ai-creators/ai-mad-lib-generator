@@ -1,5 +1,7 @@
-import { Id } from 'src/common/domain/id';
+import { CategoryEntity } from '../infrastructure/entities/category.entity';
+import { Category } from './category';
 
 export interface CategoryRepository {
-  newId: () => Promise<Id>;
+  save(category: Category | Category[]): Promise<number[]>;
+  saveOrGet(categories: string[]): Promise<CategoryEntity[]>;
 }

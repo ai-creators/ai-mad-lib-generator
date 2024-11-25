@@ -34,7 +34,6 @@ export class OpenaiService {
   constructor(private readonly openai: OpenAI) {}
 
   private chat(prompt: string, config: OpenAIConfig): Promise<ChatCompletion> {
-    console.log('PROMPT: ', prompt, config);
     return this.openai.beta.chat.completions.parse({
       model: config.model,
       messages: [
@@ -59,7 +58,6 @@ export class OpenaiService {
     parsed: z.infer<typeof MadlibEvent>;
     categories: string[];
   }> {
-    console.log(prompt);
     const response: ChatCompletion = await this.chat(prompt.getValue(), {
       ...config,
       responseFormat: MadlibEvent,

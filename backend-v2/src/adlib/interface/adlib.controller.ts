@@ -27,7 +27,7 @@ export class AdlibController {
   @Post()
   async createAdlib(
     @Body() createAdlibRequest: CreateAdlibRequest,
-  ): Promise<number> {
+  ): Promise<string> {
     const id = await this.commandBus.execute<CreateAdlibCommand, Id>(
       new CreateAdlibCommand(
         createAdlibRequest.prompt,
@@ -35,6 +35,6 @@ export class AdlibController {
       ),
     );
 
-    return id.toNumber();
+    return id.toString();
   }
 }
