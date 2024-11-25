@@ -10,6 +10,7 @@ config.autoAddCss = false;
 import AppProvider from "./provider";
 import { ThemeProvider } from "@/features/theme/theme-provider";
 import { env } from "@/config/env";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,7 +45,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppProvider>{children}</AppProvider>
+          <AppProvider>
+            {children}
+            <Toaster />
+          </AppProvider>
         </ThemeProvider>
       </body>
       <GoogleAnalytics gaId={env.GA_ID} />

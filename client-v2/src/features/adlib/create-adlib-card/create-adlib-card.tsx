@@ -23,6 +23,7 @@ import { Slider } from "@/components/ui/slider";
 import { useCreateAdlib } from "../api/create-adlib";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 type CreateAdlibConfig = {
   temperature: number;
@@ -33,6 +34,7 @@ const CreateAdlibCard = () => {
   const [config, setConfig] = useState<CreateAdlibConfig>({
     temperature: 0.7,
   });
+  const { toast } = useToast();
 
   const router = useRouter();
 
@@ -42,13 +44,32 @@ const CreateAdlibCard = () => {
 
   const createAdlibMutation = useCreateAdlib({
     mutationConfig: {
+      onMutate: () => {
+        toast({
+          title: "Generating adlib",
+          description: "Please wait while its being created.",
+        });
+      },
+      onError: (error) => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: error.message,
+        });
+      },
       onSuccess: (data) => {
-        const adlibId = data?.id;
+        console.log("DATA: ", data);
+        const adlibId = data;
         if (adlibId) {
-          toast("Adlib Created");
+          toast({
+            title: "Adlib Created",
+          });
           router.push(`/adlib/${adlibId}`);
         } else {
-          toast.error("Failed to retrieve Adlib ID.");
+          toast({
+            variant: "destructive",
+            title: "Failed to retrieve Adlib ID.",
+          });
         }
       },
     },
