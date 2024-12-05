@@ -6,7 +6,7 @@ type BrowseFeedTypeProps = {
   feedType: FeedType;
   allowedFeedTypes: FeedType[];
   changeFeedType: (newFeedType: FeedType) => void;
-  defaultValue: string;
+  defaultValue: FeedType;
 };
 const BrowseFeedType = ({
   feedType,
@@ -19,6 +19,7 @@ const BrowseFeedType = ({
       <TabsList className={`grid w-full grid-cols-${allowedFeedTypes.length}`}>
         {allowedFeedTypes.map((feedType) => (
           <TabsTrigger
+            key={feedType}
             value={feedType}
             onClick={() => changeFeedType(feedType)}
             className="w-20"

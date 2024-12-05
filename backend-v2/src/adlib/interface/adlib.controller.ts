@@ -7,6 +7,9 @@ import { PageResult } from 'src/common/pagination/page-result';
 import { GetFeaturedAdlibsResult } from '../application/queries/get-featured-adlibs/get-featured-adlibs.result';
 import { CreateAdlibCommand } from '../application/commands/create-adlib/create-adlib.command';
 import { Id } from 'src/common/domain/id';
+import { GetAdlibsPageableParam } from './dto/request/get-adlibs-pageable-param.dto';
+import { GetAdlibsResult } from '../application/queries/get-adlibs/get-adlibs.result';
+import { GetAdlibsQuery } from '../application/queries/get-adlibs/get-adlibs.query';
 
 @Controller('v1/adlib')
 export class AdlibController {
@@ -14,6 +17,20 @@ export class AdlibController {
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
   ) {}
+
+  @Get()
+  getAdlibs(
+    @Query() query: GetAdlibsPageableParam,
+  ): Promise<PageResult<GetAdlibsResult>> {
+    return this.queryBus.execute(
+      new GetAdlibsQuery(
+        query.page,
+        query.size,
+        query.timestamp,
+        query.feedType,
+      ),
+    );
+  }
 
   @Get('/featured')
   getFeaturedAdlibs(

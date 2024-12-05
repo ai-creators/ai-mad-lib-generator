@@ -57,7 +57,6 @@ const CreateAdlibCard = () => {
         });
       },
       onSuccess: (data) => {
-        console.log("DATA: ", data);
         const adlibId = data;
         if (adlibId) {
           toast({

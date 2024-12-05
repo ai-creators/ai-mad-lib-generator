@@ -10,4 +10,5 @@ export interface Adlib {
   temperature?: number;
   topP?: number;
   categories: Category[];
+  createdAt: Date;
 }

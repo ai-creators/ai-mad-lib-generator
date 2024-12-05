@@ -1,56 +1,59 @@
 import InfiniteScroll from "react-infinite-scroll-component";
-import { PaginationResult } from "@/common/pagination/pagination-result";
-import { UseInfiniteQueryResult, UseQueryResult } from "@tanstack/react-query";
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+} from "react";
 
 export type FeedProps = {
   endMessage?: ReactNode;
   loader?: ReactNode;
   children?: ReactNode;
-  useQuery: (
-    paginationState: FeedState
-  ) => UseInfiniteQueryResult<PaginationResult<any>>;
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  hasNextPage: boolean;
+  dataLength: number;
 };
 
 type FeedState = {
   page: number;
-  size: number;
-  timestamp: Date;
 };
 
 const initialState: FeedState = {
   page: 1,
-  size: 25,
-  timestamp: new Date(),
 };
 
 const FeedContext = createContext<FeedState>(initialState);
 
-const Feed = ({ children, useQuery, endMessage, loader }: FeedProps) => {
-  const [paginationState, setPaginationState] =
-    useState<FeedState>(initialState);
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useQuery(paginationState);
-
+const Feed = ({
+  children,
+  endMessage,
+  loader,
+  page,
+  setPage,
+  hasNextPage,
+  dataLength,
+}: FeedProps) => {
   const handleLoadMore = () => {
     if (hasNextPage) {
-      setPaginationState((prevState) => ({
-        ...prevState,
-        page: prevState.page + 1,
-      }));
-      fetchNextPage();
+      setPage((curr) => curr + 1);
     }
   };
 
+  const value = {
+    page,
+  };
+
   return (
-    <FeedContext.Provider value={paginationState}>
+    <FeedContext.Provider value={value}>
       <div role="feed">
         <InfiniteScroll
-          dataLength={data?.results.length ?? 0}
+          dataLength={dataLength}
           next={handleLoadMore}
           loader={loader}
-          hasMore={!!hasNextPage}
+          hasMore={hasNextPage}
           endMessage={endMessage}
         >
           {children}

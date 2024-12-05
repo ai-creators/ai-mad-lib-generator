@@ -42,7 +42,7 @@ export const getAdlibsPaginatedQueryOptions = ({
   feedType: FeedType;
 }) => {
   return queryOptions({
-    queryKey: ["adlibs", page, size, timestamp],
+    queryKey: ["adlibs", page, size, timestamp, feedType],
     queryFn: () => getAdlibsPaginated({ page, size, timestamp, feedType }),
   });
 };
