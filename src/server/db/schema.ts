@@ -26,7 +26,7 @@ export const createTable = pgTableCreator(
 export const adlibs = createTable("adlibs", {
   id: uuid("id")
     .primaryKey()
-    .default(sql`uuid_generate_v4()`),
+    .default(sql`gen_random_uuid()`),
   oldId: integer("old_id")
     .unique()
     .default(sql`NULL`),
