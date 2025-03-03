@@ -1,7 +1,9 @@
+import Container from "../containers/container";
+
 export default function Footer() {
   return (
     <footer>
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <Container className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
           {/* Brand Column */}
           <div>
@@ -13,27 +15,27 @@ export default function Footer() {
             <h4 className="mb-4 font-semibold">Documentation</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Getting Started
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   API Reference
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Integrations
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Examples
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   SDKs
                 </a>
               </li>
@@ -44,22 +46,22 @@ export default function Footer() {
             <h4 className="mb-4 font-semibold">Resources</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Changelog
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Pricing
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Status
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Webhooks
                 </a>
               </li>
@@ -70,22 +72,22 @@ export default function Footer() {
             <h4 className="mb-4 font-semibold">Company</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Contact
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Customers
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Brand
                 </a>
               </li>
@@ -96,27 +98,27 @@ export default function Footer() {
             <h4 className="mb-4 font-semibold">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Acceptable Use
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-muted-foreground text-sm">
+                <a href="#" className="text-sm text-muted-foreground">
                   Terms of Service
                 </a>
               </li>
             </ul>
           </div>
         </div>
-      </div>
+      </Container>
       {/* Bottom Copyright and Socials */}
-      <div className="text-muted-foreground border-t">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between px-4 py-4 sm:px-6 md:flex-row lg:px-8">
+      <div className="border-t text-muted-foreground">
+        <Container className="flex flex-col items-center justify-between px-4 py-4 sm:px-6 md:flex-row lg:px-8">
           <p className="text-sm">
             &copy; {new Date().getFullYear()} Algowars. All rights reserved.
           </p>
@@ -134,7 +136,7 @@ export default function Footer() {
               {/* Insert your LinkedIn icon SVG or component here */}
             </a>
           </div>
-        </div>
+        </Container>
       </div>
     </footer>
   );

@@ -6,6 +6,8 @@ export const routerConfig = {
     path: "/create",
   },
   browse: {
-    path: "/browsef",
+    path: "/browse",
+    execute: ({ search }: { search: string }) =>
+      `/browse?q=${encodeURIComponent(search)}`,
   },
 };
