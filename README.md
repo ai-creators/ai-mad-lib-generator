@@ -1,65 +1,29 @@
-# ai-ad-libs
+# Create T3 App
 
-- An application that allows users to generate ad-libs using ai based on user prompt.
+This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
-- This application was built with React, Vite, Express, Node.js, JavaScript, Tailwindcss, Mongodb, Mongoose, and openai's api.
+## What's next? How do I make an app with this?
 
-- This application allows users to save ad-libs created for later use. This application also allows users to browse featured, most recent, and interesting ad-libs created by users.
- - Generate Mad Libs based on user-defined prompts
- - Generate random prompts for Mad Libs
- - Save generated Mad Libs for later use
- - Utilizes OpenAI's GPT-4 for AI-powered Mad Lib generation
+We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
 
-- Part of Ai-wranglers Hackathon.
+If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
 
+- [Next.js](https://nextjs.org)
+- [NextAuth.js](https://next-auth.js.org)
+- [Prisma](https://prisma.io)
+- [Drizzle](https://orm.drizzle.team)
+- [Tailwind CSS](https://tailwindcss.com)
+- [tRPC](https://trpc.io)
 
-## Deployed version
+## Learn More
 
-- [aiadlibs](https://aiadlibs.com/)
+To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
-## Authors
+- [Documentation](https://create.t3.gg/)
+- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
 
-- Anthony Mclamb
+You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
 
-- Zhi Zheng
+## How do I deploy this?
 
-## Version History
-
--1.0 Initial Release
-
-## Getting Started
- Prerequisites
- -Node.js
- -npm
- 
-## Installation
- Clone the repository:
- - git clone https://github.com/your_username/ai-mad-lib-generator.git
-
-## Install the dependencies for both the server and client:
- cd ai-mad-lib-generator
- -npm install
- -cd client
- -npm install
- 
-## Create a .env file in the root of the ai-mad-lib-generator folder with the following contents:
-  OPENAI_API_KEY=your_openai_api_key
-  -Replace your_openai_api_key with your actual OpenAI API key.
-
-## Run the server and client concurrently:
-  -cd ai-mad-lib-generator
-  -npm run dev
-
-## Open your browser and navigate to http://localhost:PORTNUMBER. The application should now be running.
-
-## Usage
-  From the landing page, click "Create a Mad Lib" to start generating a Mad Lib.
-  Choose between providing your own prompt or using a randomly generated prompt.
-  Click "Generate Mad Lib" to create your Mad Lib.
-  Fill in the blanks in the generated Mad Lib to complete the story.
-
-## Acknowledgments
-
-- Credit to openai's open source software.
-- OpenAI GPT-3 for providing the AI-powered Mad Lib generation.
-- Acknowledgment to Don the Developer for hosting the hackathon.
+Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
