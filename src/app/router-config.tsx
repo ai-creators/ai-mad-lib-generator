@@ -10,4 +10,9 @@ export const routerConfig = {
     execute: ({ search }: { search: string }) =>
       `/browse?q=${encodeURIComponent(search)}`,
   },
+  adlibPlay: {
+    path: "/adlib/:adlibId/play",
+    execute: ({ id }: { id: string }) =>
+      `/adlib/${encodeURIComponent(id)}/play`,
+  },
 };

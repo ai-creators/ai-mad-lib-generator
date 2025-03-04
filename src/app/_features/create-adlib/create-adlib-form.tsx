@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 
 import React from "react";
@@ -28,6 +30,10 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { Info } from "lucide-react";
+import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { routerConfig } from "~/app/router-config";
 
 const createAdlibSchema = z.object({
   prompt: z.string().min(1).max(100),
@@ -35,6 +41,8 @@ const createAdlibSchema = z.object({
 });
 
 export default function CreateAdlibForm() {
+  const router = useRouter();
+  const utils = api.useUtils();
   const form = useForm<z.infer<typeof createAdlibSchema>>({
     resolver: zodResolver(createAdlibSchema),
     defaultValues: {
@@ -43,8 +51,31 @@ export default function CreateAdlibForm() {
     },
   });
 
+  const createAdlib = api.adlib.create.useMutation({
+    onMutate: () => {
+      toast("Generating adlib...");
+    },
+    onSuccess: async (data: string | undefined) => {
+      toast("Adlib generated!");
+      await utils.adlib.invalidate();
+
+      if (!data) {
+        toast.error("Error creating adlib. Please try again later.");
+        return;
+      }
+
+      router.push(routerConfig.adlibPlay.execute({ id: data }));
+    },
+    onError: (error) => {
+      toast("Error generating adlib", {
+        description: error.message,
+      });
+    },
+  });
+
   function onSubmit(values: z.infer<typeof createAdlibSchema>) {
     console.log(values);
+    createAdlib.mutate(values);
   }
   return (
     <Form {...form}>
@@ -107,10 +138,16 @@ export default function CreateAdlibForm() {
         </Accordion>
         <ul className="flex items-center gap-3 px-5 pb-5">
           <li>
-            <Button className="w-28">Generate</Button>
+            <Button className="w-28" disabled={createAdlib.isPending}>
+              Generate
+            </Button>
           </li>
           <li>
-            <Button className="w-34" variant="secondary">
+            <Button
+              className="w-34"
+              variant="secondary"
+              disabled={createAdlib.isPending}
+            >
               Generate Random
             </Button>
           </li>

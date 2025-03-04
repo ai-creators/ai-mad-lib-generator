@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "./_features/theme/theme-provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Ai Madlib Generator",
@@ -31,6 +32,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster />
           </ThemeProvider>
         </TRPCReactProvider>
       </body>

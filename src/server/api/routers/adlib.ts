@@ -7,6 +7,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { adlibs } from "../../db/schema";
+import { createMadlib } from "../lib/openai";
 
 export enum FeedTypeOption {
   Latest = "latest",
@@ -22,8 +23,23 @@ export const adlibRouter = createTRPCRouter({
         temperature: z.number().min(0).max(2),
       }),
     )
-    .query(async ({ prompt, temperature }) => {
-      console.log("PROMPT: ", prompt, temperature);
+    .mutation(async ({ ctx, input }) => {
+      const madlibResponse = await createMadlib(input.prompt, {
+        temperature: input.temperature,
+      });
+
+      const result = await ctx.db
+        .insert(adlibs)
+        .values({
+          title: madlibResponse.title,
+          prompt: input.prompt,
+          text: madlibResponse.madlib,
+          isPg: madlibResponse.isPg,
+          temperature: input.temperature.toString(),
+        })
+        .returning();
+
+      return result[0]?.id;
     }),
   getPaginated: publicProcedure
     .input(
