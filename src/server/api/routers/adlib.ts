@@ -15,6 +15,16 @@ export enum FeedTypeOption {
 }
 
 export const adlibRouter = createTRPCRouter({
+  create: publicProcedure
+    .input(
+      z.object({
+        prompt: z.string(),
+        temperature: z.number().min(0).max(2),
+      }),
+    )
+    .query(async ({ prompt, temperature }) => {
+      console.log("PROMPT: ", prompt, temperature);
+    }),
   getPaginated: publicProcedure
     .input(
       z.object({
@@ -25,6 +35,7 @@ export const adlibRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      console.log("INPUT: ", input);
       const { page, size, timestamp, feedType } = input;
       const dateFilter = new Date(timestamp);
 
@@ -34,6 +45,8 @@ export const adlibRouter = createTRPCRouter({
         limit: size,
         offset: (page - 1) * size,
       });
+
+      console.log("RESULTS: ", results);
 
       return results;
     }),

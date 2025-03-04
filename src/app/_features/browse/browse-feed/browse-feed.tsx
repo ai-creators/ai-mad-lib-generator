@@ -10,13 +10,15 @@ export default function BrowseFeed() {
   const [size, setSize] = useState(25);
   const [timestamp] = useState<Date>(new Date());
 
-  const response = api.adlib.getPaginated.useQuery({
+  const { data, isLoading, error } = api.adlib.getPaginated.useQuery({
     page,
     size,
     timestamp: timestamp.toISOString(),
   });
 
-  console.log("RESPONSE: ", response);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  console.log(data); // Should log your data once loaded.
 
   return (
     <Card>
