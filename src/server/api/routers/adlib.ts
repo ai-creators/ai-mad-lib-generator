@@ -9,7 +9,7 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import { adlibs } from "../../db/schema";
 import { createMadlib } from "../lib/openai";
 
-import { sql } from "drizzle-orm";
+import { SQL, sql } from "drizzle-orm";
 import { eq, lt, asc, desc, or, like, and } from "drizzle-orm/expressions";
 import { FeedTypeOption } from "~/types/adlib";
 
@@ -47,21 +47,21 @@ export const adlibRouter = createTRPCRouter({
         timestamp: z.string(),
         feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.LATEST),
         search: z.string().optional(),
+        contentRating: z.string().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      const { page, size, timestamp, feedType, search } = input;
+      const { page, size, timestamp, feedType, search, contentRating } = input;
       const dateFilter = new Date(timestamp);
       const searchTerm = search?.trim() ?? "";
 
-      // Build the base where condition and orderBy based on feedType.
+      // Build the base condition and orderBy based on feedType.
       let baseCondition;
       let orderByCondition;
       if (feedType === FeedTypeOption.FEATURED) {
         baseCondition = eq(adlibs.isFeatured, true);
         orderByCondition = desc(adlibs.createdAt);
       } else {
-        // For Latest and Oldest, we want adlibs created before the provided date.
         baseCondition = lt(adlibs.createdAt, dateFilter);
         orderByCondition =
           feedType === FeedTypeOption.OLDEST
@@ -69,7 +69,13 @@ export const adlibRouter = createTRPCRouter({
             : desc(adlibs.createdAt);
       }
 
-      // If a search term is provided, create a fuzzy search condition.
+      // Add content rating condition if needed.
+      let contentCondition = undefined;
+      if (contentRating === "pg") {
+        contentCondition = eq(adlibs.isPg, true);
+      }
+
+      // Create fuzzy search condition if a search term is provided.
       const searchCondition = searchTerm
         ? or(
             like(adlibs.title, `%${searchTerm}%`),
@@ -77,11 +83,14 @@ export const adlibRouter = createTRPCRouter({
           )
         : undefined;
 
-      // Combine the base condition with the search condition if available.
-      const whereCondition = searchCondition
-        ? and(baseCondition, searchCondition)
-        : baseCondition;
-
+      // Combine all conditions together.
+      let whereCondition: SQL<unknown> = baseCondition;
+      if (contentCondition !== undefined) {
+        whereCondition = and(whereCondition, contentCondition)!;
+      }
+      if (searchCondition !== undefined) {
+        whereCondition = and(whereCondition, searchCondition)!;
+      }
       // Query paginated records.
       const results = await ctx.db.query.adlibs.findMany({
         where: whereCondition,

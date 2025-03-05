@@ -22,6 +22,8 @@ type GetPaginatedOutput = inferProcedureOutput<
 >;
 type Adlib = GetPaginatedOutput["results"][number];
 
+const LOCAL_STORAGE_KEY = "contentRating";
+
 export default function BrowseFeed() {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("q") ?? "";
@@ -35,12 +37,22 @@ export default function BrowseFeed() {
   const [adlibs, setAdlibs] = useState<Adlib[]>([]);
   const [totalPages, setTotalPages] = useState(1);
 
+  const [contentRating, setContentRating] = useState<string>("pg");
+
+  useEffect(() => {
+    const storedRating = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedRating) {
+      setContentRating(storedRating);
+    }
+  }, []);
+
   const { data, isError, error } = api.adlib.getPaginated.useQuery({
     page,
     size,
     timestamp: timestamp.toISOString(),
     feedType,
     search: searchTerm,
+    contentRating,
   });
 
   useEffect(() => {
