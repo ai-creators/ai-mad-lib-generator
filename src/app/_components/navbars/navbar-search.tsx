@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -12,7 +13,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
@@ -37,25 +37,24 @@ export default function BrowseSearchForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="search"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Search</FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input
-                    placeholder="search adlibs..."
-                    className="pr-24"
+                    placeholder="Search adlibs..."
+                    className="pr-14"
                     {...field}
                   />
                   <Button
-                    type="submit"
                     className="absolute right-0 top-1/2 -translate-y-1/2 rounded-l-none"
+                    variant="ghost"
                   >
-                    Search
+                    <Search />
                   </Button>
                 </div>
               </FormControl>

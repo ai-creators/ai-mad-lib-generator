@@ -74,7 +74,6 @@ export default function CreateAdlibForm() {
   });
 
   function onSubmit(values: z.infer<typeof createAdlibSchema>) {
-    console.log(values);
     createAdlib.mutate(values);
   }
   return (

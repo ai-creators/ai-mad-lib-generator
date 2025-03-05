@@ -7,7 +7,7 @@ import CreateAdlibCard from "../create-adlib/create-adlib-card";
 export default function Dashboard() {
   return (
     <Layout>
-      <Container className="grid grid-cols-12 gap-6 py-6">
+      <Container className="grid grid-cols-12 gap-6 px-4 py-6">
         <aside className="col-span-3">
           <AsideNavbar />
         </aside>

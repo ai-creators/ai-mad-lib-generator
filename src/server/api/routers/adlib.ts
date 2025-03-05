@@ -9,11 +9,9 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import { adlibs } from "../../db/schema";
 import { createMadlib } from "../lib/openai";
 
-export enum FeedTypeOption {
-  Latest = "latest",
-  Featured = "featured",
-  Oldest = "oldest",
-}
+import { sql } from "drizzle-orm";
+import { eq, lt, asc, desc, or, like, and } from "drizzle-orm/expressions";
+import { FeedTypeOption } from "~/types/adlib";
 
 export const adlibRouter = createTRPCRouter({
   create: publicProcedure
@@ -47,23 +45,79 @@ export const adlibRouter = createTRPCRouter({
         page: z.number().min(1).default(1),
         size: z.number().min(1).max(100).default(10),
         timestamp: z.string(),
-        feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.Latest),
+        feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.LATEST),
+        search: z.string().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      console.log("INPUT: ", input);
-      const { page, size, timestamp, feedType } = input;
+      const { page, size, timestamp, feedType, search } = input;
       const dateFilter = new Date(timestamp);
+      const searchTerm = search?.trim() ?? "";
 
+      // Build the base where condition and orderBy based on feedType.
+      let baseCondition;
+      let orderByCondition;
+      if (feedType === FeedTypeOption.FEATURED) {
+        baseCondition = eq(adlibs.isFeatured, true);
+        orderByCondition = desc(adlibs.createdAt);
+      } else {
+        // For Latest and Oldest, we want adlibs created before the provided date.
+        baseCondition = lt(adlibs.createdAt, dateFilter);
+        orderByCondition =
+          feedType === FeedTypeOption.OLDEST
+            ? asc(adlibs.createdAt)
+            : desc(adlibs.createdAt);
+      }
+
+      // If a search term is provided, create a fuzzy search condition.
+      const searchCondition = searchTerm
+        ? or(
+            like(adlibs.title, `%${searchTerm}%`),
+            like(adlibs.prompt, `%${searchTerm}%`),
+          )
+        : undefined;
+
+      // Combine the base condition with the search condition if available.
+      const whereCondition = searchCondition
+        ? and(baseCondition, searchCondition)
+        : baseCondition;
+
+      // Query paginated records.
       const results = await ctx.db.query.adlibs.findMany({
-        where: (adlib, { gt }) => gt(adlib.createdAt, dateFilter),
-        orderBy: (adlib, { asc }) => asc(adlib.createdAt),
+        where: whereCondition,
+        orderBy: orderByCondition,
         limit: size,
         offset: (page - 1) * size,
       });
 
-      console.log("RESULTS: ", results);
+      // Count total records matching the condition.
+      const countResult = await ctx.db
+        .select({ count: sql<number>`count(*)` })
+        .from(adlibs)
+        .where(whereCondition);
+      const totalCount = countResult[0]?.count ?? 0;
+      const totalPages = Math.ceil(totalCount / size);
 
-      return results;
+      // Map results to return only id, prompt, title, and createdAt.
+      const mappedResults = results.map(
+        (adlib: {
+          id: string;
+          prompt: string;
+          title: string;
+          createdAt: Date;
+        }) => ({
+          id: adlib.id,
+          prompt: adlib.prompt,
+          title: adlib.title,
+          createdAt: adlib.createdAt,
+        }),
+      );
+
+      return {
+        results: mappedResults,
+        page,
+        size,
+        totalPages,
+      };
     }),
 });

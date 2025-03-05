@@ -15,4 +15,8 @@ export const routerConfig = {
     execute: ({ id }: { id: string }) =>
       `/adlib/${encodeURIComponent(id)}/play`,
   },
+  adlib: {
+    path: "/adlib/:adlibId",
+    execute: ({ id }: { id: string }) => `/adlib/${encodeURIComponent(id)}`,
+  },
 };

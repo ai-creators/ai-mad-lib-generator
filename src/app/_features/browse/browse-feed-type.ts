@@ -1,5 +1,5 @@
 export enum FeedType {
-  FEATURED = "Featured",
-  LATEST = "Latest",
-  OLDEST = "Oldest",
+  FEATURED = "featured",
+  LATEST = "latest",
+  OLDEST = "oldest",
 }

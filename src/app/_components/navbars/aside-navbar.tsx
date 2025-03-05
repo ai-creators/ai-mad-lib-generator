@@ -12,7 +12,7 @@ type Props = {
 function AsideNavbar({ className }: Props) {
   return (
     <Card className={cn("", className)}>
-      <ul className="flex flex-col gap-3 px-2 py-5">
+      <ul className="flex flex-col gap-2 p-2">
         {navLinks.map((navLink) => (
           <li key={navLink.name}>
             <Link
@@ -21,6 +21,7 @@ function AsideNavbar({ className }: Props) {
                 buttonVariants({ variant: "ghost" }),
                 "items flex w-full items-center justify-start gap-3 capitalize",
               )}
+              prefetch={true}
             >
               <navLink.icon />
               {navLink.name}

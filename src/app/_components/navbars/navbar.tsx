@@ -6,6 +6,7 @@ import { DarkModeButton } from "~/app/_features/theme/dark-mode-button";
 import { buttonVariants } from "~/components/ui/button";
 import NavbarMenu from "./navbar-menu";
 import { Home, Search, SquarePlus } from "lucide-react";
+import NavbarSearch from "./navbar-search";
 
 export const navLinks = [
   {
@@ -40,6 +41,9 @@ export default function Navbar() {
             >
               AI Adlibs
             </Link>
+          </li>
+          <li>
+            <NavbarSearch />
           </li>
         </ul>
         <ul className="flex items-center gap-5">

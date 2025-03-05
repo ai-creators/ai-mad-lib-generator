@@ -1,12 +1,13 @@
 import { Tabs, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { FeedType } from "../browse-feed-type";
+
+import { FeedTypeOption } from "~/types/adlib";
 
 interface BrowseFeedTabsProps {
-  feedType: FeedType;
-  changeFeedType: (feedType: FeedType) => void;
+  feedType: FeedTypeOption;
+  changeFeedType: (feedType: FeedTypeOption) => void;
 }
 
-const feedTypes = Object.values(FeedType);
+const feedTypes = Object.values(FeedTypeOption);
 
 export default function BrowseFeedType({
   feedType,
@@ -15,7 +16,7 @@ export default function BrowseFeedType({
   return (
     <Tabs
       value={feedType}
-      onValueChange={(value: string) => changeFeedType(value as FeedType)}
+      onValueChange={(value: string) => changeFeedType(value as FeedTypeOption)}
       className="w-full"
     >
       <TabsList>
