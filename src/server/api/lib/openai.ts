@@ -11,6 +11,7 @@ interface MadlibResponse {
   title: string;
   madlib: string;
   isPg: boolean;
+  categories: string[];
 }
 
 /**
@@ -22,7 +23,9 @@ function isMadlibResponse(obj: unknown): obj is MadlibResponse {
   return (
     typeof maybe.title === "string" &&
     typeof maybe.madlib === "string" &&
-    typeof maybe.isPg === "boolean"
+    typeof maybe.isPg === "boolean" &&
+    Array.isArray(maybe.categories) &&
+    maybe.categories.every((category) => typeof category === "string")
   );
 }
 
@@ -48,14 +51,15 @@ Your response must be a valid JSON object with the following keys:
   - "title": A creative title for the madlib.
   - "madlib": A full madlib story that includes placeholders such as [adjective], [noun], [plural noun], [relative].
   - "isPg": A boolean value which is true if the madlib is appropriate for all ages (PG) and false otherwise.
+  - "categories": An array of strings representing the relevant categories of the madlib.
 For example, if the prompt is "mystery manor", produce a madlib similar to:
 {
   "title": "Mystery Manor Mayhem",
-  "madlib": "Once upon a time, in a [adjective] manor, there lived a [noun] who was rumored to be a [adjective] magician. The [noun] was known for their [adjective] personality and their love for [plural noun]. One day, a [adjective] stranger arrived at the manor, claiming to be a long-lost [relative]. The [adjective] stranger brought with them a [noun], which was said to hold the secret to the manor's hidden [noun]. As the [adjective] stranger and the [noun] began to unravel the mystery of the manor, they encountered many [plural noun] and faced numerous [adjective] challenges. In the end, the truth about the manor was revealed, and its [adjective] secrets were finally uncovered.",
-  "isPg": true
+  "madlib": "Once upon a time, in a [adjective] manor, there lived a [noun]...",
+  "isPg": true,
+  "categories": ["Mystery", "Adventure"]
 }
-Only return the JSON object with these keys and no additional text.
-`;
+Only return the JSON object with these keys and no additional text.`;
 
   try {
     const response = await openai.chat.completions.create({

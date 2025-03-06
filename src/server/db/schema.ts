@@ -7,6 +7,7 @@ import {
   integer,
   numeric,
   pgTableCreator,
+  primaryKey,
   text,
   timestamp,
   uuid,
@@ -50,3 +51,38 @@ export const adlibs = createTable("adlibs", {
     .default(sql`CURRENT_TIMESTAMP`),
   deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
 });
+
+export const categories = createTable("categories", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  oldId: integer("old_id")
+    .unique()
+    .default(sql`NULL`),
+  name: text("name"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
+export const madlibCategories = createTable(
+  "madlib_categories",
+  {
+    madlibId: uuid("madlib_id")
+      .notNull()
+      .references(() => adlibs.id, { onDelete: "cascade" }),
+    categoryId: uuid("category_id")
+      .notNull()
+      .references(() => categories.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .default(sql`CURRENT_TIMESTAMP`),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.madlibId, table.categoryId] }),
+  }),
+);

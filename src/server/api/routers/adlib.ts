@@ -6,11 +6,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { adlibs } from "../../db/schema";
+import { adlibs, categories, madlibCategories } from "../../db/schema";
 import { createMadlib } from "../lib/openai";
 
-import { SQL, sql } from "drizzle-orm";
-import { eq, lt, asc, desc, or, like, and } from "drizzle-orm/expressions";
+import { count, type SQL, sql } from "drizzle-orm";
+import {
+  eq,
+  lt,
+  asc,
+  desc,
+  or,
+  like,
+  and,
+  inArray,
+} from "drizzle-orm/expressions";
 import { FeedTypeOption } from "~/types/adlib";
 
 export const adlibRouter = createTRPCRouter({
@@ -26,7 +35,35 @@ export const adlibRouter = createTRPCRouter({
         temperature: input.temperature,
       });
 
-      const result = await ctx.db
+      const lowerCaseCategories = madlibResponse?.categories.map((cat) =>
+        cat.toLowerCase(),
+      );
+      // Upsert categories and store their IDs
+      const categoryIds: string[] = [];
+      for (const category of lowerCaseCategories) {
+        const [categoryResult] = await ctx.db
+          .insert(categories)
+          .values({ name: category })
+          .onConflictDoNothing()
+          .returning({ id: categories.id });
+
+        const categoryId =
+          categoryResult?.id ??
+          (
+            await ctx.db
+              .select({ id: categories.id })
+              .from(categories)
+              .where(eq(categories.name, category))
+              .limit(1)
+          )[0]?.id;
+
+        if (categoryId) {
+          categoryIds.push(categoryId);
+        }
+      }
+
+      // Insert madlib entry
+      const [madlib] = await ctx.db
         .insert(adlibs)
         .values({
           title: madlibResponse.title,
@@ -35,9 +72,21 @@ export const adlibRouter = createTRPCRouter({
           isPg: madlibResponse.isPg,
           temperature: input.temperature.toString(),
         })
-        .returning();
+        .returning({ id: adlibs.id });
 
-      return result[0]?.id;
+      if (!madlib) {
+        throw new Error("Failed to insert madlib");
+      }
+
+      // Insert into madlib_categories to establish the many-to-many relation
+      for (const categoryId of categoryIds) {
+        await ctx.db
+          .insert(madlibCategories)
+          .values({ madlibId: madlib.id, categoryId })
+          .onConflictDoNothing(); // Avoid duplicate entries
+      }
+
+      return madlib.id;
     }),
   getPaginated: publicProcedure
     .input(
@@ -55,7 +104,6 @@ export const adlibRouter = createTRPCRouter({
       const dateFilter = new Date(timestamp);
       const searchTerm = search?.trim() ?? "";
 
-      // Build the base condition and orderBy based on feedType.
       let baseCondition;
       let orderByCondition;
       if (feedType === FeedTypeOption.FEATURED) {
@@ -69,13 +117,11 @@ export const adlibRouter = createTRPCRouter({
             : desc(adlibs.createdAt);
       }
 
-      // Add content rating condition if needed.
       let contentCondition = undefined;
       if (contentRating === "pg") {
         contentCondition = eq(adlibs.isPg, true);
       }
 
-      // Create fuzzy search condition if a search term is provided.
       const searchCondition = searchTerm
         ? or(
             like(adlibs.title, `%${searchTerm}%`),
@@ -83,7 +129,6 @@ export const adlibRouter = createTRPCRouter({
           )
         : undefined;
 
-      // Combine all conditions together.
       let whereCondition: SQL<unknown> = baseCondition;
       if (contentCondition !== undefined) {
         whereCondition = and(whereCondition, contentCondition)!;
@@ -91,7 +136,7 @@ export const adlibRouter = createTRPCRouter({
       if (searchCondition !== undefined) {
         whereCondition = and(whereCondition, searchCondition)!;
       }
-      // Query paginated records.
+
       const results = await ctx.db.query.adlibs.findMany({
         where: whereCondition,
         orderBy: orderByCondition,
@@ -99,15 +144,25 @@ export const adlibRouter = createTRPCRouter({
         offset: (page - 1) * size,
       });
 
-      // Count total records matching the condition.
-      const countResult = await ctx.db
-        .select({ count: sql<number>`count(*)` })
-        .from(adlibs)
-        .where(whereCondition);
-      const totalCount = countResult[0]?.count ?? 0;
-      const totalPages = Math.ceil(totalCount / size);
+      const adlibIds = results.map((adlib) => adlib.id);
+      const categoryMappings = await ctx.db
+        .select({
+          madlibId: madlibCategories.madlibId,
+          categoryName: categories.name,
+        })
+        .from(madlibCategories)
+        .innerJoin(categories, eq(madlibCategories.categoryId, categories.id))
+        .where(inArray(madlibCategories.madlibId, adlibIds));
 
-      // Map results to return only id, prompt, title, and createdAt.
+      const categoriesMap = categoryMappings.reduce(
+        (acc, { madlibId, categoryName }) => {
+          if (!acc[madlibId]) acc[madlibId] = [];
+          acc[madlibId].push(categoryName ?? "");
+          return acc;
+        },
+        {} as Record<string, string[]>,
+      );
+
       const mappedResults = results.map(
         (adlib: {
           id: string;
@@ -119,11 +174,81 @@ export const adlibRouter = createTRPCRouter({
           prompt: adlib.prompt,
           title: adlib.title,
           createdAt: adlib.createdAt,
+          categories: categoriesMap[adlib.id] ?? [],
         }),
       );
 
+      const countResult = await ctx.db
+        .select({ count: sql<number>`count(*)` })
+        .from(adlibs)
+        .where(whereCondition);
+      const totalCount = countResult[0]?.count ?? 0;
+      const totalPages = Math.ceil(totalCount / size);
+
       return {
         results: mappedResults,
+        page,
+        size,
+        totalPages,
+      };
+    }),
+  getCategoriesPaginated: publicProcedure
+    .input(
+      z.object({
+        page: z.number().min(1).default(1),
+        size: z.number().min(1).max(100).default(10),
+        timestamp: z.string(),
+        feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.LATEST),
+        search: z.string().optional(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { page, size, timestamp, feedType, search } = input;
+      const dateFilter = new Date(timestamp);
+      const searchTerm = search?.trim() ?? "";
+
+      const baseCondition = lt(categories.createdAt, dateFilter);
+      let orderByCondition = desc(sql`adlibCount`);
+      if (feedType === FeedTypeOption.OLDEST) {
+        orderByCondition = asc(categories.createdAt);
+      } else if (feedType === FeedTypeOption.LATEST) {
+        orderByCondition = desc(categories.createdAt);
+      }
+
+      const searchCondition: SQL<unknown> | null = searchTerm
+        ? like(categories.name, `%${searchTerm}%`)
+        : null;
+
+      let whereCondition: SQL<unknown> = baseCondition;
+      if (searchCondition) {
+        whereCondition = and(whereCondition, searchCondition) ?? baseCondition;
+      }
+
+      const categoriesWithCount = await ctx.db
+        .select({
+          id: categories.id,
+          name: categories.name,
+          adlibCount: count(madlibCategories.madlibId),
+        })
+        .from(categories)
+        .leftJoin(
+          madlibCategories,
+          eq(categories.id, madlibCategories.categoryId),
+        )
+        .where(whereCondition)
+        .groupBy(categories.id)
+        .orderBy(orderByCondition)
+        .limit(size)
+        .offset((page - 1) * size);
+
+      const totalCategories = await ctx.db
+        .select({ count: sql<number>`count(*)` })
+        .from(categories)
+        .where(baseCondition);
+      const totalPages = Math.ceil((totalCategories[0]?.count ?? 0) / size);
+
+      return {
+        results: categoriesWithCount,
         page,
         size,
         totalPages,

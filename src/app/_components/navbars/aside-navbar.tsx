@@ -21,7 +21,6 @@ function AsideNavbar({ className }: Props) {
                 buttonVariants({ variant: "ghost" }),
                 "items flex w-full items-center justify-start gap-3 capitalize",
               )}
-              prefetch={true}
             >
               <navLink.icon />
               {navLink.name}

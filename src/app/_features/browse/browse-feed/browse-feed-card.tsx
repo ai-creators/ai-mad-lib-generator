@@ -12,6 +12,8 @@ import { formatDateToMinutes } from "~/app/_utils/format-date";
 import Link from "next/link";
 import { routerConfig } from "~/app/router-config";
 import { buttonVariants } from "~/components/ui/button";
+import { categories } from "~/server/db/schema";
+import { cn } from "~/lib/utils";
 
 type GetPaginatedOutput = inferProcedureOutput<
   AppRouter["adlib"]["getPaginated"]
@@ -25,7 +27,7 @@ type Props = {
 function BrowseFeedCard({ adlib }: Props) {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-baseline justify-between">
+      <CardHeader className="flex flex-row items-baseline justify-between pb-3">
         <div>
           <CardTitle className="mb-1 line-clamp-1">{adlib.title}</CardTitle>
           <CardDescription className="line-clamp-1">
@@ -36,10 +38,21 @@ function BrowseFeedCard({ adlib }: Props) {
           {formatDateToMinutes(adlib.createdAt)}
         </p>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-3">
+        {adlib.categories?.length ? (
+          <ul className="flex items-center gap-3 text-muted-foreground">
+            {adlib.categories.map((cat) => (
+              <li key={adlib.id + cat}>
+                <Link href={routerConfig.categories.execute({ category: cat })}>
+                  #{cat}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : null}
         <Link
           href={routerConfig.adlib.execute({ id: adlib.id })}
-          className={buttonVariants({ variant: "default" })}
+          className={cn(buttonVariants({ variant: "default" }), "w-fit")}
           prefetch={true}
         >
           Go to adlib

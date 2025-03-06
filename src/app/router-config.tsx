@@ -22,4 +22,14 @@ export const routerConfig = {
   settings: {
     path: "/settings",
   },
+  category: {
+    path: "/category/:categoryName",
+    execute: ({ category }: { category: string }) =>
+      `/categories/${encodeURIComponent(category)}`,
+  },
+  categories: {
+    path: "/categories",
+    execute: ({ category }: { category: string }) =>
+      `/categories?q=${encodeURIComponent(category)}`,
+  },
 };
