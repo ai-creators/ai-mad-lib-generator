@@ -192,6 +192,61 @@ export const adlibRouter = createTRPCRouter({
         totalPages,
       };
     }),
+
+  getFeaturedAdlibs: publicProcedure
+    .input(
+      z.object({
+        isPg: z.boolean(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const conditions = [eq(adlibs.isFeatured, true)];
+
+      if (input.isPg) {
+        conditions.push(eq(adlibs.isPg, true));
+      }
+
+      const featuredAdlibs = await ctx.db.query.adlibs.findMany({
+        where: and(...conditions),
+        orderBy: desc(adlibs.createdAt),
+        limit: 10,
+      });
+
+      const adlibIds = featuredAdlibs.map((adlib) => adlib.id);
+
+      if (adlibIds.length === 0) {
+        return [];
+      }
+
+      const categoryMappings = await ctx.db
+        .select({
+          madlibId: madlibCategories.madlibId,
+          categoryName: categories.name,
+        })
+        .from(madlibCategories)
+        .innerJoin(categories, eq(madlibCategories.categoryId, categories.id))
+        .where(inArray(madlibCategories.madlibId, adlibIds));
+
+      const categoriesMap = categoryMappings.reduce(
+        (acc, { madlibId, categoryName }) => {
+          if (!acc[madlibId]) acc[madlibId] = [];
+          acc[madlibId].push(categoryName ?? "");
+          return acc;
+        },
+        {} as Record<string, string[]>,
+      );
+
+      const mappedResults = featuredAdlibs.map((adlib) => ({
+        id: adlib.id,
+        prompt: adlib.prompt,
+        title: adlib.title,
+        createdAt: adlib.createdAt,
+        categories: categoriesMap[adlib.id] ?? [],
+      }));
+
+      return mappedResults;
+    }),
+
   getCategoriesPaginated: publicProcedure
     .input(
       z.object({
