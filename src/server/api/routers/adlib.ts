@@ -246,6 +246,20 @@ export const adlibRouter = createTRPCRouter({
 
       return mappedResults;
     }),
+  getAdlibById: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const adlib = await ctx.db.query.adlibs.findFirst({
+        where: eq(adlibs.id, input),
+      });
+
+      return {
+        id: adlib?.id,
+        prompt: adlib?.prompt,
+        title: adlib?.title,
+        createdAt: adlib?.createdAt,
+      };
+    }),
 
   getCategoriesPaginated: publicProcedure
     .input(
