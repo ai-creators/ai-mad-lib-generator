@@ -59,7 +59,7 @@ For example, if the prompt is "mystery manor", produce a madlib similar to:
   "isPg": true,
   "categories": ["Mystery", "Adventure"]
 }
-Only return the JSON object with these keys and no additional text.`;
+Only return the JSON object with these keys and no additional text. Include at least 5 placeholders in the madlib.`;
 
   try {
     const response = await openai.chat.completions.create({
@@ -73,32 +73,74 @@ Only return the JSON object with these keys and no additional text.`;
     });
 
     if (!response || !response.choices || response.choices.length === 0) {
+      console.error({
+        message: "OpenAI API returned no choices",
+        prompt,
+        config,
+        response,
+      });
       throw new Error("No choices returned from OpenAI");
     }
 
     const message = response?.choices[0]?.message;
     if (!message?.content) {
+      console.error({
+        message: "OpenAI API returned no message content",
+        prompt,
+        config,
+        response,
+      });
       throw new Error("No message content returned from OpenAI");
     }
 
     const jsonResponse = message.content.trim();
-    const result = JSON.parse(jsonResponse || "{}");
+    let result;
+    try {
+      result = JSON.parse(jsonResponse || "{}");
+    } catch (e) {
+      console.error({
+        message: "Failed to parse OpenAI response as JSON",
+        prompt,
+        config,
+        jsonResponse,
+        error: e,
+      });
+      throw new Error("Invalid JSON response from OpenAI");
+    }
 
     if (
       typeof result.title !== "string" ||
       typeof result.madlib !== "string" ||
       typeof result.isPg !== "boolean"
     ) {
+      console.error({
+        message: "OpenAI response missing required fields",
+        prompt,
+        config,
+        result,
+      });
       throw new Error("Invalid response format");
     }
 
     const parsed: unknown = JSON.parse(jsonResponse);
     if (!isMadlibResponse(parsed)) {
+      console.error({
+        message: "OpenAI response failed type validation",
+        prompt,
+        config,
+        parsed,
+      });
       throw new Error("Invalid response format");
     }
     return parsed;
   } catch (error) {
-    console.error("Error generating madlib:", error);
+    console.error({
+      message: "Error generating madlib",
+      prompt,
+      config,
+      error: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     throw error;
   }
 }

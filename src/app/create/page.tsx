@@ -8,10 +8,10 @@ export default function CreatePage() {
   return (
     <Layout>
       <Container className="grid grid-cols-12 gap-6 px-4 py-6">
-        <aside className="col-span-3">
+        <aside className="col-span-3 hidden lg:block">
           <AsideNavbar />
         </aside>
-        <section className="col-span-9">
+        <section className="col-span-12 lg:col-span-9">
           <CreateAdlibCard />
         </section>
       </Container>

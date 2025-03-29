@@ -3,16 +3,15 @@ import Container from "../containers/container";
 export default function Footer() {
   return (
     <footer>
-      <Container className="px-4 py-12 sm:px-6 lg:px-8">
+      {/* <Container className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
-          {/* Brand Column */}
+         
           <div>
             <h3 className="text-xl font-bold uppercase">Ai Adlibs</h3>
             <p className="mt-4 text-sm text-muted-foreground">
               Ai Generated Adlibs
             </p>
           </div>
-          {/* Documentation Links */}
           <div>
             <h4 className="mb-4 font-semibold">Documentation</h4>
             <ul className="space-y-2">
@@ -43,7 +42,6 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          {/* Resources Links */}
           <div>
             <h4 className="mb-4 font-semibold">Resources</h4>
             <ul className="space-y-2">
@@ -69,7 +67,6 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          {/* Company Links */}
           <div>
             <h4 className="mb-4 font-semibold">Company</h4>
             <ul className="space-y-2">
@@ -95,7 +92,6 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          {/* Legal Links */}
           <div>
             <h4 className="mb-4 font-semibold">Legal</h4>
             <ul className="space-y-2">
@@ -117,12 +113,12 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-      </Container>
+      </Container> */}
       {/* Bottom Copyright and Socials */}
       <div className="border-t text-muted-foreground">
-        <Container className="flex flex-col items-center justify-between px-4 py-4 sm:px-6 md:flex-row lg:px-8">
+        <Container className="flex flex-col items-center justify-center px-4 py-4 text-center sm:px-6 md:flex-row lg:px-8">
           <p className="text-sm">
-            &copy; {new Date().getFullYear()} Algowars. All rights reserved.
+            &copy; {new Date().getFullYear()} AiAdlibs. All rights reserved.
           </p>
           <div className="mt-4 flex space-x-4 md:mt-0">
             <a href="#" className="">

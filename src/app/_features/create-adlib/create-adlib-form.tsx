@@ -141,7 +141,7 @@ export default function CreateAdlibForm() {
               Generate
             </Button>
           </li>
-          <li>
+          {/* <li>
             <Button
               className="w-34"
               variant="secondary"
@@ -149,7 +149,7 @@ export default function CreateAdlibForm() {
             >
               Generate Random
             </Button>
-          </li>
+          </li> */}
         </ul>
       </form>
     </Form>
