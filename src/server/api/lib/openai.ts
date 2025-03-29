@@ -59,7 +59,7 @@ For example, if the prompt is "mystery manor", produce a madlib similar to:
   "isPg": true,
   "categories": ["Mystery", "Adventure"]
 }
-Only return the JSON object with these keys and no additional text. Include at least 5 placeholders in the madlib.`;
+Only return the JSON object with these keys and no additional text. Include at least 5 placeholders in the madlib. The longer the madlib the more placeholders you should add. make it at least 3 sentences and at most 9 sentences. placesholders should take about 15% of the words.`;
 
   try {
     const response = await openai.chat.completions.create({
