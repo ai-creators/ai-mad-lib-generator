@@ -62,8 +62,18 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
         <section className="col-span-12 lg:col-span-9">
           <Card>
             <CardHeader>
-              <CardTitle>{result.adlibTitle}</CardTitle>
-              <CardDescription>{result.adlibPrompt}</CardDescription>
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle>{result.adlibTitle}</CardTitle>
+                  <CardDescription>{result.adlibPrompt}</CardDescription>
+                </div>
+                <div className="-mt-2">
+                  <AdlibPlayResultsActions
+                    resultText={result.resultText}
+                    title={result.adlibTitle}
+                  />
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="prose prose-stone dark:prose-invert max-w-none text-muted-foreground">
@@ -72,12 +82,6 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
                 </ReactMarkdown>
               </div>
             </CardContent>
-            <CardFooter className="pt-6">
-              <AdlibPlayResultsActions
-                resultText={result.resultText}
-                title={result.adlibTitle}
-              />
-            </CardFooter>
           </Card>
         </section>
       </Container>

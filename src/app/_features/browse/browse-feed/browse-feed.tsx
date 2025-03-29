@@ -16,13 +16,12 @@ import { type AppRouter } from "~/server/api/root";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { useContentRating } from "../../content-rating/content-rating";
 
 type GetPaginatedOutput = inferProcedureOutput<
   AppRouter["adlib"]["getPaginated"]
 >;
 type Adlib = GetPaginatedOutput["results"][number];
-
-const LOCAL_STORAGE_KEY = "contentRating";
 
 export default function BrowseFeed() {
   const searchParams = useSearchParams();
@@ -36,15 +35,7 @@ export default function BrowseFeed() {
   );
   const [adlibs, setAdlibs] = useState<Adlib[]>([]);
   const [totalPages, setTotalPages] = useState(1);
-
-  const [contentRating, setContentRating] = useState<string>("pg");
-
-  useEffect(() => {
-    const storedRating = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedRating) {
-      setContentRating(storedRating);
-    }
-  }, []);
+  const { contentRating } = useContentRating();
 
   const { data, isError, error } = api.adlib.getPaginated.useQuery({
     page,
