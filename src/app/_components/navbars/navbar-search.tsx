@@ -47,7 +47,7 @@ export default function BrowseSearchForm() {
                 <div className="relative">
                   <Input
                     placeholder="Search adlibs..."
-                    className="pr-14"
+                    className="bg-background pr-14"
                     {...field}
                   />
                   <Button

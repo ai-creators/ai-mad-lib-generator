@@ -43,7 +43,7 @@ export const navLinks = [
 
 export default function Navbar() {
   return (
-    <nav className="border-b py-3">
+    <nav className="py-3">
       <Container className="flex items-center justify-between px-4">
         <ul className="flex items-center gap-5">
           <li className="flex items-center justify-center lg:hidden">
