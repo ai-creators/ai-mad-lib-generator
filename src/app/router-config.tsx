@@ -19,6 +19,9 @@ export const routerConfig = {
     path: "/adlib/:adlibId",
     execute: ({ id }: { id: string }) => `/adlib/${encodeURIComponent(id)}`,
   },
+  saves: {
+    path: "/saves",
+  },
   settings: {
     path: "/settings",
   },

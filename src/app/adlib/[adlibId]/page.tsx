@@ -1,4 +1,5 @@
 import React from "react";
+import { HydrateClient } from "~/trpc/server";
 import Adlib from "~/app/_features/adlib/adlib";
 
 interface AdlibPageParams {
@@ -14,5 +15,9 @@ export default async function AdlibPage({ params }: AdlibPageParams) {
     return <div>Adlib ID is missing</div>;
   }
 
-  return <Adlib adlibId={adlibId} />;
+  return (
+    <HydrateClient>
+      <Adlib adlibId={adlibId} />
+    </HydrateClient>
+  );
 }

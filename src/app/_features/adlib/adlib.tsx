@@ -1,10 +1,11 @@
 "use client";
 
-import { Layout, Container } from "lucide-react";
 import React from "react";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import AdlibHeader from "./adlib-header"; // Replace with your actual server-side function
 import { api } from "~/trpc/react";
+import Layout from "~/app/_components/layouts/layout";
+import Container from "~/app/_components/containers/container";
 
 interface AdlibProps {
   adlibId: string;
@@ -16,6 +17,8 @@ export default function Adlib({ adlibId }: AdlibProps) {
   }
 
   const { data, isPending } = api.adlib.getAdlibById.useQuery(adlibId);
+
+  console.log("DATA: ", data);
 
   if (isPending) {
     return (

@@ -4,6 +4,7 @@ import { type inferProcedureOutput } from "@trpc/server";
 import Link from "next/link";
 import React from "react";
 import { routerConfig } from "~/app/router-config";
+import { buttonVariants } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -28,7 +29,10 @@ export default function AdlibHeader({ adlib }: AdlibHeaderProps) {
       </CardHeader>
       <CardContent>
         {adlib.id ? (
-          <Link href={routerConfig.adlibPlay.execute({ id: adlib.id })}>
+          <Link
+            href={routerConfig.adlibPlay.execute({ id: adlib.id })}
+            className={buttonVariants({ variant: "default" })}
+          >
             Play Adlib
           </Link>
         ) : null}
