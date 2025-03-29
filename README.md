@@ -16,6 +16,10 @@ And run the script
 
 `./start-database.sh`
 
+and apply migrations
+
+`pnpm run db:migrate`
+
 ## Useful links
 
 - [T3 Stack](https://create.t3.gg/)
