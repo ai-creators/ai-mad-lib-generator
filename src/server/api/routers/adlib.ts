@@ -6,7 +6,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { adlibs, categories, madlibCategories } from "../../db/schema";
+import {
+  adlibResults,
+  adlibs,
+  categories,
+  madlibCategories,
+} from "../../db/schema";
 import { createMadlib } from "../lib/openai";
 
 import { count, type SQL, sql } from "drizzle-orm";
@@ -62,7 +67,6 @@ export const adlibRouter = createTRPCRouter({
         }
       }
 
-      // Insert madlib entry
       const [madlib] = await ctx.db
         .insert(adlibs)
         .values({
@@ -78,7 +82,6 @@ export const adlibRouter = createTRPCRouter({
         throw new Error("Failed to insert madlib");
       }
 
-      // Insert into madlib_categories to establish the many-to-many relation
       for (const categoryId of categoryIds) {
         await ctx.db
           .insert(madlibCategories)
@@ -260,7 +263,21 @@ export const adlibRouter = createTRPCRouter({
         createdAt: adlib?.createdAt,
       };
     }),
+  getAdlibByIdPlay: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const adlib = await ctx.db.query.adlibs.findFirst({
+        where: eq(adlibs.id, input),
+      });
 
+      return {
+        id: adlib?.id,
+        prompt: adlib?.prompt,
+        title: adlib?.title,
+        text: adlib?.text,
+        createdAt: adlib?.createdAt,
+      };
+    }),
   getCategoriesPaginated: publicProcedure
     .input(
       z.object({
@@ -321,6 +338,70 @@ export const adlibRouter = createTRPCRouter({
         page,
         size,
         totalPages,
+      };
+    }),
+  saveAdlibResult: publicProcedure
+    .input(
+      z.object({
+        adlibId: z.string(),
+        answers: z.array(z.string()),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { adlibId, answers } = input;
+
+      const adlib = await ctx.db.query.adlibs.findFirst({
+        where: eq(adlibs.id, adlibId),
+      });
+
+      if (!adlib?.text) {
+        throw new Error("Adlib not found");
+      }
+
+      const placeholders = adlib.text.match(/\[(.*?)\]/g) ?? [];
+
+      // Replace each placeholder with its corresponding answer
+      let resultText = adlib.text;
+      placeholders.forEach((placeholder, index) => {
+        if (answers[index]) {
+          resultText = resultText.replace(placeholder, `**${answers[index]}**`);
+        }
+      });
+
+      const [result] = await ctx.db
+        .insert(adlibResults)
+        .values({
+          adlibId,
+          resultText,
+        })
+        .returning({ id: adlibResults.id });
+
+      if (!result) {
+        throw new Error("Failed to save adlib result");
+      }
+
+      return result.id;
+    }),
+  getAdlibResult: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.db.query.adlibResults.findFirst({
+        where: eq(adlibResults.id, input),
+        with: {
+          adlib: true,
+        },
+      });
+
+      if (!result) {
+        throw new Error("Result not found");
+      }
+
+      return {
+        id: result.id,
+        resultText: result.resultText,
+        adlibTitle: result.adlib?.title ?? "",
+        adlibPrompt: result.adlib?.prompt ?? "",
+        createdAt: result.createdAt,
       };
     }),
 });

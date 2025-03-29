@@ -18,8 +18,6 @@ export default function Adlib({ adlibId }: AdlibProps) {
 
   const { data, isPending } = api.adlib.getAdlibById.useQuery(adlibId);
 
-  console.log("DATA: ", data);
-
   if (isPending) {
     return (
       <Layout>

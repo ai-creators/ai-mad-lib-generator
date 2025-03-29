@@ -27,7 +27,6 @@ export default function Featured() {
     isPg: contentRating === "pg",
   });
 
-  console.log("ADLIBS: ", featuredAdlibs);
   return (
     <Card>
       <CardHeader>

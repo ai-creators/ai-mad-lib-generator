@@ -1,7 +1,7 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -86,3 +86,47 @@ export const madlibCategories = createTable(
     pk: primaryKey({ columns: [table.madlibId, table.categoryId] }),
   }),
 );
+
+export const adlibResults = createTable("adlib_results", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  adlibId: uuid("adlib_id")
+    .notNull()
+    .references(() => adlibs.id, { onDelete: "cascade" }),
+  resultText: text("result_text").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
+export const adlibsRelations = relations(adlibs, ({ one, many }) => ({
+  categories: many(madlibCategories),
+  adlibResults: many(adlibResults),
+}));
+export const madlibCategoriesRelations = relations(
+  madlibCategories,
+  ({ one }) => ({
+    adlib: one(adlibs, {
+      fields: [madlibCategories.madlibId],
+      references: [adlibs.id],
+    }),
+    category: one(categories, {
+      fields: [madlibCategories.categoryId],
+      references: [categories.id],
+    }),
+  }),
+);
+export const adlibResultsRelations = relations(adlibResults, ({ one }) => ({
+  adlib: one(adlibs, {
+    fields: [adlibResults.adlibId],
+    references: [adlibs.id],
+  }),
+}));
+export const categoriesRelations = relations(categories, ({ many }) => ({
+  madlibs: many(madlibCategories),
+}));
