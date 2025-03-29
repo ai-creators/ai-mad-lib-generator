@@ -40,7 +40,7 @@ export default function Adlib({ adlibId }: AdlibProps) {
   return (
     <Layout>
       <Container className="grid grid-cols-12 gap-6 px-4 py-6">
-        <aside className="lg:col-span-3">
+        <aside className="col-span-3">
           <AsideNavbar />
         </aside>
         <section className="col-span-9 flex flex-col gap-6">
