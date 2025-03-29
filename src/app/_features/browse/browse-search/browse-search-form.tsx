@@ -17,23 +17,25 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 
-const searchSchema = z.object({
+export const searchSchema = z.object({
   search: z.string(),
 });
 
-export default function BrowseSearchForm() {
-  const router = useRouter();
+type BrowseSearchFormProps = {
+  placeholder?: string;
+  onSubmit: (values: z.infer<typeof searchSchema>) => void;
+};
 
+export default function BrowseSearchForm({
+  placeholder = "search adlibs...",
+  onSubmit,
+}: BrowseSearchFormProps) {
   const form = useForm<z.infer<typeof searchSchema>>({
     resolver: zodResolver(searchSchema),
     defaultValues: {
       search: "",
     },
   });
-
-  const onSubmit = (values: z.infer<typeof searchSchema>) => {
-    router.push(routerConfig.browse.execute(values));
-  };
 
   return (
     <Form {...form}>
@@ -47,7 +49,7 @@ export default function BrowseSearchForm() {
               <FormControl>
                 <div className="relative">
                   <Input
-                    placeholder="search adlibs..."
+                    placeholder={placeholder}
                     className="pr-24"
                     {...field}
                   />

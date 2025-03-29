@@ -6,16 +6,21 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import BrowseSearchForm from "./browse-search-form";
+import BrowseSearchForm, { type searchSchema } from "./browse-search-form";
+import { type z } from "zod";
 
 type BrowseSearchCardProps = {
   title?: string;
   description?: string;
+  placeholder?: string;
+  onSubmit: (values: z.infer<typeof searchSchema>) => void;
 };
 
 export default function BrowseSearchCard({
   title = "Search and adlib",
   description = "Search user created adlibs",
+  placeholder,
+  onSubmit,
 }: BrowseSearchCardProps) {
   return (
     <Card>
@@ -24,7 +29,7 @@ export default function BrowseSearchCard({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <BrowseSearchForm />
+        <BrowseSearchForm placeholder={placeholder} onSubmit={onSubmit} />
       </CardContent>
     </Card>
   );
