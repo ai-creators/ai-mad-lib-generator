@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
@@ -14,6 +15,7 @@ import Layout from "~/app/_components/layouts/layout";
 import Container from "~/app/_components/containers/container";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import { type Components } from "react-markdown";
+import AdlibPlayResultsActions from "./adlib-play-results-actions";
 
 type AdlibPlayResultsProps = {
   resultId: string;
@@ -54,10 +56,10 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
   return (
     <Layout>
       <Container className="grid grid-cols-12 gap-6 px-4 py-6">
-        <aside className="col-span-3">
+        <aside className="hidden lg:col-span-3 lg:block">
           <AsideNavbar />
         </aside>
-        <section className="col-span-9">
+        <section className="col-span-12 lg:col-span-9">
           <Card>
             <CardHeader>
               <CardTitle>{result.adlibTitle}</CardTitle>
@@ -70,6 +72,12 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
                 </ReactMarkdown>
               </div>
             </CardContent>
+            <CardFooter className="pt-6">
+              <AdlibPlayResultsActions
+                resultText={result.resultText}
+                title={result.adlibTitle}
+              />
+            </CardFooter>
           </Card>
         </section>
       </Container>

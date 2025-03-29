@@ -8,7 +8,9 @@ export default function Footer() {
           {/* Brand Column */}
           <div>
             <h3 className="text-xl font-bold uppercase">Ai Adlibs</h3>
-            <p className="mt-4 text-sm">Online Competitive Coding</p>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Ai Generated Adlibs
+            </p>
           </div>
           {/* Documentation Links */}
           <div>

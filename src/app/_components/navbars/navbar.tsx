@@ -46,7 +46,7 @@ export default function Navbar() {
     <nav className="border-b py-3">
       <Container className="flex items-center justify-between px-4">
         <ul className="flex items-center gap-5">
-          <li className="md:hidden">
+          <li className="flex items-center justify-center lg:hidden">
             <NavbarMenu />
           </li>
           <li>
@@ -57,7 +57,7 @@ export default function Navbar() {
               AI Adlibs
             </Link>
           </li>
-          <li>
+          <li className="hidden md:block">
             <NavbarSearch />
           </li>
         </ul>
