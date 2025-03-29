@@ -14,7 +14,10 @@ export default function Categories() {
           <AsideNavbar />
         </aside>
         <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
-          <BrowseSearchCard />
+          <BrowseSearchCard
+            title="Search a category"
+            description="Search automatically generated categories"
+          />
           <CategoriesFeed />
         </section>
       </Container>

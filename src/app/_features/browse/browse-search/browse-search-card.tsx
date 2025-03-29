@@ -8,12 +8,20 @@ import {
 } from "~/components/ui/card";
 import BrowseSearchForm from "./browse-search-form";
 
-export default function BrowseSearchCard() {
+type BrowseSearchCardProps = {
+  title?: string;
+  description?: string;
+};
+
+export default function BrowseSearchCard({
+  title = "Search and adlib",
+  description = "Search user created adlibs",
+}: BrowseSearchCardProps) {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle>Search an adlib</CardTitle>
-        <CardDescription>Search user created adlibs</CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
         <BrowseSearchForm />
