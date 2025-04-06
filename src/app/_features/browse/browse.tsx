@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Container from "~/app/_components/containers/container";
 import Layout from "~/app/_components/layouts/layout";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
@@ -24,8 +24,12 @@ export default function Browse() {
           <AsideNavbar />
         </aside>
         <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
-          <BrowseSearchCard onSubmit={handleSearch} />
-          <BrowseFeed />
+          <Suspense fallback={<div>Loading search...</div>}>
+            <BrowseSearchCard onSubmit={handleSearch} />
+          </Suspense>
+          <Suspense fallback={<div>Loading feed...</div>}>
+            <BrowseFeed />
+          </Suspense>
         </section>
       </Container>
     </Layout>

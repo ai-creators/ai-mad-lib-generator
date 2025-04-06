@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Container from "~/app/_components/containers/container";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
-
 import BrowseSearchCard from "../browse/browse-search/browse-search-card";
 import CategoriesFeed from "./categories-feed/categories-feed";
 import Layout from "~/app/_components/layouts/layout";
@@ -26,13 +25,17 @@ export default function Categories() {
           <AsideNavbar />
         </aside>
         <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
-          <BrowseSearchCard
-            title="Search a category"
-            description="Search automatically generated categories"
-            placeholder="search categories..."
-            onSubmit={handleSearch}
-          />
-          <CategoriesFeed />
+          <Suspense fallback={<div>Loading search...</div>}>
+            <BrowseSearchCard
+              title="Search a category"
+              description="Search automatically generated categories"
+              placeholder="search categories..."
+              onSubmit={handleSearch}
+            />
+          </Suspense>
+          <Suspense fallback={<div>Loading categories...</div>}>
+            <CategoriesFeed />
+          </Suspense>
         </section>
       </Container>
     </Layout>

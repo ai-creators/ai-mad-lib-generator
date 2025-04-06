@@ -1,9 +1,21 @@
-import React from "react";
+"use client";
+
+import React, { Suspense } from "react";
 import Container from "~/app/_components/containers/container";
 import Layout from "~/app/_components/layouts/layout";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import CreateAdlibCard from "../create-adlib/create-adlib-card";
 import Featured from "../featured/featured";
+import { ErrorBoundary } from "react-error-boundary";
+
+function ErrorFallback({ error }: { error: Error }) {
+  return (
+    <div className="rounded-lg border p-4">
+      <p className="text-red-500">Something went wrong:</p>
+      <pre className="text-sm">{error.message}</pre>
+    </div>
+  );
+}
 
 export default function Dashboard() {
   return (
@@ -14,7 +26,11 @@ export default function Dashboard() {
         </aside>
         <section className="col-span-12 flex flex-col gap-6 lg:col-span-9">
           <CreateAdlibCard />
-          <Featured />
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Suspense fallback={<div>Loading featured adlibs...</div>}>
+              <Featured />
+            </Suspense>
+          </ErrorBoundary>
         </section>
       </Container>
     </Layout>
