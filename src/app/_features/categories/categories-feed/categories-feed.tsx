@@ -14,7 +14,6 @@ import { type AppRouter } from "~/server/api/root";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import BrowseFeedHeader from "../../browse/browse-feed/browse-feed-header";
 import CategoriesFeedList from "./categories-feed-list";
 import CategoriesFeedHeader from "./categories-feed-header";
 
@@ -22,8 +21,6 @@ type GetPaginatedOutput = inferProcedureOutput<
   AppRouter["adlib"]["getCategoriesPaginated"]
 >;
 type Category = GetPaginatedOutput["results"][number];
-
-const LOCAL_STORAGE_KEY = "contentRating";
 
 export default function CategoriesFeed() {
   const searchParams = useSearchParams();

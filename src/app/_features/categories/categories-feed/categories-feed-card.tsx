@@ -39,7 +39,6 @@ function CategoriesFeedCard({ category }: Props) {
             category: category.name ?? "",
           })}
           className={cn(buttonVariants({ variant: "default" }), "w-fit")}
-          prefetch={true}
         >
           Go to category
         </Link>

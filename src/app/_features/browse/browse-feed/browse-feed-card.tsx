@@ -12,7 +12,6 @@ import { formatDateToMinutes } from "~/app/_utils/format-date";
 import Link from "next/link";
 import { routerConfig } from "~/app/router-config";
 import { buttonVariants } from "~/components/ui/button";
-import { categories } from "~/server/db/schema";
 import { cn } from "~/lib/utils";
 
 type GetPaginatedOutput = inferProcedureOutput<
@@ -53,7 +52,6 @@ function BrowseFeedCard({ adlib }: Props) {
         <Link
           href={routerConfig.adlib.execute({ id: adlib.id })}
           className={cn(buttonVariants({ variant: "default" }), "w-fit")}
-          prefetch={true}
         >
           Go to adlib
         </Link>

@@ -1,7 +1,6 @@
 import { useSearchParams } from "next/navigation";
 import { CardDescription, CardTitle } from "~/components/ui/card";
 import { type FeedTypeOption } from "~/types/adlib";
-import BrowseFeedType from "../../browse/browse-feed/browse-feed-type";
 import CategoriesFeedType from "./categories-feed-type";
 
 type CategoriesFeedHeaderProps = {

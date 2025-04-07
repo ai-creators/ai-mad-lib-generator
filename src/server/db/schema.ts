@@ -104,7 +104,7 @@ export const adlibResults = createTable("adlib_results", {
   deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
 });
 
-export const adlibsRelations = relations(adlibs, ({ one, many }) => ({
+export const adlibsRelations = relations(adlibs, ({ many }) => ({
   categories: many(madlibCategories),
   adlibResults: many(adlibResults),
 }));
