@@ -4,7 +4,7 @@ import AdlibSavesCard from './adlib-saves-card';
 import { api } from '~/trpc/react';
 
 export default function AdlibSaves() {
-    const { data: savedAdlibs, isLoading, error } = api.adlib.getSaves.useQuery();
+    const { data: savedAdlibs, isLoading, error } = api.adlib.getSavedResults.useQuery({});
 
     if (isLoading) {
         return <div>Loading saved adlibs...</div>;
