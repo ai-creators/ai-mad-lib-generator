@@ -10,7 +10,7 @@ docker/docker desktop
 
 Run the command
 
-`pnpm i`
+`pnpm i --frozen-lockfile`
 
 And run the script
 
