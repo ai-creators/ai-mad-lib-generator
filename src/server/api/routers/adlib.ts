@@ -382,6 +382,56 @@ export const adlibRouter = createTRPCRouter({
 
       return result.id;
     }),
+
+  getSaves: publicProcedure
+    .input(
+      z.object({
+        adlibs: z.array(z.string()),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { adlibs: adlibIds } = input;
+
+      if (adlibIds.length === 0) return [];
+
+      const savedAdlibs = await ctx.db.query.adlibs.findMany({
+        where: inArray(adlibs.id, adlibIds),
+        orderBy: desc(adlibs.createdAt),
+      });
+
+      return savedAdlibs;
+    }),
+
+  getSavedResults: publicProcedure
+    .input(
+      z.object({
+        results: z.array(z.string()),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { results: resultIds } = input;
+
+      if (resultIds.length === 0) return [];
+
+      const savedResults = await ctx.db.query.adlibResults.findMany({
+        where: inArray(adlibResults.id, resultIds),
+        with: {
+          adlib: true,
+        },
+        orderBy: desc(adlibResults.createdAt),
+      });
+
+      const formattedResults = savedResults.map((result) => ({
+        id: result.id,
+        resultText: result.resultText,
+        createdAt: result.createdAt,
+        adlibTitle: result.adlib?.title ?? "",
+        adlibPrompt: result.adlib?.prompt ?? "",
+      }));
+
+      return formattedResults;
+    }),
+
   getAdlibResult: publicProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
