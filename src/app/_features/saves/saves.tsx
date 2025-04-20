@@ -3,7 +3,6 @@ import Container from "~/app/_components/containers/container";
 import Layout from "~/app/_components/layouts/layout";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import AdlibSaves from "./adlib-saves/adlib-saves";
-import ResultsSaves from "./results-saves/results-saves";
 
 export default function Saves() {
   return (
@@ -14,7 +13,6 @@ export default function Saves() {
         </aside>
         <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
           <AdlibSaves />
-          <ResultsSaves />
         </section>
       </Container>
     </Layout>

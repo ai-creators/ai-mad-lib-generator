@@ -16,7 +16,9 @@ export default function AdlibSaves() {
     data: savedAdlibs,
     isLoading,
     error,
-  } = api.adlib.getSavedResults.useQuery({});
+  } = api.adlib.getSaves.useQuery({
+    adlibs: [],
+  });
 
   if (isLoading) {
     return <div>Loading saved adlibs...</div>;
@@ -35,9 +37,8 @@ export default function AdlibSaves() {
       <CardContent>
         {!savedAdlibs || savedAdlibs.length === 0
           ? "No Adlibs available"
-          : savedAdlibs.map((adlibId) => (
-              // Wrapping each id string in an object with an `id` property
-              <AdlibSavesCard key={adlibId} adlib={{ id: adlibId }} />
+          : savedAdlibs.map((adlib) => (
+              <AdlibSavesCard key={adlib.id} adlib={adlib} />
             ))}
       </CardContent>
     </Card>

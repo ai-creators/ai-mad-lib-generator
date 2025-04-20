@@ -127,9 +127,9 @@ export const adlibRouter = createTRPCRouter({
 
       const searchCondition = searchTerm
         ? or(
-          like(adlibs.title, `%${searchTerm}%`),
-          like(adlibs.prompt, `%${searchTerm}%`),
-        )
+            like(adlibs.title, `%${searchTerm}%`),
+            like(adlibs.prompt, `%${searchTerm}%`),
+          )
         : undefined;
 
       let whereCondition: SQL<unknown> = baseCondition;
@@ -431,7 +431,6 @@ export const adlibRouter = createTRPCRouter({
 
       return formattedResults;
     }),
-
 
   getAdlibResult: publicProcedure
     .input(z.string())
