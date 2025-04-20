@@ -1,11 +1,75 @@
 {
-  "id": "4b909d46-92bf-4f0d-89f2-f14fccb35b6f",
+  "id": "0309e2f3-4e46-4308-84e2-7561cf1d0c58",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.ai-mad-lib-generator_adlibs": {
-      "name": "ai-mad-lib-generator_adlibs",
+    "public.ai_adlibs_adlib_results": {
+      "name": "ai_adlibs_adlib_results",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "adlib_id": {
+          "name": "adlib_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "result_text": {
+          "name": "result_text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "NULL"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ai_adlibs_adlib_results_adlib_id_ai_adlibs_adlibs_id_fk": {
+          "name": "ai_adlibs_adlib_results_adlib_id_ai_adlibs_adlibs_id_fk",
+          "tableFrom": "ai_adlibs_adlib_results",
+          "tableTo": "ai_adlibs_adlibs",
+          "columnsFrom": [
+            "adlib_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.ai_adlibs_adlibs": {
+      "name": "ai_adlibs_adlibs",
       "schema": "",
       "columns": {
         "id": {
@@ -101,14 +165,137 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "ai-mad-lib-generator_adlibs_old_id_unique": {
-          "name": "ai-mad-lib-generator_adlibs_old_id_unique",
+        "ai_adlibs_adlibs_old_id_unique": {
+          "name": "ai_adlibs_adlibs_old_id_unique",
           "nullsNotDistinct": false,
           "columns": [
             "old_id"
           ]
         }
       }
+    },
+    "public.ai_adlibs_categories": {
+      "name": "ai_adlibs_categories",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "old_id": {
+          "name": "old_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "NULL"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "NULL"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ai_adlibs_categories_old_id_unique": {
+          "name": "ai_adlibs_categories_old_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "old_id"
+          ]
+        }
+      }
+    },
+    "public.ai_adlibs_adlib_categories": {
+      "name": "ai_adlibs_adlib_categories",
+      "schema": "",
+      "columns": {
+        "adlib_id": {
+          "name": "adlib_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category_id": {
+          "name": "category_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ai_adlibs_adlib_categories_adlib_id_ai_adlibs_adlibs_id_fk": {
+          "name": "ai_adlibs_adlib_categories_adlib_id_ai_adlibs_adlibs_id_fk",
+          "tableFrom": "ai_adlibs_adlib_categories",
+          "tableTo": "ai_adlibs_adlibs",
+          "columnsFrom": [
+            "adlib_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "ai_adlibs_adlib_categories_category_id_ai_adlibs_categories_id_fk": {
+          "name": "ai_adlibs_adlib_categories_category_id_ai_adlibs_categories_id_fk",
+          "tableFrom": "ai_adlibs_adlib_categories",
+          "tableTo": "ai_adlibs_categories",
+          "columnsFrom": [
+            "category_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "ai_adlibs_adlib_categories_adlib_id_category_id_pk": {
+          "name": "ai_adlibs_adlib_categories_adlib_id_category_id_pk",
+          "columns": [
+            "adlib_id",
+            "category_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
     }
   },
   "enums": {},

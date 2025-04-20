@@ -20,9 +20,7 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = pgTableCreator(
-  (name) => `ai-mad-lib-generator_${name}`,
-);
+export const createTable = pgTableCreator((name) => `ai_adlibs_${name}`);
 
 export const adlibs = createTable("adlibs", {
   id: uuid("id")
@@ -70,9 +68,9 @@ export const categories = createTable("categories", {
 });
 
 export const madlibCategories = createTable(
-  "madlib_categories",
+  "adlib_categories",
   {
-    madlibId: uuid("madlib_id")
+    madlibId: uuid("adlib_id")
       .notNull()
       .references(() => adlibs.id, { onDelete: "cascade" }),
     categoryId: uuid("category_id")

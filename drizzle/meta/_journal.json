@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1741027575531,
-      "tag": "0000_neat_the_renegades",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1741198097955,
-      "tag": "0001_milky_masked_marvel",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1741239932579,
-      "tag": "0002_eminent_spacker_dave",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1743276455047,
-      "tag": "0003_many_giant_girl",
+      "when": 1745180786078,
+      "tag": "0000_confused_psynapse",
       "breakpoints": true
     }
   ]
