@@ -43,7 +43,7 @@ export default function Adlib({ adlibId }: AdlibProps) {
         <aside className="col-span-3 hidden lg:block">
           <AsideNavbar />
         </aside>
-        <section className="col-span-9 flex flex-col gap-6">
+        <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
           <AdlibHeader adlib={data} />
         </section>
       </Container>

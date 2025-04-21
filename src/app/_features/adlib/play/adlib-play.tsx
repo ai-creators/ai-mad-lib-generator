@@ -36,7 +36,7 @@ export default function AdlibPlay({ adlibId }: AdlibPlayProps) {
           <aside className="col-span-3 hidden lg:block">
             <AsideNavbar />
           </aside>
-          <section className="col-span-9 flex flex-col gap-6">
+          <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
             <p>Loading...</p>
           </section>
         </Container>
@@ -67,7 +67,7 @@ export default function AdlibPlay({ adlibId }: AdlibPlayProps) {
         <aside className="col-span-3 hidden lg:block">
           <AsideNavbar />
         </aside>
-        <section className="col-span-9 flex flex-col gap-6">
+        <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
           <AdlibPlayHeader adlib={data} />
           <AdlibPlayQuestions adlib={data} onSubmit={adlibSubmit} />
         </section>
