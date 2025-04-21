@@ -9,12 +9,13 @@ import BrowseFeed from "./browse-feed/browse-feed";
 import { useRouter } from "next/navigation";
 import { type searchSchema } from "./browse-search/browse-search-form";
 import { type z } from "zod";
+import { routerConfig } from "~/app/router-config";
 
 export default function Browse() {
   const router = useRouter();
 
   const handleSearch = (values: z.infer<typeof searchSchema>) => {
-    router.push(`/categories/${values.search}`);
+    router.push(routerConfig.browse.execute({ search: values.search }));
   };
 
   return (
