@@ -5,6 +5,8 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import Providers from "./providers";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { env } from "~/env";
 
 export const metadata: Metadata = {
   title: "Ai Madlib Generator",
@@ -27,6 +29,7 @@ export default function RootLayout({
           <Providers>{children}</Providers>
         </TRPCReactProvider>
       </body>
+      <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
     </html>
   );
 }
