@@ -14,6 +14,9 @@ export const env = createEnv({
     GOOGLE_ANALYTICS_ID: process.env.NODE_ENV
       ? z.string().optional()
       : z.string(),
+    GOOGLE_ADSENSE_ID: process.env.NODE_ENV
+      ? z.string().optional()
+      : z.string(),
   },
 
   /**
@@ -33,6 +36,7 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
+    GOOGLE_ADSENSE_ID: process.env.GOOGLE_ADSENSE_ID,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
