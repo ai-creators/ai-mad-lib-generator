@@ -7,7 +7,7 @@ interface BrowseFeedTabsProps {
   changeFeedType: (feedType: FeedTypeOption) => void;
 }
 
-const feedTypes = Object.values(FeedTypeOption);
+const feedTypes = [FeedTypeOption.LATEST, FeedTypeOption.OLDEST];
 
 export default function BrowseFeedType({
   feedType,

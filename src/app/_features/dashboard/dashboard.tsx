@@ -7,6 +7,7 @@ import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import CreateAdlibCard from "../create-adlib/create-adlib-card";
 import Featured from "../featured/featured";
 import { ErrorBoundary } from "react-error-boundary";
+import BrowseFeed from "../browse/browse-feed/browse-feed";
 
 function ErrorFallback({ error }: { error: Error }) {
   return (
@@ -27,8 +28,8 @@ export default function Dashboard() {
         <section className="col-span-12 flex flex-col gap-6 lg:col-span-9">
           <CreateAdlibCard />
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <Suspense fallback={<div>Loading featured adlibs...</div>}>
-              <Featured />
+            <Suspense fallback={<div>Loading feed...</div>}>
+              <BrowseFeed />
             </Suspense>
           </ErrorBoundary>
         </section>

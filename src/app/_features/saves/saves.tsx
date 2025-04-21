@@ -3,6 +3,8 @@ import Container from "~/app/_components/containers/container";
 import Layout from "~/app/_components/layouts/layout";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import AdlibSaves from "./adlib-saves/adlib-saves";
+import { Alert } from "~/components/ui/alert";
+import { TriangleAlert } from "lucide-react";
 
 export default function Saves() {
   return (
@@ -12,6 +14,12 @@ export default function Saves() {
           <AsideNavbar />
         </aside>
         <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
+          <Alert variant="warning">
+            <span className="flex items-center gap-2">
+              Saves are currently unavailable at the moment.
+              <TriangleAlert size={18} />
+            </span>
+          </Alert>
           <AdlibSaves />
         </section>
       </Container>
