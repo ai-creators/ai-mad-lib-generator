@@ -26,14 +26,14 @@ type Props = {
 function BrowseFeedCard({ adlib }: Props) {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-baseline justify-between pb-3">
-        <div>
+      <CardHeader className="flex flex-col gap-3 pb-3 sm:flex-row sm:items-baseline sm:justify-between">
+        <div className="order-2 sm:order-1">
           <CardTitle className="mb-1 line-clamp-1">{adlib.title}</CardTitle>
           <CardDescription className="line-clamp-1">
             Prompt: {adlib.prompt}
           </CardDescription>
         </div>
-        <p className="text-sm text-muted-foreground">
+        <p className="order-1 text-right text-sm text-muted-foreground sm:order-2">
           {formatDateToMinutes(adlib.createdAt)}
         </p>
       </CardHeader>
