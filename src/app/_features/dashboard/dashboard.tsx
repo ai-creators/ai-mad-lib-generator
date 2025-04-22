@@ -5,7 +5,6 @@ import Container from "~/app/_components/containers/container";
 import Layout from "~/app/_components/layouts/layout";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import CreateAdlibCard from "../create-adlib/create-adlib-card";
-import Featured from "../featured/featured";
 import { ErrorBoundary } from "react-error-boundary";
 import BrowseFeed from "../browse/browse-feed/browse-feed";
 

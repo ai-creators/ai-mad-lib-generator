@@ -16,6 +16,7 @@ import { AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import CategoriesFeedList from "./categories-feed-list";
 import CategoriesFeedHeader from "./categories-feed-header";
+import CategoriesFeedSkeleton from "./categories-feed-skeleton";
 
 type GetPaginatedOutput = inferProcedureOutput<
   AppRouter["adlib"]["getCategoriesPaginated"]
@@ -35,13 +36,14 @@ export default function CategoriesFeed() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [totalPages, setTotalPages] = useState(1);
 
-  const { data, isError, error } = api.adlib.getCategoriesPaginated.useQuery({
-    page,
-    size,
-    timestamp: timestamp.toISOString(),
-    feedType,
-    search: searchTerm,
-  });
+  const { data, isError, error, isLoading } =
+    api.adlib.getCategoriesPaginated.useQuery({
+      page,
+      size,
+      timestamp: timestamp.toISOString(),
+      feedType,
+      search: searchTerm,
+    });
 
   useEffect(() => {
     if (data) {
@@ -79,19 +81,27 @@ export default function CategoriesFeed() {
             <AlertDescription>{error.message}</AlertDescription>
           </Alert>
         )}
-        <InfiniteScroll
-          dataLength={categories.length}
-          next={fetchNextPage}
-          hasMore={page < totalPages}
-          loader={<h4>Loading...</h4>}
-          endMessage={
-            <p className="px-1 pt-5 text-muted-foreground">
-              No more categories available.
-            </p>
-          }
-        >
-          <CategoriesFeedList categories={categories} />
-        </InfiniteScroll>
+        {isLoading && page === 1 ? (
+          <CategoriesFeedSkeleton />
+        ) : (
+          <InfiniteScroll
+            dataLength={categories.length}
+            next={fetchNextPage}
+            hasMore={page < totalPages}
+            loader={
+              <div className="flex justify-center py-4">
+                <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-primary"></div>
+              </div>
+            }
+            endMessage={
+              <p className="px-1 pt-5 text-muted-foreground">
+                No more categories available.
+              </p>
+            }
+          >
+            <CategoriesFeedList categories={categories} />
+          </InfiniteScroll>
+        )}
       </CardContent>
     </Card>
   );

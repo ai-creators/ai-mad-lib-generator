@@ -17,6 +17,7 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useContentRating } from "../../content-rating/content-rating";
+import BrowseFeedSkeleton from "./browse-feed-skeleton";
 
 type GetPaginatedOutput = inferProcedureOutput<
   AppRouter["adlib"]["getPaginated"]
@@ -37,7 +38,7 @@ export default function BrowseFeed() {
   const [totalPages, setTotalPages] = useState(1);
   const { contentRating } = useContentRating();
 
-  const { data, isError, error } = api.adlib.getPaginated.useQuery({
+  const { data, isError, error, isPending } = api.adlib.getPaginated.useQuery({
     page,
     size,
     timestamp: timestamp.toISOString(),
@@ -79,19 +80,27 @@ export default function BrowseFeed() {
             <AlertDescription>{error.message}</AlertDescription>
           </Alert>
         )}
-        <InfiniteScroll
-          dataLength={adlibs.length}
-          next={fetchNextPage}
-          hasMore={page < totalPages}
-          loader={<h4>Loading...</h4>}
-          endMessage={
-            <p className="px-1 pt-5 text-muted-foreground">
-              No more adlibs available.
-            </p>
-          }
-        >
-          <BrowseFeedList adlibs={adlibs} />
-        </InfiniteScroll>
+        {isPending && page === 1 ? (
+          <BrowseFeedSkeleton />
+        ) : (
+          <InfiniteScroll
+            dataLength={adlibs.length}
+            next={fetchNextPage}
+            hasMore={page < totalPages}
+            loader={
+              <div className="flex justify-center py-4">
+                <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-primary"></div>
+              </div>
+            }
+            endMessage={
+              <p className="px-1 pt-5 text-muted-foreground">
+                No more adlibs available.
+              </p>
+            }
+          >
+            <BrowseFeedList adlibs={adlibs} />
+          </InfiniteScroll>
+        )}
       </CardContent>
     </Card>
   );
