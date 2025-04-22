@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import Providers from "./providers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "~/env";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "Ai Madlib Generator",
@@ -30,6 +31,7 @@ export default function RootLayout({
         </TRPCReactProvider>
       </body>
       <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
+      <SpeedInsights />
     </html>
   );
 }
