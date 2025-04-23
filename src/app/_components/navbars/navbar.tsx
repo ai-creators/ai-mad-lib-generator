@@ -7,6 +7,7 @@ import { buttonVariants } from "~/components/ui/button";
 import NavbarMenu from "./navbar-menu";
 import { Heart, Home, Search, Settings, SquarePlus, Tags } from "lucide-react";
 import NavbarSearch from "./navbar-search";
+import NavbarAuth from "./navbar-auth";
 
 export const navLinks = [
   {
@@ -73,6 +74,7 @@ export default function Navbar() {
           <li>
             <DarkModeButton />
           </li>
+          <NavbarAuth />
         </ul>
       </Container>
     </nav>

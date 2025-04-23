@@ -8,6 +8,7 @@ import Providers from "./providers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "~/env";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { AuthProvider } from "./auth-provider";
 
 export const metadata: Metadata = {
   title: "Ai Madlib Generator",
@@ -20,19 +21,21 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${GeistSans.variable}`}
-      suppressHydrationWarning
-    >
-      <body>
-        <TRPCReactProvider>
-          <Providers>{children}</Providers>
-        </TRPCReactProvider>
-      </body>
-      {/* <CookieConsent /> */}
-      <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
-      <SpeedInsights />
-    </html>
+    <AuthProvider>
+      <html
+        lang="en"
+        className={`${GeistSans.variable}`}
+        suppressHydrationWarning
+      >
+        <body>
+          <TRPCReactProvider>
+            <Providers>{children}</Providers>
+          </TRPCReactProvider>
+        </body>
+        {/* <CookieConsent /> */}
+        <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
+        <SpeedInsights />
+      </html>
+    </AuthProvider>
   );
 }
