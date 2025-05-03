@@ -177,6 +177,7 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
   madlibs: many(madlibCategories),
 }));
 
+<<<<<<< HEAD
 export const adlibTonesRelations = relations(adlibTones, ({ many }) => ({
   adlibs: many(adlibs),
 }));
@@ -187,3 +188,51 @@ export const contentReaction = pgTable("content_reaction", {
   reaction: text("reaction").$type<"like" | "dislike">().notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
+=======
+
+export const llmBrands = createTable("llm_brands", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: text("name")
+    .notNull()
+    .unique(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
+export const llmModels = createTable("llm_models", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  brandId: uuid("brand_id")
+    .notNull()
+    .references(() => llmBrands.id, { onDelete: "cascade" }),
+  name: text("name")
+    .notNull(),
+  isAvailable: boolean("is_available").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
+export const llmBrandsRelations = relations(llmBrands, ({ many }) => ({
+  models: many(llmModels),
+}));
+
+export const llmModelsRelations = relations(llmModels, ({ one }) => ({
+  brand: one(llmBrands, {
+    fields: [llmModels.brandId],
+    references: [llmBrands.id],
+  }),
+}));
+>>>>>>> 5c1a912 (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)

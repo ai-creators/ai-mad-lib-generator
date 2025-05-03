@@ -8,41 +8,6 @@
       "when": 1745180786078,
       "tag": "0000_confused_psynapse",
       "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1747267250491,
-      "tag": "0001_minor_toad_men",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1747268152821,
-      "tag": "0002_cold_raza",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1747268217305,
-      "tag": "0003_dry_thanos",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1747882460258,
-      "tag": "0004_small_mockingbird",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1748225708559,
-      "tag": "0005_dry_wolverine",
-      "breakpoints": true
     }
   ]
 }

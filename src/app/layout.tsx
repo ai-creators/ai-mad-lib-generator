@@ -27,8 +27,12 @@ export default function RootLayout({
         className={`${GeistSans.variable}`}
         suppressHydrationWarning
       >
+<<<<<<< HEAD
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css"></link>
         <body>
+=======
+        <body suppressHydrationWarning>
+>>>>>>> 5c1a912 (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)
           <TRPCReactProvider>
             <Providers>{children}</Providers>
           </TRPCReactProvider>
