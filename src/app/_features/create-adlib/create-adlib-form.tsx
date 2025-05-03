@@ -34,7 +34,11 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { routerConfig } from "~/app/router-config";
+<<<<<<< HEAD
 import CreateAdlibTone from "./create-adlib-tone/create-adlib-tone";
+=======
+import ModelsSelect from "./models-select/models-select";
+>>>>>>> 883f32e (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)
 
 const createAdlibSchema = z.object({
   prompt: z.string().min(1).max(100),
@@ -145,8 +149,13 @@ export default function CreateAdlibForm() {
             </Button>
           </li>
           <li>
+<<<<<<< HEAD
             <CreateAdlibTone />
           </li>
+=======
+            <ModelsSelect />
+            </li>
+>>>>>>> 883f32e (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)
           {/* <li>
             <Button
               className="w-34"
