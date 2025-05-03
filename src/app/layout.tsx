@@ -27,7 +27,7 @@ export default function RootLayout({
         className={`${GeistSans.variable}`}
         suppressHydrationWarning
       >
-        <body>
+        <body suppressHydrationWarning>
           <TRPCReactProvider>
             <Providers>{children}</Providers>
           </TRPCReactProvider>
