@@ -102,6 +102,38 @@ export const adlibResults = createTable("adlib_results", {
   deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
 });
 
+export const adlibTones = createTable("adlib_tones", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  style: text("style").notNull(),
+  prompt: text("prompt").notNull(),
+  available: boolean("available").default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
+export const featureToggles = createTable("feature_toggles", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: text("name"),
+  category: text("category"),
+  isOn: boolean("is_on").default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
 export const adlibsRelations = relations(adlibs, ({ many }) => ({
   categories: many(madlibCategories),
   adlibResults: many(adlibResults),
