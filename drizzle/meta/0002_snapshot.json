@@ -1,10 +1,6 @@
 {
-<<<<<<< HEAD
-  "id": "bd564b61-f6cf-4939-bf3c-9ca54db7bbb3",
-=======
-  "id": "6f2538a8-4ef9-495b-8cce-cb290dfda31f",
->>>>>>> fc9c73d2d74af400a1cc2eed6ec8144b0545e452
-  "prevId": "0309e2f3-4e46-4308-84e2-7561cf1d0c58",
+  "id": "61e080c0-9e74-47ed-a14c-eb7c3aefd355",
+  "prevId": "6f2538a8-4ef9-495b-8cce-cb290dfda31f",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -72,8 +68,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-<<<<<<< HEAD
-=======
     "public.ai_adlibs_adlib_tones": {
       "name": "ai_adlibs_adlib_tones",
       "schema": "",
@@ -131,7 +125,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
->>>>>>> fc9c73d2d74af400a1cc2eed6ec8144b0545e452
     "public.ai_adlibs_adlibs": {
       "name": "ai_adlibs_adlibs",
       "schema": "",
@@ -297,9 +290,8 @@
         }
       }
     },
-<<<<<<< HEAD
-    "public.ai_adlibs_llm_brands": {
-      "name": "ai_adlibs_llm_brands",
+    "public.ai_adlibs_feature_toggles": {
+      "name": "ai_adlibs_feature_toggles",
       "schema": "",
       "columns": {
         "id": {
@@ -313,7 +305,19 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_on": {
+          "name": "is_on",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -340,89 +344,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "ai_adlibs_llm_brands_name_unique": {
-          "name": "ai_adlibs_llm_brands_name_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "name"
-          ]
-        }
-      }
-    },
-    "public.ai_adlibs_llm_models": {
-      "name": "ai_adlibs_llm_models",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "brand_id": {
-          "name": "brand_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "is_available": {
-          "name": "is_available",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        },
-        "deleted_at": {
-          "name": "deleted_at",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "NULL"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "ai_adlibs_llm_models_brand_id_ai_adlibs_llm_brands_id_fk": {
-          "name": "ai_adlibs_llm_models_brand_id_ai_adlibs_llm_brands_id_fk",
-          "tableFrom": "ai_adlibs_llm_models",
-          "tableTo": "ai_adlibs_llm_brands",
-          "columnsFrom": [
-            "brand_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-=======
->>>>>>> fc9c73d2d74af400a1cc2eed6ec8144b0545e452
     "public.ai_adlibs_adlib_categories": {
       "name": "ai_adlibs_adlib_categories",
       "schema": "",
