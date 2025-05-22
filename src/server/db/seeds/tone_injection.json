@@ -1,48 +1,37 @@
 [
-    {
-      "style": "Adlibs against Humanity (Lite)",
-      "templates": [
-        "Every morning, I brush my teeth with ___ and scream ___ at the mirror.",
-        "My childhood dream was to become a ___ who rides a ___ to work.",
-        "Nothing says ‘good morning’ like ___ in my cereal and ___ on the radio.",
-        "When I grow up, I want to be ___, just like my ___."
-      ]
-    },
-    {
-      "style": "Adlibs against Humanity (Dark)",
-      "templates": [
-        "I was banned from the family group chat for sending a picture of ___ next to ___.",
-        "The funeral was going fine until someone brought up ___.",
-        "My therapist says I need to stop talking about ___ while doing ___.",
-        "I thought my boss liked me, but then I got assigned to the ___ project with ___."
-      ]
-    },
-    {
-      "style": "Adlibs against Humanity (Twisted)",
-      "templates": [
-        "Step 1: Summon a demon. Step 2: Offer it ___. Step 3: ___.",
-        "The worst part of the surgery wasn’t the pain. It was ___ whispering about ___.",
-        "My pet ___ talks to ghosts and screams about ___ at 3 AM.",
-        "My last words before being abducted by cultists were: ‘___ isn't illegal if you're ___.’"
-      ]
-    },
-    {
-      "style": "Adlibs against Humanity (Sarcastic)",
-      "templates": [
-        "Oh great, another Monday filled with ___ and emotional ___ from my inbox.",
-        "I just love it when my boss emails me at 3 AM about ___.",
-        "Modern dating is just ___ pretending not to care about ___.",
-        "Self-care means ___ while silently judging everyone who doesn't ___ like me."
-      ]
-    },
-    {
-      "style": "Adlibs against Humanity (Satirical)",
-      "templates": [
-        "Capitalism peaked when we started selling ___ with a monthly subscription to ___.",
-        "I fixed climate change by investing in ___ and yelling at ___.",
-        "To win the election, the candidate promised free ___ and mandatory ___.",
-        "Modern society runs on three things: ___, denial, and ___."
-      ]
-    }
-  ]
-  
+  {
+    "style": "Against Humanity (Lite)",
+    "prompt": "Make it playful, light-hearted, and a little silly — like something Jake Peralta would yell while chasing a pigeon.",
+    "available": true,
+    "character": "Jake Peralta (Brooklyn Nine-Nine)",
+    "tone_level": 1
+  },
+  {
+    "style": "Against Humanity (Dark)",
+    "prompt": "Add awkward, cringey, and slightly inappropriate humor — like something Michael Scott would say with too much confidence.",
+    "available": true,
+    "character": "Michael Scott (The Office)",
+    "tone_level": 2
+  },
+  {
+    "style": "Against Humanity (Twisted)",
+    "prompt": "Give it a clever, cynical, and morally questionable vibe — like something Dr. House would say while diagnosing society.",
+    "available": true,
+    "character": "Dr. Gregory House (House M.D.)",
+    "tone_level": 3
+  },
+  {
+    "style": "Against Humanity (Sarcastic)",
+    "prompt": "Make it dry, dismissive, and sharply sarcastic — the kind of thing Daria would mutter while rolling her eyes.",
+    "available": true,
+    "character": "Daria Morgendorffer (Daria)",
+    "tone_level": 4
+  },
+  {
+    "style": "Against Humanity (Satirical)",
+    "prompt": "Use sharp satire to mock authority, politics, or culture — channel the swagger and snark of Sterling Archer.",
+    "available": true,
+    "character": "Sterling Archer (Archer)",
+    "tone_level": 5
+  }
+]

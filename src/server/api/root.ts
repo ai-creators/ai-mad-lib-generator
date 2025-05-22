@@ -1,6 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { adlibRouter } from "./routers/adlib";
 import { aiModelsRouter } from "./routers/ai-models";
+import { toneRouter } from "./routers/tone";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { aiModelsRouter } from "./routers/ai-models";
 export const appRouter = createTRPCRouter({
   adlib: adlibRouter,
   aiModels: aiModelsRouter,
+  tone: toneRouter,
 });
 
 // export type definition of API

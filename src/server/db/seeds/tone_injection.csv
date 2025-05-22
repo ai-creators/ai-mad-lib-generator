@@ -1,6 +1,6 @@
-style,prompt,available
-"Adlibs against Humanity (Lite)","Fill in the blanks using playful, childish humor. It should be immature, harmless, and a little chaotic — think Saturday Night Live sketch with a badge.",true
-"Adlibs against Humanity (Dark)","Use humor that's socially awkward, often crossing lines unintentionally. It should be slightly inappropriate and cringey, but not hateful.",true
-"Adlibs against Humanity (Twisted)","Inject biting sarcasm, twisted logic, and morally gray jokes. The humor should be clever, cynical, and possibly offensive — but with purpose.",true
-"Adlibs against Humanity (Sarcastic)","Use emotionally dry, deadpan sarcasm to mock people, trends, and institutions. Humor should be sharp, dismissive, and quietly brutal.",true
-"Adlibs against Humanity (Satirical)","Fill in the blanks with witty satire. The jokes should mock authority, culture, and politics with excessive confidence and absurdity.",true
+style,prompt,available,character,tone_level
+Against Humanity (Lite),"Make it playful, light-hearted, and a little silly — like something Jake Peralta would yell while chasing a pigeon.",true,"Jake Peralta (Brooklyn Nine-Nine)",1
+Against Humanity (Dark),"Add awkward, cringey, and slightly inappropriate humor — like something Michael Scott would say with too much confidence.",true,"Michael Scott (The Office)",2
+Against Humanity (Twisted),"Give it a clever, cynical, and morally questionable vibe — like something Dr. House would say while diagnosing society.",true,"Dr. Gregory House (House M.D.)",3
+Against Humanity (Sarcastic),"Make it dry, dismissive, and sharply sarcastic — the kind of thing Daria would mutter while rolling her eyes.",true,"Daria Morgendorffer (Daria)",4
+Against Humanity (Satirical),"Use sharp satire to mock authority, politics, or culture — channel the swagger and snark of Sterling Archer.",true,"Sterling Archer (Archer)",5

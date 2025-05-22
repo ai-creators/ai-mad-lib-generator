@@ -115,6 +115,8 @@ export const adlibTones = createTable("adlib_tones", {
   updatedAt: timestamp("updated_at", { withTimezone: true })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
+  character: text("character").notNull(),
+  toneLevel: integer("tone_level").notNull().unique(),
   deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
 });
 
@@ -138,6 +140,7 @@ export const adlibsRelations = relations(adlibs, ({ many }) => ({
   categories: many(madlibCategories),
   adlibResults: many(adlibResults),
 }));
+
 export const madlibCategoriesRelations = relations(
   madlibCategories,
   ({ one }) => ({
@@ -151,12 +154,14 @@ export const madlibCategoriesRelations = relations(
     }),
   }),
 );
+
 export const adlibResultsRelations = relations(adlibResults, ({ one }) => ({
   adlib: one(adlibs, {
     fields: [adlibResults.adlibId],
     references: [adlibs.id],
   }),
 }));
+
 export const categoriesRelations = relations(categories, ({ many }) => ({
   madlibs: many(madlibCategories),
 }));
