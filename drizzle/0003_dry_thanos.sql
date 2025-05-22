@@ -1,0 +1,1 @@
+ALTER TABLE "ai_adlibs_feature_toggles" ALTER COLUMN "is_on" SET DEFAULT false;
