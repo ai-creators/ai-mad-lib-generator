@@ -39,6 +39,7 @@ import CreateAdlibTone from "./create-adlib-tone/create-adlib-tone";
 const createAdlibSchema = z.object({
   prompt: z.string().min(1).max(100),
   temperature: z.number().min(0).max(2),
+  toneId: z.string().optional(),
 });
 
 export default function CreateAdlibForm() {
@@ -49,6 +50,7 @@ export default function CreateAdlibForm() {
     defaultValues: {
       prompt: "",
       temperature: 1,
+      toneId: "",
     },
   });
 

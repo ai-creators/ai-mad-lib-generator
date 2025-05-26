@@ -9,6 +9,7 @@ import { createTRPCRouter, publicProcedure } from "../trpc";
 import {
   adlibResults,
   adlibs,
+  adlibTones,
   categories,
   madlibCategories,
 } from "../../db/schema";
@@ -33,11 +34,24 @@ export const adlibRouter = createTRPCRouter({
       z.object({
         prompt: z.string(),
         temperature: z.number().min(0).max(2),
+        toneId: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      let tone = null;
+      if (input.toneId) {
+        const toneResult = await ctx.db.query.adlibTones.findFirst({
+          where: eq(adlibTones.id, input.toneId),
+        });
+
+        if (toneResult) {
+          tone = toneResult;
+        }
+      }
+
       const madlibResponse = await createMadlib(input.prompt, {
         temperature: input.temperature,
+        tone: tone?.prompt ?? "",
       });
 
       const lowerCaseCategories = madlibResponse?.categories.map((cat) =>
@@ -75,6 +89,7 @@ export const adlibRouter = createTRPCRouter({
           text: madlibResponse.madlib,
           isPg: madlibResponse.isPg,
           temperature: input.temperature.toString(),
+          toneId: tone ? tone.id : null,
         })
         .returning({ id: adlibs.id });
 

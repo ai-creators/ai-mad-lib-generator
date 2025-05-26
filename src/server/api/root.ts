@@ -2,6 +2,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { adlibRouter } from "./routers/adlib";
 import { aiModelsRouter } from "./routers/ai-models";
 import { toneRouter } from "./routers/tone";
+import { featureToggleRouter } from "./routers/feature-toggle";
 
 /**
  * This is the primary router for your server.
@@ -12,6 +13,7 @@ export const appRouter = createTRPCRouter({
   adlib: adlibRouter,
   aiModels: aiModelsRouter,
   tone: toneRouter,
+  featureToggle: featureToggleRouter,
 });
 
 // export type definition of API
