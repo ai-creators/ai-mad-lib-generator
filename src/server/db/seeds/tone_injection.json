@@ -1,0 +1,37 @@
+[
+  {
+    "style": "Against Humanity (Lite)",
+    "prompt": "Make it playful, light-hearted, and a little silly — like something Jake Peralta would yell while chasing a pigeon.",
+    "available": true,
+    "character": "Jake Peralta (Brooklyn Nine-Nine)",
+    "tone_level": 1
+  },
+  {
+    "style": "Against Humanity (Dark)",
+    "prompt": "Add awkward, cringey, and slightly inappropriate humor — like something Michael Scott would say with too much confidence.",
+    "available": true,
+    "character": "Michael Scott (The Office)",
+    "tone_level": 2
+  },
+  {
+    "style": "Against Humanity (Twisted)",
+    "prompt": "Give it a clever, cynical, and morally questionable vibe — like something Dr. House would say while diagnosing society.",
+    "available": true,
+    "character": "Dr. Gregory House (House M.D.)",
+    "tone_level": 3
+  },
+  {
+    "style": "Against Humanity (Sarcastic)",
+    "prompt": "Make it dry, dismissive, and sharply sarcastic — the kind of thing Daria would mutter while rolling her eyes.",
+    "available": true,
+    "character": "Daria Morgendorffer (Daria)",
+    "tone_level": 4
+  },
+  {
+    "style": "Against Humanity (Satirical)",
+    "prompt": "Use sharp satire to mock authority, politics, or culture — channel the swagger and snark of Sterling Archer.",
+    "available": true,
+    "character": "Sterling Archer (Archer)",
+    "tone_level": 5
+  }
+]

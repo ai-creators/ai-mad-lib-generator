@@ -34,10 +34,12 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { routerConfig } from "~/app/router-config";
+import CreateAdlibTone from "./create-adlib-tone/create-adlib-tone";
 
 const createAdlibSchema = z.object({
   prompt: z.string().min(1).max(100),
   temperature: z.number().min(0).max(2),
+  toneId: z.string().optional(),
 });
 
 export default function CreateAdlibForm() {
@@ -48,6 +50,7 @@ export default function CreateAdlibForm() {
     defaultValues: {
       prompt: "",
       temperature: 1,
+      toneId: "",
     },
   });
 
@@ -140,6 +143,9 @@ export default function CreateAdlibForm() {
             <Button className="w-28" disabled={createAdlib.isPending}>
               Generate
             </Button>
+          </li>
+          <li>
+            <CreateAdlibTone />
           </li>
           {/* <li>
             <Button

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
@@ -41,6 +43,10 @@ export const adlibs = createTable("adlibs", {
   topP: numeric("top_p", { precision: 10, scale: 2 })
     .notNull()
     .default(sql`1`),
+  toneId: uuid("tone_id")
+    .references(() => adlibTones.id, { onDelete: "set null" })
+    .default(sql`NULL`),
+
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
@@ -102,10 +108,49 @@ export const adlibResults = createTable("adlib_results", {
   deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
 });
 
-export const adlibsRelations = relations(adlibs, ({ many }) => ({
+export const adlibTones = createTable("adlib_tones", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  style: text("style").notNull(),
+  prompt: text("prompt").notNull(),
+  available: boolean("available").default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  character: text("character").notNull(),
+  toneLevel: integer("tone_level").notNull().unique(),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
+export const featureToggles = createTable("feature_toggles", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: text("name"),
+  category: text("category"),
+  isOn: boolean("is_on").default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
+export const adlibsRelations = relations(adlibs, ({ many, one }) => ({
   categories: many(madlibCategories),
   adlibResults: many(adlibResults),
+  tone: one(adlibTones, {
+    fields: [adlibs.toneId],
+    references: [adlibTones.id],
+  }),
 }));
+
 export const madlibCategoriesRelations = relations(
   madlibCategories,
   ({ one }) => ({
@@ -119,12 +164,18 @@ export const madlibCategoriesRelations = relations(
     }),
   }),
 );
+
 export const adlibResultsRelations = relations(adlibResults, ({ one }) => ({
   adlib: one(adlibs, {
     fields: [adlibResults.adlibId],
     references: [adlibs.id],
   }),
 }));
+
 export const categoriesRelations = relations(categories, ({ many }) => ({
   madlibs: many(madlibCategories),
+}));
+
+export const adlibTonesRelations = relations(adlibTones, ({ many }) => ({
+  adlibs: many(adlibs),
 }));

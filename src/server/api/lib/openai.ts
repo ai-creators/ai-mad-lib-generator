@@ -43,9 +43,10 @@ export async function createMadlib(
   prompt: string,
   config?: {
     temperature: number;
+    tone?: string | null;
   },
 ): Promise<MadlibResponse> {
-  const systemMessage = `
+  let systemMessage = `
 You are a creative madlib generator. Generate a fun, creative madlib story based on the prompt provided.
 Your response must be a valid JSON object with the following keys:
   - "title": A creative title for the madlib.
@@ -61,15 +62,19 @@ For example, if the prompt is "mystery manor", produce a madlib similar to:
 }
 Only return the JSON object with these keys and no additional text. Include at least 5 placeholders in the madlib. The longer the madlib the more placeholders you should add. make it at least 3 sentences and at most 9 sentences. placesholders should take about 15% of the words.`;
 
+  if (config?.tone) {
+    systemMessage += `\n\nAdd this tone/personality to the madlib: ${config.tone}`;
+  }
+
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4",
       messages: [
         { role: "system", content: systemMessage },
         { role: "user", content: prompt },
       ],
       max_tokens: 400,
-      ...config,
+      temperature: config?.temperature ?? 1,
     });
 
     if (!response || !response.choices || response.choices.length === 0) {
