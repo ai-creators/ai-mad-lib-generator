@@ -178,6 +178,7 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
 }));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const adlibTonesRelations = relations(adlibTones, ({ many }) => ({
   adlibs: many(adlibs),
 }));
@@ -189,6 +190,8 @@ export const contentReaction = pgTable("content_reaction", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 =======
+=======
+>>>>>>> 4f81a897ed57e9267069dd183ff74fc74049ae9e
 
 export const llmBrands = createTable("llm_brands", {
   id: uuid("id")
@@ -234,5 +237,9 @@ export const llmModelsRelations = relations(llmModels, ({ one }) => ({
     fields: [llmModels.brandId],
     references: [llmBrands.id],
   }),
+<<<<<<< HEAD
 }));
 >>>>>>> 5c1a912 (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)
+=======
+}));
+>>>>>>> 4f81a897ed57e9267069dd183ff74fc74049ae9e

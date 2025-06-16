@@ -29,10 +29,14 @@
     "@radix-ui/react-dropdown-menu": "^2.1.6",
     "@radix-ui/react-label": "^2.1.2",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@radix-ui/react-select": "^2.2.5",
 =======
     "@radix-ui/react-select": "^2.2.2",
 >>>>>>> 883f32e (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)
+=======
+    "@radix-ui/react-select": "^2.2.2",
+>>>>>>> 4f81a897ed57e9267069dd183ff74fc74049ae9e
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slider": "^1.2.3",
     "@radix-ui/react-slot": "^1.1.2",

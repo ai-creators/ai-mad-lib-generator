@@ -35,10 +35,14 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { routerConfig } from "~/app/router-config";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import CreateAdlibTone from "./create-adlib-tone/create-adlib-tone";
 =======
 import ModelsSelect from "./models-select/models-select";
 >>>>>>> 883f32e (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)
+=======
+import ModelsSelect from "./models-select/models-select";
+>>>>>>> 4f81a897ed57e9267069dd183ff74fc74049ae9e
 
 const createAdlibSchema = z.object({
   prompt: z.string().min(1).max(100),
@@ -150,12 +154,17 @@ export default function CreateAdlibForm() {
           </li>
           <li>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <CreateAdlibTone />
           </li>
 =======
             <ModelsSelect />
             </li>
 >>>>>>> 883f32e (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)
+=======
+            <ModelsSelect />
+            </li>
+>>>>>>> 4f81a897ed57e9267069dd183ff74fc74049ae9e
           {/* <li>
             <Button
               className="w-34"

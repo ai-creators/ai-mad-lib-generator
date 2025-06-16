@@ -28,11 +28,15 @@ export default function RootLayout({
         suppressHydrationWarning
       >
 <<<<<<< HEAD
+<<<<<<< HEAD
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css"></link>
         <body>
 =======
         <body suppressHydrationWarning>
 >>>>>>> 5c1a912 (Co-authored-by: Anthony McLamb <admclamb@users.noreply.github.com>)
+=======
+        <body suppressHydrationWarning>
+>>>>>>> 4f81a897ed57e9267069dd183ff74fc74049ae9e
           <TRPCReactProvider>
             <Providers>{children}</Providers>
           </TRPCReactProvider>
