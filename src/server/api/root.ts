@@ -3,6 +3,7 @@ import { adlibRouter } from "./routers/adlib";
 import { aiModelsRouter } from "./routers/ai-models";
 import { toneRouter } from "./routers/tone";
 import { featureToggleRouter } from "./routers/feature-toggle";
+import { reactionsRouter } from "./routers/reactions";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   aiModels: aiModelsRouter,
   tone: toneRouter,
   featureToggle: featureToggleRouter,
+  reactions: reactionsRouter,
 });
 
 // export type definition of API

@@ -7,8 +7,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 import Providers from "./providers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "~/env";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AuthProvider } from "./auth-provider";
+import CookieConsent from "./_features/compliance/cookie-consent";
 
 export const metadata: Metadata = {
   title: "Ai Madlib Generator",
@@ -27,14 +27,14 @@ export default function RootLayout({
         className={`${GeistSans.variable}`}
         suppressHydrationWarning
       >
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css"></link>
         <body>
           <TRPCReactProvider>
             <Providers>{children}</Providers>
           </TRPCReactProvider>
         </body>
-        {/* <CookieConsent /> */}
+        <CookieConsent />
         <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
-        <SpeedInsights />
       </html>
     </AuthProvider>
   );

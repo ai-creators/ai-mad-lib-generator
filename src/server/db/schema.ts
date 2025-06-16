@@ -14,6 +14,7 @@ import {
   timestamp,
   uuid,
   varchar,
+  pgTable,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -179,3 +180,10 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
 export const adlibTonesRelations = relations(adlibTones, ({ many }) => ({
   adlibs: many(adlibs),
 }));
+export const contentReaction = pgTable("content_reaction", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull(),
+  contentId: text("content_id").notNull(),
+  reaction: text("reaction").$type<"like" | "dislike">().notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
