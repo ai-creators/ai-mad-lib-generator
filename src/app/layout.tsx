@@ -32,7 +32,6 @@ export default function RootLayout({
             <Providers>{children}</Providers>
           </TRPCReactProvider>
         </body>
-        {/* <CookieConsent /> */}
         <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
         <SpeedInsights />
       </html>
