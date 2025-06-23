@@ -24,6 +24,10 @@ interface AdlibPlayResultsActionsProps {
   title: string;
 }
 
+const isValidUUID = (id: string): boolean => {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+};
+
 export default function AdlibPlayResultsActions({
   adlibId,
   resultText,
@@ -40,6 +44,11 @@ export default function AdlibPlayResultsActions({
   };
 
   const saveAdlib = () => {
+    if (!isValidUUID(adlibId)) {
+      toast.error("Invalid Adlib ID. Cannot save.");
+      return;
+    }
+
     const saved = getSavedIds();
     if (!saved.includes(adlibId)) {
       const updated = [...saved, adlibId];
@@ -49,6 +58,14 @@ export default function AdlibPlayResultsActions({
     } else {
       toast("Already saved.");
     }
+  };
+
+  const unsaveAdlib = () => {
+    const saved = getSavedIds();
+    const updated = saved.filter((id) => id !== adlibId);
+    localStorage.setItem(SavesConstants.SAVED_ADLIB_IDS, JSON.stringify(updated));
+    setIsSaved(false);
+    toast.success("Removed from favorites!");
   };
 
   const handleCopyText = async () => {
@@ -96,9 +113,9 @@ export default function AdlibPlayResultsActions({
 
   return (
     <div className="flex items-center gap-2">
-      <Button variant="outline" onClick={saveAdlib}>
+      <Button variant="outline" onClick={isSaved ? unsaveAdlib : saveAdlib}>
         <Heart className={`h-4 w-4 ${isSaved ? "fill-red-500 text-red-500" : ""}`} />
-        {isSaved ? "Saved" : "Save Story"}
+        {isSaved ? "Unsave" : "Save"}
       </Button>
 
       <DropdownMenu>

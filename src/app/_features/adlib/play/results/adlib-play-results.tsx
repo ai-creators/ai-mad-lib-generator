@@ -68,6 +68,7 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
                 </div>
                 <div className="-mt-2">
                   <AdlibPlayResultsActions
+                    adlibId={result.id}
                     resultText={result.resultText}
                     title={result.adlibTitle}
                   />
