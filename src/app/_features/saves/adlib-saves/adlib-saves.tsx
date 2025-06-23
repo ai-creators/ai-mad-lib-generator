@@ -10,14 +10,18 @@ import {
 } from "~/components/ui/card";
 import AdlibSavesCard from "./adlib-saves-card";
 import { api } from "~/trpc/react";
+import { getItem } from "~/hooks/use-storage";
+import { SavesConstants } from "../saves-constants";
 
 export default function AdlibSaves() {
+  const savedAdlibIds = getItem(SavesConstants.SAVED_ADLIB_IDS) ?? "";
+
   const {
     data: savedAdlibs,
     isLoading,
     error,
   } = api.adlib.getSaves.useQuery({
-    adlibs: [],
+    adlibs: savedAdlibIds.split(","),
   });
 
   if (isLoading) {
