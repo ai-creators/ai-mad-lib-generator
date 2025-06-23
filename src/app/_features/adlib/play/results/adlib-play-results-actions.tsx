@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { Copy, Ellipsis, Link, Share2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Copy, Ellipsis, Heart, Link, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 
@@ -14,20 +14,25 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
+export enum SavesConstants {
+  SAVED_ADLIB_IDS = "SAVED_ADLIB_IDS",
+}
+
 interface AdlibPlayResultsActionsProps {
+  adlibId: string;
   resultText: string;
   title: string;
 }
 
 export default function AdlibPlayResultsActions({
+  adlibId,
   resultText,
   title,
 }: AdlibPlayResultsActionsProps) {
   const [isSaved, setIsSaved] = useState(false);
-  
-  const formatText = (text: string) => {
-    return text.replace(/\*\*(.*?)\*\*/g, (_, match) => `"${match}"`);
-  };
+
+  const formatText = (text: string) =>
+    text.replace(/\*\*(.*?)\*\*/g, (_, match) => `"${match}"`);
 
   const getSavedIds = (): string[] => {
     const raw = localStorage.getItem(SavesConstants.SAVED_ADLIB_IDS);
@@ -90,41 +95,41 @@ export default function AdlibPlayResultsActions({
   }, [adlibId]);
 
   return (
-    <div>
-      <Button variant="outline">
+    <div className="flex items-center gap-2">
+      <Button variant="outline" onClick={saveAdlib}>
         <Heart className={`h-4 w-4 ${isSaved ? "fill-red-500 text-red-500" : ""}`} />
-          {isSaved ? "Saved" : "Save Story"}
+        {isSaved ? "Saved" : "Save Story"}
       </Button>
-<DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 items-center justify-center p-0"
-          aria-label="Share"
-        >
-          <Ellipsis />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[10rem]">
-        <DropdownMenuLabel>Share</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleCopyText} className="flex gap-2">
-          <Copy className="h-4 w-4" />
-          Copy Story
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleCopyLink} className="flex gap-2">
-          <Link className="h-4 w-4" />
-          Copy Link
-        </DropdownMenuItem>
-        {typeof navigator.share === "function" && (
-          <DropdownMenuItem onClick={handleShare} className="flex gap-2">
-            <Share2 className="h-4 w-4" />
-            Share Story
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="flex h-8 w-8 items-center justify-center p-0"
+            aria-label="Share"
+          >
+            <Ellipsis />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-[10rem]">
+          <DropdownMenuLabel>Share</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleCopyText} className="flex gap-2">
+            <Copy className="h-4 w-4" />
+            Copy Story
           </DropdownMenuItem>
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <DropdownMenuItem onClick={handleCopyLink} className="flex gap-2">
+            <Link className="h-4 w-4" />
+            Copy Link
+          </DropdownMenuItem>
+          {typeof navigator.share === "function" && (
+            <DropdownMenuItem onClick={handleShare} className="flex gap-2">
+              <Share2 className="h-4 w-4" />
+              Share Story
+            </DropdownMenuItem>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
-    
   );
 }
