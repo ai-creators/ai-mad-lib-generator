@@ -17,7 +17,7 @@ export default function AdlibSaves() {
     isLoading,
     error,
   } = api.adlib.getSaves.useQuery({
-    adlibs: [],
+    adlibs: getItem(SavesConstants.SAVED_ADLIB_IDS),
   });
 
   if (isLoading) {
