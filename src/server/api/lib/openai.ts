@@ -68,7 +68,7 @@ Only return the JSON object with these keys and no additional text. Include at l
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-4.1-mini",
       messages: [
         { role: "system", content: systemMessage },
         { role: "user", content: prompt },

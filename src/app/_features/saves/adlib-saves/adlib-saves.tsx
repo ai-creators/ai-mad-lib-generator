@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -14,15 +14,28 @@ import { getItem } from "~/hooks/use-storage";
 import { SavesConstants } from "../saves-constants";
 
 export default function AdlibSaves() {
-  const savedAdlibIds = getItem(SavesConstants.SAVED_ADLIB_IDS) ?? "";
+  const [savedAdlibIds, setSavedAdlibIds] = useState<string[] | null>(null);
+
+  useEffect(() => {
+    const raw = getItem(SavesConstants.SAVED_ADLIB_IDS);
+    const ids = raw?.split(",").filter((id) => id.trim() !== "") ?? [];
+    setSavedAdlibIds(ids);
+  }, []);
 
   const {
     data: savedAdlibs,
     isLoading,
     error,
-  } = api.adlib.getSaves.useQuery({
-    adlibs: savedAdlibIds.split(","),
-  });
+  } = api.adlib.getSaves.useQuery(
+    { adlibs: savedAdlibIds ?? [] },
+    {
+      enabled: !!savedAdlibIds,
+    }
+  );
+
+  if (!savedAdlibIds) {
+    return <div>Loading saved adlibs...</div>;
+  }
 
   if (isLoading) {
     return <div>Loading saved adlibs...</div>;
