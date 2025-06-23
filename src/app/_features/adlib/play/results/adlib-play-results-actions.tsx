@@ -67,7 +67,9 @@ export default function AdlibPlayResultsActions({
 
 
   return (
-    <DropdownMenu>
+    <div>
+      <But
+<DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
@@ -96,5 +98,7 @@ export default function AdlibPlayResultsActions({
         )}
       </DropdownMenuContent>
     </DropdownMenu>
+    </div>
+    
   );
 }
