@@ -23,8 +23,27 @@ export default function AdlibPlayResultsActions({
   resultText,
   title,
 }: AdlibPlayResultsActionsProps) {
+  const [isSaved, setIsSaved] = useState(false);
+  
   const formatText = (text: string) => {
     return text.replace(/\*\*(.*?)\*\*/g, (_, match) => `"${match}"`);
+  };
+
+  const getSavedIds = (): string[] => {
+    const raw = localStorage.getItem(SavesConstants.SAVED_ADLIB_IDS);
+    return raw ? JSON.parse(raw) : [];
+  };
+
+  const saveAdlib = () => {
+    const saved = getSavedIds();
+    if (!saved.includes(adlibId)) {
+      const updated = [...saved, adlibId];
+      localStorage.setItem(SavesConstants.SAVED_ADLIB_IDS, JSON.stringify(updated));
+      setIsSaved(true);
+      toast.success("Saved to favorites!");
+    } else {
+      toast("Already saved.");
+    }
   };
 
   const handleCopyText = async () => {
@@ -65,10 +84,17 @@ export default function AdlibPlayResultsActions({
     }
   };
 
+  useEffect(() => {
+    const saved = getSavedIds();
+    setIsSaved(saved.includes(adlibId));
+  }, [adlibId]);
 
   return (
     <div>
-      <But
+      <Button variant="outline">
+        <Heart className={`h-4 w-4 ${isSaved ? "fill-red-500 text-red-500" : ""}`} />
+          {isSaved ? "Saved" : "Save Story"}
+      </Button>
 <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
