@@ -44,8 +44,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
 
-      - name: Install dependencies and playwright binaries
-        run: pnpm install && pnpm playwright install chromium
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Setup environment variables
         run: |
