@@ -20,6 +20,10 @@ and apply migrations
 
 `pnpm run db:migrate`
 
+## Running project
+
+`pnpm run dev`
+
 ## Useful links
 
 - [T3 Stack](https://create.t3.gg/)

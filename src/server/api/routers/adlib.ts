@@ -174,7 +174,7 @@ export const adlibRouter = createTRPCRouter({
 
       const categoriesMap = categoryMappings.reduce(
         (acc, { madlibId, categoryName }) => {
-          if (!acc[madlibId]) acc[madlibId] = [];
+          acc[madlibId] ??= [];
           acc[madlibId].push(categoryName ?? "");
           return acc;
         },
@@ -247,7 +247,7 @@ export const adlibRouter = createTRPCRouter({
 
       const categoriesMap = categoryMappings.reduce(
         (acc, { madlibId, categoryName }) => {
-          if (!acc[madlibId]) acc[madlibId] = [];
+          acc[madlibId] ??= [];
           acc[madlibId].push(categoryName ?? "");
           return acc;
         },
