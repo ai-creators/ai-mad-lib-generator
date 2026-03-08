@@ -10,7 +10,7 @@ export interface ParsedAdlib {
 }
 
 export function parseAdlib(text: string): ParsedAdlib {
-  const regex = /\[(.*?)\]/g;
+  const regex = /\[([^\]]*)\]/g;
   const placeholders: AdlibPlaceholder[] = [];
   let index = 0;
 
