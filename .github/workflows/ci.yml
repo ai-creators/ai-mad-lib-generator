@@ -1,5 +1,9 @@
 name: CI
 
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_QA_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 on:
   push:
     branches:
@@ -9,26 +13,12 @@ on:
       - main
 
 jobs:
-  build-test:
+  build-lint-test:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [24]
-
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_HOST_AUTH_METHOD: trust
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
 
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +26,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.4.1
+          version: 10
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -45,60 +35,22 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Setup environment variables
-        run: |
-          cp .env.example .env
-          echo "NEXTAUTH_SECRET=supersecret" >> .env
+      - name: Run lint
+        run: pnpm lint
 
-      - name: Push schema to database
-        run: pnpx prisma db push
+      - name: Check code format
+        run: pnpm format:check
 
-      - name: Build application
+      - name: Run build
         run: pnpm build
 
-      - name: Run all tests
-        run: pnpm test
+      - name: Run tests and build coverage report
+        run: pnpm run test:coverage-report
 
-  lint:
+  deploy-preview:
+    needs: build-lint-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.4.0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Run linter
-        run: |
-          pnpm lint
-          pnpm format:check
-        env:
-          SKIP_ENV_VALIDATION: true
-
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.4.0
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Run typecheck
-        run: pnpm ts:check
