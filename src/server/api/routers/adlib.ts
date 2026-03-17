@@ -136,7 +136,7 @@ export const adlibRouter = createTRPCRouter({
       }
 
       let contentCondition = undefined;
-      if (contentRating === "pg") {
+      if (contentRating === "PG") {
         contentCondition = eq(adlibs.isPg, true);
       }
 
