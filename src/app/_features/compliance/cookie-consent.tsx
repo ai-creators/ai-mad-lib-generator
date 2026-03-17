@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from 'react';
-import * as CookieConsent from 'vanilla-cookieconsent';
-import pluginConfig from './cookie-consent-config';
+import { useEffect } from "react";
+import * as CookieConsent from "vanilla-cookieconsent";
+import pluginConfig from "./cookie-consent-config";
 
 const CookieConsentComponent = () => {
   useEffect(() => {
