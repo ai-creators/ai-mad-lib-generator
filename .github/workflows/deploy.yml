@@ -15,22 +15,22 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+      - name: Enable Corepack and activate pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.4.1 --activate
+          pnpm -v
 
-      - name: Confirm VERCEL_TOKEN present
-        run: node -e "console.log(Boolean(process.env.VERCEL_TOKEN))"
+      - name: Pull Vercel Environment Information (using pnpm dlx)
+        run: pnpm dlx vercel@latest pull --yes --environment=preview --token $VERCEL_TOKEN
 
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token $VERCEL_TOKEN
+      - name: Build Project Artifacts (using pnpm dlx)
+        run: pnpm dlx vercel@latest build --token $VERCEL_TOKEN
 
-      - name: Build Project Artifacts
-        run: vercel build --token $VERCEL_TOKEN
-
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token $VERCEL_TOKEN
+      - name: Deploy Project Artifacts to Vercel (using pnpm dlx)
+        run: pnpm dlx vercel@latest deploy --prebuilt --token $VERCEL_TOKEN
 
   Deploy-Production:
     if: startsWith(github.ref, 'refs/heads/releases/')
@@ -40,16 +40,19 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+      - name: Enable Corepack and activate pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.4.1 --activate
+          pnpm -v
 
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=production --token $VERCEL_TOKEN
+      - name: Pull Vercel Environment Information (using pnpm dlx)
+        run: pnpm dlx vercel@latest pull --yes --environment=production --token $VERCEL_TOKEN
 
-      - name: Build Project Artifacts
-        run: vercel build --prod --token $VERCEL_TOKEN
+      - name: Build Project Artifacts (using pnpm dlx)
+        run: pnpm dlx vercel@latest build --prod --token $VERCEL_TOKEN
 
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --prod --token $VERCEL_TOKEN
+      - name: Deploy Project Artifacts to Vercel (using pnpm dlx)
+        run: pnpm dlx vercel@latest deploy --prebuilt --prod --token $VERCEL_TOKEN
