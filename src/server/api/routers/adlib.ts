@@ -373,7 +373,7 @@ export const adlibRouter = createTRPCRouter({
         throw new Error("Adlib not found");
       }
 
-      const placeholders = adlib.text.match(/\[(.*?)\]/g) ?? [];
+      const placeholders = adlib.text.match(/\[([^\]]*)\]/g) ?? [];
 
       // Replace each placeholder with its corresponding answer
       let resultText = adlib.text;
