@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - main
-      - releases/**
+      - 'releases/**'
 
 jobs:
-  jobs:
   Deploy-Preview:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -36,6 +35,10 @@ jobs:
   Deploy-Production:
     if: startsWith(github.ref, 'refs/heads/releases/')
     runs-on: ubuntu-latest
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     steps:
       - uses: actions/checkout@v2
 
@@ -43,16 +46,10 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel pull --yes --environment=production
+        run: vercel pull --yes --environment=production --token $VERCEL_TOKEN
 
       - name: Build Project Artifacts
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel build --prod
+        run: vercel build --prod --token $VERCEL_TOKEN
 
       - name: Deploy Project Artifacts to Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel deploy --prebuilt --prod
+        run: vercel deploy --prebuilt --prod --token $VERCEL_TOKEN
