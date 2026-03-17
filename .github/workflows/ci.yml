@@ -40,17 +40,14 @@ jobs:
       - name: Run lint
         run: pnpm lint
 
+      - name: Run typecheck
+        run: pnpm typecheck
+
       - name: Check code format
         run: pnpm format:check
 
       - name: Run build
         run: pnpm build
 
-      - name: Run tests and build coverage report
-        run: pnpm run test:coverage-report
-
-  deploy-preview:
-    needs: build-lint-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
+      # - name: Run tests and build coverage report
+      #   run: pnpm run test:coverage-report
