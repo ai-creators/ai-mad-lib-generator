@@ -1,15 +1,16 @@
 "use client";
 
-import React from "react";
-import { NavbarUserButton } from "./navbar-user-button";
-import { useUser } from "@clerk/nextjs";
+// import React from "react";
+// import { NavbarUserButton } from "./navbar-user-button";
+// import { useUser } from "@clerk/nextjs";
 
 export default function NavbarAuth() {
-  const { isSignedIn } = useUser();
+  return null;
+  // const { isSignedIn } = useUser();
 
-  if (!isSignedIn) {
-    return null;
-  }
+  // if (!isSignedIn) {
+  //   return null;
+  // }
 
-  return <NavbarUserButton />;
+  // return <NavbarUserButton />;
 }

@@ -28,7 +28,7 @@ function BrowseFeedCard({ adlib }: Props) {
     <Card>
       <CardHeader className="flex flex-col gap-3 pb-3 sm:flex-row sm:items-baseline sm:justify-between">
         <div className="order-2 sm:order-1">
-          <CardTitle className="mb-1 line-clamp-1">{adlib.title}</CardTitle>
+          <CardTitle className="mb-1 line-clamp-1" data-cy="browse-feed-card-title">{adlib.title}</CardTitle>
           <CardDescription className="line-clamp-1">
             Prompt: {adlib.prompt}
           </CardDescription>
@@ -52,6 +52,7 @@ function BrowseFeedCard({ adlib }: Props) {
         <Link
           href={routerConfig.adlib.execute({ id: adlib.id })}
           className={cn(buttonVariants({ variant: "default" }), "w-fit")}
+          data-cy="go-to-adlib-link"
         >
           Go to adlib
         </Link>

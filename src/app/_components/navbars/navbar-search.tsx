@@ -48,11 +48,13 @@ export default function BrowseSearchForm() {
                   <Input
                     placeholder="Search adlibs..."
                     className="bg-background pr-14"
+                    data-cy="search-adlib-input"
                     {...field}
                   />
                   <Button
                     className="absolute right-0 top-1/2 -translate-y-1/2 rounded-l-none"
                     variant="ghost"
+                    data-cy="search-adlib-submit-btn"
                   >
                     <Search />
                   </Button>

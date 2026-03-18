@@ -89,7 +89,7 @@ export default function CreateAdlibForm() {
             <FormItem className="px-5">
               <FormLabel>Prompt</FormLabel>
               <FormControl>
-                <Input placeholder="Mystery at the manor..." {...field} />
+                <Input placeholder="Mystery at the manor..." {...field} data-cy="prompt-input" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -140,7 +140,7 @@ export default function CreateAdlibForm() {
         </Accordion>
         <ul className="flex items-center gap-3 px-5 pb-5">
           <li>
-            <Button className="w-28" disabled={createAdlib.isPending}>
+            <Button className="w-28" disabled={createAdlib.isPending} data-cy="prompt-submit-btn">
               Generate
             </Button>
           </li>
