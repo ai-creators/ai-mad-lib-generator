@@ -37,22 +37,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320
         with:
           version: 10.4.1
-          run_install: |
-            - recursive: true
-              args: [--strict-peer-dependencies]
-            - args: [--global, gulp, prettier, typescript]
 
-      - name: Download the build folder
-        uses: actions/download-artifact@v7
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          name: build
-          path: build
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
 
       - name: Cypress run
         uses: cypress-io/github-action@v7
         with:
-          start: npm start
+          start: pnpm start
           browser: chrome
