@@ -33,7 +33,8 @@ describe('Play Adlib', () => {
 
   it("should allow searching and then playing the adlib", () => {
     cy.intercept('GET', /\/api\/trpc\/adlib\.getPaginated/).as('getPaginted');
-    cy.intercept('GET', /\/api\/trpc\/adlib\.getAdlibByIdPlay/).as('getAdlibPlay');
+    cy.intercept('GET', /\/api\/trpc\/adlib\.getAdlibById/).as('getAdlibById');
+    cy.intercept('GET', /\/api\/trpc\/adlib\.getAdlibByIdPlay/).as('getAdlibByIdPlay');
     cy.intercept('POST', /\/api\/trpc\/adlib\.saveAdlibResult/).as('saveAdlibResult');
 
     cy.visit('/');
@@ -55,9 +56,11 @@ describe('Play Adlib', () => {
 
         cy.get('[data-cy=go-to-adlib-link]').first().click();
 
-        cy.wait('@getAdlibPlay').its('response.statusCode').should('equal', 200);
+        cy.wait('@getAdlibById').its('response.statusCode').should('equal', 200);
 
         cy.get('[data-cy=play-adlib-btn]').click();
+
+        cy.wait('@getAdlibByIdPlay').its('response.statusCode').should('equal', 200);
 
         const answers = ['fluffy', 'blue', 'quickly', 'on the moon'];
 

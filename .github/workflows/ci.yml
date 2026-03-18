@@ -20,6 +20,21 @@ jobs:
       matrix:
         node-version: [24]
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: e2e_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -54,6 +69,16 @@ jobs:
 
       - name: Run build
         run: pnpm build
+
+      - name: Run E2E (Cypress)
+        run: pnpm run dev:cypress:run
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          CYPRESS_BASE_URL: ${{ env.CYPRESS_BASE_URL }}
+          NODE_ENV: test
+          NEXT_PUBLIC_DISABLE_CLERK: '1'
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
 
       # - name: Run tests and build coverage report
       #   run: pnpm run test:coverage-report
