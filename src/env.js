@@ -11,12 +11,8 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    GOOGLE_ANALYTICS_ID: process.env.NODE_ENV
-      ? z.string().optional()
-      : z.string(),
-    GOOGLE_ADSENSE_ID: process.env.NODE_ENV
-      ? z.string().optional()
-      : z.string(),
+    GOOGLE_ANALYTICS_ID: z.string().optional(),
+    GOOGLE_ADSENSE_ID: z.string().optional(),
 
     CLERK_SECRET_KEY: z.string(),
   },
