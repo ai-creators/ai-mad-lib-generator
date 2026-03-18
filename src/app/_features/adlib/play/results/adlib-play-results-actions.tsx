@@ -84,12 +84,20 @@ export default function AdlibPlayResultsActions({
           <Copy className="h-4 w-4" />
           Copy Story
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleCopyLink} className="flex gap-2" data-cy="copy-to-clipboard-btn">
+        <DropdownMenuItem
+          onClick={handleCopyLink}
+          className="flex gap-2"
+          data-cy="copy-to-clipboard-btn"
+        >
           <Link className="h-4 w-4" />
           Copy Link
         </DropdownMenuItem>
         {typeof navigator.share === "function" && (
-          <DropdownMenuItem onClick={handleShare} className="flex gap-2" data-cy="share-story-btn">
+          <DropdownMenuItem
+            onClick={handleShare}
+            className="flex gap-2"
+            data-cy="share-story-btn"
+          >
             <Share2 className="h-4 w-4" />
             Share Story
           </DropdownMenuItem>

@@ -18,8 +18,10 @@ export default function AdlibPlayHeader({ adlib }: AdlibPlayHeaderProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle >{adlib.title}</CardTitle>
-        <CardDescription data-cy="adlib-play-description">{adlib.prompt}...</CardDescription>
+        <CardTitle>{adlib.title}</CardTitle>
+        <CardDescription data-cy="adlib-play-description">
+          {adlib.prompt}...
+        </CardDescription>
       </CardHeader>
     </Card>
   );

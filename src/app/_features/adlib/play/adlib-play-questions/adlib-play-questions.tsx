@@ -65,7 +65,9 @@ function AdlibPlayQuestions({ adlib, onSubmit }: AdlibPlayQuestionsProps) {
           ))}
         </CardContent>
         <CardFooter>
-          <Button type="submit" data-cy="generate-story-btn">Generate Story</Button>
+          <Button type="submit" data-cy="generate-story-btn">
+            Generate Story
+          </Button>
         </CardFooter>
       </form>
     </Card>
