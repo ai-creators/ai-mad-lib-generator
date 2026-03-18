@@ -100,7 +100,7 @@ jobs:
           done
 
       - name: Run E2E (Cypress)
-        run: pnpm run cypress:run
+        run: pnpm run e2e:run
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
           CYPRESS_BASE_URL: http://localhost:3000
