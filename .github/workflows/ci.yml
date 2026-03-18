@@ -42,7 +42,7 @@ jobs:
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install pnpm
         uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320
@@ -99,20 +99,10 @@ jobs:
             sleep 1
           done
 
-      - name: Cache Cypress binary
-        uses: actions/cache@v4
+      - name: Cypress run
+        uses: cypress-io/github-action@v7
         with:
-          path: |
-            ~/.cache/Cypress
-          key: cypress-binary-${{ runner.os }}-v15-{{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            cypress-binary-${{ runner.os }}-v15-
-
-      - name: Install Cypress binary
-        run: pnpm run cypress:install
-
-      - name: Run E2E (Cypress)
-        run: pnpm run e2e:run
+          start: pnpm start
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
           CYPRESS_BASE_URL: http://localhost:3000
@@ -120,6 +110,3 @@ jobs:
           NEXT_PUBLIC_DISABLE_CLERK: '1'
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
-
-      # - name: Run tests and build coverage report
-      #   run: pnpm run test:coverage-report
