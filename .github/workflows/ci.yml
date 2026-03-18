@@ -20,29 +20,13 @@ jobs:
       matrix:
         node-version: [24]
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: e2e_db
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     env:
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/e2e_db
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Install pnpm
         uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320
@@ -70,11 +54,58 @@ jobs:
       - name: Run build
         run: pnpm build
 
+  e2e:
+    needs: build-lint-test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24]
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: e2e_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/e2e_db
+      CYPRESS_BASE_URL: http://localhost:3000
+      NODE_ENV: test
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      NEXT_PUBLIC_DISABLE_CLERK: '1'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320
+        with:
+          version: 10.4.1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Wait for Postgres
         run: |
           for i in $(seq 1 30); do
             pg_isready -h localhost -p 5432 && break
-            echo "Waiting for postgres..."
             sleep 1
           done
 
@@ -83,26 +114,17 @@ jobs:
           DATABASE_URL: ${{ env.DATABASE_URL }}
         run: pnpm run db:migrate
 
-      - name: Start Next
-        run: pnpm start &
-        env:
-          PORT: 3000
+      - name: Build app
+        run: pnpm build
 
-      - name: Wait for app
-        run: |
-          for i in $(seq 1 30); do
-            if curl -sS http://localhost:3000 >/dev/null; then
-              echo "App is up"
-              break
-            fi
-            echo "Waiting for app..."
-            sleep 1
-          done
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v7
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v4
         with:
           start: pnpm start
+          wait-on: http://localhost:3000
+          wait-on-timeout: 120000
+          browser: chrome
+          record: false
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
           CYPRESS_BASE_URL: http://localhost:3000
