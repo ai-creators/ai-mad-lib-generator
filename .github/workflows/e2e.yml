@@ -6,6 +6,16 @@ jobs:
   cypress-run:
     runs-on: ubuntu-24.04
 
+    strategy:
+      matrix:
+        node-version: [24]
+
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
