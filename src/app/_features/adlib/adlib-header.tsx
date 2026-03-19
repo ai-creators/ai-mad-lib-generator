@@ -32,6 +32,7 @@ export default function AdlibHeader({ adlib }: AdlibHeaderProps) {
           <Link
             href={routerConfig.adlibPlay.execute({ id: adlib.id })}
             className={buttonVariants({ variant: "default" })}
+            data-cy="play-adlib-btn"
           >
             Play Adlib
           </Link>

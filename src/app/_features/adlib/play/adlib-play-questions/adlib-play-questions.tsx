@@ -58,13 +58,16 @@ function AdlibPlayQuestions({ adlib, onSubmit }: AdlibPlayQuestionsProps) {
                 value={answers[index]}
                 onChange={(e) => handleAnswerChange(index, e.target.value)}
                 placeholder={`Enter a ${placeholder.type}`}
+                data-cy="adlib-answer-input"
                 required
               />
             </div>
           ))}
         </CardContent>
         <CardFooter>
-          <Button type="submit">Generate Story</Button>
+          <Button type="submit" data-cy="generate-story-btn">
+            Generate Story
+          </Button>
         </CardFooter>
       </form>
     </Card>
