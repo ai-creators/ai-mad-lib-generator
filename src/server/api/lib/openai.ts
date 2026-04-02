@@ -77,7 +77,7 @@ Only return the JSON object with these keys and no additional text. Include at l
       temperature: config?.temperature ?? 1,
     });
 
-    if (!response || !response.choices || response.choices.length === 0) {
+    if (!response?.choices || response.choices.length === 0) {
       console.error({
         message: "OpenAI API returned no choices",
         prompt,

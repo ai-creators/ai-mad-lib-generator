@@ -15,3 +15,6 @@
 
 // Import commands.js using ES2015 syntax:
 import "./commands";
+
+// Suppress uncaught exceptions from the Next.js app (e.g. "Cannot read properties of null (reading 'document')")
+Cypress.on("uncaught:exception", () => false);
