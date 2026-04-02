@@ -39,6 +39,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Do not cache cypress
+        run: pnpm config set side-effects-cache false --location project
+
       - name: Cypress run
         uses: cypress-io/github-action@v7
         with:
