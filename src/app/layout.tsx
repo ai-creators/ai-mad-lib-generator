@@ -3,7 +3,6 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 
-import { TRPCReactProvider } from "~/trpc/react";
 import Providers from "./providers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "~/env";
@@ -28,9 +27,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <body>
-          <TRPCReactProvider>
-            <Providers>{children}</Providers>
-          </TRPCReactProvider>
+          <Providers>{children}</Providers>
         </body>
         <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
         <SpeedInsights />

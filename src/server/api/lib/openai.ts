@@ -137,6 +137,19 @@ Only return the JSON object with these keys and no additional text. Include at l
       });
       throw new Error("Invalid response format");
     }
+
+    // Use OpenAI's Moderation API to independently verify the content,
+    // because the model often self-reports isPg: true even when it generates
+    // profanity or other inappropriate words in the same response.
+    if (parsed.isPg) {
+      const moderation = await openai.moderations.create({
+        input: `${parsed.title} ${parsed.madlib}`,
+      });
+      if (moderation.results[0]?.flagged) {
+        parsed.isPg = false;
+      }
+    }
+
     return parsed;
   } catch (error) {
     console.error({
