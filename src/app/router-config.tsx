@@ -40,4 +40,7 @@ export const routerConfig = {
     execute: ({ category }: { category: string }) =>
       `/categories?q=${encodeURIComponent(category)}`,
   },
+  visualizations: {
+    path: "/visualizations",
+  },
 };

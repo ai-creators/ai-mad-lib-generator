@@ -5,7 +5,7 @@ import { routerConfig } from "~/app/router-config";
 import { DarkModeButton } from "~/app/_features/theme/dark-mode-button";
 import { buttonVariants } from "~/components/ui/button";
 import NavbarMenu from "./navbar-menu";
-import { Heart, Home, Search, Settings, SquarePlus, Tags } from "lucide-react";
+import { BarChart2, Heart, Home, Search, Settings, SquarePlus, Tags } from "lucide-react";
 import NavbarSearch from "./navbar-search";
 import NavbarAuth from "./navbar-auth";
 
@@ -39,6 +39,11 @@ export const navLinks = [
     name: "Settings",
     href: routerConfig.settings.path,
     icon: Settings,
+  },
+  {
+    name: "Visualizations",
+    href: routerConfig.visualizations.path,
+    icon: BarChart2,
   },
 ];
 
