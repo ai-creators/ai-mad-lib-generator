@@ -8,7 +8,10 @@ import Providers from "./providers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "~/env";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { AuthProvider } from "./auth-provider";
+import { Inter } from "next/font/google";
+import { cn } from "~/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Ai Madlib Generator",
@@ -21,20 +24,18 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <AuthProvider>
-      <html
-        lang="en"
-        className={`${GeistSans.variable}`}
-        suppressHydrationWarning
-      >
-        <body>
-          <TRPCReactProvider>
-            <Providers>{children}</Providers>
-          </TRPCReactProvider>
-        </body>
-        <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
-        <SpeedInsights />
-      </html>
-    </AuthProvider>
+    <html
+      lang="en"
+      className={cn(GeistSans.variable, "font-sans", inter.variable)}
+      suppressHydrationWarning
+    >
+      <body>
+        <TRPCReactProvider>
+          <Providers>{children}</Providers>
+        </TRPCReactProvider>
+      </body>
+      <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
+      <SpeedInsights />
+    </html>
   );
 }

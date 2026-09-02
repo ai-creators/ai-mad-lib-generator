@@ -463,6 +463,7 @@ export const adlibRouter = createTRPCRouter({
 
       return {
         id: result.id,
+        adlibId: result.adlibId,
         resultText: result.resultText,
         adlibTitle: result.adlib?.title ?? "",
         adlibPrompt: result.adlib?.prompt ?? "",

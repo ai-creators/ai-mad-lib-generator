@@ -15,6 +15,8 @@ import Container from "~/app/_components/containers/container";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import { type Components } from "react-markdown";
 import AdlibPlayResultsActions from "./adlib-play-results-actions";
+import AdlibSaveButton from "~/app/_features/saves/adlib-save-button";
+import AdlibReactions from "~/app/_features/reactions/adlib-reactions";
 
 type AdlibPlayResultsProps = {
   resultId: string;
@@ -66,7 +68,8 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
                   <CardTitle>{result.adlibTitle}</CardTitle>
                   <CardDescription>{result.adlibPrompt}</CardDescription>
                 </div>
-                <div className="-mt-2">
+                <div className="-mt-2 flex items-center gap-1">
+                  <AdlibSaveButton adlibId={result.adlibId} />
                   <AdlibPlayResultsActions
                     resultText={result.resultText}
                     title={result.adlibTitle}
@@ -74,12 +77,13 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-4">
               <div className="prose prose-stone dark:prose-invert max-w-none text-muted-foreground">
                 <ReactMarkdown components={markdownComponents}>
                   {result.resultText}
                 </ReactMarkdown>
               </div>
+              <AdlibReactions adlibId={result.adlibId} />
             </CardContent>
           </Card>
         </section>

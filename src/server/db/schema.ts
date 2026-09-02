@@ -108,6 +108,42 @@ export const adlibResults = createTable("adlib_results", {
   deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
 });
 
+export const adlibReactions = createTable("adlib_reactions", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  adlibId: uuid("adlib_id")
+    .notNull()
+    .references(() => adlibs.id, { onDelete: "cascade" }),
+  reactionType: varchar("reaction_type", { length: 20 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
+export const adlibComments = createTable("adlib_comments", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  adlibId: uuid("adlib_id")
+    .notNull()
+    .references(() => adlibs.id, { onDelete: "cascade" }),
+  authorName: varchar("author_name", { length: 50 }).default(sql`NULL`),
+  body: text("body").notNull(),
+  isHidden: boolean("is_hidden").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .default(sql`CURRENT_TIMESTAMP`),
+  deletedAt: timestamp("deleted_at", { withTimezone: true }).default(sql`NULL`),
+});
+
 export const adlibTones = createTable("adlib_tones", {
   id: uuid("id")
     .primaryKey()
@@ -145,6 +181,8 @@ export const featureToggles = createTable("feature_toggles", {
 export const adlibsRelations = relations(adlibs, ({ many, one }) => ({
   categories: many(madlibCategories),
   adlibResults: many(adlibResults),
+  reactions: many(adlibReactions),
+  comments: many(adlibComments),
   tone: one(adlibTones, {
     fields: [adlibs.toneId],
     references: [adlibTones.id],
@@ -168,6 +206,20 @@ export const madlibCategoriesRelations = relations(
 export const adlibResultsRelations = relations(adlibResults, ({ one }) => ({
   adlib: one(adlibs, {
     fields: [adlibResults.adlibId],
+    references: [adlibs.id],
+  }),
+}));
+
+export const adlibReactionsRelations = relations(adlibReactions, ({ one }) => ({
+  adlib: one(adlibs, {
+    fields: [adlibReactions.adlibId],
+    references: [adlibs.id],
+  }),
+}));
+
+export const adlibCommentsRelations = relations(adlibComments, ({ one }) => ({
+  adlib: one(adlibs, {
+    fields: [adlibComments.adlibId],
     references: [adlibs.id],
   }),
 }));

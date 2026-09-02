@@ -10,14 +10,16 @@ import {
 } from "~/components/ui/card";
 import AdlibSavesCard from "./adlib-saves-card";
 import { api } from "~/trpc/react";
+import { useSavedAdlibs } from "~/hooks/use-saved-adlibs";
 
 export default function AdlibSaves() {
+  const { savedIds } = useSavedAdlibs();
   const {
     data: savedAdlibs,
     isLoading,
     error,
   } = api.adlib.getSaves.useQuery({
-    adlibs: [],
+    adlibs: savedIds,
   });
 
   if (isLoading) {

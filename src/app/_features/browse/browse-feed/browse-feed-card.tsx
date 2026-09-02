@@ -13,6 +13,7 @@ import Link from "next/link";
 import { routerConfig } from "~/app/router-config";
 import { buttonVariants } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+import AdlibSaveButton from "~/app/_features/saves/adlib-save-button";
 
 type GetPaginatedOutput = inferProcedureOutput<
   AppRouter["adlib"]["getPaginated"]
@@ -54,13 +55,16 @@ function BrowseFeedCard({ adlib }: Props) {
             ))}
           </ul>
         ) : null}
-        <Link
-          href={routerConfig.adlib.execute({ id: adlib.id })}
-          className={cn(buttonVariants({ variant: "default" }), "w-fit")}
-          data-cy="go-to-adlib-link"
-        >
-          Go to adlib
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href={routerConfig.adlib.execute({ id: adlib.id })}
+            className={cn(buttonVariants({ variant: "default" }), "w-fit")}
+            data-cy="go-to-adlib-link"
+          >
+            Go to adlib
+          </Link>
+          <AdlibSaveButton adlibId={adlib.id} />
+        </div>
       </CardContent>
     </Card>
   );

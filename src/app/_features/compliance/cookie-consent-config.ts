@@ -16,18 +16,6 @@ const pluginConfig: CookieConsentConfig = {
     },
   },
 
-  onFirstConsent: function () {
-    console.log("onFirstAction fired");
-  },
-
-  onConsent: function ({ cookie }) {
-    console.log("onConsent fired ...");
-  },
-
-  onChange: function ({ changedCategories, cookie }) {
-    console.log("onChange fired ...");
-  },
-
   categories: {
     necessary: {
       readOnly: true,
@@ -71,12 +59,29 @@ const pluginConfig: CookieConsentConfig = {
             {
               title: "Cookie Usage",
               description:
-                'I use cookies to ensure the basic functionalities of the website and to enhance your online experience. You can choose for each category to opt-in/out whenever you want. For more details relative to cookies and other sensitive data, please read the full <a href="#" class="cc__link">privacy policy</a>.',
+                'We use cookies to ensure the basic functionalities of the website and to enhance your online experience. You can choose for each category to opt-in/out whenever you want. For more details, please read the full <a href="/privacy-policy" class="cc__link">cookie policy</a>.',
             },
             {
               title: "Strictly necessary cookies",
-              description: "Description",
+              description:
+                "These cookies are required for the site to function properly (e.g. remembering your cookie preferences) and cannot be disabled.",
               linkedCategory: "necessary",
+              cookieTable: {
+                headers: {
+                  name: "Name",
+                  domain: "Service",
+                  description: "Description",
+                  expiration: "Expiration",
+                },
+                body: [
+                  {
+                    name: "cc_cookie",
+                    domain: "AiAdlibs",
+                    description: "Remembers your cookie consent choices.",
+                    expiration: "6 months",
+                  },
+                ],
+              },
             },
             {
               title: "Performance and Analytics cookies",
@@ -92,15 +97,13 @@ const pluginConfig: CookieConsentConfig = {
                   {
                     name: "_ga",
                     domain: "Google Analytics",
-                    description:
-                      'Cookie set by <a href="#das">Google Analytics</a>.',
+                    description: "Used to distinguish unique visitors.",
                     expiration: "Expires after 12 days",
                   },
                   {
                     name: "_gid",
                     domain: "Google Analytics",
-                    description:
-                      'Cookie set by <a href="#das">Google Analytics</a>',
+                    description: "Used to distinguish unique visitors.",
                     expiration: "Session",
                   },
                 ],
@@ -109,7 +112,7 @@ const pluginConfig: CookieConsentConfig = {
             {
               title: "More information",
               description:
-                'For any queries in relation to my policy on cookies and your choices, please <a class="cc__link" href="#yourdomain.com">contact me</a>.',
+                'For any questions about our use of cookies, please see our <a class="cc__link" href="/privacy-policy">cookie policy</a>.',
             },
           ],
         },
