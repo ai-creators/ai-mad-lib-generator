@@ -22,7 +22,7 @@ export default function AdlibCommentCard({ comment }: Props) {
           {formatDateToMinutes(comment.createdAt)}
         </span>
       </div>
-      <p className="mt-1 whitespace-pre-wrap text-sm text-muted-foreground">
+      <p className="mt-1 text-sm whitespace-pre-wrap text-muted-foreground">
         {comment.body}
       </p>
     </div>

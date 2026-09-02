@@ -15,8 +15,10 @@ import {
 } from "../../db/schema";
 import { createMadlib } from "../lib/openai";
 
-import { count, type SQL, sql } from "drizzle-orm";
 import {
+  count,
+  type SQL,
+  sql,
   eq,
   lt,
   asc,
@@ -25,7 +27,7 @@ import {
   like,
   and,
   inArray,
-} from "drizzle-orm/expressions";
+} from "drizzle-orm";
 import { FeedTypeOption } from "~/types/adlib";
 
 export const adlibRouter = createTRPCRouter({

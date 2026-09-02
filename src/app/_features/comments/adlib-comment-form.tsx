@@ -34,7 +34,11 @@ type Props = {
 
 export default function AdlibCommentForm({ adlibId }: Props) {
   const utils = api.useUtils();
-  const form = useForm<z.infer<typeof commentSchema>>({
+  const form = useForm<
+    z.input<typeof commentSchema>,
+    unknown,
+    z.output<typeof commentSchema>
+  >({
     resolver: zodResolver(commentSchema),
     defaultValues: {
       body: "",
@@ -55,7 +59,7 @@ export default function AdlibCommentForm({ adlibId }: Props) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof commentSchema>) {
+  function onSubmit(values: z.output<typeof commentSchema>) {
     createComment.mutate({
       adlibId,
       body: values.body,
