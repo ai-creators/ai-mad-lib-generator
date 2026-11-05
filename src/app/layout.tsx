@@ -8,10 +8,12 @@ import Providers from "./providers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "~/env";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter } from "next/font/google";
+import { Inter, Noto_Sans, Nunito_Sans } from "next/font/google";
 import { cn } from "~/lib/utils";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const nunitoSansHeading = Nunito_Sans({subsets:['latin'],variable:'--font-heading'});
+
+const notoSans = Noto_Sans({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Ai Madlib Generator",
@@ -26,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(GeistSans.variable, "font-sans", inter.variable)}
+      className={cn(GeistSans.variable, "font-sans", notoSans.variable, nunitoSansHeading.variable)}
       suppressHydrationWarning
     >
       <body>
