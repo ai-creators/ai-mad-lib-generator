@@ -5,14 +5,15 @@ import Container from "~/app/_components/containers/container";
 import Layout from "~/app/_components/layouts/layout";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import CreateAdlibCard from "../create-adlib/create-adlib-card";
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
 import BrowseFeed from "../browse/browse-feed/browse-feed";
 
-function ErrorFallback({ error }: { error: Error }) {
+function ErrorFallback({ error }: FallbackProps) {
+  const message = error instanceof Error ? error.message : String(error);
   return (
     <div className="rounded-lg border p-4">
       <p className="text-red-500">Something went wrong:</p>
-      <pre className="text-sm">{error.message}</pre>
+      <pre className="text-sm">{message}</pre>
     </div>
   );
 }

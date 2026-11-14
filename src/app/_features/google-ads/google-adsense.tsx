@@ -4,7 +4,7 @@ type Props = {
   pId: string;
 };
 
-const GoogleAdsense: React.FC<Props> = ({ pId }) => {
+function GoogleAdsense({ pId }: Props) {
   return (
     <Script
       async
@@ -13,6 +13,6 @@ const GoogleAdsense: React.FC<Props> = ({ pId }) => {
       strategy="beforeInteractive"
     />
   );
-};
+}
 
 export default GoogleAdsense;

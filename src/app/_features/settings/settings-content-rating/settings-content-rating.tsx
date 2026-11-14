@@ -18,7 +18,7 @@ export default function SettingsContentRating() {
 
   return (
     <Card>
-      <CardContent className="flex flex-col gap-3 py-5">
+      <CardContent className="flex flex-col gap-3">
         <Label>Content Rating</Label>
         <Tabs
           value={contentRating}

@@ -31,7 +31,7 @@ export const routerConfig = {
     path: "/settings",
   },
   category: {
-    path: "/category/:categoryName",
+    path: "/categories/:categoryName",
     execute: ({ category }: { category: string }) =>
       `/categories/${encodeURIComponent(category)}`,
   },

@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import {
@@ -15,8 +9,10 @@ import {
 } from "../../db/schema";
 import { createMadlib } from "../lib/openai";
 
-import { count, type SQL, sql } from "drizzle-orm";
 import {
+  count,
+  type SQL,
+  sql,
   eq,
   lt,
   asc,
@@ -25,7 +21,7 @@ import {
   like,
   and,
   inArray,
-} from "drizzle-orm/expressions";
+} from "drizzle-orm";
 import { FeedTypeOption } from "~/types/adlib";
 
 export const adlibRouter = createTRPCRouter({
@@ -109,16 +105,25 @@ export const adlibRouter = createTRPCRouter({
   getPaginated: publicProcedure
     .input(
       z.object({
-        page: z.number().min(1).default(1),
+        cursor: z.number().min(1).default(1),
         size: z.number().min(1).max(100).default(10),
         timestamp: z.string(),
         feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.LATEST),
         search: z.string().optional(),
         contentRating: z.string().optional(),
+        category: z.string().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      const { page, size, timestamp, feedType, search, contentRating } = input;
+      const {
+        cursor: page,
+        size,
+        timestamp,
+        feedType,
+        search,
+        contentRating,
+        category,
+      } = input;
       const dateFilter = new Date(timestamp);
       const searchTerm = search?.trim() ?? "";
 
@@ -147,12 +152,29 @@ export const adlibRouter = createTRPCRouter({
           )
         : undefined;
 
+      const categoryCondition = category
+        ? inArray(
+            adlibs.id,
+            ctx.db
+              .select({ id: madlibCategories.madlibId })
+              .from(madlibCategories)
+              .innerJoin(
+                categories,
+                eq(madlibCategories.categoryId, categories.id),
+              )
+              .where(eq(categories.name, category)),
+          )
+        : undefined;
+
       let whereCondition: SQL<unknown> = baseCondition;
       if (contentCondition !== undefined) {
         whereCondition = and(whereCondition, contentCondition)!;
       }
       if (searchCondition !== undefined) {
         whereCondition = and(whereCondition, searchCondition)!;
+      }
+      if (categoryCondition !== undefined) {
+        whereCondition = and(whereCondition, categoryCondition)!;
       }
 
       const results = await ctx.db.query.adlibs.findMany({
@@ -296,7 +318,7 @@ export const adlibRouter = createTRPCRouter({
   getCategoriesPaginated: publicProcedure
     .input(
       z.object({
-        page: z.number().min(1).default(1),
+        cursor: z.number().min(1).default(1),
         size: z.number().min(1).max(100).default(10),
         timestamp: z.string(),
         feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.LATEST),
@@ -304,7 +326,7 @@ export const adlibRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const { page, size, timestamp, feedType, search } = input;
+      const { cursor: page, size, timestamp, feedType, search } = input;
       const dateFilter = new Date(timestamp);
       const searchTerm = search?.trim() ?? "";
 
@@ -463,6 +485,7 @@ export const adlibRouter = createTRPCRouter({
 
       return {
         id: result.id,
+        adlibId: result.adlibId,
         resultText: result.resultText,
         adlibTitle: result.adlib?.title ?? "",
         adlibPrompt: result.adlib?.prompt ?? "",

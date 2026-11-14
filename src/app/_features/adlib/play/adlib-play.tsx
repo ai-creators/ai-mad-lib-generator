@@ -23,11 +23,12 @@ export default function AdlibPlay({ adlibId }: AdlibPlayProps) {
 
   const { data, isPending } = api.adlib.getAdlibByIdPlay.useQuery(adlibId);
 
-  const { mutateAsync: saveResult } = api.adlib.saveAdlibResult.useMutation({
-    onSuccess: (resultId) => {
-      router.push(`/adlib/${adlibId}/play/${resultId}`);
-    },
-  });
+  const { mutateAsync: saveResult, isPending: isSavingResult } =
+    api.adlib.saveAdlibResult.useMutation({
+      onSuccess: (resultId) => {
+        router.push(`/adlib/${adlibId}/play/${resultId}`);
+      },
+    });
 
   if (isPending) {
     return (
@@ -69,7 +70,11 @@ export default function AdlibPlay({ adlibId }: AdlibPlayProps) {
         </aside>
         <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
           <AdlibPlayHeader adlib={data} />
-          <AdlibPlayQuestions adlib={data} onSubmit={adlibSubmit} />
+          <AdlibPlayQuestions
+            adlib={data}
+            onSubmit={adlibSubmit}
+            isSubmitting={isSavingResult}
+          />
         </section>
       </Container>
     </Layout>

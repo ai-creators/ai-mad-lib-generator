@@ -1,19 +1,16 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "@tanstack/react-form";
+import { Search } from "lucide-react";
 import React from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "~/components/ui/button";
+import { Field, FieldError, FieldLabel } from "~/components/ui/field";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "~/components/ui/input-group";
 
 export const searchSchema = z.object({
   search: z.string(),
@@ -28,42 +25,54 @@ export default function BrowseSearchForm({
   placeholder = "search adlibs...",
   onSubmit,
 }: BrowseSearchFormProps) {
-  const form = useForm<z.infer<typeof searchSchema>>({
-    resolver: zodResolver(searchSchema),
+  const form = useForm({
     defaultValues: {
       search: "",
+    },
+    validators: {
+      onSubmit: searchSchema,
+    },
+    onSubmit: ({ value }) => {
+      onSubmit(value);
     },
   });
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="search"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Search</FormLabel>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    placeholder={placeholder}
-                    className="pr-24"
-                    {...field}
-                  />
-                  <Button
-                    type="submit"
-                    className="absolute right-0 top-1/2 -translate-y-1/2 rounded-l-none"
-                  >
-                    Search
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void form.handleSubmit();
+      }}
+      className="space-y-4"
+    >
+      <form.Field name="search">
+        {(field) => {
+          const isInvalid =
+            field.state.meta.isTouched && !field.state.meta.isValid;
+          return (
+            <Field data-invalid={isInvalid}>
+              <FieldLabel htmlFor={field.name}>Search</FieldLabel>
+              <InputGroup>
+                <InputGroupInput
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  placeholder={placeholder}
+                />
+                <InputGroupAddon align="inline-end">
+                  <InputGroupButton type="submit" size="icon-xs">
+                    <Search />
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+              {isInvalid && <FieldError errors={field.state.meta.errors} />}
+            </Field>
+          );
+        }}
+      </form.Field>
+    </form>
   );
 }

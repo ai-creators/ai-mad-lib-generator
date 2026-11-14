@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import {
@@ -9,48 +7,32 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
 import Layout from "~/app/_components/layouts/layout";
 import Container from "~/app/_components/containers/container";
 import AsideNavbar from "~/app/_components/navbars/aside-navbar";
 import { type Components } from "react-markdown";
 import AdlibPlayResultsActions from "./adlib-play-results-actions";
+import AdlibSaveButton from "~/app/_features/saves/adlib-save-button";
+import AdlibReactions from "~/app/_features/reactions/adlib-reactions";
 
 type AdlibPlayResultsProps = {
   resultId: string;
 };
 
-export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
-  const { data: result, isPending } =
-    api.adlib.getAdlibResult.useQuery(resultId);
+const markdownComponents: Components = {
+  strong: ({ node: _node, ...props }) => (
+    <strong
+      className="font-black text-primary underline decoration-2"
+      {...props}
+    />
+  ),
+};
 
-  const markdownComponents: Components = {
-    strong: ({ node: _node, ...props }) => (
-      <strong
-        className="font-black text-primary underline decoration-2"
-        {...props}
-      />
-    ),
-  };
-
-  if (isPending) {
-    return (
-      <Layout>
-        <Container className="grid grid-cols-12 gap-6 px-4 py-6">
-          <aside className="col-span-3 hidden lg:block">
-            <AsideNavbar />
-          </aside>
-          <section className="col-span-12 lg:col-span-9">
-            <p>Loading...</p>
-          </section>
-        </Container>
-      </Layout>
-    );
-  }
-
-  if (!result) {
-    return <div>Result not found</div>;
-  }
+export default async function AdlibPlayResults({
+  resultId,
+}: AdlibPlayResultsProps) {
+  const result = await api.adlib.getAdlibResult(resultId);
 
   return (
     <Layout>
@@ -66,7 +48,8 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
                   <CardTitle>{result.adlibTitle}</CardTitle>
                   <CardDescription>{result.adlibPrompt}</CardDescription>
                 </div>
-                <div className="-mt-2">
+                <div className="-mt-2 flex items-center gap-1">
+                  <AdlibSaveButton adlibId={result.adlibId} />
                   <AdlibPlayResultsActions
                     resultText={result.resultText}
                     title={result.adlibTitle}
@@ -74,12 +57,13 @@ export default function AdlibPlayResults({ resultId }: AdlibPlayResultsProps) {
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-4">
               <div className="prose prose-stone dark:prose-invert max-w-none text-muted-foreground">
                 <ReactMarkdown components={markdownComponents}>
                   {result.resultText}
                 </ReactMarkdown>
               </div>
+              <AdlibReactions adlibId={result.adlibId} />
             </CardContent>
           </Card>
         </section>
