@@ -20,9 +20,11 @@ export default function NavbarMenu() {
       </SheetTrigger>
       <SheetContent side="left" className="px-0">
         <SheetHeader>
-          <SheetTitle className="px-6 text-left">AI Adlibs</SheetTitle>
+          <SheetTitle className="px-6 text-left font-semibold uppercase">
+            AI Adlibs
+          </SheetTitle>
         </SheetHeader>
-        <ul className="flex flex-col gap-3 px-2 py-5">
+        <ul className="flex flex-col gap-3 px-2 py-2">
           {navLinks.map((navLink) => (
             <li key={navLink.name}>
               <Link

@@ -24,11 +24,17 @@ const REACTIONS: {
 
 export default function AdlibReactions({ adlibId }: AdlibReactionsProps) {
   const utils = api.useUtils();
-  const { hasReacted, markReacted } = useReactedAdlibs();
+  const { getReactionId, hasReacted, markReacted, unmarkReacted } =
+    useReactedAdlibs();
 
   const { data: counts } = api.reactions.getCounts.useQuery({ adlibId });
   const createReaction = api.reactions.create.useMutation({
-    onSuccess: async () => {
+    onSettled: async () => {
+      await utils.reactions.getCounts.invalidate({ adlibId });
+    },
+  });
+  const deleteReaction = api.reactions.delete.useMutation({
+    onSettled: async () => {
       await utils.reactions.getCounts.invalidate({ adlibId });
     },
   });
@@ -37,9 +43,23 @@ export default function AdlibReactions({ adlibId }: AdlibReactionsProps) {
     counts?.find((c) => c.reactionType === (type as string))?.count ?? 0;
 
   const handleReact = (type: ReactionType) => {
-    if (hasReacted(adlibId, type)) return;
-    markReacted(adlibId, type);
-    createReaction.mutate({ adlibId, reactionType: type });
+    const existingId = getReactionId(adlibId, type);
+    if (existingId) {
+      unmarkReacted(adlibId, type);
+      deleteReaction.mutate({ id: existingId });
+      return;
+    }
+
+    markReacted(adlibId, type, "pending");
+    createReaction.mutate(
+      { adlibId, reactionType: type },
+      {
+        onSuccess: (reactionId) => {
+          if (reactionId) markReacted(adlibId, type, reactionId);
+        },
+        onError: () => unmarkReacted(adlibId, type),
+      },
+    );
   };
 
   return (
@@ -52,8 +72,9 @@ export default function AdlibReactions({ adlibId }: AdlibReactionsProps) {
             type="button"
             variant="outline"
             size="sm"
-            disabled={reacted}
-            aria-label={label}
+            disabled={createReaction.isPending || deleteReaction.isPending}
+            aria-label={reacted ? `Remove ${label.toLowerCase()} reaction` : label}
+            aria-pressed={reacted}
             data-cy={`reaction-btn-${type}`}
             onClick={() => handleReact(type)}
             className={cn("gap-1.5", reacted && "border-primary text-primary")}

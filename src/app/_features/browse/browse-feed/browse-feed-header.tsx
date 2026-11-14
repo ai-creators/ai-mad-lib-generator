@@ -9,22 +9,26 @@ import { useSearchParams } from "next/navigation";
 type BrowseFeedHeaderProps = {
   feedType: FeedTypeOption;
   changeFeedType: (newFeedType: FeedTypeOption) => void;
+  category?: string;
 };
 
 export default function BrowseFeedHeader({
   feedType,
   changeFeedType,
+  category,
 }: BrowseFeedHeaderProps) {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("q") ?? "";
 
-  const titleText =
-    searchTerm && searchTerm.trim().length > 0
+  const titleText = category
+    ? `#${category}`
+    : searchTerm && searchTerm.trim().length > 0
       ? `${searchTerm}...`
       : `${feedType}...`;
 
-  const descriptionText =
-    searchTerm && searchTerm.trim().length > 0
+  const descriptionText = category
+    ? `View adlibs in the ${category} category`
+    : searchTerm && searchTerm.trim().length > 0
       ? `View adlibs for ${searchTerm}`
       : `View the ${feedType.toLowerCase()} adlibs`;
 

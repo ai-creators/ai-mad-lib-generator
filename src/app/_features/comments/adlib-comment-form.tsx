@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
@@ -117,7 +118,14 @@ export default function AdlibCommentForm({ adlibId }: Props) {
         disabled={createComment.isPending}
         data-cy="comment-submit-btn"
       >
-        Post Comment
+        {createComment.isPending ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Posting...
+          </>
+        ) : (
+          "Post Comment"
+        )}
       </Button>
     </form>
   );

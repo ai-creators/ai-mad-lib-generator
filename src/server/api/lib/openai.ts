@@ -1,3 +1,4 @@
+import { Filter } from "bad-words";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import { z } from "zod";
@@ -5,6 +6,8 @@ import { z } from "zod";
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+const profanityFilter = new Filter();
 
 const madlibResponseSchema = z.object({
   title: z.string(),
@@ -19,7 +22,9 @@ type MadlibResponse = z.infer<typeof madlibResponseSchema>;
  * Runs OpenAI's moderation endpoint over generated content. This is the
  * authoritative safety check: the generation model's own "isPg" self-report
  * is never trusted on its own, since the same model that wrote the content
- * is a poor judge of whether it's appropriate.
+ * is a poor judge of whether it's appropriate. Moderation targets harm
+ * categories (sexual, violent, hateful, etc.), not plain profanity, so it's
+ * paired with a word-list profanity check below.
  */
 async function isContentFlagged(input: string): Promise<boolean> {
   const moderation = await openai.moderations.create({
@@ -112,9 +117,14 @@ Include at least 5 placeholders in the madlib. The longer the madlib the more pl
       throw new Error("Invalid response format");
     }
 
-    const flagged = await isContentFlagged(
-      `${message.parsed.title}\n\n${message.parsed.madlib}`,
-    );
+    const combinedText = `${prompt}\n\n${message.parsed.title}\n\n${message.parsed.madlib}`;
+    const containsProfanity = profanityFilter.isProfane(combinedText);
+
+    // Profanity alone is enough to mark content as not PG. Skip the
+    // moderation API call in that case to save on latency and cost.
+    const flagged = containsProfanity
+      ? true
+      : await isContentFlagged(combinedText);
 
     return {
       ...message.parsed,

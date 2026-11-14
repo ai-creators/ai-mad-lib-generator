@@ -65,6 +65,27 @@ describe("createMadlib", () => {
     expect(result.isPg).toBe(false);
   });
 
+  it("forces isPg to false when the prompt contains profanity, and skips the moderation call", async () => {
+    mockParsedMessage({ parsed: validResponse, refusal: null });
+
+    const result = await createMadlib("a damn spooky house");
+
+    expect(result.isPg).toBe(false);
+    expect(createModeration).not.toHaveBeenCalled();
+  });
+
+  it("forces isPg to false when the generated title or madlib contains profanity, and skips the moderation call", async () => {
+    mockParsedMessage({
+      parsed: { ...validResponse, madlib: "A damn [adjective] house." },
+      refusal: null,
+    });
+
+    const result = await createMadlib("a spooky house");
+
+    expect(result.isPg).toBe(false);
+    expect(createModeration).not.toHaveBeenCalled();
+  });
+
   it("throws when the model has no parsed content", async () => {
     mockParsedMessage({ parsed: null, refusal: null });
 

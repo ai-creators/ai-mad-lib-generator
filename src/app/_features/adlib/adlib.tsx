@@ -4,7 +4,6 @@ import AdlibHeader from "./adlib-header";
 import { api } from "~/trpc/server";
 import Layout from "~/app/_components/layouts/layout";
 import Container from "~/app/_components/containers/container";
-import AdlibComments from "~/app/_features/comments/adlib-comments";
 
 interface AdlibProps {
   adlibId: string;
@@ -29,7 +28,6 @@ export default async function Adlib({ adlibId }: AdlibProps) {
         </aside>
         <section className="col-span-12 flex flex-col gap-6 md:col-span-9">
           <AdlibHeader adlib={data} />
-          {data.id ? <AdlibComments adlibId={data.id} /> : null}
         </section>
       </Container>
     </Layout>

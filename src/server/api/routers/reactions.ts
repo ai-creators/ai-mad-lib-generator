@@ -24,6 +24,15 @@ export const reactionsRouter = createTRPCRouter({
       return reaction?.id;
     }),
 
+  delete: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(adlibReactions)
+        .set({ deletedAt: sql`now()` })
+        .where(eq(adlibReactions.id, input.id));
+    }),
+
   getCounts: publicProcedure
     .input(z.object({ adlibId: z.string() }))
     .query(async ({ ctx, input }) => {

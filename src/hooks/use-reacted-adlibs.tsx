@@ -7,24 +7,39 @@ function reactionKey(adlibId: string, reactionType: string): string {
 }
 
 interface ReactedAdlibsState {
-  reactedKeys: string[];
+  reactedIds: Record<string, string>;
+  getReactionId: (adlibId: string, reactionType: string) => string | undefined;
   hasReacted: (adlibId: string, reactionType: string) => boolean;
-  markReacted: (adlibId: string, reactionType: string) => void;
+  markReacted: (
+    adlibId: string,
+    reactionType: string,
+    reactionId: string,
+  ) => void;
+  unmarkReacted: (adlibId: string, reactionType: string) => void;
 }
 
 export const useReactedAdlibsStore = create<ReactedAdlibsState>()(
   persist(
     (set, get) => ({
-      reactedKeys: [],
+      reactedIds: {},
+      getReactionId: (adlibId, reactionType) =>
+        get().reactedIds[reactionKey(adlibId, reactionType)],
       hasReacted: (adlibId, reactionType) =>
-        get().reactedKeys.includes(reactionKey(adlibId, reactionType)),
-      markReacted: (adlibId, reactionType) => {
+        reactionKey(adlibId, reactionType) in get().reactedIds,
+      markReacted: (adlibId, reactionType, reactionId) => {
         const key = reactionKey(adlibId, reactionType);
-        set((state) =>
-          state.reactedKeys.includes(key)
-            ? state
-            : { reactedKeys: [...state.reactedKeys, key] },
-        );
+        set((state) => ({
+          reactedIds: { ...state.reactedIds, [key]: reactionId },
+        }));
+      },
+      unmarkReacted: (adlibId, reactionType) => {
+        const key = reactionKey(adlibId, reactionType);
+        set((state) => {
+          if (!(key in state.reactedIds)) return state;
+          const next = { ...state.reactedIds };
+          delete next[key];
+          return { reactedIds: next };
+        });
       },
     }),
     { name: ReactionsConstants.REACTED_ADLIB_KEYS },
@@ -32,8 +47,10 @@ export const useReactedAdlibsStore = create<ReactedAdlibsState>()(
 );
 
 export function useReactedAdlibs() {
+  const getReactionId = useReactedAdlibsStore((state) => state.getReactionId);
   const hasReacted = useReactedAdlibsStore((state) => state.hasReacted);
   const markReacted = useReactedAdlibsStore((state) => state.markReacted);
+  const unmarkReacted = useReactedAdlibsStore((state) => state.unmarkReacted);
 
-  return { hasReacted, markReacted };
+  return { getReactionId, hasReacted, markReacted, unmarkReacted };
 }

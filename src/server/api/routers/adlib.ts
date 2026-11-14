@@ -111,6 +111,7 @@ export const adlibRouter = createTRPCRouter({
         feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.LATEST),
         search: z.string().optional(),
         contentRating: z.string().optional(),
+        category: z.string().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -121,6 +122,7 @@ export const adlibRouter = createTRPCRouter({
         feedType,
         search,
         contentRating,
+        category,
       } = input;
       const dateFilter = new Date(timestamp);
       const searchTerm = search?.trim() ?? "";
@@ -150,12 +152,29 @@ export const adlibRouter = createTRPCRouter({
           )
         : undefined;
 
+      const categoryCondition = category
+        ? inArray(
+            adlibs.id,
+            ctx.db
+              .select({ id: madlibCategories.madlibId })
+              .from(madlibCategories)
+              .innerJoin(
+                categories,
+                eq(madlibCategories.categoryId, categories.id),
+              )
+              .where(eq(categories.name, category)),
+          )
+        : undefined;
+
       let whereCondition: SQL<unknown> = baseCondition;
       if (contentCondition !== undefined) {
         whereCondition = and(whereCondition, contentCondition)!;
       }
       if (searchCondition !== undefined) {
         whereCondition = and(whereCondition, searchCondition)!;
+      }
+      if (categoryCondition !== undefined) {
+        whereCondition = and(whereCondition, categoryCondition)!;
       }
 
       const results = await ctx.db.query.adlibs.findMany({

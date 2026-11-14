@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { Info } from "lucide-react";
+import { Info, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
@@ -86,7 +86,7 @@ export default function CreateAdlibForm() {
         e.preventDefault();
         void form.handleSubmit();
       }}
-      className="space-y-4"
+      className="space-y-4 pb-4"
     >
       <form.Field name="prompt">
         {(field) => {
@@ -160,11 +160,18 @@ export default function CreateAdlibForm() {
             disabled={createAdlib.isPending}
             data-cy="prompt-submit-btn"
           >
-            Generate
+            {createAdlib.isPending ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              "Generate"
+            )}
           </Button>
         </li>
         <li>
-          <CreateAdlibTone form={form} />
+          <CreateAdlibTone form={form} disabled={createAdlib.isPending} />
         </li>
         {/* <li>
             <Button

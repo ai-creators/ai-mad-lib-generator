@@ -48,7 +48,7 @@ function BrowseFeedCard({ adlib }: Props) {
           <ul className="flex items-center gap-3 text-muted-foreground">
             {adlib.categories.map((cat) => (
               <li key={adlib.id + cat}>
-                <Link href={routerConfig.categories.execute({ category: cat })}>
+                <Link href={routerConfig.category.execute({ category: cat })}>
                   #{cat}
                 </Link>
               </li>

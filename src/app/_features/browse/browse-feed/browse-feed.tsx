@@ -12,9 +12,13 @@ import { useSearchParams } from "next/navigation";
 import { useContentRating } from "../../content-rating/content-rating";
 import BrowseFeedSkeleton from "./browse-feed-skeleton";
 
-export default function BrowseFeed() {
+type BrowseFeedProps = {
+  category?: string;
+};
+
+export default function BrowseFeed({ category }: BrowseFeedProps = {}) {
   const searchParams = useSearchParams();
-  const searchTerm = searchParams.get("q") ?? "";
+  const searchTerm = category ? "" : (searchParams.get("q") ?? "");
 
   const size = 25;
   const [timestamp] = useState<Date>(new Date());
@@ -31,6 +35,7 @@ export default function BrowseFeed() {
         feedType,
         search: searchTerm,
         contentRating,
+        category,
       },
       {
         initialCursor: 1,
@@ -47,7 +52,11 @@ export default function BrowseFeed() {
 
   return (
     <div className="flex flex-col gap-5">
-      <BrowseFeedHeader feedType={feedType} changeFeedType={changeFeedType} />
+      <BrowseFeedHeader
+        feedType={feedType}
+        changeFeedType={changeFeedType}
+        category={category}
+      />
       {isError && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />

@@ -17,9 +17,10 @@ import type { CreateAdlibFormApi } from "../create-adlib-form";
 
 type Props = {
   form: CreateAdlibFormApi;
+  disabled?: boolean;
 };
 
-export default function CreateAdlibTone({ form }: Props) {
+export default function CreateAdlibTone({ form, disabled }: Props) {
   const { data: tones, isPending } = api.tone.getAll.useQuery();
   const { isFeatureEnabled } = useFeatureToggle();
 
@@ -31,7 +32,7 @@ export default function CreateAdlibTone({ form }: Props) {
     <form.Field name="toneId">
       {(field) => (
         <Select
-          disabled={isPending || !tones?.length}
+          disabled={Boolean(disabled) || isPending || !tones?.length}
           name={field.name}
           value={field.state.value}
           onValueChange={field.handleChange}
