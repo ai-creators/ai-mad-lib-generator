@@ -8,18 +8,20 @@ import Providers from "./providers";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { env } from "~/env";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter, Noto_Sans, Nunito_Sans } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import { cn } from "~/lib/utils";
+import GoogleAdsense from "./_features/google-ads/google-adsense";
+import CookieConsent from "./_features/compliance/cookie-consent";
 
-const nunitoSansHeading = Nunito_Sans({subsets:['latin'],variable:'--font-heading'});
-
-const notoSans = Noto_Sans({subsets:['latin'],variable:'--font-sans'});
+const nunitoSansHeading = Nunito_Sans({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
 export const metadata: Metadata = {
   title: "Ai Madlib Generator",
   description:
     "Create hilarious Mad Libs with AI! Get creative with our AI-powered Mad Libs generator. Simply enter a prompt, and let the AI fill in the blanks. Hours of laughter await!",
-  icons: [{ rel: "icon", url: "https://chat.openai.com/favicon.ico" }],
 };
 
 export default function RootLayout({
@@ -28,13 +30,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(GeistSans.variable, "font-sans", notoSans.variable, nunitoSansHeading.variable)}
+      className={cn(GeistSans.variable, "font-sans", nunitoSansHeading.variable)}
       suppressHydrationWarning
     >
       <body>
         <TRPCReactProvider>
           <Providers>{children}</Providers>
         </TRPCReactProvider>
+        <CookieConsent />
+        <GoogleAdsense pId={env.GOOGLE_ADSENSE_ID ?? ""} />
       </body>
       <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
       <SpeedInsights />

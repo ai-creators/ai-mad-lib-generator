@@ -1,29 +1,15 @@
-"use client";
-
 import React from "react";
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
 import AdlibCommentCard from "./adlib-comment-card";
 
 type Props = {
   adlibId: string;
 };
 
-export default function AdlibCommentList({ adlibId }: Props) {
-  const {
-    data: comments,
-    isLoading,
-    error,
-  } = api.comments.getByAdlibId.useQuery({ adlibId });
+export default async function AdlibCommentList({ adlibId }: Props) {
+  const comments = await api.comments.getByAdlibId({ adlibId });
 
-  if (isLoading) {
-    return <div>Loading comments...</div>;
-  }
-
-  if (error) {
-    return <div>Error loading comments: {error.message}</div>;
-  }
-
-  if (!comments || comments.length === 0) {
+  if (comments.length === 0) {
     return <div className="text-sm text-muted-foreground">No comments yet</div>;
   }
 

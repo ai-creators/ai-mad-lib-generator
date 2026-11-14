@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import {
@@ -111,7 +105,7 @@ export const adlibRouter = createTRPCRouter({
   getPaginated: publicProcedure
     .input(
       z.object({
-        page: z.number().min(1).default(1),
+        cursor: z.number().min(1).default(1),
         size: z.number().min(1).max(100).default(10),
         timestamp: z.string(),
         feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.LATEST),
@@ -120,7 +114,14 @@ export const adlibRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const { page, size, timestamp, feedType, search, contentRating } = input;
+      const {
+        cursor: page,
+        size,
+        timestamp,
+        feedType,
+        search,
+        contentRating,
+      } = input;
       const dateFilter = new Date(timestamp);
       const searchTerm = search?.trim() ?? "";
 
@@ -298,7 +299,7 @@ export const adlibRouter = createTRPCRouter({
   getCategoriesPaginated: publicProcedure
     .input(
       z.object({
-        page: z.number().min(1).default(1),
+        cursor: z.number().min(1).default(1),
         size: z.number().min(1).max(100).default(10),
         timestamp: z.string(),
         feedType: z.nativeEnum(FeedTypeOption).default(FeedTypeOption.LATEST),
@@ -306,7 +307,7 @@ export const adlibRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const { page, size, timestamp, feedType, search } = input;
+      const { cursor: page, size, timestamp, feedType, search } = input;
       const dateFilter = new Date(timestamp);
       const searchTerm = search?.trim() ?? "";
 

@@ -1,5 +1,3 @@
-"use client";
-
 import { type inferProcedureOutput } from "@trpc/server";
 import Link from "next/link";
 import React from "react";

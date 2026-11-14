@@ -1,32 +1,33 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import OpenAI from "openai";
+import { zodResponseFormat } from "openai/helpers/zod";
+import { z } from "zod";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-interface MadlibResponse {
-  title: string;
-  madlib: string;
-  isPg: boolean;
-  categories: string[];
-}
+const madlibResponseSchema = z.object({
+  title: z.string(),
+  madlib: z.string(),
+  isPg: z.boolean(),
+  categories: z.array(z.string()),
+});
+
+type MadlibResponse = z.infer<typeof madlibResponseSchema>;
 
 /**
- * Type guard to check if an object conforms to the MadlibResponse interface.
+ * Runs OpenAI's moderation endpoint over generated content. This is the
+ * authoritative safety check: the generation model's own "isPg" self-report
+ * is never trusted on its own, since the same model that wrote the content
+ * is a poor judge of whether it's appropriate.
  */
-function isMadlibResponse(obj: unknown): obj is MadlibResponse {
-  if (typeof obj !== "object" || obj === null) return false;
-  const maybe = obj as Record<string, unknown>;
-  return (
-    typeof maybe.title === "string" &&
-    typeof maybe.madlib === "string" &&
-    typeof maybe.isPg === "boolean" &&
-    Array.isArray(maybe.categories) &&
-    maybe.categories.every((category) => typeof category === "string")
-  );
+async function isContentFlagged(input: string): Promise<boolean> {
+  const moderation = await openai.moderations.create({
+    model: "omni-moderation-latest",
+    input,
+  });
+
+  return moderation.results.some((result) => result.flagged);
 }
 
 /**
@@ -48,11 +49,10 @@ export async function createMadlib(
 ): Promise<MadlibResponse> {
   let systemMessage = `
 You are a creative madlib generator. Generate a fun, creative madlib story based on the prompt provided.
-Your response must be a valid JSON object with the following keys:
   - "title": A creative title for the madlib.
   - "madlib": A full madlib story that includes placeholders such as [adjective], [noun], [plural noun], [relative].
-  - "isPg": A boolean value which is true if the madlib is appropriate for all ages (PG) and false otherwise.
-  - "categories": An array of strings representing the relevant categories of the madlib.
+  - "isPg": true if the madlib is appropriate for all ages (PG), false otherwise.
+  - "categories": The relevant categories of the madlib.
 For example, if the prompt is "mystery manor", produce a madlib similar to:
 {
   "title": "Mystery Manor Mayhem",
@@ -60,84 +60,66 @@ For example, if the prompt is "mystery manor", produce a madlib similar to:
   "isPg": true,
   "categories": ["Mystery", "Adventure"]
 }
-Only return the JSON object with these keys and no additional text. Include at least 5 placeholders in the madlib. The longer the madlib the more placeholders you should add. make it at least 3 sentences and at most 9 sentences. placesholders should take about 15% of the words.`;
+Include at least 5 placeholders in the madlib. The longer the madlib the more placeholders you should add. make it at least 3 sentences and at most 9 sentences. placesholders should take about 15% of the words.`;
 
   if (config?.tone) {
     systemMessage += `\n\nAdd this tone/personality to the madlib: ${config.tone}`;
   }
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4.1-mini",
+    const completion = await openai.chat.completions.parse({
+      model: "gpt-5.4-mini",
       messages: [
         { role: "system", content: systemMessage },
         { role: "user", content: prompt },
       ],
-      max_tokens: 400,
+      max_completion_tokens: 400,
       temperature: config?.temperature ?? 1,
+      response_format: zodResponseFormat(
+        madlibResponseSchema,
+        "madlib_response",
+      ),
     });
 
-    if (!response?.choices || response.choices.length === 0) {
+    const message = completion.choices[0]?.message;
+    if (!message) {
       console.error({
         message: "OpenAI API returned no choices",
         prompt,
         config,
-        response,
+        completion,
       });
       throw new Error("No choices returned from OpenAI");
     }
 
-    const message = response?.choices[0]?.message;
-    if (!message?.content) {
+    if (message.refusal) {
       console.error({
-        message: "OpenAI API returned no message content",
+        message: "OpenAI refused to generate the madlib",
         prompt,
         config,
-        response,
+        refusal: message.refusal,
       });
-      throw new Error("No message content returned from OpenAI");
+      throw new Error("OpenAI refused to generate the madlib");
     }
 
-    const jsonResponse = message.content.trim();
-    let result;
-    try {
-      result = JSON.parse(jsonResponse || "{}");
-    } catch (e) {
+    if (!message.parsed) {
       console.error({
-        message: "Failed to parse OpenAI response as JSON",
+        message: "OpenAI response failed schema validation",
         prompt,
         config,
-        jsonResponse,
-        error: e,
-      });
-      throw new Error("Invalid JSON response from OpenAI");
-    }
-
-    if (
-      typeof result.title !== "string" ||
-      typeof result.madlib !== "string" ||
-      typeof result.isPg !== "boolean"
-    ) {
-      console.error({
-        message: "OpenAI response missing required fields",
-        prompt,
-        config,
-        result,
+        completion,
       });
       throw new Error("Invalid response format");
     }
 
-    const parsed: unknown = JSON.parse(jsonResponse);
-    if (!isMadlibResponse(parsed)) {
-      console.error({
-        message: "OpenAI response failed type validation",
-        prompt,
-        config,
-        parsed,
-      });
-      throw new Error("Invalid response format");
-    }
-    return parsed;
+    const flagged = await isContentFlagged(
+      `${message.parsed.title}\n\n${message.parsed.madlib}`,
+    );
+
+    return {
+      ...message.parsed,
+      isPg: message.parsed.isPg && !flagged,
+    };
   } catch (error) {
     console.error({
       message: "Error generating madlib",

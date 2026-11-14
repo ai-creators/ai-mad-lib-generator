@@ -2,6 +2,7 @@
 
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -33,7 +34,7 @@ type Props = {
 };
 
 export default function AdlibCommentForm({ adlibId }: Props) {
-  const utils = api.useUtils();
+  const router = useRouter();
   const form = useForm<
     z.input<typeof commentSchema>,
     unknown,
@@ -47,9 +48,9 @@ export default function AdlibCommentForm({ adlibId }: Props) {
   });
 
   const createComment = api.comments.create.useMutation({
-    onSuccess: async () => {
+    onSuccess: () => {
       toast.success("Comment posted");
-      await utils.comments.getByAdlibId.invalidate({ adlibId });
+      router.refresh();
       form.reset();
     },
     onError: (error) => {

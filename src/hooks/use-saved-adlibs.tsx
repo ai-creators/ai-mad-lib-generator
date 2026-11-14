@@ -1,41 +1,34 @@
-import * as React from "react";
-import { getItem, setItem } from "~/hooks/use-storage";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { SavesConstants } from "~/app/_features/saves/saves-constants";
 
-function readSavedIds(): string[] {
-  try {
-    const raw = getItem(SavesConstants.SAVED_ADLIB_IDS);
-    if (!raw) return [];
-    const parsed: unknown = JSON.parse(raw);
-    return Array.isArray(parsed)
-      ? parsed.filter((id): id is string => typeof id === "string")
-      : [];
-  } catch {
-    return [];
-  }
+interface SavedAdlibsState {
+  savedIds: string[];
+  isSaved: (adlibId: string) => boolean;
+  toggleSaved: (adlibId: string) => void;
 }
 
+export const useSavedAdlibsStore = create<SavedAdlibsState>()(
+  persist(
+    (set, get) => ({
+      savedIds: [],
+      isSaved: (adlibId) => get().savedIds.includes(adlibId),
+      toggleSaved: (adlibId) => {
+        set((state) => ({
+          savedIds: state.savedIds.includes(adlibId)
+            ? state.savedIds.filter((id) => id !== adlibId)
+            : [...state.savedIds, adlibId],
+        }));
+      },
+    }),
+    { name: SavesConstants.SAVED_ADLIB_IDS },
+  ),
+);
+
 export function useSavedAdlibs() {
-  const [savedIds, setSavedIds] = React.useState<string[]>([]);
-
-  React.useEffect(() => {
-    setSavedIds(readSavedIds());
-  }, []);
-
-  const isSaved = React.useCallback(
-    (adlibId: string) => savedIds.includes(adlibId),
-    [savedIds],
-  );
-
-  const toggleSaved = React.useCallback((adlibId: string) => {
-    setSavedIds((prev) => {
-      const next = prev.includes(adlibId)
-        ? prev.filter((id) => id !== adlibId)
-        : [...prev, adlibId];
-      setItem(SavesConstants.SAVED_ADLIB_IDS, JSON.stringify(next));
-      return next;
-    });
-  }, []);
+  const savedIds = useSavedAdlibsStore((state) => state.savedIds);
+  const isSaved = useSavedAdlibsStore((state) => state.isSaved);
+  const toggleSaved = useSavedAdlibsStore((state) => state.toggleSaved);
 
   return { savedIds, isSaved, toggleSaved };
 }

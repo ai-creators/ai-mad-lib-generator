@@ -1,49 +1,39 @@
-import * as React from "react";
-import { getItem, setItem } from "~/hooks/use-storage";
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { ReactionsConstants } from "~/app/_features/reactions/reactions-constants";
 
 function reactionKey(adlibId: string, reactionType: string): string {
   return `${adlibId}:${reactionType}`;
 }
 
-function readReactedKeys(): string[] {
-  try {
-    const raw = getItem(ReactionsConstants.REACTED_ADLIB_KEYS);
-    if (!raw) return [];
-    const parsed: unknown = JSON.parse(raw);
-    return Array.isArray(parsed)
-      ? parsed.filter((key): key is string => typeof key === "string")
-      : [];
-  } catch {
-    return [];
-  }
+interface ReactedAdlibsState {
+  reactedKeys: string[];
+  hasReacted: (adlibId: string, reactionType: string) => boolean;
+  markReacted: (adlibId: string, reactionType: string) => void;
 }
 
-export function useReactedAdlibs() {
-  const [reactedKeys, setReactedKeys] = React.useState<string[]>([]);
-
-  React.useEffect(() => {
-    setReactedKeys(readReactedKeys());
-  }, []);
-
-  const hasReacted = React.useCallback(
-    (adlibId: string, reactionType: string) =>
-      reactedKeys.includes(reactionKey(adlibId, reactionType)),
-    [reactedKeys],
-  );
-
-  const markReacted = React.useCallback(
-    (adlibId: string, reactionType: string) => {
-      setReactedKeys((prev) => {
+export const useReactedAdlibsStore = create<ReactedAdlibsState>()(
+  persist(
+    (set, get) => ({
+      reactedKeys: [],
+      hasReacted: (adlibId, reactionType) =>
+        get().reactedKeys.includes(reactionKey(adlibId, reactionType)),
+      markReacted: (adlibId, reactionType) => {
         const key = reactionKey(adlibId, reactionType);
-        if (prev.includes(key)) return prev;
-        const next = [...prev, key];
-        setItem(ReactionsConstants.REACTED_ADLIB_KEYS, JSON.stringify(next));
-        return next;
-      });
-    },
-    [],
-  );
+        set((state) =>
+          state.reactedKeys.includes(key)
+            ? state
+            : { reactedKeys: [...state.reactedKeys, key] },
+        );
+      },
+    }),
+    { name: ReactionsConstants.REACTED_ADLIB_KEYS },
+  ),
+);
+
+export function useReactedAdlibs() {
+  const hasReacted = useReactedAdlibsStore((state) => state.hasReacted);
+  const markReacted = useReactedAdlibsStore((state) => state.markReacted);
 
   return { hasReacted, markReacted };
 }
