@@ -11,7 +11,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Nunito_Sans } from "next/font/google";
 import { cn } from "~/lib/utils";
 import GoogleAdsense from "./_features/google-ads/google-adsense";
-import CookieConsent from "./_features/compliance/cookie-consent";
 
 const nunitoSansHeading = Nunito_Sans({
   subsets: ["latin"],
@@ -41,7 +40,6 @@ export default function RootLayout({
         <TRPCReactProvider>
           <Providers>{children}</Providers>
         </TRPCReactProvider>
-        <CookieConsent />
         <GoogleAdsense pId={env.GOOGLE_ADSENSE_ID ?? ""} />
       </body>
       <GoogleAnalytics gaId={env.GOOGLE_ANALYTICS_ID ?? ""} />
