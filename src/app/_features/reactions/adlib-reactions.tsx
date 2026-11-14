@@ -73,7 +73,9 @@ export default function AdlibReactions({ adlibId }: AdlibReactionsProps) {
             variant="outline"
             size="sm"
             disabled={createReaction.isPending || deleteReaction.isPending}
-            aria-label={reacted ? `Remove ${label.toLowerCase()} reaction` : label}
+            aria-label={
+              reacted ? `Remove ${label.toLowerCase()} reaction` : label
+            }
             aria-pressed={reacted}
             data-cy={`reaction-btn-${type}`}
             onClick={() => handleReact(type)}

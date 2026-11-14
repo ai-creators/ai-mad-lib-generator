@@ -30,7 +30,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(GeistSans.variable, "font-sans", nunitoSansHeading.variable)}
+      className={cn(
+        GeistSans.variable,
+        "font-sans",
+        nunitoSansHeading.variable,
+      )}
       suppressHydrationWarning
     >
       <body>

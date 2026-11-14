@@ -23,9 +23,7 @@ export function FeatureToggleProvider({
 
   const isFeatureEnabled = useCallback(
     (featureName: string) =>
-      features.some(
-        (feature) => feature.name === featureName && feature.isOn,
-      ),
+      features.some((feature) => feature.name === featureName && feature.isOn),
     [features],
   );
 
