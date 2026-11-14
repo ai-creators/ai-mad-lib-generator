@@ -1,25 +1,21 @@
 "use client";
 
+import { useForm } from "@tanstack/react-form";
+import { Info } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
+import { routerConfig } from "~/app/router-config";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-import {
-  AccordionTrigger,
   Accordion,
-  AccordionItem,
   AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 } from "~/components/ui/accordion";
+import { Button } from "~/components/ui/button";
+import { Field, FieldError, FieldLabel } from "~/components/ui/field";
+import { Input } from "~/components/ui/input";
 import { Slider } from "~/components/ui/slider";
 import {
   Tooltip,
@@ -27,11 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { Info } from "lucide-react";
 import { api } from "~/trpc/react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { routerConfig } from "~/app/router-config";
 import CreateAdlibTone from "./create-adlib-tone/create-adlib-tone";
 
 const createAdlibSchema = z.object({
@@ -40,17 +32,29 @@ const createAdlibSchema = z.object({
   toneId: z.string().optional(),
 });
 
+const createAdlibDefaultValues: z.input<typeof createAdlibSchema> = {
+  prompt: "",
+  temperature: 1,
+  toneId: "",
+};
+
+function useCreateAdlibForm(
+  onSubmit: (value: z.infer<typeof createAdlibSchema>) => void,
+) {
+  return useForm({
+    defaultValues: createAdlibDefaultValues,
+    validators: {
+      onSubmit: createAdlibSchema,
+    },
+    onSubmit: ({ value }) => onSubmit(value),
+  });
+}
+
+export type CreateAdlibFormApi = ReturnType<typeof useCreateAdlibForm>;
+
 export default function CreateAdlibForm() {
   const router = useRouter();
   const utils = api.useUtils();
-  const form = useForm<z.infer<typeof createAdlibSchema>>({
-    resolver: zodResolver(createAdlibSchema),
-    defaultValues: {
-      prompt: "",
-      temperature: 1,
-      toneId: "",
-    },
-  });
 
   const createAdlib = api.adlib.create.useMutation({
     onMutate: () => {
@@ -74,86 +78,95 @@ export default function CreateAdlibForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof createAdlibSchema>) {
-    createAdlib.mutate(values);
-  }
+  const form = useCreateAdlibForm((value) => createAdlib.mutate(value));
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="prompt"
-          render={({ field }) => (
-            <FormItem className="px-5">
-              <FormLabel>Prompt</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Mystery at the manor..."
-                  {...field}
-                  data-cy="prompt-input"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Accordion type="single" collapsible className="px-5">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>More Options</AccordionTrigger>
-            <AccordionContent>
-              <FormField
-                control={form.control}
-                name="temperature"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex items-center gap-3">
-                      Temperature{" "}
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span className="cursor-pointer">
-                              <Info className="h-4 w-4" />
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            Temperature controls the randomness in the adlib.
-                            Lower values produce more predictable output, while
-                            higher values yield more varied responses.
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>{" "}
-                    </FormLabel>
-                    <p className="font-semiobold">{field.value}</p>
-                    <FormControl>
-                      <Slider
-                        min={0}
-                        max={2}
-                        step={0.1}
-                        value={[field.value]}
-                        onValueChange={(value) => field.onChange(value[0])}
-                        className="py-3"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void form.handleSubmit();
+      }}
+      className="space-y-4"
+    >
+      <form.Field name="prompt">
+        {(field) => {
+          const isInvalid =
+            field.state.meta.isTouched && !field.state.meta.isValid;
+          return (
+            <Field data-invalid={isInvalid}>
+              <FieldLabel htmlFor={field.name}>Prompt</FieldLabel>
+              <Input
+                id={field.name}
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                aria-invalid={isInvalid}
+                placeholder="Mystery at the manor..."
+                data-cy="prompt-input"
               />
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-        <ul className="flex items-center gap-3 px-5 pb-5">
-          <li>
-            <Button
-              className="w-28"
-              disabled={createAdlib.isPending}
-              data-cy="prompt-submit-btn"
-            >
-              Generate
-            </Button>
-          </li>
-          <li>
-            <CreateAdlibTone />
-          </li>
-          {/* <li>
+              {isInvalid && <FieldError errors={field.state.meta.errors} />}
+            </Field>
+          );
+        }}
+      </form.Field>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger>More Options</AccordionTrigger>
+          <AccordionContent>
+            <form.Field name="temperature">
+              {(field) => (
+                <Field>
+                  <FieldLabel
+                    htmlFor={field.name}
+                    className="flex items-center gap-3"
+                  >
+                    Temperature{" "}
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="cursor-pointer">
+                            <Info className="h-4 w-4" />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Temperature controls the randomness in the adlib.
+                          Lower values produce more predictable output, while
+                          higher values yield more varied responses.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>{" "}
+                  </FieldLabel>
+                  <p className="font-semiobold">{field.state.value}</p>
+                  <Slider
+                    id={field.name}
+                    min={0}
+                    max={2}
+                    step={0.1}
+                    value={[field.state.value]}
+                    onValueChange={(value) => field.handleChange(value[0]!)}
+                    className="py-3"
+                  />
+                </Field>
+              )}
+            </form.Field>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <ul className="flex items-center gap-3">
+        <li>
+          <Button
+            className="w-28"
+            disabled={createAdlib.isPending}
+            data-cy="prompt-submit-btn"
+          >
+            Generate
+          </Button>
+        </li>
+        <li>
+          <CreateAdlibTone form={form} />
+        </li>
+        {/* <li>
             <Button
               className="w-34"
               variant="secondary"
@@ -162,8 +175,7 @@ export default function CreateAdlibForm() {
               Generate Random
             </Button>
           </li> */}
-        </ul>
-      </form>
-    </Form>
+      </ul>
+    </form>
   );
 }

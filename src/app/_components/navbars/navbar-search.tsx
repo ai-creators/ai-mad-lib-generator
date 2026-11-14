@@ -1,21 +1,18 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "@tanstack/react-form";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { routerConfig } from "~/app/router-config";
-import { Button } from "~/components/ui/button";
+import { Field, FieldError } from "~/components/ui/field";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "~/components/ui/input-group";
 
 const searchSchema = z.object({
   search: z.string(),
@@ -24,47 +21,57 @@ const searchSchema = z.object({
 export default function BrowseSearchForm() {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof searchSchema>>({
-    resolver: zodResolver(searchSchema),
+  const form = useForm({
     defaultValues: {
       search: "",
     },
+    validators: {
+      onSubmit: searchSchema,
+    },
+    onSubmit: ({ value }) => {
+      router.push(routerConfig.browse.execute(value));
+    },
   });
 
-  const onSubmit = (values: z.infer<typeof searchSchema>) => {
-    router.push(routerConfig.browse.execute(values));
-  };
-
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="search"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <div className="relative">
-                  <Input
-                    placeholder="Search adlibs..."
-                    className="bg-background pr-14"
-                    data-cy="search-adlib-input"
-                    {...field}
-                  />
-                  <Button
-                    className="absolute top-1/2 right-0 -translate-y-1/2 rounded-l-none"
-                    variant="ghost"
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <form.Field name="search">
+        {(field) => {
+          const isInvalid =
+            field.state.meta.isTouched && !field.state.meta.isValid;
+          return (
+            <Field data-invalid={isInvalid}>
+              <InputGroup className="bg-background">
+                <InputGroupInput
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  placeholder="Search adlibs..."
+                  data-cy="search-adlib-input"
+                />
+                <InputGroupAddon align="inline-end">
+                  <InputGroupButton
+                    type="submit"
+                    size="icon-xs"
                     data-cy="search-adlib-submit-btn"
                   >
                     <Search />
-                  </Button>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+                  </InputGroupButton>
+                </InputGroupAddon>
+              </InputGroup>
+              {isInvalid && <FieldError errors={field.state.meta.errors} />}
+            </Field>
+          );
+        }}
+      </form.Field>
+    </form>
   );
 }

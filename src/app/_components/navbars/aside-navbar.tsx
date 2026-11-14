@@ -12,7 +12,7 @@ type Props = {
 function AsideNavbar({ className }: Props) {
   return (
     <Card className={cn("", className)}>
-      <ul className="flex flex-col gap-2 p-2">
+      <ul className="flex flex-col gap-2 px-2">
         {navLinks.map((navLink) => (
           <li key={navLink.name}>
             <Link

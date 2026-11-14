@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -14,7 +15,9 @@ export default function CreateAdlibCard() {
         <CardTitle>Generate an Adlib</CardTitle>
         <CardDescription>Enter a prompt to generate an adlib</CardDescription>
       </CardHeader>
-      <CreateAdlibForm />
+      <CardContent>
+        <CreateAdlibForm />
+      </CardContent>
     </Card>
   );
 }

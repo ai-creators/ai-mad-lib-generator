@@ -1,23 +1,15 @@
 "use client";
 
-import React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import React from "react";
+import { toast } from "sonner";
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
+import { Button } from "~/components/ui/button";
+import { Field, FieldError, FieldLabel } from "~/components/ui/field";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
-import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
-import { toast } from "sonner";
 
 const commentSchema = z.object({
   body: z.string().trim().min(1).max(1000),
@@ -35,17 +27,6 @@ type Props = {
 
 export default function AdlibCommentForm({ adlibId }: Props) {
   const router = useRouter();
-  const form = useForm<
-    z.input<typeof commentSchema>,
-    unknown,
-    z.output<typeof commentSchema>
-  >({
-    resolver: zodResolver(commentSchema),
-    defaultValues: {
-      body: "",
-      authorName: "",
-    },
-  });
 
   const createComment = api.comments.create.useMutation({
     onSuccess: () => {
@@ -60,55 +41,84 @@ export default function AdlibCommentForm({ adlibId }: Props) {
     },
   });
 
-  function onSubmit(values: z.output<typeof commentSchema>) {
-    createComment.mutate({
-      adlibId,
-      body: values.body,
-      authorName: values.authorName,
-    });
-  }
+  const commentDefaultValues: z.input<typeof commentSchema> = {
+    body: "",
+    authorName: "",
+  };
+
+  const form = useForm({
+    defaultValues: commentDefaultValues,
+    validators: {
+      onSubmit: commentSchema,
+    },
+    onSubmit: ({ value }) => {
+      const parsed = commentSchema.parse(value);
+      createComment.mutate({
+        adlibId,
+        body: parsed.body,
+        authorName: parsed.authorName,
+      });
+    },
+  });
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-        <FormField
-          control={form.control}
-          name="authorName"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name (optional)</FormLabel>
-              <FormControl>
-                <Input placeholder="Anonymous" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="body"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Comment</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Share your thoughts..."
-                  data-cy="comment-body-input"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          type="submit"
-          disabled={createComment.isPending}
-          data-cy="comment-submit-btn"
-        >
-          Post Comment
-        </Button>
-      </form>
-    </Form>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void form.handleSubmit();
+      }}
+      className="space-y-3"
+    >
+      <form.Field name="authorName">
+        {(field) => {
+          const isInvalid =
+            field.state.meta.isTouched && !field.state.meta.isValid;
+          return (
+            <Field data-invalid={isInvalid}>
+              <FieldLabel htmlFor={field.name}>Name (optional)</FieldLabel>
+              <Input
+                id={field.name}
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                aria-invalid={isInvalid}
+                placeholder="Anonymous"
+              />
+              {isInvalid && <FieldError errors={field.state.meta.errors} />}
+            </Field>
+          );
+        }}
+      </form.Field>
+      <form.Field name="body">
+        {(field) => {
+          const isInvalid =
+            field.state.meta.isTouched && !field.state.meta.isValid;
+          return (
+            <Field data-invalid={isInvalid}>
+              <FieldLabel htmlFor={field.name}>Comment</FieldLabel>
+              <Textarea
+                id={field.name}
+                name={field.name}
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                aria-invalid={isInvalid}
+                placeholder="Share your thoughts..."
+                data-cy="comment-body-input"
+              />
+              {isInvalid && <FieldError errors={field.state.meta.errors} />}
+            </Field>
+          );
+        }}
+      </form.Field>
+      <Button
+        type="submit"
+        disabled={createComment.isPending}
+        data-cy="comment-submit-btn"
+      >
+        Post Comment
+      </Button>
+    </form>
   );
 }
